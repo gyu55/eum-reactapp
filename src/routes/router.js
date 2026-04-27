@@ -26,11 +26,26 @@ import MyPageContainer from "../pages/eum/mypage/MyPageContainer";
 import CommunityContainer from "../pages/eum/community/CommunityContainer";
 import LoginContainer from "../pages/eum/auth/login/LoginContainer";
 import JoinContainer from "../pages/eum/auth/join/JoinContainer";
-import StudySerachContainer from "../pages/eum/study/search/StudySerachContainer";
 import CommunityChatContainer from "../pages/eum/community/chat/CommunityChatContainer";
 import CommunityPostContainer from "../pages/eum/community/post/CommunityPostContainer";
 import CommunityPostWriteContainer from "../pages/eum/community/post/write/CommunityPostWriteContainer";
 import CommunityUserProfileComponent from "../pages/eum/community/profile/CommunityUserProfileComponent";
+import CertificateContainer from "../pages/eum/exam/certificate/CertificateContainer";
+import CertificateCheckContainer from "../pages/eum/exam/certificate/check/CertificateCheckContainer";
+import CertificatePrintContainer from "../pages/eum/exam/certificate/print/CertificatePrintContainer";
+import CertificateReissueContainer from "../pages/eum/exam/certificate/reissue/CertificateReissueContainer";
+import StudyExperienceContainer from "../pages/eum/study/experience/StudyExperienceContainer";
+import StudyExperienceQuizContainer from "../pages/eum/study/experience/StudyExperienceQuizContainer";
+import StudyExperienceQuizComponent from "../pages/eum/study/experience/StudyExperienceQuizComponent";
+import MyPageLearningContainer from "../pages/eum/mypage/learning/MyPageLearningContainer";
+import MyPageSettingContainer from "../pages/eum/mypage/setting/MyPageSettingContainer";
+import MyPageCertificateConfirmContainer from "../pages/eum/mypage/certificate/confirm/MyPageCertificateConfirmContainer";
+import MyPageCertificateContainer from "../pages/eum/mypage/certificate/MyPageCertificateContainer";
+import MyPageCertificateGuideContainer from "../pages/eum/mypage/certificate/guide/MyPageCertificateGuideContainer";
+import MyPageCertificateCompleteContainer from "../pages/eum/mypage/certificate/complete/MyPageCertificateCompleteContainer";
+import ConfirmAddressSearchContainer from "../pages/eum/mypage/certificate/confirm/address-search/ConfirmAddressSearchContainer";
+import StudySearchContainer from "../pages/eum/study/search/StudySearchContainer";
+
 
 const router = createBrowserRouter([
   {
@@ -103,6 +118,24 @@ const router = createBrowserRouter([
                 element: <RenewContainer />
               }
             ]
+          },
+          {
+            path: "certificate",
+            element: <CertificateContainer />,
+            children: [
+              {
+                path: "check",
+                element: <CertificateCheckContainer />
+              },
+              {
+                path: "print",
+                element: <CertificatePrintContainer />
+              },
+              {
+                path: "reissue",
+                element: <CertificateReissueContainer />
+              },
+            ]
           }
         ]
       },
@@ -110,6 +143,22 @@ const router = createBrowserRouter([
         path: "study",
         element: <StudyContainer />,
         children: [
+          {
+            path: "experience",
+            element: <StudyExperienceContainer />,
+            children: [
+              {
+                path: ":quiz", 
+                element: <StudyExperienceQuizContainer />,
+                children: [
+                  {
+                    path: ":id",
+                    element: <StudyExperienceQuizComponent />
+                  }
+                ]
+              },
+            ]
+          },
           {
             path: "attendance",
             element: <StudyAttendanceContainer />
@@ -132,23 +181,8 @@ const router = createBrowserRouter([
           },
           {
             path: "search",
-            element: <StudySerachContainer />
+            element: <StudySearchContainer />
           },
-          
-          // {
-          //   path: "chapter", 
-          //   element: <StudyChapterContainer />
-          // },
-          // {
-          //   path: "chapter/:quiz", 
-          //   element: <StudyChapterQuizContainer />,
-          //   children: [
-          //     {
-          //       path: ":id",
-          //       element: <StudyChapterComponent />
-          //     }
-          //   ]
-          // },
           {
             path: "learn",
             element: <LearnContainer />
@@ -157,7 +191,41 @@ const router = createBrowserRouter([
       },
       {
         path: "mypage",
-        element: <MyPageContainer />
+        element: <MyPageContainer />,
+        children: [
+          {
+            path: "learning",
+            element: <MyPageLearningContainer />
+          },
+          {
+            path: "certificate",
+            element: <MyPageCertificateContainer />,
+            children: [
+              {
+                path: "confirm",
+                element: <MyPageCertificateConfirmContainer />,
+                children: [
+                  {
+                    path: "address-search",
+                    element: <ConfirmAddressSearchContainer />
+                  }
+                ]
+              },
+              {
+                path: "complete",
+                element: <MyPageCertificateCompleteContainer />
+              },
+              {
+                path: "guide",
+                element: <MyPageCertificateGuideContainer />
+              },
+            ]
+          },
+          {
+            path: "setting",
+            element: <MyPageSettingContainer />
+          },
+        ]
       },
       {
         path: "community",
@@ -180,7 +248,7 @@ const router = createBrowserRouter([
         ]
       },
       {
-         path: "community/profile/:userid",
+         path: "community/profile/:userId",
          element: <CommunityUserProfileComponent />
       },
       {

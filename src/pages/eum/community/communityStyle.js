@@ -37,4 +37,12 @@ export const flexStartColumn = css`
   align-items: start;
 `;
 
+// row 방향으로 할 시에 위로 붙어지게 하기
+export const flexBetweenTopRow = css`
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  flex-direction: row;
+`;
+
 // 가운데 정렬 할 수 있도록 하기

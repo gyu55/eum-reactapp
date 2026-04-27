@@ -1,11 +1,12 @@
-import React from 'react';
+import React from "react";
+import PostWrite from "../postComponents/PostWrite";
 
 const CommunityPostWriteComponent = () => {
-    return (
-        <div>
-            
-        </div>
-    );
+  return (
+    <div>
+      <PostWrite />
+    </div>
+  );
 };
 
 export default CommunityPostWriteComponent;

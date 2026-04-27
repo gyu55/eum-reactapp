@@ -10,7 +10,7 @@ const ExamTabMenu = () => {
             <Link to={"/exam/results"}>합격자발표</Link>
             <Link to={"/exam/update"}>자격증갱신</Link>
             <p>수료증</p>
-            <Link to={""}>수료증조회</Link>
+            <Link to={"/exam/certificate"}>수료증조회</Link>
         </div>
     );
 };

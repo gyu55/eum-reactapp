@@ -1,7 +1,12 @@
 import React from 'react';
 import CommunityComponent from './CommunityComponent';
-import { Outlet } from 'react-router-dom';
-import CommunityUserProfileComponent from './profile/CommunityUserProfileComponent';
+import { Link, Outlet } from 'react-router-dom';
+
+const users = [
+  { userId: 1, userName: '홍길동' },
+  { userId: 2, userName: '장보고' },
+];
+
 
 const CommunityContainer = () => {
     return (
@@ -13,7 +18,13 @@ const CommunityContainer = () => {
             </div>
             <div>
                 지금 활동 중인 멤버
-                <CommunityUserProfileComponent />
+                {users.map((user) => (
+                    <div key={user.userId}>
+                        <Link to={`/community/profile/${user.userId}`}>
+                            {user.userName}
+                        </Link>
+                    </div>
+                ))}
             </div>
         </>
     );

@@ -2,7 +2,7 @@ import React from 'react';
 import StudySearchComponent from './StudySearchComponent';
 import { Outlet } from 'react-router-dom';
 
-const StudySerachContainer = () => {
+const StudySearchContainer = () => {
     return (
         <div>
             <StudySearchComponent />
@@ -11,4 +11,4 @@ const StudySerachContainer = () => {
     );
 };
 
-export default StudySerachContainer;
+export default StudySearchContainer;

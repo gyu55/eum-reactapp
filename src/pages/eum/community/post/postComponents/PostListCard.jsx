@@ -2,12 +2,27 @@ import styled from "styled-components";
 import theme from "../../../../../styles/theme";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComment, faEye, faHeart } from "@fortawesome/free-solid-svg-icons";
+import {
+  flexBetweenRow,
+  flexCenterRow,
+  h11Medium,
+  h11Regular,
+  h12Bold,
+  h5Bold,
+  h8Medium,
+  h9Bold,
+} from "../../../../../styles/common";
+import {
+  communityBorderRadius,
+  communityWidthStyle,
+} from "../../communityStyle";
 
+// 게시글 카드 컴포넌트 카드 스타일
 const Card = styled.div`
   background: ${theme.PALETTE.white};
-  border-radius: 20px;
+  ${communityBorderRadius}
+  ${communityWidthStyle}
   padding: 40px;
-  width: 984px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -26,69 +41,59 @@ const Card = styled.div`
 `;
 
 const TopRow = styled.div`
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  width: 100%;
+  ${flexBetweenRow}
 `;
 
 const Tag = styled.span`
   background: ${theme.PALETTE.primary.main};
   color: ${theme.PALETTE.white};
-  font-weight: ${theme.FONT_WEIGHT.bold};
-  font-size: ${theme.FONT_SIZE.h12};
-  letter-spacing: 0.1px;
-  line-height: 16px;
+  ${h12Bold}
   border-radius: 100px;
   padding: 2px 8px;
   white-space: nowrap;
 `;
 
 const TimeText = styled.p`
-  font-weight: ${theme.FONT_WEIGHT.medium};
-  font-size: ${theme.FONT_SIZE.h11};
+  ${h11Medium}
   color: ${theme.GRAYSCALE[9]};
   margin: 0;
   white-space: nowrap;
 `;
 
 const MidRow = styled.div`
-  display: flex;
+  ${flexCenterRow}
   gap: 28px;
-  align-items: flex-end;
-  width: 100%;
   margin-top: 16px;
 `;
 
+// 제목과 글 내용
 const ContentArea = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;
-  min-width: 0;
+  gap: 9px;
+  /* min-width: 0; */
 `;
 
+// 제목
 const Title = styled.p`
-  font-weight: ${theme.FONT_WEIGHT.bold};
-  font-size: ${theme.FONT_SIZE.h5};
-  color: ${theme.TEXT_COLOR.basic};
-  letter-spacing: -0.84px;
+  ${h5Bold}
   margin: 0;
   word-break: keep-all;
 `;
 
+// 이걸 레귤러 로 할 까 대략적인 생각
+// 내용
 const Description = styled.p`
-  font-weight: ${theme.FONT_WEIGHT.regular};
-  font-size: ${theme.FONT_SIZE.h8};
+  ${h8Medium}
   color: ${theme.GRAYSCALE[9]};
-  letter-spacing: -0.54px;
-  line-height: 28px;
-  margin: 9px 0 0 0;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 `;
 
+// 게시글 이미지
 const Thumbnail = styled.div`
   width: 96px;
   height: 96px;
@@ -96,9 +101,6 @@ const Thumbnail = styled.div`
   background: ${theme.GRAYSCALE[0]};
   flex-shrink: 0;
   overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 
   img {
     width: 100%;
@@ -107,17 +109,14 @@ const Thumbnail = styled.div`
   }
 `;
 
+// 하단 작성자, 게시글 상태 묶은 row
 const BottomRow = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
+  ${flexBetweenRow}
   margin-top: 36px;
 `;
 
 const AuthorArea = styled.div`
-  display: flex;
-  align-items: center;
+  ${flexCenterRow}
   gap: 8px;
 `;
 
@@ -129,32 +128,27 @@ const Avatar = styled.img`
 `;
 
 const AuthorName = styled.span`
-  font-weight: ${theme.FONT_WEIGHT.bold};
-  font-size: ${theme.FONT_SIZE.h9};
+  ${h9Bold}
   color: ${theme.TEXT_COLOR.basic};
-  letter-spacing: 0.32px;
   white-space: nowrap;
 `;
 
 const StatsArea = styled.div`
-  display: flex;
-  align-items: center;
+  ${flexCenterRow}
   gap: 12px;
 `;
 
 const StatItem = styled.div`
-  display: flex;
-  align-items: center;
+  ${flexCenterRow}
   gap: 4px;
 
   svg {
-    font-size: ${theme.FONT_SIZE.h11};
+    ${h11Medium}
     color: ${theme.GRAYSCALE[9]};
   }
 
   span {
-    font-weight: ${theme.FONT_WEIGHT.regular};
-    font-size: ${theme.FONT_SIZE.h11};
+    ${h11Regular}
     color: ${theme.TEXT_COLOR.basic};
     white-space: nowrap;
   }

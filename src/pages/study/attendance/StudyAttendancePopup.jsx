@@ -1,5 +1,5 @@
 import React from 'react';
-import theme from '../../../../styles/theme';
+import theme from '../../../styles/theme';
 
 // 출석체크 Popup
 const StudyAttendancePopup = () => {

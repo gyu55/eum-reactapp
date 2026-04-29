@@ -159,7 +159,11 @@ const EumMainContainer = () => {
             letterSpacing: '-0.02em',
             height:'60px',
             width:'250px',
-            whiteSpace: 'nowrap'
+            whiteSpace: 'nowrap',
+            display : 'flex',
+            justifyContent: 'center',
+            alignContent:'center',
+            alignItems:'center',
             }}>
             지금 시작하기 →
           </button>

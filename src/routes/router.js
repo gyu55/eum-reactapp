@@ -1,50 +1,55 @@
 import { createBrowserRouter } from "react-router-dom";
 
-import EumLayout from "../pages/eum/layout/EumLayout";
-import EumMainContainer from "../pages/eum/main/EumMainContainer";
-import ExamContainer from "../pages/eum/exam/ExamContainer";
-import LicenseNoticeContainer from "../pages/eum/exam/info/notice/LicenseNoticeContainer";
-import ExamInfoContainer from "../pages/eum/exam/info/ExamInfoContainer";
-import LicenseIntroContainer from "../pages/eum/exam/info/intro/LicenseIntroContainer";
-import ReceiptContainer from "../pages/eum/exam/receipt/ReceiptContainer";
-import ReceiptConfirmContainer from "../pages/eum/exam/receipt/confirm/ReceiptConfirmContainer";
-import ReceiptInfoContainer from "../pages/eum/exam/receipt/info/ReceiptInfoContainer";
-import ReceiptSubmitContainer from "../pages/eum/exam/receipt/receipt/ReceiptSubmitContainer";
-import ResultsContainer from "../pages/eum/exam/results/ResultsContainer";
-import CheckContainer from "../pages/eum/exam/results/check/CheckContainer"
-import LicenseContainer from "../pages/eum/exam/results/license/LicenseContainer";
-import UpdateCheckContainer from "../pages/eum/exam/update/check/UpdateCheckContainer";
-import UpdateContainer from "../pages/eum/exam/update/UpdateContainer";
-import RenewContainer from "../pages/eum/exam/update/renew/RenewContainer";
-import StudyContainer from "../pages/eum/study/StudyContainer";
-import StudyChapterContainer from "../pages/eum/study/chapter/StudyChapterContainer";
-import StudyChapterQuizContainer from "../pages/eum/study/chapter/StudyChapterQuizContainer";
-import StudyChapterComponent from "../pages/eum/study/chapter/StudyChapterComponent";
-import LearnContainer from "../pages/eum/study/learn/LearnContainer";
-import StudyAttendanceContainer from "../pages/eum/study/attendance/StudyAttendanceContainer";
-import MyPageContainer from "../pages/eum/mypage/MyPageContainer";
-import CommunityContainer from "../pages/eum/community/CommunityContainer";
-import LoginContainer from "../pages/eum/auth/login/LoginContainer";
-import JoinContainer from "../pages/eum/auth/join/JoinContainer";
-import CommunityChatContainer from "../pages/eum/community/chat/CommunityChatContainer";
-import CommunityPostContainer from "../pages/eum/community/post/CommunityPostContainer";
-import CommunityPostWriteContainer from "../pages/eum/community/post/write/CommunityPostWriteContainer";
-import CommunityUserProfileComponent from "../pages/eum/community/profile/CommunityUserProfileComponent";
-import CertificateContainer from "../pages/eum/exam/certificate/CertificateContainer";
-import CertificateCheckContainer from "../pages/eum/exam/certificate/check/CertificateCheckContainer";
-import CertificatePrintContainer from "../pages/eum/exam/certificate/print/CertificatePrintContainer";
-import CertificateReissueContainer from "../pages/eum/exam/certificate/reissue/CertificateReissueContainer";
-import StudyExperienceContainer from "../pages/eum/study/experience/StudyExperienceContainer";
-import StudyExperienceQuizContainer from "../pages/eum/study/experience/StudyExperienceQuizContainer";
-import StudyExperienceQuizComponent from "../pages/eum/study/experience/StudyExperienceQuizComponent";
-import MyPageLearningContainer from "../pages/eum/mypage/learning/MyPageLearningContainer";
-import MyPageSettingContainer from "../pages/eum/mypage/setting/MyPageSettingContainer";
-import MyPageCertificateConfirmContainer from "../pages/eum/mypage/certificate/confirm/MyPageCertificateConfirmContainer";
-import MyPageCertificateContainer from "../pages/eum/mypage/certificate/MyPageCertificateContainer";
-import MyPageCertificateGuideContainer from "../pages/eum/mypage/certificate/guide/MyPageCertificateGuideContainer";
-import MyPageCertificateCompleteContainer from "../pages/eum/mypage/certificate/complete/MyPageCertificateCompleteContainer";
-import ConfirmAddressSearchContainer from "../pages/eum/mypage/certificate/confirm/address-search/ConfirmAddressSearchContainer";
-import StudySearchContainer from "../pages/eum/study/search/StudySearchContainer";
+import EumLayout from "../pages/layout/EumLayout";
+import EumMainContainer from "../pages/main/EumMainContainer";
+import ExamContainer from "../pages/exam/ExamContainer";
+import LicenseNoticeContainer from "../pages/exam/info/notice/LicenseNoticeContainer";
+import ExamInfoContainer from "../pages/exam/info/ExamInfoContainer";
+import LicenseIntroContainer from "../pages/exam/info/intro/LicenseIntroContainer";
+import ReceiptContainer from "../pages/exam/receipt/ReceiptContainer";
+import ReceiptConfirmContainer from "../pages/exam/receipt/confirm/ReceiptConfirmContainer";
+import ReceiptInfoContainer from "../pages/exam/receipt/info/ReceiptInfoContainer";
+import ReceiptSubmitContainer from "../pages/exam/receipt/receipt/ReceiptSubmitContainer";
+import ResultsContainer from "../pages/exam/results/ResultsContainer";
+import CheckContainer from "../pages/exam/results/check/CheckContainer"
+import LicenseContainer from "../pages/exam/results/license/LicenseContainer";
+import UpdateCheckContainer from "../pages/exam/update/check/UpdateCheckContainer";
+import UpdateContainer from "../pages/exam/update/UpdateContainer";
+import RenewContainer from "../pages/exam/update/renew/RenewContainer";
+import StudyContainer from "../pages/study/StudyContainer";
+import StudyChapterContainer from "../pages/study/chapter/StudyChapterContainer";
+import StudyChapterQuizContainer from "../pages/study/chapter/StudyChapterQuizContainer";
+import StudyChapterComponent from "../pages/study/chapter/StudyChapterComponent";
+import LearnContainer from "../pages/study/learn/LearnContainer";
+import StudyAttendanceContainer from "../pages/study/attendance/StudyAttendanceContainer";
+import MyPageContainer from "../pages/mypage/MyPageContainer";
+import CommunityContainer from "../pages/community/CommunityContainer";
+import LoginContainer from "../pages/auth/login/LoginContainer";
+import JoinContainer from "../pages/auth/join/JoinContainer";
+import CommunityChatContainer from "../pages/community/chat/CommunityChatContainer";
+import CommunityPostContainer from "../pages/community/post/CommunityPostContainer";
+import CommunityPostWriteContainer from "../pages/community/post/write/CommunityPostWriteContainer";
+import CommunityUserProfileComponent from "../pages/community/profile/CommunityUserProfileComponent";
+import CertificateContainer from "../pages/exam/certificate/CertificateContainer";
+import CertificateCheckContainer from "../pages/exam/certificate/check/CertificateCheckContainer";
+import CertificatePrintContainer from "../pages/exam/certificate/print/CertificatePrintContainer";
+import CertificateReissueContainer from "../pages/exam/certificate/reissue/CertificateReissueContainer";
+import StudyExperienceContainer from "../pages/study/experience/StudyExperienceContainer";
+import StudyExperienceQuizContainer from "../pages/study/experience/StudyExperienceQuizContainer";
+import StudyExperienceQuizComponent from "../pages/study/experience/StudyExperienceQuizComponent";
+import MyPageLearningContainer from "../pages/mypage/learning/MyPageLearningContainer";
+import MyPageSettingContainer from "../pages/mypage/setting/MyPageSettingContainer";
+import MyPageCertificateConfirmContainer from "../pages/mypage/certificate/confirm/MyPageCertificateConfirmContainer";
+import MyPageCertificateContainer from "../pages/mypage/certificate/MyPageCertificateContainer";
+import MyPageCertificateGuideContainer from "../pages/mypage/certificate/guide/MyPageCertificateGuideContainer";
+import MyPageCertificateCompleteContainer from "../pages/mypage/certificate/complete/MyPageCertificateCompleteContainer";
+import ConfirmAddressSearchContainer from "../pages/mypage/certificate/confirm/address-search/ConfirmAddressSearchContainer";
+import StudySearchContainer from "../pages/study/search/StudySearchContainer";
+import CustomServiceContainer from "../pages/customservice/CustomServiceContainer";
+import CustomServiceInquireContainer from "../pages/customservice/inquire/CustomServiceInquireContainer";
+import CustomServiceNoticeContainer from "../pages/customservice/notice/CustomServiceNoticeContainer";
+import CustomServicePrivacyContainer from "../pages/customservice/privacy/CustomServicePrivacyContainer";
+import CustomServiceResultContainer from "../pages/customservice/result/CustomServiceResultContainer";
 
 
 const router = createBrowserRouter([
@@ -245,6 +250,28 @@ const router = createBrowserRouter([
               }
             ]
           }
+        ]
+      },
+      {
+        path: "customservice",
+        element: <CustomServiceContainer />,
+        children: [
+          {
+            path: "inquire",
+            element: <CustomServiceInquireContainer />
+          },
+          {
+            path: "notice",
+            element: <CustomServiceNoticeContainer />
+          },
+          {
+            path: "privacy",
+            element: <CustomServicePrivacyContainer />
+          },
+          {
+            path: "result",
+            element: <CustomServiceResultContainer />
+          },
         ]
       },
       {

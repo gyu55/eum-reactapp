@@ -5,6 +5,7 @@ import CommunityProfile from "./UserProfile/CommunityProfile";
 import UserActivity from "./UserProfile/UserActivity";
 import UserChatRequest from "./UserProfile/UserChatRequest";
 import UserReportBlock from "./UserProfile/UserReportBlock";
+import PostFilterBar from "./UserProfile/PostFilterBar";
 
 const CommunityUserProfileComponent = () => {
   const { userId } = useParams();
@@ -16,7 +17,10 @@ const CommunityUserProfileComponent = () => {
         <ContentArea>
           {/* 메인 영역 */}
           <ColumnBlock>
-            <CommunityProfile></CommunityProfile>
+            <CommunityProfile />
+
+            {/* 상단 검색바 및 필터 */}
+            <PostFilterBar />
           </ColumnBlock>
 
           {/* 사이드 영역 */}

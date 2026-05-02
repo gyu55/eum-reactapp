@@ -1,5 +1,6 @@
 import React from "react";
-import { ColumnBlock, H11Bold, H12Regular } from "../communityStyle";
+import { ColumnBlock } from "../communityStyle";
+import { H11Bold, H12Regular } from "../communityTextStyle";
 
 // 유저 프로필
 const SideUserProfile = () => {

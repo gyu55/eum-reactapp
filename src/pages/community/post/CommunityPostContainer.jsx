@@ -6,11 +6,10 @@ import {
   ActionBtn,
   CategoryPill,
   ColumnBlock,
-  H6Bold,
-  H7Bold,
   RowBlock,
   RowSimpleBlock,
 } from "../communityStyle";
+import { H6Bold, H7Bold } from "../communityTextStyle";
 import LiveChatCard from "../chat/chatComponents/LiveChatCard";
 import PostListCard from "./postComponents/PostListCard";
 

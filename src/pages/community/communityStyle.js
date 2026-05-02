@@ -1,12 +1,6 @@
 import styled, { css } from "styled-components";
 import theme from "../../styles/theme";
-import {
-  h11Bold,
-  h12Regular,
-  h6Bold,
-  h7Bold,
-  h9Bold,
-} from "../../styles/common";
+import { h11Bold, h9Bold } from "../../styles/common";
 
 // 커뮤니티 좌측 (9개 그리드) 영역 너비
 export const communityWidthStyle = css`
@@ -101,6 +95,16 @@ export const RowSimpleBlock = styled.div`
   gap: ${({ gap }) => gap || "24px"};
 `;
 
+// 너비 고정 없이 row 배치 — 카드 내부 레이아웃 용
+export const FlexRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: ${({ alignItems }) => alignItems || "center"};
+  justify-content: ${({ justifyContent }) => justifyContent || "flex-start"};
+  gap: ${({ gap }) => gap || "0px"};
+  margin-top: ${({ marginTop }) => marginTop || "0px"};
+`;
+
 // column 으로 24px 간격 으로 리스트 하는 개념
 export const CardList = styled.div`
   width: 100%;
@@ -163,22 +167,6 @@ export const textFieldStyle = css`
   }
 `;
 
-// 텍스트 스타일 컴포넌트
-export const H6Bold = styled.p`
-  ${h6Bold}
-`;
-
-export const H7Bold = styled.p`
-  ${h7Bold}
-`;
-
-export const H11Bold = styled.p`
-  ${h11Bold}
-`;
-
-export const H12Regular = styled.p`
-  ${h12Regular}
-`;
 
 // 버튼 스타일 컴포넌트
 export const ActionBtn = styled.button`

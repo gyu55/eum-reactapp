@@ -3,8 +3,6 @@ import theme from "../../../../styles/theme";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComment, faEye, faHeart } from "@fortawesome/free-solid-svg-icons";
 import {
-  flexBetweenRow,
-  flexCenterRow,
   h11Medium,
   h11Regular,
   h12Bold,
@@ -15,6 +13,7 @@ import {
 import {
   communityBorderRadius,
   communityWidthStyle,
+  FlexRow,
   hoverStyle,
 } from "../../communityStyle";
 
@@ -29,10 +28,6 @@ const Card = styled.div`
   flex-direction: column;
   border: 2px solid transparent;
   ${hoverStyle}
-`;
-
-const TopRow = styled.div`
-  ${flexBetweenRow}
 `;
 
 const Tag = styled.span`
@@ -51,19 +46,12 @@ const TimeText = styled.p`
   white-space: nowrap;
 `;
 
-const MidRow = styled.div`
-  ${flexCenterRow}
-  gap: 28px;
-  margin-top: 16px;
-`;
-
 // 제목과 글 내용
 const ContentArea = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;
   gap: 9px;
-  /* min-width: 0; */
 `;
 
 // 제목
@@ -100,17 +88,6 @@ const Thumbnail = styled.div`
   }
 `;
 
-// 하단 작성자, 게시글 상태 묶은 row
-const BottomRow = styled.div`
-  ${flexBetweenRow}
-  margin-top: 36px;
-`;
-
-const AuthorArea = styled.div`
-  ${flexCenterRow}
-  gap: 8px;
-`;
-
 const Avatar = styled.img`
   width: 20px;
   height: 20px;
@@ -124,13 +101,9 @@ const AuthorName = styled.span`
   white-space: nowrap;
 `;
 
-const StatsArea = styled.div`
-  ${flexCenterRow}
-  gap: 12px;
-`;
-
 const StatItem = styled.div`
-  ${flexCenterRow}
+  display: flex;
+  align-items: center;
   gap: 4px;
 
   svg {
@@ -159,12 +132,12 @@ const PostListCard = ({
 }) => {
   return (
     <Card>
-      <TopRow>
+      <FlexRow justifyContent="space-between">
         <Tag>{postTag}</Tag>
         <TimeText>{postCreateAt}</TimeText>
-      </TopRow>
+      </FlexRow>
 
-      <MidRow>
+      <FlexRow gap="28px" marginTop="16px">
         <ContentArea>
           <Title>{postTitle}</Title>
           <Description>{postContent}</Description>
@@ -172,14 +145,14 @@ const PostListCard = ({
         <Thumbnail>
           {postThumbnail && <img src={postThumbnail} alt="게시글 썸네일" />}
         </Thumbnail>
-      </MidRow>
+      </FlexRow>
 
-      <BottomRow>
-        <AuthorArea>
+      <FlexRow justifyContent="space-between" marginTop="36px">
+        <FlexRow gap="8px">
           {authorAvatar && <Avatar src={authorAvatar} alt={userNickname} />}
           <AuthorName>{userNickname}</AuthorName>
-        </AuthorArea>
-        <StatsArea>
+        </FlexRow>
+        <FlexRow gap="12px">
           <StatItem>
             <FontAwesomeIcon icon={faHeart} />
             <span>{postLikeCount}</span>
@@ -192,8 +165,8 @@ const PostListCard = ({
             <FontAwesomeIcon icon={faEye} />
             <span>{postReadCount}</span>
           </StatItem>
-        </StatsArea>
-      </BottomRow>
+        </FlexRow>
+      </FlexRow>
     </Card>
   );
 };

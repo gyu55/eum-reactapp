@@ -4,11 +4,10 @@ import {
   ActionBtn,
   CategoryPill,
   ColumnBlock,
-  H6Bold,
-  H7Bold,
   RowBlock,
   RowSimpleBlock,
 } from "../communityStyle";
+import { H6Bold, H7Bold } from "../communityTextStyle";
 import PostListCard from "../post/postComponents/PostListCard";
 
 const CommunityChatComponent = () => {

@@ -3,6 +3,13 @@ import styled from "styled-components";
 import { colors, fonts, radius } from "../constants";
 import OutlineButton from "../common/OutlineButton";
 import ToggleSwitch from "../common/ToggleSwitch";
+import {
+  H9Bold,
+  H11Bold,
+  H11Regular,
+  H12Bold,
+  H12Regular,
+} from "../communityTextStyle";
 
 // Figma asset URLs (expires in 7 days)
 const assets = {
@@ -226,25 +233,9 @@ const RoomInfo = styled.div`
   width: 105px;
 `;
 
-const RoomTitle = styled.p`
-  font-family: ${fonts.family};
-  font-weight: ${fonts.weight.bold};
-  font-size: ${fonts.size.base};
-  line-height: 24px;
-  letter-spacing: -0.32px;
-  color: ${colors.textWhite};
-  margin: 0;
-`;
+const RoomTitle = styled(H9Bold).attrs({ $color: colors.textWhite })``;
 
-const RoomSubText = styled.p`
-  font-family: ${fonts.family};
-  font-weight: ${fonts.weight.regular};
-  font-size: ${fonts.size.sm};
-  line-height: 20px;
-  letter-spacing: -0.24px;
-  color: ${colors.border};
-  margin: 0;
-`;
+const RoomSubText = styled(H11Regular).attrs({ $color: colors.border })``;
 
 const MessageStatus = styled.div`
   display: flex;
@@ -269,13 +260,7 @@ const LiveIcon = styled.img`
   height: 8px;
 `;
 
-const LiveText = styled.span`
-  font-family: ${fonts.family};
-  font-weight: ${fonts.weight.bold};
-  font-size: ${fonts.size.xs};
-  letter-spacing: -0.2px;
-  color: ${colors.textWhite};
-`;
+const LiveText = styled(H12Bold).attrs({ $color: colors.textWhite })``;
 
 const TodayMsgRow = styled.div`
   display: flex;
@@ -287,14 +272,7 @@ const TodayMsgRow = styled.div`
   }
 `;
 
-const TodayMsgText = styled.p`
-  font-family: ${fonts.family};
-  font-weight: ${fonts.weight.regular};
-  font-size: ${fonts.size.sm};
-  color: ${colors.border};
-  letter-spacing: -0.24px;
-  margin: 0;
-`;
+const TodayMsgText = styled(H11Regular).attrs({ $color: colors.border })``;
 
 const HeaderRight = styled.div`
   display: flex;
@@ -309,7 +287,6 @@ const LeaveBtn = styled.button`
   height: 20px;
   width: 79px;
   cursor: pointer;
-  font-family: ${fonts.family};
   font-weight: ${fonts.weight.regular};
   font-size: ${fonts.size.xs};
   color: ${colors.textWhite};
@@ -380,19 +357,12 @@ const ParticipantHeader = styled.div`
   justify-content: space-between;
 `;
 
-const ParticipantLabel = styled.p`
-  font-family: ${fonts.family};
-  font-weight: ${fonts.weight.bold};
-  font-size: ${fonts.size.sm};
-  color: ${colors.textSub};
-  margin: 0;
-`;
+const ParticipantLabel = styled(H11Bold).attrs({ $color: colors.textSub })``;
 
 const CountBadge = styled.div`
   background: ${colors.primary};
   border-radius: ${radius.pill};
   padding: 4px 8px;
-  font-family: ${fonts.family};
   font-weight: ${fonts.weight.bold};
   font-size: ${fonts.size.xs};
   color: ${colors.textWhite};
@@ -462,32 +432,18 @@ const UserMeta = styled.div`
   width: 40px;
 `;
 
-const UserNameText = styled.p`
-  font-family: ${fonts.family};
-  font-weight: ${fonts.weight.bold};
-  font-size: ${fonts.size.sm};
-  line-height: 20px;
-  letter-spacing: -0.24px;
-  color: ${colors.textMain};
-  margin: 0;
+const UserNameText = styled(H11Bold).attrs({ $color: colors.textMain })`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 `;
 
-const UserRoleText = styled.p`
-  font-family: ${fonts.family};
-  font-weight: ${fonts.weight.regular};
-  font-size: ${fonts.size.xs};
-  color: ${colors.textSub};
-  margin: 0;
-`;
+const UserRoleText = styled(H12Regular).attrs({ $color: colors.textSub })``;
 
 const LevelBadge = styled.div`
   background: ${colors.primaryLight};
   border-radius: ${radius.pill};
   padding: 2px 6px;
-  font-family: ${fonts.family};
   font-weight: ${fonts.weight.bold};
   font-size: ${fonts.size.xs};
   color: ${colors.primary};
@@ -535,14 +491,7 @@ const MsgContentCol = styled.div`
   width: 206px;
 `;
 
-const SenderName = styled.p`
-  font-family: ${fonts.family};
-  font-weight: ${fonts.weight.bold};
-  font-size: ${fonts.size.xs};
-  color: ${colors.textSub};
-  letter-spacing: -0.2px;
-  margin: 0;
-`;
+const SenderName = styled(H12Bold).attrs({ $color: colors.textSub })``;
 
 const MsgTimeRow = styled.div`
   display: flex;
@@ -558,23 +507,9 @@ const OtherBubble = styled.div`
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.07);
 `;
 
-const OtherBubbleText = styled.p`
-  font-family: ${fonts.family};
-  font-weight: ${fonts.weight.regular};
-  font-size: ${fonts.size.sm};
-  line-height: 20px;
-  letter-spacing: -0.24px;
-  color: ${colors.textMain};
-  margin: 0;
-`;
+const OtherBubbleText = styled(H11Regular).attrs({ $color: colors.textMain })``;
 
-const MsgTime = styled.p`
-  font-family: ${fonts.family};
-  font-weight: ${fonts.weight.regular};
-  font-size: ${fonts.size.xs};
-  color: ${colors.textSub};
-  letter-spacing: -0.2px;
-  margin: 0;
+const MsgTime = styled(H12Regular).attrs({ $color: colors.textSub })`
   white-space: nowrap;
 `;
 
@@ -592,15 +527,7 @@ const MyBubble = styled.div`
   max-width: 188px;
 `;
 
-const MyBubbleText = styled.p`
-  font-family: ${fonts.family};
-  font-weight: ${fonts.weight.regular};
-  font-size: ${fonts.size.sm};
-  line-height: 20px;
-  letter-spacing: -0.24px;
-  color: ${colors.textWhite};
-  margin: 0;
-`;
+const MyBubbleText = styled(H11Regular).attrs({ $color: colors.textWhite })``;
 
 const InputArea = styled.div`
   background: ${colors.bgCard};
@@ -648,13 +575,7 @@ const TextInputBox = styled.div`
   padding: 8px 10px;
 `;
 
-const InputPlaceholder = styled.p`
-  font-family: ${fonts.family};
-  font-weight: ${fonts.weight.regular};
-  font-size: ${fonts.size.sm};
-  color: ${colors.textSub};
-  letter-spacing: -0.24px;
-  margin: 0;
+const InputPlaceholder = styled(H11Regular).attrs({ $color: colors.textSub })`
   white-space: nowrap;
 `;
 
@@ -717,13 +638,7 @@ const PanelSection = styled.div`
   flex: ${({ $flex }) => $flex || "none"};
 `;
 
-const SectionLabel = styled.p`
-  font-family: ${fonts.family};
-  font-weight: ${fonts.weight.bold};
-  font-size: ${fonts.size.xs};
-  color: ${colors.textSub};
-  letter-spacing: -0.2px;
-  margin: 0;
+const SectionLabel = styled(H12Bold).attrs({ $color: colors.textSub })`
   width: 100%;
 `;
 
@@ -749,15 +664,8 @@ const RoomTitleCenter = styled.div`
   width: 100%;
 `;
 
-const RoomTitleText = styled.p`
-  font-family: ${fonts.family};
-  font-weight: ${fonts.weight.bold};
-  font-size: ${fonts.size.base};
-  line-height: 24px;
-  letter-spacing: -0.32px;
-  color: ${colors.textMain};
+const RoomTitleText = styled(H9Bold).attrs({ $color: colors.textMain })`
   text-align: center;
-  margin: 0;
 `;
 
 const StatusRow = styled.div`
@@ -777,35 +685,11 @@ const LiveDot = styled.img`
   height: 8px;
 `;
 
-const LiveLabel = styled.p`
-  font-family: ${fonts.family};
-  font-weight: ${fonts.weight.bold};
-  font-size: ${fonts.size.xs};
-  color: ${colors.live};
-  letter-spacing: -0.2px;
-  margin: 0;
-`;
+const LiveLabel = styled(H12Bold).attrs({ $color: colors.live })``;
 
-const ParticipantCount = styled.p`
-  font-family: ${fonts.family};
-  font-weight: ${fonts.weight.regular};
-  font-size: ${fonts.size.xs};
-  color: ${colors.textSub};
-  letter-spacing: -0.2px;
-  margin: 0;
-`;
+const ParticipantCount = styled(H12Regular).attrs({ $color: colors.textSub })``;
 
-const IntroText = styled.div`
-  font-family: ${fonts.family};
-  font-weight: ${fonts.weight.regular};
-  font-size: ${fonts.size.sm};
-  line-height: 20px;
-  letter-spacing: -0.24px;
-  color: ${colors.textMain};
-  p {
-    margin: 0;
-  }
-`;
+const IntroText = styled.div``;
 
 const TagGrid = styled.div`
   display: grid;
@@ -817,7 +701,6 @@ const Tag = styled.div`
   background: ${({ $bg }) => $bg};
   border-radius: ${radius.pill};
   padding: 2px 8px;
-  font-family: ${fonts.family};
   font-weight: ${fonts.weight.bold};
   font-size: 8px;
   color: ${({ $color }) => $color};
@@ -833,13 +716,7 @@ const AccessRow = styled.div`
   width: 100%;
 `;
 
-const AccessLabel = styled.p`
-  font-family: ${fonts.family};
-  font-weight: ${fonts.weight.regular};
-  font-size: ${fonts.size.sm};
-  color: ${colors.textMain};
-  margin: 0;
-`;
+const AccessLabel = styled(H11Regular).attrs({ $color: colors.textMain })``;
 
 // ─── ChatRoomUserInfo ───────────────────────────────────────────────────────────
 
@@ -861,13 +738,7 @@ const UserInfoSectionHeader = styled.div`
   width: 100%;
 `;
 
-const UserInfoSectionTitle = styled.p`
-  font-family: ${fonts.family};
-  font-weight: ${fonts.weight.bold};
-  font-size: ${fonts.size.base};
-  color: ${colors.textMain};
-  margin: 0;
-`;
+const UserInfoSectionTitle = styled(H9Bold).attrs({ $color: colors.textMain })``;
 
 const UserBigAvatarBox = styled.div`
   width: 64px;
@@ -888,37 +759,21 @@ const UserBigAvatarBox = styled.div`
   }
 `;
 
-const UserInfoName = styled.p`
-  font-family: ${fonts.family};
-  font-weight: ${fonts.weight.bold};
-  font-size: ${fonts.size.base};
-  line-height: 24px;
-  letter-spacing: -0.32px;
-  color: ${colors.textMain};
+const UserInfoName = styled(H9Bold).attrs({ $color: colors.textMain })`
   text-align: center;
-  margin: 0;
 `;
 
 const LevelRoleBadge = styled.div`
   background: ${colors.primaryLight};
   border-radius: ${radius.pill};
   padding: 4px 12px;
-  font-family: ${fonts.family};
   font-weight: ${fonts.weight.bold};
   font-size: ${fonts.size.sm};
   color: ${colors.primary};
   white-space: nowrap;
 `;
 
-const ActionDescText = styled.p`
-  font-family: ${fonts.family};
-  font-weight: ${fonts.weight.regular};
-  font-size: ${fonts.size.sm};
-  line-height: 20px;
-  letter-spacing: -0.24px;
-  color: ${colors.textMain};
-  margin: 0;
-`;
+const ActionDescText = styled(H11Regular).attrs({ $color: colors.textMain })``;
 
 const ReportCard = styled.div`
   background: ${ORANGE_LIGHT};
@@ -931,22 +786,9 @@ const ReportCard = styled.div`
   box-sizing: border-box;
 `;
 
-const ReportCardTitle = styled.p`
-  font-family: ${fonts.family};
-  font-weight: ${fonts.weight.bold};
-  font-size: ${fonts.size.sm};
-  color: ${ORANGE};
-  margin: 0;
-`;
+const ReportCardTitle = styled(H11Bold).attrs({ $color: ORANGE })``;
 
-const ReportCardDesc = styled.p`
-  font-family: ${fonts.family};
-  font-weight: ${fonts.weight.regular};
-  font-size: ${fonts.size.sm};
-  line-height: 20px;
-  color: ${ORANGE_DARK};
-  margin: 0;
-`;
+const ReportCardDesc = styled(H11Regular).attrs({ $color: ORANGE_DARK })``;
 
 // ─── Main Component ────────────────────────────────────────────────────────────
 
@@ -1172,9 +1014,9 @@ const PopupChatScreen = ({ onMinimize, onClose, onLeave }) => {
                 <PanelSection>
                   <SectionLabel>채팅방 소개</SectionLabel>
                   <IntroText>
-                    <p>수어로 일상 대화를 나누는</p>
-                    <p>공간이에요. 초보자도 환영!</p>
-                    <p>서로 격려하며 함께 배워요 🌱</p>
+                    <H11Regular $color={colors.textMain}>수어로 일상 대화를 나누는</H11Regular>
+                    <H11Regular $color={colors.textMain}>공간이에요. 초보자도 환영!</H11Regular>
+                    <H11Regular $color={colors.textMain}>서로 격려하며 함께 배워요 🌱</H11Regular>
                   </IntroText>
                 </PanelSection>
 
@@ -1231,9 +1073,9 @@ const PopupChatScreen = ({ onMinimize, onClose, onLeave }) => {
                 <PanelSection $gap="8px" $last>
                   <SectionLabel>채팅방 신고</SectionLabel>
                   <IntroText>
-                    <p>만약 해당 채팅방에서 부적절한 행위</p>
-                    <p>혹은 대화가 발생한다면 아래의</p>
-                    <p>신고하기 버튼으로 신고 가능합니다.</p>
+                    <H11Regular $color={colors.textMain}>만약 해당 채팅방에서 부적절한 행위</H11Regular>
+                    <H11Regular $color={colors.textMain}>혹은 대화가 발생한다면 아래의</H11Regular>
+                    <H11Regular $color={colors.textMain}>신고하기 버튼으로 신고 가능합니다.</H11Regular>
                   </IntroText>
                   <OutlineButton
                     borderColor={colors.danger}

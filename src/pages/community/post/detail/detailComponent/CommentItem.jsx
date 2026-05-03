@@ -192,30 +192,30 @@ const ReportButton = styled.button`
 
 const CommentItem = ({
   avatar = null,
-  authorName = "사용자",
+  userNickname = "사용자",
   isAuthor = false,
-  isReply = false,
-  text = "",
-  lines = [],
-  likes = 1,
-  replies = 1,
-  time = "방금 전",
+  commentId = null,
+  commentContent = "",
+  likeCount = 1,
+  replyCount = 1,
+  commentCreateAt = "방금 전",
   showAccessibility = true,
 }) => {
-  const displayLines = lines.length > 0 ? lines : text ? [text] : [];
+  const isReply = commentId !== null;
+  const displayLines = commentContent ? commentContent.split("\n") : [];
 
   return (
     <Wrapper isReply={isReply}>
       <LeftArea>
         {avatar ? (
           <Avatar>
-            <img src={avatar} alt={authorName} />
+            <img src={avatar} alt={userNickname} />
           </Avatar>
         ) : (
           <DefaultAvatar>👤</DefaultAvatar>
         )}
         <Body>
-          <AuthorName isAuthor={isAuthor}>{authorName}</AuthorName>
+          <AuthorName isAuthor={isAuthor}>{userNickname}</AuthorName>
           <CommentText>
             {displayLines.map((line, i) => (
               <p key={i}>{line}</p>
@@ -224,11 +224,11 @@ const CommentItem = ({
           <ReactionsRow>
             <ReactionItem>
               <FontAwesomeIcon icon={faHeart} />
-              <span>{likes}</span>
+              <span>{likeCount}</span>
             </ReactionItem>
             <ReactionItem>
               <FontAwesomeIcon icon={faCommentDots} />
-              <span>{replies}</span>
+              <span>{replyCount}</span>
             </ReactionItem>
           </ReactionsRow>
           {showAccessibility && (
@@ -240,7 +240,7 @@ const CommentItem = ({
         </Body>
       </LeftArea>
       <RightArea>
-        <TimeText>{time}</TimeText>
+        <TimeText>{commentCreateAt}</TimeText>
         <ReportButton aria-label="댓글 신고">
           <img src={reportIconImg} alt="신고" />
         </ReportButton>

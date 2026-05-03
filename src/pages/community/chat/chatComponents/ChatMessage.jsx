@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { colors, fonts, radius } from "../themeOriginal";
+import { colors, fonts, radius } from "../../constants";
 
 const MessageRow = styled.div`
   display: flex;

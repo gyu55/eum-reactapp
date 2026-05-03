@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMinus, faExpand, faXmark, faHandshake } from "@fortawesome/free-solid-svg-icons";
-import { colors, fonts, radius, shadows } from "../themeOriginal";
+import { colors, fonts, radius, shadows } from "../../constants";
 
 // ─── Panel ───────────────────────────────────────────────────────────────────
 

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { colors, fonts, radius } from "./themeOriginal";
+import { colors, fonts, radius } from "../constants";
 import OutlineButton from "../common/OutlineButton";
 import ToggleSwitch from "../common/ToggleSwitch";
 

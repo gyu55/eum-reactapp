@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { colors, fonts, radius } from "./themeOriginal";
+import { colors, fonts, radius } from "../constants";
 
 const DANGER_OVERLAY = "rgba(255, 80, 80, 0.5)";
 const OVERLAY_WHITE_15 = "rgba(255, 255, 255, 0.15)";

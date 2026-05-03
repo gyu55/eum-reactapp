@@ -1,6 +1,8 @@
 // styles/theme.js (팀장 org 파일)를 보완하는 로컬 UI 토큰
 // theme.js에 이미 있는 값은 여기에 중복 정의하지 않는다.
 
+import theme from "../../styles/theme";
+
 export const FONT_FAMILY = "'pretendard', sans-serif";
 
 // theme.FONT_SIZE에 없는 중간 크기
@@ -70,4 +72,63 @@ export const LAYOUT = {
   cardMaxWidth: "984px",
   contentWidth: "1320px",
   gridGap: "24px",
+};
+
+// ─── 채팅 패널 디자인 토큰 (chat/themeOriginal.js에서 이전) ──────────────────
+
+export const colors = {
+  primary: theme.PALETTE.primary.main,
+  primaryDark: theme.PALETTE.primary.dark,
+  primaryLight: theme.PALETTE.primary.extraLight,
+  primaryMid: "rgba(67, 89, 252, 0.4)",
+  gradientMain: theme.GRADIENT.deepBlue,
+  textWhite: theme.PALETTE.white,
+  textMain: theme.TEXT_COLOR.basic,
+  textSub: theme.GRAYSCALE[9],
+  bgCard: "#FFFFFF",
+  bgSection: theme.GRAYSCALE[10],
+  bgPage: theme.GRAYSCALE[10],
+  bgPopupOverlay: "rgba(0, 0, 0, 0.45)",
+  border: theme.GRAYSCALE[8],
+  live: theme.PALETTE.secondary.main,
+  liveBg: theme.PALETTE.secondary.light,
+  red: theme.PALETTE.red,
+  danger: theme.PALETTE.red,
+  dangerOverlay: "rgba(255, 80, 80, 0.5)",
+  overlayWhite15: "rgba(255, 255, 255, 0.15)",
+  tagOnPrimary: "rgba(255, 255, 255, 0.15)",
+  tagOnPrimaryBorder: "rgba(255, 255, 255, 0.30)",
+  accessibilitySign: theme.PALETTE.third.main,
+  accessibilityRead: theme.PALETTE.warning.main,
+};
+
+export const fonts = {
+  family: "'pretendard', sans-serif",
+  weight: {
+    light: theme.FONT_WEIGHT.light,
+    regular: theme.FONT_WEIGHT.regular,
+    medium: theme.FONT_WEIGHT.medium,
+    bold: theme.FONT_WEIGHT.bold,
+  },
+  size: {
+    xs: theme.FONT_SIZE.h12,
+    sm: theme.FONT_SIZE.h11,
+    md: theme.FONT_SIZE.h10,
+    base: theme.FONT_SIZE.h9,
+    xl: theme.FONT_SIZE.h7,
+  },
+};
+
+// RADIUS(커뮤니티 레이아웃용)와 구분되는 채팅 패널 전용 반경값 — sm이 다름 (6px vs 10px)
+export const radius = {
+  card: "20px",
+  pill: "100px",
+  button: "12px",
+  input: "8px",
+  sm: "6px",
+};
+
+// SHADOW(primary 색조 그림자)와 구분되는 채팅 패널 전용 중립 그림자
+export const shadows = {
+  float: "0 8px 24px rgba(0, 0, 0, 0.12)",
 };

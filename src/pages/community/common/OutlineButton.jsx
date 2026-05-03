@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { fonts, radius } from "../chat/themeOriginal";
+import { fonts, radius } from "../constants";
 
 const Btn = styled.button`
   background: ${({ $bgColor }) => $bgColor || "#ffffff"};

@@ -1,11 +1,12 @@
 import React from 'react';
 import MyPageTabMenu from './MyPageTabMenu';
 import { Outlet } from 'react-router-dom';
+import MyPageComponent from './MyPageComponent';
 
 const MyPageContainer = () => {
     return (
         <div>
-            마이페이지 컨테이너
+            <MyPageComponent />
             <MyPageTabMenu />
             <Outlet />
         </div>

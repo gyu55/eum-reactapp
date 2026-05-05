@@ -8,7 +8,7 @@ import {
   RowSimpleBlock,
 } from "../communityStyle";
 import { H6Bold, H7Bold } from "../communityTextStyle";
-import PostListCard from "../post/postComponents/PostListCard";
+import PostListCard from "../post/postComponents/PostListCard.jsx";
 import styled from "styled-components";
 import { flexCenterRow } from "../../../styles/common";
 

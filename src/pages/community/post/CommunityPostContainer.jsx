@@ -12,7 +12,7 @@ import {
 } from "../communityStyle";
 import { H11Bold, H6Bold, H7Bold } from "../communityTextStyle";
 import LiveChatCard from "../chat/chatComponents/LiveChatCard";
-import PostListCard from "./postComponents/PostListCard";
+import PostListCard from "./postComponents/PostListCard.jsx";
 import PostContent from "./detail/detailComponent/PostContent";
 import styled from "styled-components";
 import { flexCenterRow, flexStartRow, h11Bold } from "../../../styles/common";

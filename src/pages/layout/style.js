@@ -2,10 +2,10 @@ import theme from "../../styles/theme";
 
 export const styles = {
 
-  header : {
-    position:'fixed',
-    left : 0,
-    top : 0,
+  header: {
+    position: 'fixed',
+    left: 0,
+    top: 0,
     width: '100%',
     display: 'flex',
     alignItems: 'center',
@@ -16,91 +16,58 @@ export const styles = {
     zIndex: 1
   },
 
-  logoNav : {  
-    position: 'absolute',
-    left : '300px',
+  logoNav: {
     display: 'flex',
-    gap:'112px', 
-    whiteSpace: 'nowrap',
+    alignItems: 'center',
+    gap: '112px',
   },
 
-  studyNav : {
-    fontSize: theme.FONT_SIZE.h9, 
+  contentNav: {
+    fontSize: theme.FONT_SIZE.h9,
     fontWeight: theme.FONT_WEIGHT.bold,
     color: theme.PALETTE.primary.dark,
-    textDecoration:'none'
-    
+    textDecoration: 'none'
   },
 
-  examNav : {
-    fontSize: theme.FONT_SIZE.h9, 
-    fontWeight: theme.FONT_WEIGHT.bold, 
-    color: theme.PALETTE.primary.dark,
-    textDecoration:'none'
-  },
-
-  communityNav : {
-    fontSize: theme.FONT_SIZE.h9, 
-    fontWeight: theme.FONT_WEIGHT.bold, 
-    color: theme.PALETTE.primary.dark,
-    textDecoration:'none'
-  },
-
-  customserviceNav : {
-    fontSize: theme.FONT_SIZE.h9, 
-    fontWeight: theme.FONT_WEIGHT.bold, 
-    color: theme.PALETTE.primary.dark,
-    textDecoration:'none'
-  },
-
-  loginNav : {
-    position:'absolute',
-    left : '1120px',
+  rightNav: {
     border: `solid 1.5px ${theme.TEXT_COLOR.primary}`,
-    color: theme.PALETTE.primary.main,
-    fontSize: theme.FONT_SIZE.h7,
-    fontWeight: theme.FONT_WEIGHT.bold, 
-    textAlign:'center',
-    padding: '10px 16px',
-    borderRadius : '10px',
-    letterSpacing: '-0.02em', 
-    display : 'flex',
+    borderRadius: '10px',
+    display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
     width: '88px',
-    height : '32px'
+    height: '32px'
   },
 
-  login : {
-            fontSize: theme.FONT_SIZE.h9, 
-            fontWeight: theme.FONT_WEIGHT.bold, 
-            color: theme.PALETTE.primary.main,
-            textDecoration:'none'
+  rigthBorderNav: {
+    fontSize: theme.FONT_SIZE.h9,
+    fontWeight: theme.FONT_WEIGHT.bold,
+    color: theme.PALETTE.primary.main,
+    textDecoration: 'none'
   },
 
-  joinNav : {
-    position:'absolute',
-    left : '1232px',
-    backgroundColor : theme.PALETTE.primary.main,
+  rigthBackGroundNav: {
+    backgroundColor: theme.PALETTE.primary.main,
     color: theme.PALETTE.white,
     fontSize: theme.FONT_SIZE.h7,
-    fontWeight: theme.FONT_WEIGHT.bold, 
-    textAlign:'center',
+    fontWeight: theme.FONT_WEIGHT.bold,
+    textAlign: 'center',
     padding: '10px 16px',
-    borderRadius : '10px',
-    letterSpacing: '-0.02em', 
-    display : 'flex',
+    borderRadius: '10px',
+    letterSpacing: '-0.02em',
+    display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
     width: '88px',
-    height : '32px'
+    height: '32px',
+    border: 'none',
+    cursor: 'pointer',
   },
 
-  join : {
-            fontSize: theme.FONT_SIZE.h9, 
-            fontWeight: theme.FONT_WEIGHT.bold,
-            color: theme.PALETTE.white,
-            textDecoration:'none',
-          }
-
+  join: {
+    fontSize: theme.FONT_SIZE.h9,
+    fontWeight: theme.FONT_WEIGHT.bold,
+    color: theme.PALETTE.white,
+    textDecoration: 'none',
+  }
 }

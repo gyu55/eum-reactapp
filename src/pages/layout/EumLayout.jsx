@@ -20,28 +20,28 @@ const Layout = () => {
               
               {/* 학습 페이지 이동 */}
               <button>
-                <Link to="/study" style={styles.studyNav}>
+                <Link to="/study" style={styles.contentNav}>
                   학습
                 </Link>
               </button>
 
               {/* 시험 페이지 이동 */}
               <button>
-                <Link to="/exam/info/notice" style={styles.examNav}>
+                <Link to="/exam/info/notice" style={styles.contentNav}>
                     시험
                 </Link>
               </button>
 
               {/* 커뮤니티 페이지 이동 */}
               <button >
-                <Link to="/community" style={styles.communityNav}>
+                <Link to="/community" style={styles.contentNav}>
                   커뮤니티
                 </Link>
               </button>
 
               {/* 고객지원 페이지 이동 */}
               <button>
-                <Link to="/customservice" style={styles.customserviceNav}>
+                <Link to="/customservice" style={styles.contentNav}>
                   고객지원
                 </Link>
               </button>
@@ -55,19 +55,18 @@ const Layout = () => {
             gap: '12px',
             alignItems:'center'
           }}>
-            <div style={{ display: 'flex', gap: '24px', alignItems: 'center' }}>
+            <div style={{ display: 'flex', gap: '24px', alignItems: 'center'}}>
               {/* 로그인 페이지 이동 */}
-              <button style={styles.loginNav}>
-                <Link to="/login" style={styles.login}>
+              <div style={styles.rightNav}>
+                <Link to="/login" style={styles.rigthBorderNav}>
                   로그인
                 </Link>
-              </button>
+              </div>
 
               {/* 회원가입 페이지 이동 */}
-              <button style={styles.joinNav}>
-                
+              <button style={styles.rigthBackGroundNav}>
                 <Link to="/join" style={styles.join}>
-                    회원가입
+                  회원가입
                 </Link>
               </button>
             </div>

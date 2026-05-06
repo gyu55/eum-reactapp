@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import StudyAttendancePopup from './StudyAttendancePopup';
-import { AttendNotice, AttendTitle, AttendWrap, CalendarWrap, HeadsUp, Reward, SideWrap, StyledCalendar, StyledCalendarWrapper, StyledDate, StyledDot } from './style';
+import { AttendNotice, AttendReward, AttendTitle, AttendWrap, CalendarWrap, HeadsUp, SideWrap, StyledCalendar, StyledCalendarWrapper, StyledDate, StyledDot } from './style';
 import moment from 'moment';
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
@@ -115,20 +115,26 @@ const StudyAttendanceComponent = () => {
                 <SideWrap>
                     {/* weeks */}
                     <HeadsUp>
-                        이번주
-                        <span>월</span>
-                        <span>화</span>
-                        <span>수</span>
-                        <span>목</span>
-                        <span>금</span>
-                        <span>토</span>
-                        <span>일</span>
+                        <div>
+                            <p>이번주</p>
+                            <span>월</span>
+                            <span>화</span>
+                            <span>수</span>
+                            <span>목</span>
+                            <span>금</span>
+                            <span>토</span>
+                            <span>일</span>
+                        </div>
                     </HeadsUp>
 
                     {/* 출석보상 */}
-                    <Reward>
-                        출석보상
-                    </Reward>
+                    <AttendReward>
+                        <div>
+                            출석보상
+                            <p></p>
+
+                        </div>
+                    </AttendReward>
                 </SideWrap>
             </StyledCalendarWrapper>
         </AttendWrap>

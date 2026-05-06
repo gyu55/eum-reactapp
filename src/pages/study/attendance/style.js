@@ -342,18 +342,19 @@ export const SideWrap = styled.div`
 
 // 이번주
 export const HeadsUp = styled.div`
-  display: grid;
+  display: flex;
+  
   gap: 20px;
   background: #fff;
   border: 1.5px solid #e6e6e6;
   border-radius: 20px;
   box-sizing: border-box;
-  padding: 30px;
+  padding: 20px;
   height: 210px;
 `;
 
 // 출석보상
-export const Reward = styled.div`
+export const AttendReward = styled.div`
   display: grid;
   gap: 20px;
   background: #fff;

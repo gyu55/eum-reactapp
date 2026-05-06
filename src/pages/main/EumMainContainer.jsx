@@ -215,11 +215,11 @@ const EumMainContainer = () => {
               </button>
               <img src= '/assets/image/main/exam.svg' style={{
                 position: 'absolute',
-                right: '40px',       // 우측 간격
+                right: '80px',       // 우측 간격
                 top: '50%',          // 세로 가운데
                 transform: 'translateY(-50%)',
-                width: '200px',
-                height : '200px'
+                width: '160px',
+                height : '160px'
               }}/>
             </div>
 
@@ -297,11 +297,11 @@ const EumMainContainer = () => {
               </button>
               <img src= '/assets/image/main/community.svg' style={{
                 position: 'absolute',
-                right: '40px',       // 우측 간격
+                right: '80px',       // 우측 간격
                 top: '50%',          // 세로 가운데
                 transform: 'translateY(-50%)',
-                width: '200px',
-                height : '200px'
+                width: '160px',
+                height : '160px'
                 }}/>
               </div>
             </div>
@@ -383,11 +383,11 @@ const EumMainContainer = () => {
               </button>
               <img src= '/assets/image/main/study.svg' style={{
                 position: 'absolute',
-                right: '40px',       // 우측 간격
-                top: '50%',          // 세로 가운데
+                right: '50px',       
+                top: '50%',          
                 transform: 'translateY(-50%)',
-                width: '130px',
-                height : '130px'
+                width: '120px',
+                height : '120px'
               }} />
             </div>
               
@@ -453,16 +453,16 @@ const EumMainContainer = () => {
                   fontSize : theme.FONT_SIZE.h10,
                   fontWeight : theme.FONT_WEIGHT.bold
                 }}
-                onClick={() => navigate('/study')}>
+                onClick={() => navigate('/study/chapter/sos')}>
                   바로가기 →
               </button>
               <img src= '/assets/image/main/emergency.svg' style={{
                 position: 'absolute',
-                right: '40px',       // 우측 간격
-                top: '50%',          // 세로 가운데
+                right: '50px',       
+                top: '50%',         
                 transform: 'translateY(-50%)',
-                width: '130px',
-                height : '130px'
+                width: '120px',
+                height : '120px'
               }} />
             </div>
             <div style={{
@@ -527,16 +527,16 @@ const EumMainContainer = () => {
                   fontSize : theme.FONT_SIZE.h10,
                   fontWeight : theme.FONT_WEIGHT.bold
                 }}
-                onClick={() => navigate('/study')}>
+                onClick={() => navigate('/study/chapter/mors')}>
                   바로가기 →
               </button>
               <img src= '/assets/image/main/mors.svg' style={{
                 position: 'absolute',
-                right: '40px',       // 우측 간격
-                top: '50%',          // 세로 가운데
+                right: '50px',       
+                top: '50%',          
                 transform: 'translateY(-50%)',
-                width: '130px',
-                height : '130px'
+                width: '120px',
+                height : '120px'
               }} />
             </div>
           </div>

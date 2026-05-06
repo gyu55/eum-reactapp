@@ -200,7 +200,7 @@ export const styles = {
     flexDirection : 'column',
     alignItems: 'center',
     maxHeight: '1000px',
-    minHeight: '1000px',
+    minHeight: '1100px',
     backgroundColor: theme.GRAYSCALE[10]
   },
 

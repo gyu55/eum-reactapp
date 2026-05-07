@@ -14,7 +14,7 @@ export const Page = styled.div`
 
 /* 중앙 컨텐츠 영역 */
 export const Inner = styled.div`
-  width: 1316px;
+  width: 1320px;
   margin: 0 auto;
   padding-top: 36px;
   padding-bottom: 120px;
@@ -29,7 +29,7 @@ export const Layout = styled.div`
 
 /* 왼쪽 메인 영역 */
 export const LeftArea = styled.div`
-  width: 984px;
+  width: 988px;
   display: flex;
   flex-direction: column;
   gap: 16px;

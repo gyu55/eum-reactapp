@@ -35,13 +35,14 @@ const Divider = styled.div`
 /* 메뉴 그리드 */
 const MenuGrid = styled.div`
   margin-top: 9px;
+
   display: grid;
-  grid-template-columns: repeat(2, 124px);
+  grid-template-columns: repeat(2, 1fr);
   gap: 8px;
 `;
 
 const MenuButton = styled.button`
-  width: 124px;
+  width: 100%;
   height: 51px;
 
   display: flex;

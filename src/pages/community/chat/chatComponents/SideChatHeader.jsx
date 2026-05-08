@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { colors, fonts } from "../../constants";
+import { colors } from "../../constants";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faExpand, faMinus, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { h11Bold } from "../../../../styles/common";

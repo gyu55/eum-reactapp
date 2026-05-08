@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { COMMENT, colors, radius } from "../../constants";
 import { h10Bold, h11Bold, h11Regular } from "../../../../styles/common";
 import chatDefaultProfile from "../../assets/chat/chat_default_profile.svg";
+import { thumbnailStyle } from "./chatComponentStyle";
 
 // ─── List Body ───────────────────────────────────────────────────────────────
 
@@ -49,26 +50,10 @@ const RoomLeft = styled.div`
   gap: 12px;
 `;
 
-const ThumbnailBox = styled.div`
-  position: relative;
-  width: ${COMMENT.avatarSize};
-  height: ${COMMENT.avatarSize};
-  border-radius: ${radius.input};
-  background: ${colors.primaryLight};
+const ThumbnailBox = styled.img`
+  ${thumbnailStyle}
   flex-shrink: 0;
-  display: flex;
-  align-items: flex-end;
-  justify-content: flex-start;
-  box-sizing: border-box;
-`;
-
-const ThumbnailImg = styled.img`
-  width: 100%;
-  height: 100%;
   object-fit: cover;
-  border-radius: ${radius.input};
-  position: absolute;
-  inset: 0;
 `;
 
 const RoomInfo = styled.div`
@@ -179,12 +164,10 @@ const SideChatListComponent = ({
             onClick={() => handleRoomClick(room)}
           >
             <RoomLeft>
-              <ThumbnailBox>
-                <ThumbnailImg
-                  src={room.thumbnail || chatDefaultProfile}
-                  alt={room.name}
-                />
-              </ThumbnailBox>
+              <ThumbnailBox
+                src={room.thumbnail || chatDefaultProfile}
+                alt={room.name}
+              />
               <RoomInfo>
                 <RoomName>{room.name}</RoomName>
                 {room.isLive && (

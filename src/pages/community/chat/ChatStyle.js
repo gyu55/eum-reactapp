@@ -230,6 +230,7 @@ export const UserList = styled.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
+  height: 100%;
 `;
 
 export const UserItem = styled.div`
@@ -778,7 +779,7 @@ export const SelectCountBadge = styled.div`
 export const RoomList = styled.div`
   display: flex;
   flex-direction: column;
-  height: 280px;
+  height: 100%;
   overflow-y: auto;
 `;
 

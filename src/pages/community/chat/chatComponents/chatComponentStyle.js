@@ -13,3 +13,12 @@ export const ThumbnailBox = styled.img`
   flex-shrink: 0;
   object-fit: cover;
 `;
+
+export const PopupThumbnailBox = styled.img`
+  width: 30px;
+  height: 30px;
+  border-radius: ${radius.input};
+  background: ${colors.primaryLight};
+  flex-shrink: 0;
+  object-fit: cover;
+`;

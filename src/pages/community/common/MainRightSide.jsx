@@ -4,9 +4,7 @@ import { ColumnBlock } from "../communityStyle";
 import SideUserProfile from "./SideUserProfile copy";
 import SideNotice from "./SideNotice";
 import FloatingChatButton from "./FloatingChatButton";
-import SideChatListComponent from "../chat/chatComponents/SideChatListComponent";
-import SideChatRequestComponent from "../chat/chatComponents/SideChatRequestComponent";
-import SideChatComponent from "../chat/chatComponents/SideChatComponent";
+import SideChat from "../chat/sideChat/SideChat";
 import PopupChatScreen from "../chat/PopupChatScreen";
 import PopupChatRoomSelect from "../chat/PopupChatRoomSelect";
 
@@ -17,49 +15,29 @@ const PopupOverlay = styled.div`
   overflow-y: auto;
 `;
 
-const VIEW = {
-  LIST: "list",
-  REQUEST: "request",
-  ROOM: "room",
+export const VIEW = {
+  SIDE: "side",
   POPUP: "popup",
   POPUP_SELECT: "popupSelect",
 };
 
 const MainRightSide = () => {
   const [view, setView] = useState(null);
-  const [selectedRoom, setSelectedRoom] = useState(null);
 
   // 사이드 채팅 핸들러
-  const handleOpen = () => setView(VIEW.LIST);
+  const handleOpen = () => setView(VIEW.SIDE);
   const handleClose = () => setView(null);
   const handleExpand = () => setView(VIEW.POPUP);
-  const handleTabChange = (tab) =>
-    setView(tab === "request" ? VIEW.REQUEST : VIEW.LIST);
-  const handleRoomClick = (room) => {
-    setSelectedRoom(room);
-    setView(VIEW.ROOM);
-  };
-  const handleMinimizeRoom = () => setView(VIEW.LIST);
-  const handleViewAll = () => setView(VIEW.LIST);
 
   // 팝업 채팅 핸들러
-  const handlePopupMinimize = () => setView(VIEW.LIST);
+  const handlePopupMinimize = () => setView(VIEW.SIDE);
   const handlePopupClose = () => setView(null);
   const handlePopupLeave = () => setView(VIEW.POPUP_SELECT);
 
   // 채팅방 선택 팝업 핸들러
-  const handleSelectMinimize = () => setView(VIEW.LIST);
+  const handleSelectMinimize = () => setView(VIEW.SIDE);
   const handleSelectClose = () => setView(null);
-  const handleSelectRoomClick = (room) => {
-    setSelectedRoom(room);
-    setView(VIEW.POPUP);
-  };
-
-  const sharedProps = {
-    onClose: handleClose,
-    onExpand: handleExpand,
-    onTabChange: handleTabChange,
-  };
+  const handleSelectRoomClick = () => setView(VIEW.POPUP);
 
   return (
     <div>
@@ -67,34 +45,12 @@ const MainRightSide = () => {
         <SideUserProfile />
         <SideNotice />
 
-        {/* 사이드 채팅 패널 */}
-        {view === VIEW.LIST && (
-          <SideChatListComponent
-            {...sharedProps}
-            onMinimize={handleClose}
-            onRoomClick={handleRoomClick}
-          />
-        )}
-        {view === VIEW.REQUEST && (
-          <SideChatRequestComponent
-            {...sharedProps}
-            activeTab="request"
-            onMinimize={handleClose}
-            onRequestClick={() => {}}
-          />
-        )}
-        {view === VIEW.ROOM && (
-          <SideChatComponent
-            chatPartnerName={selectedRoom?.name ?? "ㅇㅇ"}
-            onClose={handleClose}
-            onMinimize={handleMinimizeRoom}
-            onExpand={handleExpand}
-            onViewAll={handleViewAll}
-          />
+        {/* 사이드 채팅 패널 — 내부 뷰(목록·요청·채팅방) 전환은 SideChat 내부에서 관리 */}
+        {view === VIEW.SIDE && (
+          <SideChat onClose={handleClose} onExpand={handleExpand} />
         )}
 
         {/* 플로팅 버튼 — 사이드/팝업이 열려있으면 숨김 */}
-        {/* 해당 플로팅 버튼은 사이드 채팅창 띄우고 줄이는데 목적 */}
         {view === null && <FloatingChatButton onClick={handleOpen} />}
       </ColumnBlock>
 

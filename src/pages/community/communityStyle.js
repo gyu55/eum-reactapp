@@ -254,3 +254,11 @@ export const sideCardStyle = css`
   gap: 16px;
   border-radius: ${RADIUS.card};
 `;
+
+// 구분선 만들기
+export const Divider = styled.hr`
+  width: 100%;
+  border: none;
+  border-top: 1px solid ${theme.GRAYSCALE[8]};
+  margin: 0;
+`;

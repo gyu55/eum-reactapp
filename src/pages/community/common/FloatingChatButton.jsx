@@ -5,16 +5,14 @@
 
 import styled, { keyframes } from "styled-components";
 import theme from "../../../styles/theme";
-import { FONT_FAMILY, RADIUS, SHADOW } from "../constants";
+import { ALPHA, FONT_FAMILY, RADIUS, SHADOW } from "../constants";
+import chatDefaultProfile from "../assets/chat/chat_default_profile.svg";
+import expandImg from "../assets/chat/expand.svg";
+import { h10Bold, h11Medium } from "../../../styles/common";
 
 const { PALETTE, GRADIENT, GRAYSCALE, FONT_SIZE, FONT_WEIGHT } = theme;
-
-const handImg =
-  "https://www.figma.com/api/mcp/asset/b77bc0e6-7f1a-4a2f-b43d-1188a208d7a8";
 const liveDotsImg =
   "https://www.figma.com/api/mcp/asset/73ce8508-8d79-4321-924d-7baff373298a";
-const expandImg =
-  "https://www.figma.com/api/mcp/asset/b6cb417b-7e0e-4f94-84d7-ff59e805b3d1";
 
 const fadeIn = keyframes`
   from { opacity: 0; transform: translateY(8px); }
@@ -50,11 +48,12 @@ const Button = styled.button`
   }
 `;
 
-const HandIcon = styled.img`
+const DefaultProfile = styled.img`
   width: 43px;
   height: 43px;
   flex-shrink: 0;
   object-fit: cover;
+  border-radius: ${RADIUS.smallCard};
 `;
 
 const TextArea = styled.div`
@@ -65,9 +64,7 @@ const TextArea = styled.div`
 `;
 
 const RoomTitle = styled.p`
-  font-family: ${FONT_FAMILY};
-  font-weight: ${FONT_WEIGHT.bold};
-  font-size: ${FONT_SIZE.h10};
+  ${h10Bold}
   color: ${PALETTE.white};
   margin: 0 0 8px 0;
   white-space: nowrap;
@@ -86,19 +83,15 @@ const LiveDot = styled.img`
 `;
 
 const LiveLabel = styled.span`
-  font-family: ${FONT_FAMILY};
-  font-weight: ${FONT_WEIGHT.medium};
-  font-size: ${FONT_SIZE.h11};
+  ${h11Medium}
   color: ${GRAYSCALE[8]};
   margin-left: 6px;
   white-space: nowrap;
 `;
 
 const CountLabel = styled.span`
-  font-family: ${FONT_FAMILY};
-  font-weight: ${FONT_WEIGHT.medium};
-  font-size: ${FONT_SIZE.h11};
   color: ${GRAYSCALE[8]};
+  ${h11Medium}
   margin-left: 10px;
   white-space: nowrap;
 `;
@@ -106,7 +99,9 @@ const CountLabel = styled.span`
 const ExpandIcon = styled.img`
   width: 32px;
   height: 32px;
-  flex-shrink: 0;
+  padding: 8px;
+  border-radius: 6px;
+  background: ${ALPHA.white15};
 `;
 
 const FloatingChatButton = ({
@@ -116,8 +111,10 @@ const FloatingChatButton = ({
 }) => {
   return (
     <Wrapper>
+      {/* 사이드 채팅 창 여는 버튼 개념 */}
       <Button onClick={onClick} aria-label={`${roomName} 열기`}>
-        <HandIcon src={handImg} alt="" />
+        {/* 기본 프로필 */}
+        <DefaultProfile src={chatDefaultProfile} alt="" />
         <TextArea>
           <RoomTitle>{roomName}</RoomTitle>
           <MetaRow>
@@ -126,6 +123,8 @@ const FloatingChatButton = ({
             <CountLabel>{liveCount}</CountLabel>
           </MetaRow>
         </TextArea>
+
+        {/* 확대 아이콘 */}
         <ExpandIcon src={expandImg} alt="" />
       </Button>
     </Wrapper>

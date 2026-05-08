@@ -13,7 +13,7 @@ const UserWritePost = () => {
         <PostListCard />
         <PostListCard />
         <PostListCard />
-        <UserCommentCard />
+        {/* <UserCommentCard /> */}
       </ColumnBlock>
     </div>
   );

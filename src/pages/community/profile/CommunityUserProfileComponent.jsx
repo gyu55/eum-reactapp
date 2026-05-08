@@ -7,6 +7,7 @@ import UserChatRequest from "./UserProfile/UserChatRequest";
 import UserReportBlock from "./UserProfile/UserReportBlock";
 import PostFilterBar from "./UserProfile/PostFilterBar";
 import UserWritePost from "./filter/UserWritePost";
+import UserWriteComment from "./filter/UserWriteComment";
 
 const CommunityUserProfileComponent = () => {
   const { userId } = useParams();
@@ -23,8 +24,12 @@ const CommunityUserProfileComponent = () => {
             {/* 상단 검색바 및 필터 */}
             <PostFilterBar />
 
+            {/* 아래 부분들은 outer 에 들어가야 함 */}
             {/* 유저가 작성한 게시글 목록 컴포넌트 */}
             <UserWritePost />
+
+            {/* 유저가 작성한 댓글 목록 컴포넌트 */}
+            <UserWriteComment />
           </ColumnBlock>
 
           {/* 사이드 영역 */}

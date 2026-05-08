@@ -17,15 +17,16 @@ import {
   TimeText,
   Title,
 } from "./postListCard";
+import postDefaultProfile from "../../assets/post_default_profile.png";
 
 const PostListCard = ({
   postTag = "학습 인증",
   postCreateAt = "방금 전",
   postTitle = "수어에서 감정 표현할 때 표정이 얼마나 중요한가요?",
   postContent = "수어에서 표정과 몸짓이 단어만큼 중요하다고 들었는데 실제로 어느 정도 비중을 두어야 할지 궁금합니다.",
-  postThumbnail = null, // DTO 정의 시 확정
+  postThumbnail = postDefaultProfile, // DTO 정의 시 확정
   userNickname = "수어러버김지민",
-  authorAvatar = null, // DTO 정의 시 확정
+  authorAvatar = "", // DTO 정의 시 확정
   postLikeCount = 42,
   comments = 18, // DTO 정의 시 확정
   postReadCount = 887,

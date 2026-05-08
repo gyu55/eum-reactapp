@@ -230,6 +230,14 @@ const router = createBrowserRouter([
             path: "setting",
             element: <MyPageSettingContainer />
           },
+          {
+            path: "edit",
+            element: <MyPageEditContainer />
+          },
+          {
+            path: "withdraw",
+            element: <MyPageWithdrawContainer />
+          }  
         ]
       },
       {

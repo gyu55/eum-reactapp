@@ -50,6 +50,8 @@ import CustomServiceInquireContainer from "../pages/customservice/inquire/Custom
 import CustomServiceNoticeContainer from "../pages/customservice/notice/CustomServiceNoticeContainer";
 import CustomServicePrivacyContainer from "../pages/customservice/privacy/CustomServicePrivacyContainer";
 import CustomServiceResultContainer from "../pages/customservice/result/CustomServiceResultContainer";
+import MyPageEditContainer from "../pages/mypage/edit/MyPageEditContainer";
+import MyPageWithdrawContainer from "../pages/mypage/withdraw/MyPageWithdrawContainer";
 
 
 const router = createBrowserRouter([
@@ -230,6 +232,14 @@ const router = createBrowserRouter([
             path: "setting",
             element: <MyPageSettingContainer />
           },
+          {
+            path: "edit",
+            element: <MyPageEditContainer />
+          },
+          {
+            path: "withdraw",
+            element: <MyPageWithdrawContainer />
+          }  
         ]
       },
       {

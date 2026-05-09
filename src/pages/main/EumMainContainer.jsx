@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import theme from '../../styles/theme';
 import { height, width } from '@fortawesome/free-solid-svg-icons/fa0';
 import { styles } from './style';
@@ -7,8 +7,77 @@ import { useNavigate } from 'react-router-dom';
 const EumMainContainer = () => {
   
   const navigate = useNavigate();
+  const WordCard = ({ card }) => {
+  const [hovered, setHovered] = useState(false)
 
+  return (
+    <div
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        width: hovered ? '22.08vw' : '16.25vw',
+        height: '21.3vh',
+        backgroundColor: hovered ? theme.PALETTE.fourth.main : theme.PALETTE.white,
+        borderRadius: '20px',
+        border: hovered ? 'none' : `1px solid ${theme.GRAYSCALE[2]}`,
+        padding: '24px',
+        display: 'flex',
+        flexDirection: 'column',
+        transition: 'all 0.3s ease',
+        cursor: 'pointer',
+      }}
+    >
+      <span style={{
+        fontSize: '32px'
+        }}>
+          {card.emoji}
+      </span>
+      <span style={{ 
+        fontSize: theme.FONT_SIZE.h7, 
+        fontWeight: theme.FONT_WEIGHT.bold,
+        color: hovered ? theme.PALETTE.white : theme.PALETTE.black
+        }}>
+          {card.title}
+      </span>
+      <span style={{
+        fontSize: theme.FONT_SIZE.h10, 
+        color: hovered ? theme.PALETTE.white : styles.textGray 
+        }}>
+          {card.sub}
+      </span>
 
+      {!hovered && card.tag && (
+        <span style={{
+          display: 'inline-flex',
+          backgroundColor: styles.backGroundGray,
+          borderRadius: '20px',
+          padding: '2px 10px',
+          fontSize: theme.FONT_SIZE.h11,
+          fontWeight: theme.FONT_WEIGHT.regular,
+          width: 'fit-content',
+        }}>{card.tag}</span>
+      )}
+
+      {hovered && card.desc && (
+        <>
+          <span style={{ fontSize: theme.FONT_SIZE.h11, color: theme.PALETTE.white }}>{card.desc}</span>
+          <button style={{
+            marginTop: 'auto',
+            border: `solid 1px ${theme.PALETTE.white}`,
+            borderRadius: '20px',
+            padding: '6px 14px',
+            fontSize: theme.FONT_SIZE.h10,
+            fontWeight: theme.FONT_WEIGHT.bold,
+            fontLine : theme.FONT_LINE.h10,
+            color : theme.PALETTE.white ,
+            cursor: 'pointer',
+            width: 'fit-content',
+          }}>▶ 영상으로 보기</button>
+        </>
+      )}
+    </div>
+  )
+}
 
   return (
     <>
@@ -548,13 +617,13 @@ const EumMainContainer = () => {
           flexDirection: 'column', 
           alignItems: 'center', 
           paddingTop: '110px' ,
-          gap: '71px',
           }}>
           <span style={{
             fontSize : theme.FONT_SIZE.h5,
             fontWeight : theme.FONT_WEIGHT.bold,
             alignSelf: 'flex-start', 
-            paddingLeft: '370px'
+            paddingLeft: '370px',
+            marginBottom:'71px'
             }}>
               💎 커리큘럼
           </span>
@@ -562,6 +631,7 @@ const EumMainContainer = () => {
             display: 'flex',
             alignItems: 'flex-start',
             width: '670px',
+            marginBottom: '25px'
           }}>
             <div style={{
               display: 'flex',
@@ -581,7 +651,7 @@ const EumMainContainer = () => {
                 fontSize : theme.FONT_SIZE.h7,
                 fontWeight : theme.FONT_WEIGHT.regular,
                 fontLine : theme.FONT_LINE.h7
-              }}>
+                }}>
                 1
               </div>
               <span style={{
@@ -769,11 +839,407 @@ const EumMainContainer = () => {
             </div>
           </div>
 
+          <div style={{
+            width : '1096px',
+            height: '355px',
+            borderRadius:'50px',
+            border:`solid 1px ${theme.PALETTE.primary.main}`,
+            marginBottom : '150px',
+            paddingTop: '35px',
+            paddingLeft: '66px',
+            paddingBottom : '40px',
+            display :'flex',
+            flexDirection :'column',
+          }}>
+            <span style={{
+              fontSize : theme.FONT_SIZE.h7,
+              fontWeight : theme.FONT_WEIGHT.medium,
+              fontLine : theme.FONT_LINE.h7,
+              marginBottom: '14px'
+            }}>
+              이음 커리큘럼 소개
+            </span>
+            <span style={{
+              marginBottom:'10px',
+              fontSize : theme.FONT_SIZE.h4,
+              fontWeight: theme.FONT_WEIGHT.bold,
+              fontLine : theme.FONT_LINE.h4,
+              color : theme.TEXT_COLOR.primary
+              }}>
+                입문부터 자격증까지
+            </span>
+            <span style={{
+              marginBottom : '5px',
+              fontSize : theme.FONT_SIZE.h10,
+              fontWeight : theme.FONT_WEIGHT.regular,
+              fontLine : theme.FONT_LINE.h10,
+              color : theme.PALETTE.black
+              }}>
+                총 5단계 · 50강 · 평균 수료 기간 6개월
+            </span>
+            <div style={{
+              display: 'flex',
+              gap : '9px',
+              fontSize : theme.FONT_SIZE.h10,
+              fontWeight : theme.FONT_WEIGHT.medium,
+              fontLine : theme.FONT_LINE.h10,
+              color : theme.GRAYSCALE[7]
+              }}>
+              <span>#무료시작</span>
+              <span>#단계별학습</span>
+              <span>#라이브참여</span>
+              <span>#자격증</span>
+              <span>#커뮤니티</span>
+            </div>
+            <div style={{
+              display : 'flex',
+              gap : '20px',
+              alignSelf : 'center',
+              marginTop : 'auto'
+            }}>
+              <p style={{
+                width : '200px',
+                height : '60px',
+                borderRadius : '40px',
+                backgroundColor: theme.PALETTE.primary.main,
+                display : 'flex',
+                justifyContent : 'center',
+                textAlign : 'center'
+              }}>
+                <button style={{
+                  color : theme.PALETTE.white,
+                  fontSize : theme.FONT_SIZE.h8,
+                  fontWeight : theme.FONT_WEIGHT.bold,
+                  fontLine : theme.FONT_LINE.h8
+                  }}
+                  onClick={() => navigate('/study/experience')}>
+                  무료로 시작하기 →
+                </button>
+              </p>
+              <p style={{
+                width : '200px',
+                height : '60px',
+                borderRadius : '40px',
+                border : `solid 1px ${theme.PALETTE.primary.main}`,
+                display : 'flex',
+                justifyContent : 'center',
+                textAlign : 'center'
+                }}>
+                <button style={{
+                  color : theme.PALETTE.primary.main,
+                  fontSize : theme.FONT_SIZE.h8,
+                  fontWeight : theme.FONT_WEIGHT.medium,
+                  fontLine : theme.FONT_LINE.h8
+                  }}>
+                  커리큘럼 보기
+                </button>  
+              </p>              
+            </div>
+          </div>
+        </div>
+
+        {/* 이음에서 달라진 이야기들 챕터 */}
+        <div style={{
+          width : '100%',
+          height : '61.85vh',
+          backgroundColor: styles.backGroundGray,
+          display : 'flex',
+          flexDirection : 'column',
+          justifyContent : 'center',
+          textAlign : 'center',
+          paddingTop : '12.04vh',
+          }}>
+          <p style={{
+            display :'flex',
+            flexDirection : 'column',
+            marginBottom : '2.04vh'
+            }}>
+            <span style={{
+              fontSize : theme.FONT_SIZE.h3,
+              fontWeight : theme.FONT_WEIGHT.bold,
+              fontLine : theme.FONT_LINE.h3
+              }}>
+              이음에서 달라진 이야기들
+            </span>
+            <span style={{
+              fontSize : theme.FONT_SIZE.h9,
+              fontWeight : theme.FONT_WEIGHT.light,
+              fontLine : theme.FONT_LINE.h9,
+              color : styles.textGray,
+              marginTop : '2.04vh'
+            }}>
+              42,000명이 이음과 함께 수어를 배웠습니다.
+            </span>
+          </p>
+          <div style = {{
+            display : 'flex',
+            justifyContent : 'center',
+            gap : '1.25vw',
+            marginTop: '4.91vh'
+            }}>
+            {/* 첫번째 카드 */}
+            <p style={{
+              width : '22.08vw',
+              height : '24.07vh',
+              backgroundColor : theme.PALETTE.white,
+              borderRadius : '20px',
+              }}>
+              <div style={{
+                textAlign : 'left',
+                marginTop : '3.7vh',
+                marginLeft : '2.08vw'
+              }}>
+                <img src="/assets/image/main/starIcon.svg" alt="star" />
+                <img src="/assets/image/main/starIcon.svg" alt="star" />
+                <img src="/assets/image/main/starIcon.svg" alt="star" />
+                <img src="/assets/image/main/starIcon.svg" alt="star" />
+                <img src="/assets/image/main/starIcon.svg" alt="star" />
+              </div>
+              <span style = {{
+                display: 'flex',
+                fontSize : theme.FONT_SIZE.h10,
+                fontWeight : theme.FONT_WEIGHT.regular,
+                fontLine : theme.FONT_LINE.h10,
+                textAlign : 'left',
+                marginTop: '1.39vh',
+                marginLeft : '2.08vw'
+                }}>
+                "농인 친구가 생겼을 때 <br />
+                정말 소통하고 싶었는데, <br />
+                이음 덕분에 이제 제법 대화할 수 있게 됐어요."
+              </span>
+              <p style={{
+                display : 'flex',
+                marginTop: '4vh',
+                marginLeft : '2.08vw',
+                gap : '15px'
+                }}>
+                <img style={{
+                display:'flex',
+                width: '2.19vw',
+                height: 'auto',
+                
+                }} src="/assets/image/main/dummyUserProfileImg1.svg"/>
+                <p style={{
+                  display:'flex',
+                  flexDirection:'column', 
+                  textAlign : 'left',
+                  marginTop : '3px'
+                  }}>
+                  <span style={{
+                    fontSize : theme.FONT_SIZE.h11,
+                    fontWeight : theme.FONT_WEIGHT.bold,
+                    fontLine : theme.FONT_LINE.h11
+                    }}>
+                    김지연
+                  </span>
+                  <span style={{
+                    fontSize : theme.FONT_SIZE.h11,
+                    fontWeight : theme.FONT_WEIGHT.regular,
+                    fontLine : theme.FONT_LINE.h11
+                    }}>
+                    초급 수료 · 직장인
+                  </span>
+                </p>
+              </p>
+            </p>
+
+            {/* 두번째 카드 */}
+            <p style={{
+              width : '22.08vw',
+              height : '24.07vh',
+              backgroundColor : theme.PALETTE.white,
+              borderRadius : '20px',
+              }}>
+              <div style={{
+                textAlign : 'left',
+                marginTop : '3.7vh',
+                marginLeft : '2.08vw'
+              }}>
+                <img src="/assets/image/main/starIcon.svg" alt="star" />
+                <img src="/assets/image/main/starIcon.svg" alt="star" />
+                <img src="/assets/image/main/starIcon.svg" alt="star" />
+                <img src="/assets/image/main/starIcon.svg" alt="star" />
+                <img src="/assets/image/main/starIcon.svg" alt="star" />
+              </div>
+              <span style = {{
+                display: 'flex',
+                fontSize : theme.FONT_SIZE.h10,
+                fontWeight : theme.FONT_WEIGHT.regular,
+                fontLine : theme.FONT_LINE.h10,
+                textAlign : 'left',
+                marginTop: '1.39vh',
+                marginLeft : '2.08vw'
+                }}>
+                "수어 통역사 자격증을 준비하면서 <br />
+                이음을 알게 됐어요. <br />
+                한 번에 합격했습니다!"
+              </span>
+              <p style={{
+                display : 'flex',
+                marginTop: '4vh',
+                marginLeft : '2.08vw',
+                gap : '15px'
+                }}>
+                <img style={{
+                display:'flex',
+                width: '2.19vw',
+                height: 'auto',
+                
+                }} src="/assets/image/main/dummyUserProfileImg2.svg"/>
+                <p style={{
+                  display:'flex',
+                  flexDirection:'column', 
+                  textAlign : 'left',
+                  marginTop : '3px'
+                  }}>
+                  <span style={{
+                    fontSize : theme.FONT_SIZE.h11,
+                    fontWeight : theme.FONT_WEIGHT.bold,
+                    fontLine : theme.FONT_LINE.h11
+                    }}>
+                    박정우
+                  </span>
+                  <span style={{
+                    fontSize : theme.FONT_SIZE.h11,
+                    fontWeight : theme.FONT_WEIGHT.regular,
+                    fontLine : theme.FONT_LINE.h11
+                    }}>
+                    자격증 취득 · 대학생
+                  </span>
+                </p>
+              </p>
+            </p>
+
+            {/* 세번째 카드 */}
+            <p style={{
+              width : '22.08vw',
+              height : '24.07vh',
+              backgroundColor : theme.PALETTE.white,
+              borderRadius : '20px',
+              }}>
+              <div style={{
+                textAlign : 'left',
+                marginTop : '3.7vh',
+                marginLeft : '2.08vw'
+              }}>
+                <img src="/assets/image/main/starIcon.svg" alt="star" />
+                <img src="/assets/image/main/starIcon.svg" alt="star" />
+                <img src="/assets/image/main/starIcon.svg" alt="star" />
+                <img src="/assets/image/main/starIcon.svg" alt="star" />
+                <img src="/assets/image/main/starIcon.svg" alt="star" />
+              </div>
+              <span style = {{
+                display: 'flex',
+                fontSize : theme.FONT_SIZE.h10,
+                fontWeight : theme.FONT_WEIGHT.regular,
+                fontLine : theme.FONT_LINE.h10,
+                textAlign : 'left',
+                marginTop: '1.39vh',
+                marginLeft : '2.08vw'
+                }}>
+                "매일 퀴즈로 습관을 만들 수 있어서 좋아요. <br />
+                수어가 즐거운 일상이 됐습니다."
+              </span>
+              <p style={{
+                display : 'flex',
+                marginTop: '6vh',
+                marginLeft : '2.08vw',
+                gap : '15px'
+                }}>
+                <img style={{
+                display:'flex',
+                width: '2.19vw',
+                height: 'auto',
+                
+                }} src="/assets/image/main/dummyUserProfileImg3.svg"/>
+                <p style={{
+                  display:'flex',
+                  flexDirection:'column', 
+                  textAlign : 'left',
+                  marginTop : '3px'
+                  }}>
+                  <span style={{
+                    fontSize : theme.FONT_SIZE.h11,
+                    fontWeight : theme.FONT_WEIGHT.bold,
+                    fontLine : theme.FONT_LINE.h11
+                    }}>
+                    이수아
+                  </span>
+                  <span style={{
+                    fontSize : theme.FONT_SIZE.h11,
+                    fontWeight : theme.FONT_WEIGHT.regular,
+                    fontLine : theme.FONT_LINE.h11
+                    }}>
+                    입문 수료· 주부
+                  </span>
+                </p>
+              </p>
+            </p>
+          </div>
 
         </div>
+
+        {/* 매일 새로운 수어 단어 하나씩 챕터 */}
+        <div >
+          <p style={{ 
+          display: 'flex', 
+          alignItems: 'center', 
+          paddingTop: '110px' ,
+          gap:'3px'
+          }}>
+            <span style={{
+              fontSize : theme.FONT_SIZE.h5,
+              fontWeight : theme.FONT_WEIGHT.bold,
+              alignSelf: 'flex-start', 
+              paddingLeft: '370px',
+              }}>
+              매일 새로운
+            </span>
+
+            <span style = {{
+              display : 'flex',
+              fontSize : theme.FONT_SIZE.h5,
+              fontWeight : theme.FONT_WEIGHT.bold,
+              color : theme.PALETTE.primary.main
+              }}>
+              수어 단어
+            </span>
+
+            <span style = {{
+              fontSize : theme.FONT_SIZE.h5,
+              fontWeight : theme.FONT_WEIGHT.bold,
+              }}>
+              하나씩
+            </span>
+          </p>
+          {/* 오늘의 수어 카드 섹션 */}
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent : 'center',
+            gap: '1.25vw',
+            marginTop: '5vh',
+            
+            }}>
+            {[
+              { emoji: '🙏', title: '감사합니다', sub: 'Thank you', desc: '두 손을 모아 공손하게 감사의 뜻을 전합니다', tag: '예의표현' },
+              { emoji: '👋', title: '안녕하세요', sub: 'Hello / Good morning', desc: '한 손을 들어 가볍게 흔들며 인사합니다', tag: '인사' },
+              { emoji: '👍', title: '사랑해', sub: 'I love you', desc: '엄지, 검지, 소지를 펴고 흔드는 동작으로 표현합니다', tag: '애정표현' },
+            ].map((card, index) => (
+              <WordCard key={index} card={card} />
+            ))}
+          </div>
+        </div>
+        <div>
+
+        </div>
+
+
+
+
       </div>
     </>
   );
 };
-
 export default EumMainContainer;

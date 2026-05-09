@@ -2,12 +2,13 @@ import React from "react";
 import styled from "styled-components";
 import Card from "./Card";
 import theme from "../../../styles/theme";
+import { useNavigate } from "react-router-dom";
 
 const { PALETTE, GRAYSCALE, TEXT_COLOR, FONT_SIZE, FONT_WEIGHT } = theme;
 
 /* 카드 전체 */
 const Wrapper = styled(Card)`
-  width: 984px;
+  width: 988px;
   height: 191px;
   padding: 28px 32px;
   display: flex;
@@ -50,6 +51,15 @@ const UserName = styled.span`
   color: ${TEXT_COLOR.basic};
 `;
 
+/* 레벨 클릭 영역 */
+const LevelButton = styled.button`
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+`;
+
+/* 레벨 뱃지 */
 const LevelBadge = styled.span`
   width: 34px;
   height: 19px;
@@ -71,6 +81,14 @@ const ExpRow = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
+`;
+
+/* 경험치 클릭 영역 */
+const ExpButton = styled.button`
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
 `;
 
 const ExpBar = styled.div`
@@ -141,10 +159,17 @@ const EditButton = styled.button`
   color: ${PALETTE.primary.main};
 `;
 
+
 /*
   - 프로필 이미지, 이름, 레벨, 경험치, 개인정보는 백엔드 유저 API 연동 필요
 */
-const ProfileCard = () => {
+const ProfileCard = ({ onLevelClick }) => {
+  const navigate = useNavigate();
+
+  const handleEditClick = () => {
+    navigate("/mypage/edit");
+  };
+
   return (
     <Wrapper>
       <ProfileImage />
@@ -152,14 +177,22 @@ const ProfileCard = () => {
       <Content>
         <NameRow>
           <UserName>홍길동</UserName>
-          <LevelBadge>Lv.7</LevelBadge>
+
+          <LevelButton type="button" onClick={onLevelClick}>
+            <LevelBadge>Lv.7</LevelBadge>
+          </LevelButton>
         </NameRow>
 
         <ExpRow>
-          <ExpBar>
-            <ExpFill />
-          </ExpBar>
-          <ExpText>40 / 240 EXP</ExpText>
+          <ExpButton type="button" onClick={onLevelClick}>
+            <ExpBar>
+              <ExpFill />
+            </ExpBar>
+          </ExpButton>
+
+          <ExpButton type="button" onClick={onLevelClick}>
+            <ExpText>40 / 240 EXP</ExpText>
+          </ExpButton>
         </ExpRow>
 
         <DetailArea>
@@ -195,7 +228,9 @@ const ProfileCard = () => {
         </DetailArea>
       </Content>
 
-      <EditButton>정보수정하기</EditButton>
+      <EditButton type="button" onClick={handleEditClick}>
+        정보수정하기
+      </EditButton>
     </Wrapper>
   );
 };

@@ -20,6 +20,8 @@ export const ChatProvider = ({ children }) => {
   const [view, setView] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [sideInitialType, setSideInitialType] = useState(TYPE.LIST);
+  const [popupSelectInitialFilter, setPopupSelectInitialFilter] =
+    useState("라이브 채팅방");
 
   useEffect(() => {
     // TODO: API 연결 시 아래 mock을 실제 쿼리로 교체
@@ -58,7 +60,14 @@ export const ChatProvider = ({ children }) => {
 
   // 사이드 채팅 확대 → 현재 사이드 type에 따라 팝업 화면 분기
   const expandFromSide = useCallback((sideType) => {
-    setView(sideType === TYPE.ROOM ? VIEW.POPUP : VIEW.POPUP_SELECT);
+    if (sideType === TYPE.ROOM) {
+      setView(VIEW.POPUP);
+    } else {
+      setPopupSelectInitialFilter(
+        sideType === TYPE.REQUEST ? "요청" : "라이브 채팅방",
+      );
+      setView(VIEW.POPUP_SELECT);
+    }
   }, []);
 
   // 팝업에서 "나가기" → 채팅방 선택 화면
@@ -90,6 +99,7 @@ export const ChatProvider = ({ children }) => {
         view,
         isLoading,
         sideInitialType,
+        popupSelectInitialFilter,
         openChatRoom,
         minimizeChat,
         closeChat,

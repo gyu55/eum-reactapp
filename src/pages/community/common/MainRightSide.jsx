@@ -22,6 +22,7 @@ const MainRightSide = () => {
     view,
     isLoading,
     sideInitialType,
+    popupSelectInitialFilter,
     reopenChat,
     expandFromSide,
     minimizeChat,
@@ -73,6 +74,7 @@ const MainRightSide = () => {
       {view === VIEW.POPUP_SELECT && (
         <PopupOverlay>
           <PopupChatRoomSelect
+            initialFilter={popupSelectInitialFilter}
             onMinimize={handleSelectMinimize}
             onClose={handleSelectClose}
             onRoomSelect={handleSelectRoom}

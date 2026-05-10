@@ -62,7 +62,12 @@ const REQUEST_USERS = [
   { id: 3, name: "ㅇㅇㅇ님" },
 ];
 
-const PopupChatRoomSelect = ({ onMinimize, onClose, onRoomSelect }) => (
+const PopupChatRoomSelect = ({
+  initialFilter,
+  onMinimize,
+  onClose,
+  onRoomSelect,
+}) => (
   <SelectPageBg>
     <SelectPopup>
       <SelectHeader>
@@ -82,6 +87,7 @@ const PopupChatRoomSelect = ({ onMinimize, onClose, onRoomSelect }) => (
           liveRooms={LIVE_ROOMS}
           followUsers={FOLLOW_USERS}
           requestUsers={REQUEST_USERS}
+          initialFilter={initialFilter}
           onRoomSelect={onRoomSelect}
         />
         <SelectOngoingPanel rooms={ONGOING_ROOMS} />

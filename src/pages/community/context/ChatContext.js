@@ -1,8 +1,15 @@
-import { createContext, useCallback, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 
 export const VIEW = {
   POPUP: "popup",
   POPUP_SELECT: "popupSelect",
+  SIDE: "side",
 };
 
 const ChatContext = createContext(null);
@@ -25,8 +32,13 @@ export const ChatProvider = ({ children }) => {
     setView(VIEW.POPUP);
   }, []);
 
-  // 팝업 최소화 → 플로팅 버튼 표시 (activeChatRoom 유지)
+  // 팝업 최소화 → 사이드 채팅 표시 (activeChatRoom 유지)
   const minimizeChat = useCallback(() => {
+    setView(VIEW.SIDE);
+  }, []);
+
+  // 사이드 채팅 닫기 → 플로팅 버튼 표시 (activeChatRoom 유지)
+  const closeSideChat = useCallback(() => {
     setView(null);
   }, []);
 
@@ -71,6 +83,7 @@ export const ChatProvider = ({ children }) => {
         openChatRoom,
         minimizeChat,
         closeChat,
+        closeSideChat,
         reopenChat,
         handleLeave,
         handleSelectRoom,
@@ -85,6 +98,9 @@ export const ChatProvider = ({ children }) => {
 
 export const useChatContext = () => {
   const ctx = useContext(ChatContext);
-  if (!ctx) throw new Error("useChatContext는 ChatProvider 내부에서만 사용할 수 있습니다.");
+  if (!ctx)
+    throw new Error(
+      "useChatContext는 ChatProvider 내부에서만 사용할 수 있습니다.",
+    );
   return ctx;
 };

@@ -6,6 +6,7 @@ import SideNotice from "./SideNotice";
 import FloatingChatButton from "./FloatingChatButton";
 import PopupChatScreen from "../chat/PopupChatScreen";
 import PopupChatRoomSelect from "../chat/PopupChatRoomSelect";
+import SideChat from "../chat/sideChat/SideChat";
 import { useChatContext, VIEW } from "../context/ChatContext";
 
 const PopupOverlay = styled.div`
@@ -23,6 +24,7 @@ const MainRightSide = () => {
     reopenChat,
     minimizeChat,
     closeChat,
+    closeSideChat,
     handleLeave,
     handleSelectRoom,
     handleSelectMinimize,
@@ -44,6 +46,11 @@ const MainRightSide = () => {
           />
         )}
       </ColumnBlock>
+
+      {/* 사이드 채팅 — 팝업 축소 시 표시 */}
+      {view === VIEW.SIDE && (
+        <SideChat onClose={closeSideChat} onExpand={reopenChat} />
+      )}
 
       {/* 팝업 채팅 화면 — position: fixed 오버레이 */}
       {view === VIEW.POPUP && (

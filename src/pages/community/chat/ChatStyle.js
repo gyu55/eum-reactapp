@@ -27,7 +27,9 @@ export const ORANGE_DARK = "#92400e";
 export const PageBg = styled.div`
   background: ${colors.bgPopupOverlay};
   min-height: 100vh;
-  ${flexCenterRow}
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
   padding: 73px 0 40px;
 `;
 
@@ -230,6 +232,7 @@ export const UserList = styled.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
+  height: 100%;
 `;
 
 export const UserItem = styled.div`
@@ -778,7 +781,7 @@ export const SelectCountBadge = styled.div`
 export const RoomList = styled.div`
   display: flex;
   flex-direction: column;
-  height: 280px;
+  height: 100%;
   overflow-y: auto;
 `;
 

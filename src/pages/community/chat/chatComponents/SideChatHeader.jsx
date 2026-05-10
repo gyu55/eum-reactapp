@@ -1,10 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 import { colors } from "../../constants";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faExpand, faMinus, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { h11Bold } from "../../../../styles/common";
 import { TYPE } from "../../constants";
+import minusIcon from "../../assets/chat/minus_icon.svg";
+import expandIcon from "../../assets/chat/expand.svg";
+import closeIcon from "../../assets/chat/close_icon.svg";
 
 const Header = styled.div`
   background: ${colors.gradientMain};
@@ -83,13 +84,13 @@ const SideChatHeader = ({
         )}
         <ButtonGroup>
           <HeaderBtn onClick={onMinimize} aria-label="최소화">
-            <FontAwesomeIcon icon={faMinus} />
+            <img src={minusIcon} alt="최소화" />
           </HeaderBtn>
           <HeaderBtn onClick={onExpand} aria-label="확대">
-            <FontAwesomeIcon icon={faExpand} />
+            <img src={expandIcon} alt="확대" width={10} height={10} />
           </HeaderBtn>
           <CloseBtn onClick={onClose} aria-label="닫기">
-            <FontAwesomeIcon icon={faXmark} />
+            <img src={closeIcon} alt="닫기" />
           </CloseBtn>
         </ButtonGroup>
       </Header>

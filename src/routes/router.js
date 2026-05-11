@@ -85,16 +85,18 @@ const router = createBrowserRouter([
             element: <ReceiptContainer />,
             children: [
               {
-                path : "info",
-                element : <ReceiptInfoContainer />
-              },
-              {
-                path : "submit",
-                element : <ReceiptSubmitContainer />
-              },
-              {
-                path : "confirm",
-                element : <ReceiptConfirmContainer />
+                path: "info",
+                element: <ReceiptInfoContainer />,
+                children: [
+                  {
+                    path: "submit",
+                    element: <ReceiptSubmitContainer />
+                  },
+                  {
+                    path: "confirm",
+                    element: <ReceiptConfirmContainer />
+                  },
+                ]
               },
             ]
           },

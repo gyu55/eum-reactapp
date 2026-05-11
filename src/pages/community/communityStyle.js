@@ -22,7 +22,7 @@ export const communityBorderRadius = css`
 // 가장 상위 메인
 export const Page = styled.div`
   background: ${theme.GRAYSCALE[10]};
-  min-width: 1920px;
+  /* min-width: 1920px; */
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -253,4 +253,12 @@ export const sideCardStyle = css`
   padding-bottom: 16px;
   gap: 16px;
   border-radius: ${RADIUS.card};
+`;
+
+// 구분선 만들기
+export const Divider = styled.hr`
+  width: 100%;
+  border: none;
+  border-top: 1px solid ${theme.GRAYSCALE[8]};
+  margin: 0;
 `;

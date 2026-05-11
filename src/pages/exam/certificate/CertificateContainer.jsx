@@ -1,14 +1,5 @@
-import React from 'react';
-import CertificateComponent from './CertificateComponent';
-import { Outlet } from 'react-router-dom';
+import Certificate from './Certificate';
 
-const CertificateContainer = () => {
-  return (
-    <>
-      <CertificateComponent />
-      <Outlet />
-    </>
-  );
-};
+const CertificateContainer = () => <Certificate />;
 
 export default CertificateContainer;

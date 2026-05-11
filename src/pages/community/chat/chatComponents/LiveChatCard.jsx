@@ -3,6 +3,7 @@ import theme from "../../../../styles/theme";
 import {
   communityBorderRadius,
   communitySideWidth,
+  Divider,
   flexStartColumn,
   hoverStyle,
 } from "../../communityStyle";
@@ -70,13 +71,6 @@ const InfoArea = styled.div`
 const RoomTitle = styled(H7Medium)`
   margin: 0;
   line-height: 1;
-`;
-
-const Divider = styled.hr`
-  width: 100%;
-  border: none;
-  border-top: 1px solid ${theme.GRAYSCALE[8]};
-  margin: 0;
 `;
 
 const BottomRow = styled.div`

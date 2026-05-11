@@ -1,15 +1,5 @@
-import React from 'react';
-import ResultsComponent from './ResultsComponent';
-import { Outlet } from 'react-router-dom';
+import Results from './Results';
 
-const ResultsContainer = () => {
-  return (
-    <div>
-      합격자 발표
-      <ResultsComponent />
-      <Outlet />
-    </div>
-  );
-};
+const ResultsContainer = () => <Results />;
 
 export default ResultsContainer;

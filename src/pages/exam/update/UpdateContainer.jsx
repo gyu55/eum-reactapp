@@ -1,14 +1,5 @@
-import React from 'react';
-import UpdateComponent from './UpdateComponent';
-import { Outlet } from 'react-router-dom';
+import Update from './Update';
 
-const UpdateContainer = () => {
-  return (
-    <div>
-      <UpdateComponent />
-      <Outlet />
-    </div>
-  );
-};
+const UpdateContainer = () => <Update />;
 
 export default UpdateContainer;

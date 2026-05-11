@@ -2,6 +2,7 @@ import styled from "styled-components";
 import theme from "../../../../../styles/theme";
 import { h10Bold, h11Bold, h11Regular } from "../../../../../styles/common";
 
+// 커뮤니티 규칙 및 포스트 가이드 들 스타일
 export const SideCard = styled.div`
   background: ${theme.PALETTE.white};
   border-radius: 20px;

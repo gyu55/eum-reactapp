@@ -1,11 +1,8 @@
 import React from 'react';
+import ReceiptInfo from './ReceiptInfo';
 
 const ReceiptInfoContainer = () => {
-    return (
-        <div>
-            접수 정보 페이지
-        </div>
-    );
+    return <ReceiptInfo />;
 };
 
 export default ReceiptInfoContainer;

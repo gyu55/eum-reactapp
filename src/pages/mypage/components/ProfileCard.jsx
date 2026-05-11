@@ -1,167 +1,29 @@
 import React from "react";
-import styled from "styled-components";
-import Card from "./Card";
-import theme from "../../../styles/theme";
 import { useNavigate } from "react-router-dom";
 
-const { PALETTE, GRAYSCALE, TEXT_COLOR, FONT_SIZE, FONT_WEIGHT } = theme;
-
-/* 카드 전체 */
-const Wrapper = styled(Card)`
-  width: 988px;
-  height: 191px;
-  padding: 28px 32px;
-  display: flex;
-  gap: 24px;
-  position: relative;
-`;
-
-/* 프로필 이미지 */
-const ProfileImage = styled.div`
-  width: 68px;
-  height: 68px;
-  border-radius: 16px;
-  background: ${GRAYSCALE[2]};
-  overflow: hidden;
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-`;
-
-/* 오른쪽 정보 영역 */
-const Content = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-`;
-
-/* 이름 + 레벨 */
-const NameRow = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 10px;
-`;
-
-const UserName = styled.span`
-  font-size: 18px;
-  font-weight: ${FONT_WEIGHT.bold};
-  color: ${TEXT_COLOR.basic};
-`;
-
-/* 레벨 클릭 영역 */
-const LevelButton = styled.button`
-  padding: 0;
-  border: none;
-  background: none;
-  cursor: pointer;
-`;
-
-/* 레벨 뱃지 */
-const LevelBadge = styled.span`
-  width: 34px;
-  height: 19px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  border-radius: 999px;
-  background: ${PALETTE.primary.extraLight};
-
-  font-size: 11px;
-  font-weight: ${FONT_WEIGHT.bold};
-  color: ${PALETTE.primary.main};
-`;
-
-/* 경험치 */
-const ExpRow = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 10px;
-`;
-
-/* 경험치 클릭 영역 */
-const ExpButton = styled.button`
-  padding: 0;
-  border: none;
-  background: none;
-  cursor: pointer;
-`;
-
-const ExpBar = styled.div`
-  width: 131px;
-  height: 7px;
-  border-radius: 999px;
-  background: ${GRAYSCALE[8]};
-  overflow: hidden;
-`;
-
-const ExpFill = styled.div`
-  width: 24%;
-  height: 100%;
-  background: ${PALETTE.primary.main};
-`;
-
-const ExpText = styled.span`
-  width: 55px;
-  font-size: 8px;
-  font-weight: ${FONT_WEIGHT.regular};
-  color: ${TEXT_COLOR.basic};
-`;
-
-/* 개인정보 영역 */
-const DetailArea = styled.div`
-  display: flex;
-  gap: 72px;
-`;
-
-const Column = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-`;
-
-const Row = styled.div`
-  display: flex;
-  gap: 10px;
-`;
-
-const Label = styled.span`
-  font-size: ${FONT_SIZE.h11};
-  font-weight: ${FONT_WEIGHT.regular};
-  color: ${GRAYSCALE[9]};
-`;
-
-const Value = styled.span`
-  font-size: ${FONT_SIZE.h11};
-  font-weight: ${FONT_WEIGHT.regular};
-  color: ${TEXT_COLOR.basic};
-`;
-
-/* 수정 버튼 */
-const EditButton = styled.button`
-  position: absolute;
-  top: 28px;
-  right: 32px;
-
-  height: 36px;
-  padding: 0 14px;
-
-  border: 1px solid ${PALETTE.primary.main};
-  border-radius: 8px;
-  background: ${PALETTE.white};
-
-  font-size: 13px;
-  font-weight: ${FONT_WEIGHT.bold};
-  color: ${PALETTE.primary.main};
-`;
-
+import {
+  ProfileWrapper,
+  ProfileImage,
+  ProfileContent,
+  ProfileNameRow,
+  ProfileUserName,
+  LevelButton,
+  LevelBadge,
+  ExpRow,
+  ExpButton,
+  ExpBar,
+  ExpFill,
+  ExpText,
+  DetailArea,
+  ProfileColumn,
+  ProfileRow,
+  ProfileLabel,
+  ProfileValue,
+  EditButton,
+} from "./style";
 
 /*
-  - 프로필 이미지, 이름, 레벨, 경험치, 개인정보는 백엔드 유저 API 연동 필요
+  프로필 정보는 유저 API 연동 필요
 */
 const ProfileCard = ({ onLevelClick }) => {
   const navigate = useNavigate();
@@ -171,17 +33,17 @@ const ProfileCard = ({ onLevelClick }) => {
   };
 
   return (
-    <Wrapper>
+    <ProfileWrapper>
       <ProfileImage />
 
-      <Content>
-        <NameRow>
-          <UserName>홍길동</UserName>
+      <ProfileContent>
+        <ProfileNameRow>
+          <ProfileUserName>홍길동</ProfileUserName>
 
           <LevelButton type="button" onClick={onLevelClick}>
             <LevelBadge>Lv.7</LevelBadge>
           </LevelButton>
-        </NameRow>
+        </ProfileNameRow>
 
         <ExpRow>
           <ExpButton type="button" onClick={onLevelClick}>
@@ -196,42 +58,42 @@ const ProfileCard = ({ onLevelClick }) => {
         </ExpRow>
 
         <DetailArea>
-          <Column>
-            <Row>
-              <Label>이메일</Label>
-              <Value>user123@gmail.com</Value>
-            </Row>
-            <Row>
-              <Label>닉네임</Label>
-              <Value>수어마스터홍길동</Value>
-            </Row>
-            <Row>
-              <Label>직업</Label>
-              <Value>학생</Value>
-            </Row>
-          </Column>
+          <ProfileColumn>
+            <ProfileRow>
+              <ProfileLabel>이메일</ProfileLabel>
+              <ProfileValue>user123@gmail.com</ProfileValue>
+            </ProfileRow>
+            <ProfileRow>
+              <ProfileLabel>닉네임</ProfileLabel>
+              <ProfileValue>수어마스터홍길동</ProfileValue>
+            </ProfileRow>
+            <ProfileRow>
+              <ProfileLabel>직업</ProfileLabel>
+              <ProfileValue>학생</ProfileValue>
+            </ProfileRow>
+          </ProfileColumn>
 
-          <Column>
-            <Row>
-              <Label>가입일</Label>
-              <Value>2025-01-15</Value>
-            </Row>
-            <Row>
-              <Label>지역</Label>
-              <Value>서울</Value>
-            </Row>
-            <Row>
-              <Label>최근 접속</Label>
-              <Value>2025-03-08</Value>
-            </Row>
-          </Column>
+          <ProfileColumn>
+            <ProfileRow>
+              <ProfileLabel>가입일</ProfileLabel>
+              <ProfileValue>2025-01-15</ProfileValue>
+            </ProfileRow>
+            <ProfileRow>
+              <ProfileLabel>지역</ProfileLabel>
+              <ProfileValue>서울</ProfileValue>
+            </ProfileRow>
+            <ProfileRow>
+              <ProfileLabel>최근 접속</ProfileLabel>
+              <ProfileValue>2025-03-08</ProfileValue>
+            </ProfileRow>
+          </ProfileColumn>
         </DetailArea>
-      </Content>
+      </ProfileContent>
 
       <EditButton type="button" onClick={handleEditClick}>
         정보수정하기
       </EditButton>
-    </Wrapper>
+    </ProfileWrapper>
   );
 };
 

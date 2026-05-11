@@ -4,7 +4,7 @@ import { LAYOUT, TAG_ON_PRIMARY } from "../../constants";
 import PostContent from "./detailComponent/PostContent";
 import FloatingChatButton from "../../common/FloatingChatButton";
 import PostSidebar from "./sidebar/PostSidebar";
-import { ColumnBlock, ContentArea, Page } from "../../communityStyle";
+import S from "../../communityStyle";
 import { h11Regular } from "../../../../styles/common";
 import {
   BreadcrumbBar,
@@ -44,7 +44,7 @@ const PostDetailPage = () => {
 
   return (
     // 페이지
-    <Page>
+    <S.Page>
       {/* 좌측 9개, 우측 3개 로 나누는 레이아웃 */}
       <BreadcrumbBar>
         <Crumb>홈</Crumb>
@@ -57,11 +57,11 @@ const PostDetailPage = () => {
           수어 알파벳 완전 마스터! 1달 열공 후기 남깁니다 🙌
         </Crumb>
       </BreadcrumbBar>
-      <ContentArea>
+      <S.ContentArea>
         {/* 좌측 9개 메인 영역 */}
         {/* 헤더 만들기 */}
 
-        <ColumnBlock>
+        <S.ColumnBlock>
           {/* 헤더 */}
           <PostHeader>
             <CategoryTag>{postDataDTO.category}</CategoryTag>
@@ -77,14 +77,14 @@ const PostDetailPage = () => {
           </PostBodyWrapper>
           {/* <PostContent /> */}
           {/* <CommentSection /> */}
-        </ColumnBlock>
+        </S.ColumnBlock>
 
         {/* 우측 3개 사이드 바 영역 */}
         <PostSidebar />
-      </ContentArea>
+      </S.ContentArea>
 
       <FloatingChatButton />
-    </Page>
+    </S.Page>
   );
 };
 

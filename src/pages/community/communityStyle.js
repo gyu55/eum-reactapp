@@ -17,109 +17,6 @@ export const communityBorderRadius = css`
   border-radius: 20px;
 `;
 
-// 커뮤니티 에서 좌측 9개, 우측 3 개로 나누는 과정을 위한 Page
-/* ══ Page ══ */
-// 가장 상위 메인
-export const Page = styled.div`
-  background: ${theme.GRAYSCALE[10]};
-  /* min-width: 1920px; */
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: start;
-  align-items: center;
-`;
-
-/* ══ Content Area ══ */
-// 해당 영역은 좌측에는 메인, 우측에는 사이드 레이아웃이 있는 구조
-export const ContentArea = styled.main`
-  width: 1320px;
-  flex: 1;
-  /* padding: 24px 300px 60px; */
-  display: flex;
-  align-items: start;
-  gap: 24px;
-  box-sizing: border-box;
-`;
-
-/* ══ Left Block ══ */
-// export const LeftBlock = styled.div`
-//   width: 984px;
-//   display: flex;
-//   flex-direction: column;
-//   align-items: flex-end;
-//   gap: 24px;
-// `;
-
-// export const LeftBlock = styled.div`
-//   width: 984px;
-//   display: flex;
-//   flex-direction: ${({ wrap }) => (wrap ? "row" : "column")};
-//   ${({ wrap }) => wrap && `flex-wrap: wrap;`}
-//   align-items: flex-end;
-//   gap: 24px;
-// `;
-
-export const LeftBlock = styled.div`
-  width: 984px;
-  display: flex;
-  flex-direction: ${({ wrap }) => (wrap ? "row" : "column")};
-  ${({ wrap }) => wrap && `flex-wrap: wrap;`}
-  align-items: flex-end;
-  gap: ${({ spaceBetween }) => (spaceBetween ? "0" : "24px")};
-  justify-content: ${({ spaceBetween }) =>
-    spaceBetween ? "space-between" : "flex-start"};
-  margin-top: ${({ marginTop }) => marginTop || 0}px;
-`;
-
-export const ColumnBlock = styled.div`
-  width: ${({ width }) => width || "984px"};
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  justify-content: ${({ justifyContent }) => justifyContent || "flex-start"};
-  gap: ${({ gap }) => gap || "24px"};
-  margin-top: ${({ marginTop }) => marginTop || "0px"};
-`;
-
-export const RowBlock = styled.div`
-  width: ${({ width }) => width || "984px"};
-  display: flex;
-  flex-direction: row;
-  flex-wrap: ${({ flexWrap }) => flexWrap || "nowrap"};
-  align-items: flex-end;
-  justify-content: ${({ justifyContent }) => justifyContent || "flex-start"};
-  gap: ${({ gap }) => gap || "24px"};
-  margin-top: ${({ marginTop }) => marginTop || "0px"};
-`;
-
-// 카드 종류를 간단하게 크기를 맞춰서 하는 것
-export const RowSimpleBlock = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: flex-end;
-  gap: ${({ gap }) => gap || "24px"};
-`;
-
-// 너비 고정 없이 row 배치 — 카드 내부 레이아웃 용
-export const FlexRow = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: ${({ alignItems }) => alignItems || "center"};
-  justify-content: ${({ justifyContent }) => justifyContent || "flex-start"};
-  gap: ${({ gap }) => gap || "0px"};
-  margin-top: ${({ marginTop }) => marginTop || "0px"};
-`;
-
-// column 으로 24px 간격 으로 리스트 하는 개념
-export const CardList = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 24px;
-`;
-
 // 마우스를 카드 에 올렸을 때 상호작용 할 요소
 export const hoverStyle = css`
   cursor: pointer;
@@ -150,8 +47,6 @@ export const flexBetweenTopRow = css`
   flex-direction: row;
 `;
 
-// 가운데 정렬 할 수 있도록 하기
-
 // 텍스트 필드 스타일 정의
 export const textFieldStyle = css`
   width: 100%;
@@ -173,8 +68,116 @@ export const textFieldStyle = css`
   }
 `;
 
+// 메인 사이드 에서 공지사항 및 유저 프로필 공통 속성
+export const sideComponentStyle = css`
+  padding: 8px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-radius: ${RADIUS.smallCard};
+`;
+
+// 제목 등 스타일
+export const sideHeaderStyle = css`
+  padding-right: 10px;
+  padding-left: 10px;
+`;
+
+// 사이드 카드 속성
+export const sideCardStyle = css`
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 16px;
+  padding-bottom: 16px;
+  gap: 16px;
+  border-radius: ${RADIUS.card};
+`;
+
+/* ══ Styled Components (S 네임스페이스) ══ */
+
+// 커뮤니티 에서 좌측 9개, 우측 3 개로 나누는 과정을 위한 Page
+const Page = styled.div`
+  background: ${theme.GRAYSCALE[10]};
+  /* min-width: 1920px; */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+`;
+
+// 해당 영역은 좌측에는 메인, 우측에는 사이드 레이아웃이 있는 구조
+const ContentArea = styled.main`
+  width: 1320px;
+  flex: 1;
+  /* padding: 24px 300px 60px; */
+  display: flex;
+  align-items: start;
+  gap: 24px;
+  box-sizing: border-box;
+`;
+
+const LeftBlock = styled.div`
+  width: 984px;
+  display: flex;
+  flex-direction: ${({ wrap }) => (wrap ? "row" : "column")};
+  ${({ wrap }) => wrap && `flex-wrap: wrap;`}
+  align-items: flex-end;
+  gap: ${({ spaceBetween }) => (spaceBetween ? "0" : "24px")};
+  justify-content: ${({ spaceBetween }) =>
+    spaceBetween ? "space-between" : "flex-start"};
+  margin-top: ${({ marginTop }) => marginTop || 0}px;
+`;
+
+const ColumnBlock = styled.div`
+  width: ${({ width }) => width || "984px"};
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: ${({ justifyContent }) => justifyContent || "flex-start"};
+  gap: ${({ gap }) => gap || "24px"};
+  margin-top: ${({ marginTop }) => marginTop || "0px"};
+`;
+
+const RowBlock = styled.div`
+  width: ${({ width }) => width || "984px"};
+  display: flex;
+  flex-direction: row;
+  flex-wrap: ${({ flexWrap }) => flexWrap || "nowrap"};
+  align-items: flex-end;
+  justify-content: ${({ justifyContent }) => justifyContent || "flex-start"};
+  gap: ${({ gap }) => gap || "24px"};
+  margin-top: ${({ marginTop }) => marginTop || "0px"};
+`;
+
+// 카드 종류를 간단하게 크기를 맞춰서 하는 것
+const RowSimpleBlock = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  gap: ${({ gap }) => gap || "24px"};
+`;
+
+// 너비 고정 없이 row 배치 — 카드 내부 레이아웃 용
+const FlexRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: ${({ alignItems }) => alignItems || "center"};
+  justify-content: ${({ justifyContent }) => justifyContent || "flex-start"};
+  gap: ${({ gap }) => gap || "0px"};
+  margin-top: ${({ marginTop }) => marginTop || "0px"};
+`;
+
+// column 으로 24px 간격 으로 리스트 하는 개념
+const CardList = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 24px;
+`;
+
 // 버튼 스타일 컴포넌트
-export const ActionBtn = styled.button`
+const ActionBtn = styled.button`
   ${h11Bold}
   padding: 8px 30px;
   border-radius: 10px;
@@ -201,7 +204,7 @@ export const ActionBtn = styled.button`
 `;
 
 // 카테고리 선택 버튼 타입
-export const CategoryPill = styled.button`
+const CategoryPill = styled.button`
   height: 51px;
   padding: 16px 30px;
   border-radius: 100px;
@@ -231,34 +234,26 @@ export const CategoryPill = styled.button`
   }
 `;
 
-// 메인 사이드 에서 공지사항 및 유저 프로필 공통 속성
-export const sideComponentStyle = css`
-  padding: 8px;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  border-radius: ${RADIUS.smallCard};
-`;
-
-// 제목 등 스타일
-export const sideHeaderStyle = css`
-  padding-right: 10px;
-  padding-left: 10px;
-`;
-
-// 사이드 카드 속성
-export const sideCardStyle = css`
-  padding-left: 10px;
-  padding-right: 10px;
-  padding-top: 16px;
-  padding-bottom: 16px;
-  gap: 16px;
-  border-radius: ${RADIUS.card};
-`;
-
 // 구분선 만들기
-export const Divider = styled.hr`
+const Divider = styled.hr`
   width: 100%;
   border: none;
   border-top: 1px solid ${theme.GRAYSCALE[8]};
   margin: 0;
 `;
+
+const S = {
+  Page,
+  ContentArea,
+  LeftBlock,
+  ColumnBlock,
+  RowBlock,
+  RowSimpleBlock,
+  FlexRow,
+  CardList,
+  ActionBtn,
+  CategoryPill,
+  Divider,
+};
+
+export default S;

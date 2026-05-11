@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { fetchUserPosts } from "../../communityApi/postApi";
 import { useParams } from "react-router-dom";
-import { ColumnBlock } from "../../communityStyle";
+import S from "../../communityStyle";
 import PostListCard from "../../post/postComponents/PostListCard.jsx";
 import PageCount from "../../post/postComponents/PageCount";
 
@@ -37,7 +37,7 @@ const UserWritePostList = () => {
   if (isLoading) return <div>로딩 중...</div>;
   return (
     <div>
-      <ColumnBlock>
+      <S.ColumnBlock>
         {posts.map(
           ({
             id,
@@ -73,7 +73,7 @@ const UserWritePostList = () => {
             onPageChange={handlePageChange}
           />
         )}
-      </ColumnBlock>
+      </S.ColumnBlock>
     </div>
   );
 };

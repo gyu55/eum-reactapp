@@ -1,9 +1,8 @@
 import styled from "styled-components";
 import theme from "../../../../styles/theme";
-import {
+import S, {
   communityBorderRadius,
   communitySideWidth,
-  Divider,
   flexStartColumn,
   hoverStyle,
 } from "../../communityStyle";
@@ -135,7 +134,7 @@ const LiveChatCard = ({
           </RoomTitle>
           <H10Regular $color={theme.GRAYSCALE[9]}>{description}</H10Regular>
         </InfoArea>
-        <Divider />
+        <S.Divider />
         <BottomRow>
           <ParticipantInfo>
             <ParticipantLabel>참여 중</ParticipantLabel>

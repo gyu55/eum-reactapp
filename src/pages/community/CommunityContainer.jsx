@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, Outlet } from "react-router-dom";
-import { ContentArea, Page } from "./communityStyle";
+import S from "./communityStyle";
 import MainRightSide from "./common/MainRightSide";
 import { ChatProvider } from "./context/ChatContext";
 
@@ -15,17 +15,17 @@ const CommunityContainer = () => {
     <ChatProvider>
       <>
         <div>
-          <Page>
+          <S.Page>
             <Link to={"/community/chat"}>실시간 채팅</Link>
             <Link to={"/community/post"}>게시글</Link>
-            <ContentArea>
+            <S.ContentArea>
               {/* 좌측 메인 */}
               <Outlet />
 
               {/* 우측 사이드 바 */}
               <MainRightSide />
-            </ContentArea>
-          </Page>
+            </S.ContentArea>
+          </S.Page>
         </div>
         <div>
           지금 활동 중인 멤버

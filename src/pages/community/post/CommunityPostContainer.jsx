@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, Outlet } from "react-router-dom";
-import { ActionBtn, CategoryPill, ColumnBlock } from "../communityStyle";
+import S from "../communityStyle";
 import { H6Bold, H7Bold } from "../communityTextStyle";
 import LiveChatCard from "../chat/chatComponents/LiveChatCard";
 import PostListSection from "./postComponents/PostListSection.jsx";
@@ -83,14 +83,14 @@ const CommunityPostContainer = () => {
   return (
     <div>
       {/* <CommunityPostComponent /> */}
-      <ColumnBlock>
+      <S.ColumnBlock>
         {/* 상단 헤더 */}
         <HeaderBlock>
           {/* 제목 */}
           <H6Bold>실시간 채팅방</H6Bold>
 
           {/* 글쓰기 버튼 */}
-          <ActionBtn $type="submit">+채팅방 만들기</ActionBtn>
+          <S.ActionBtn $type="submit">+채팅방 만들기</S.ActionBtn>
         </HeaderBlock>
         {/* 채팅방 */}
         <LiveChatRow>
@@ -119,20 +119,20 @@ const CommunityPostContainer = () => {
         <PostCategoryHeader>
           {/* 카테고리 */}
           <PostCategoryRow>
-            <CategoryPill>카테고리</CategoryPill>
-            <CategoryPill>카테고리</CategoryPill>
-            <CategoryPill>카테고리</CategoryPill>
-            <CategoryPill>카테고리</CategoryPill>
-            <CategoryPill>카테고리</CategoryPill>
+            <S.CategoryPill>카테고리</S.CategoryPill>
+            <S.CategoryPill>카테고리</S.CategoryPill>
+            <S.CategoryPill>카테고리</S.CategoryPill>
+            <S.CategoryPill>카테고리</S.CategoryPill>
+            <S.CategoryPill>카테고리</S.CategoryPill>
           </PostCategoryRow>
-          <ActionBtn $type="submit">글쓰기</ActionBtn>
+          <S.ActionBtn $type="submit">글쓰기</S.ActionBtn>
 
           {/* 글쓰기 */}
         </PostCategoryHeader>
 
         {/* 포스트 카드 목록 + 페이지네이션 */}
         <PostListSection />
-      </ColumnBlock>
+      </S.ColumnBlock>
       {/* <PostDetailPage /> */}
       <Outlet />
 

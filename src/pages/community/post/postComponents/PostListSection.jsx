@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import PostListCard from "./PostListCard.jsx";
 import PageCount from "./PageCount";
 import { fetchPosts } from "../../communityApi/postApi";
-import { ColumnBlock } from "../../communityStyle";
+import S from "../../communityStyle";
 
 const PostListSection = ({ postTag = "" }) => {
   const [posts, setPosts] = useState([]);
@@ -36,7 +36,7 @@ const PostListSection = ({ postTag = "" }) => {
   if (isLoading) return <div>로딩 중...</div>;
 
   return (
-    <ColumnBlock>
+    <S.ColumnBlock>
       {posts.map(
         ({
           id,
@@ -72,7 +72,7 @@ const PostListSection = ({ postTag = "" }) => {
           onPageChange={handlePageChange}
         />
       )}
-    </ColumnBlock>
+    </S.ColumnBlock>
   );
 };
 

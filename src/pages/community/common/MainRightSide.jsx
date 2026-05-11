@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { ColumnBlock } from "../communityStyle";
+import S from "../communityStyle";
 import SideUserProfile from "./SideUserProfile copy";
 import SideNotice from "./SideNotice";
 import FloatingChatButton from "./FloatingChatButton";
@@ -21,7 +21,7 @@ const MainRightSide = () => {
 
   return (
     <div>
-      <ColumnBlock width="312px">
+      <S.ColumnBlock width="312px">
         <SideUserProfile />
         <SideNotice />
 
@@ -33,7 +33,7 @@ const MainRightSide = () => {
             onClick={reopenChat}
           />
         )}
-      </ColumnBlock>
+      </S.ColumnBlock>
 
       {/* 사이드 채팅 — 팝업 축소 시 표시 */}
       {view === VIEW.SIDE && <SideChat />}

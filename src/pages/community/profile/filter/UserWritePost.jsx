@@ -1,5 +1,5 @@
 import React from "react";
-import { ColumnBlock } from "../../communityStyle";
+import S from "../../communityStyle";
 import PostListCard from "../../post/postComponents/PostListCard.jsx";
 import UserCommentCard from "../UserProfile/UserCommentCard.jsx";
 
@@ -8,13 +8,13 @@ import UserCommentCard from "../UserProfile/UserCommentCard.jsx";
 const UserWritePost = () => {
   return (
     <div>
-      <ColumnBlock>
+      <S.ColumnBlock>
         {/* 각각 포스트 리스트 */}
         <PostListCard />
         <PostListCard />
         <PostListCard />
         {/* <UserCommentCard /> */}
-      </ColumnBlock>
+      </S.ColumnBlock>
     </div>
   );
 };

@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { h10Regular, h11Regular, h9Bold } from "../../../../styles/common";
 import theme from "../../../../styles/theme";
 import { COMMENT, LAYOUT, RADIUS } from "../../constants";
-import { Divider } from "../../communityStyle";
+import S from "../../communityStyle";
 
 // 감싸는 카드 만들기
 const UserCommentWrapper = styled.div`
@@ -80,7 +80,7 @@ const UserCommentCard = () => {
         </UserCommentMid>
 
         {/* 구분선 */}
-        <Divider />
+        <S.Divider />
 
         {/* 작성 시간 */}
         <UserCommentCreateAt>5분 전</UserCommentCreateAt>

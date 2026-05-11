@@ -29,7 +29,7 @@ const BotMessage = ({ text, time, children }) => (
   <div style={{ display: 'flex', gap: '8px', alignItems: 'flex-start' }}>
     <div style={{
       width: '32px', height: '32px', borderRadius: '50%',
-      backgroundColor: '#4040F0', flexShrink: 0,
+      backgroundColor: theme.PALETTE.primary.main, flexShrink: 0,
       display: 'flex', alignItems: 'center', justifyContent: 'center',
       fontSize: '16px',
     }}>🤚</div>
@@ -120,18 +120,17 @@ const ChatbotModal = ({ onClose }) => {
       right: '32px',
       width: '360px',
       height: '520px',
-      backgroundColor: '#fff',
+      backgroundColor: theme.PALETTE.white,
       borderRadius: '16px',
-      boxShadow: '0 8px 32px rgba(0,0,0,0.15)',
       display: 'flex',
       flexDirection: 'column',
-      zIndex: 1000,
+      zIndex: 1,
       overflow: 'hidden',
     }}>
 
       {/* 헤더 */}
       <div style={{
-        backgroundColor: '#4040F0',
+        backgroundColor: theme.PALETTE.primary.main,
         padding: '12px 16px',
         display: 'flex',
         justifyContent: 'space-between',
@@ -140,7 +139,7 @@ const ChatbotModal = ({ onClose }) => {
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <span style={{ fontSize: '18px' }}>🤚</span>
-          <span style={{ color: '#fff', fontWeight: 600, fontSize: '14px' }}>이음 도우미</span>
+          <span style={{ color: theme.PALETTE, fontWeight:theme.FONT_WEIGHT.medium, fontSize: '14px' }}>이음 도우미</span>
         </div>
         <div style={{ display: 'flex', gap: '6px' }}>
           <button style={headerBtn}>－</button>
@@ -165,7 +164,7 @@ const ChatbotModal = ({ onClose }) => {
                 <div style={{
                   width: '36px', height: '36px', borderRadius: '8px',
                   backgroundColor: '#EEEDFE', display: 'flex',
-                  alignItems: 'center', justifyContent: 'center', fontSize: '18px', flexShrink: 0,
+                  alignItems: 'center', justifyContent: 'center', fontSize: theme.FONT_SIZE.h9, flexShrink: 0,
                 }}>
                   {cat.id === 'account' ? '👤' : cat.id === 'report' ? '🚨' : '💬'}
                 </div>

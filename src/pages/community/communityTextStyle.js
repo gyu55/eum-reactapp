@@ -33,137 +33,169 @@ import {
 // $color prop 미제공 시 theme.TEXT_COLOR.basic 으로 fallback
 const defaultColor = theme.TEXT_COLOR.basic;
 
-export const H1Bold = styled.p`
+const H1Bold = styled.p`
   ${h1Bold}
   color: ${({ $color }) => $color || defaultColor};
 `;
 
-export const H2Bold = styled.p`
+const H2Bold = styled.p`
   ${h2Bold}
   color: ${({ $color }) => $color || defaultColor};
 `;
 
-export const H3Bold = styled.p`
+const H3Bold = styled.p`
   ${h3Bold}
   color: ${({ $color }) => $color || defaultColor};
 `;
 
-export const H4Bold = styled.p`
+const H4Bold = styled.p`
   ${h4Bold}
   color: ${({ $color }) => $color || defaultColor};
 `;
 
-export const H4Medium = styled.p`
+const H4Medium = styled.p`
   ${h4Medium}
   color: ${({ $color }) => $color || defaultColor};
 `;
 
-export const H5Bold = styled.p`
+const H5Bold = styled.p`
   ${h5Bold}
   color: ${({ $color }) => $color || defaultColor};
 `;
 
-export const H5Medium = styled.p`
+const H5Medium = styled.p`
   ${h5Medium}
   color: ${({ $color }) => $color || defaultColor};
 `;
 
-export const H6Bold = styled.p`
+const H6Bold = styled.p`
   ${h6Bold}
   color: ${({ $color }) => $color || defaultColor};
 `;
 
-export const H6Medium = styled.p`
+const H6Medium = styled.p`
   ${h6Medium}
   color: ${({ $color }) => $color || defaultColor};
 `;
 
-export const H7Bold = styled.p`
+const H7Bold = styled.p`
   ${h7Bold}
   color: ${({ $color }) => $color || defaultColor};
 `;
 
-export const H7Medium = styled.p`
+const H7Medium = styled.p`
   ${h7Medium}
   color: ${({ $color }) => $color || defaultColor};
 `;
 
-export const H7Regular = styled.p`
+const H7Regular = styled.p`
   ${h7Regular}
   color: ${({ $color }) => $color || defaultColor};
 `;
 
-export const H8Bold = styled.p`
+const H8Bold = styled.p`
   ${h8Bold}
   color: ${({ $color }) => $color || defaultColor};
 `;
 
-export const H8Medium = styled.p`
+const H8Medium = styled.p`
   ${h8Medium}
   color: ${({ $color }) => $color || defaultColor};
 `;
 
-export const H9Bold = styled.p`
+const H9Bold = styled.p`
   ${h9Bold}
   color: ${({ $color }) => $color || defaultColor};
 `;
 
-export const H9Medium = styled.p`
+const H9Medium = styled.p`
   ${h9Medium}
   color: ${({ $color }) => $color || defaultColor};
 `;
 
-export const H9Regular = styled.p`
+const H9Regular = styled.p`
   ${h9Regular}
   color: ${({ $color }) => $color || defaultColor};
 `;
 
-export const H9Light = styled.p`
+const H9Light = styled.p`
   ${h9Light}
   color: ${({ $color }) => $color || defaultColor};
 `;
 
-export const H10Bold = styled.p`
+const H10Bold = styled.p`
   ${h10Bold}
   color: ${({ $color }) => $color || defaultColor};
 `;
 
-export const H10Medium = styled.p`
+const H10Medium = styled.p`
   ${h10Medium}
   color: ${({ $color }) => $color || defaultColor};
 `;
 
-export const H10Regular = styled.p`
+const H10Regular = styled.p`
   ${h10Regular}
   color: ${({ $color }) => $color || defaultColor};
 `;
 
-export const H11Bold = styled.p`
+const H11Bold = styled.p`
   ${h11Bold}
   color: ${({ $color }) => $color || defaultColor};
 `;
 
-export const H11Medium = styled.p`
+const H11Medium = styled.p`
   ${h11Medium}
   color: ${({ $color }) => $color || defaultColor};
 `;
 
-export const H11Regular = styled.p`
+const H11Regular = styled.p`
   ${h11Regular}
   color: ${({ $color }) => $color || defaultColor};
 `;
 
-export const H12Bold = styled.p`
+const H12Bold = styled.p`
   ${h12Bold}
   color: ${({ $color }) => $color || defaultColor};
 `;
 
-export const H12Regular = styled.p`
+const H12Regular = styled.p`
   ${h12Regular}
   color: ${({ $color }) => $color || defaultColor};
 `;
 
-export const H13Bold = styled.p`
+const H13Bold = styled.p`
   ${h13Bold}
   color: ${({ $color }) => $color || defaultColor};
 `;
+
+const T = {
+  H1Bold,
+  H2Bold,
+  H3Bold,
+  H4Bold,
+  H4Medium,
+  H5Bold,
+  H5Medium,
+  H6Bold,
+  H6Medium,
+  H7Bold,
+  H7Medium,
+  H7Regular,
+  H8Bold,
+  H8Medium,
+  H9Bold,
+  H9Medium,
+  H9Regular,
+  H9Light,
+  H10Bold,
+  H10Medium,
+  H10Regular,
+  H11Bold,
+  H11Medium,
+  H11Regular,
+  H12Bold,
+  H12Regular,
+  H13Bold,
+};
+
+export default T;

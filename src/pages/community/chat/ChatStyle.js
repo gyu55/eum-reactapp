@@ -2,13 +2,7 @@
 
 import styled from "styled-components";
 import { colors, fonts, radius } from "../constants";
-import {
-  H9Bold,
-  H11Bold,
-  H11Regular,
-  H12Bold,
-  H12Regular,
-} from "../communityTextStyle";
+import T from "../communityTextStyle";
 import {
   flexBetweenRow,
   flexCenterColumn,
@@ -85,9 +79,9 @@ export const RoomInfo = styled.div`
   width: 105px;
 `;
 
-export const RoomTitle = styled(H9Bold).attrs({ $color: colors.textWhite })``;
+export const RoomTitle = styled(T.H9Bold).attrs({ $color: colors.textWhite })``;
 
-export const RoomSubText = styled(H11Regular).attrs({
+export const RoomSubText = styled(T.H11Regular).attrs({
   $color: colors.border,
 })``;
 
@@ -114,7 +108,7 @@ export const LiveIcon = styled.img`
   height: 8px;
 `;
 
-export const LiveText = styled(H12Bold).attrs({ $color: colors.textWhite })``;
+export const LiveText = styled(T.H12Bold).attrs({ $color: colors.textWhite })``;
 
 export const TodayMsgRow = styled.div`
   display: flex;
@@ -126,7 +120,7 @@ export const TodayMsgRow = styled.div`
   }
 `;
 
-export const TodayMsgText = styled(H11Regular).attrs({
+export const TodayMsgText = styled(T.H11Regular).attrs({
   $color: colors.border,
 })``;
 
@@ -211,7 +205,7 @@ export const ParticipantHeader = styled.div`
   justify-content: space-between;
 `;
 
-export const ParticipantLabel = styled(H11Bold).attrs({
+export const ParticipantLabel = styled(T.H11Bold).attrs({
   $color: colors.textSub,
 })``;
 
@@ -286,13 +280,13 @@ export const UserMeta = styled.div`
   width: 40px;
 `;
 
-export const UserNameText = styled(H11Bold).attrs({ $color: colors.textMain })`
+export const UserNameText = styled(T.H11Bold).attrs({ $color: colors.textMain })`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 `;
 
-export const UserRoleText = styled(H12Regular).attrs({
+export const UserRoleText = styled(T.H12Regular).attrs({
   $color: colors.textSub,
 })``;
 
@@ -346,7 +340,7 @@ export const MsgContentCol = styled.div`
   width: 206px;
 `;
 
-export const SenderName = styled(H12Bold).attrs({ $color: colors.textSub })``;
+export const SenderName = styled(T.H12Bold).attrs({ $color: colors.textSub })``;
 
 export const MsgTimeRow = styled.div`
   display: flex;
@@ -362,11 +356,11 @@ export const OtherBubble = styled.div`
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.07);
 `;
 
-export const OtherBubbleText = styled(H11Regular).attrs({
+export const OtherBubbleText = styled(T.H11Regular).attrs({
   $color: colors.textMain,
 })``;
 
-export const MsgTime = styled(H12Regular).attrs({ $color: colors.textSub })`
+export const MsgTime = styled(T.H12Regular).attrs({ $color: colors.textSub })`
   white-space: nowrap;
 `;
 
@@ -384,7 +378,7 @@ export const MyBubble = styled.div`
   max-width: 188px;
 `;
 
-export const MyBubbleText = styled(H11Regular).attrs({
+export const MyBubbleText = styled(T.H11Regular).attrs({
   $color: colors.textWhite,
 })``;
 
@@ -434,7 +428,7 @@ export const TextInputBox = styled.div`
   padding: 8px 10px;
 `;
 
-export const InputPlaceholder = styled(H11Regular).attrs({
+export const InputPlaceholder = styled(T.H11Regular).attrs({
   $color: colors.textSub,
 })`
   white-space: nowrap;
@@ -499,7 +493,7 @@ export const PanelSection = styled.div`
   flex: ${({ $flex }) => $flex || "none"};
 `;
 
-export const SectionLabel = styled(H12Bold).attrs({ $color: colors.textSub })`
+export const SectionLabel = styled(T.H12Bold).attrs({ $color: colors.textSub })`
   width: 100%;
 `;
 
@@ -525,7 +519,7 @@ export const RoomTitleCenter = styled.div`
   width: 100%;
 `;
 
-export const RoomTitleText = styled(H9Bold).attrs({ $color: colors.textMain })`
+export const RoomTitleText = styled(T.H9Bold).attrs({ $color: colors.textMain })`
   text-align: center;
 `;
 
@@ -546,9 +540,9 @@ export const LiveDot = styled.img`
   height: 8px;
 `;
 
-export const LiveLabel = styled(H12Bold).attrs({ $color: colors.live })``;
+export const LiveLabel = styled(T.H12Bold).attrs({ $color: colors.live })``;
 
-export const ParticipantCount = styled(H12Regular).attrs({
+export const ParticipantCount = styled(T.H12Regular).attrs({
   $color: colors.textSub,
 })``;
 
@@ -579,7 +573,7 @@ export const AccessRow = styled.div`
   width: 100%;
 `;
 
-export const AccessLabel = styled(H11Regular).attrs({
+export const AccessLabel = styled(T.H11Regular).attrs({
   $color: colors.textMain,
 })``;
 
@@ -603,7 +597,7 @@ export const UserInfoSectionHeader = styled.div`
   width: 100%;
 `;
 
-export const UserInfoSectionTitle = styled(H9Bold).attrs({
+export const UserInfoSectionTitle = styled(T.H9Bold).attrs({
   $color: colors.textMain,
 })``;
 
@@ -626,7 +620,7 @@ export const UserBigAvatarBox = styled.div`
   }
 `;
 
-export const UserInfoName = styled(H9Bold).attrs({ $color: colors.textMain })`
+export const UserInfoName = styled(T.H9Bold).attrs({ $color: colors.textMain })`
   text-align: center;
 `;
 
@@ -639,7 +633,7 @@ export const LevelRoleBadge = styled.div`
   white-space: nowrap;
 `;
 
-export const ActionDescText = styled(H11Regular).attrs({
+export const ActionDescText = styled(T.H11Regular).attrs({
   $color: colors.textMain,
 })``;
 
@@ -654,9 +648,9 @@ export const ReportCard = styled.div`
   box-sizing: border-box;
 `;
 
-export const ReportCardTitle = styled(H11Bold).attrs({ $color: ORANGE })``;
+export const ReportCardTitle = styled(T.H11Bold).attrs({ $color: ORANGE })``;
 
-export const ReportCardDesc = styled(H11Regular).attrs({
+export const ReportCardDesc = styled(T.H11Regular).attrs({
   $color: ORANGE_DARK,
 })``;
 

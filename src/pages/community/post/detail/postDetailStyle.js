@@ -17,12 +17,7 @@ import {
   h9Bold,
   h8Bold,
 } from "../../../../styles/common";
-import {
-  H11Regular,
-  H9Bold,
-  H10Regular,
-  H8Bold,
-} from "../../communityTextStyle";
+import T from "../../communityTextStyle";
 import { flexStartColumn } from "../../communityStyle";
 import theme from "../../../../styles/theme";
 
@@ -79,7 +74,7 @@ export const CategoryTag = styled.span`
   white-space: nowrap;
 `;
 
-export const BreadcrumbPath = styled(H11Regular)`
+export const BreadcrumbPath = styled(T.H11Regular)`
   margin: 0;
   white-space: nowrap;
 `;
@@ -129,7 +124,7 @@ export const AuthorMeta = styled.div`
   gap: 4px;
 `;
 
-export const AuthorName = styled(H9Bold)`
+export const AuthorName = styled(T.H9Bold)`
   margin: 0;
   white-space: nowrap;
 `;
@@ -171,7 +166,7 @@ export const BodyText = styled.div`
   width: 100%;
 `;
 
-export const Paragraph = styled(H10Regular)`
+export const Paragraph = styled(T.H10Regular)`
   /* line-height: 22px; */
   margin: 0;
 `;
@@ -222,7 +217,7 @@ export const EmojiItem = styled.span`
   flex-shrink: 0;
 `;
 
-export const ImageCaption = styled(H11Regular)`
+export const ImageCaption = styled(T.H11Regular)`
   line-height: 20px;
   text-align: center;
   margin: 0;
@@ -263,7 +258,7 @@ export const AccessibilityBox = styled.div`
   align-items: center;
 `;
 
-export const AccessibilityLabel = styled(H8Bold)`
+export const AccessibilityLabel = styled(T.H8Bold)`
   position: absolute;
   left: 35px;
   white-space: nowrap;

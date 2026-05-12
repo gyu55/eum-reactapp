@@ -7,7 +7,7 @@ import S, {
   hoverStyle,
 } from "../../communityStyle";
 import { flexBetweenRow, flexCenterColumn } from "../../../../styles/common";
-import { H7Medium, H10Regular } from "../../communityTextStyle";
+import T from "../../communityTextStyle";
 import { BORDER_STYLE } from "../../constants";
 
 const Card = styled.div`
@@ -67,7 +67,7 @@ const InfoArea = styled.div`
   width: 100%;
 `;
 
-const RoomTitle = styled(H7Medium)`
+const RoomTitle = styled(T.H7Medium)`
   margin: 0;
   line-height: 1;
 `;
@@ -132,7 +132,7 @@ const LiveChatCard = ({
           <RoomTitle style={{ marginTop: isLive ? "8px" : "0" }}>
             {title}
           </RoomTitle>
-          <H10Regular $color={theme.GRAYSCALE[9]}>{description}</H10Regular>
+          <T.H10Regular $color={theme.GRAYSCALE[9]}>{description}</T.H10Regular>
         </InfoArea>
         <S.Divider />
         <BottomRow>

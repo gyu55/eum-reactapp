@@ -1,6 +1,6 @@
 import React from "react";
 import S from "./communityStyle";
-import { H6Bold, H7Bold } from "./communityTextStyle";
+import T from "./communityTextStyle";
 import PostListCard from "./post/postComponents/PostListCard";
 import LiveChatCard from "./chat/chatComponents/LiveChatCard";
 
@@ -15,7 +15,7 @@ const CommunityMain = () => {
             {/* 상단 헤더 */}
             <S.RowBlock flexWrap="wrap" justifyContent="space-between" gap="0px">
               {/* 제목 */}
-              <H6Bold>실시간 채팅방</H6Bold>
+              <T.H6Bold>실시간 채팅방</T.H6Bold>
 
               {/* 글쓰기 버튼 */}
               <S.ActionBtn $type="submit">+채팅방 만들기</S.ActionBtn>
@@ -29,7 +29,7 @@ const CommunityMain = () => {
 
             {/* 포스트 영역 헤더 */}
             <S.RowBlock flexWrap="wrap" marginTop="72px">
-              <H7Bold>게시글</H7Bold>
+              <T.H7Bold>게시글</T.H7Bold>
             </S.RowBlock>
 
             {/* 카테고리 및 글쓰기 버튼 */}

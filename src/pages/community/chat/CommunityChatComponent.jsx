@@ -1,7 +1,7 @@
 import React from "react";
 import LiveChatCard from "./chatComponents/LiveChatCard";
 import S from "../communityStyle";
-import { H6Bold } from "../communityTextStyle";
+import T from "../communityTextStyle";
 import styled from "styled-components";
 import { flexCenterRow } from "../../../styles/common";
 import { useChatContext } from "../context/ChatContext";
@@ -60,7 +60,7 @@ const CommunityChatComponent = () => {
       <S.ColumnBlock>
         {/* 상단 헤더 */}
         <HeaderBlock>
-          <H6Bold>실시간 채팅방</H6Bold>
+          <T.H6Bold>실시간 채팅방</T.H6Bold>
           <S.ActionBtn $type="submit">+채팅방 만들기</S.ActionBtn>
         </HeaderBlock>
 

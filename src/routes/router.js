@@ -9,6 +9,7 @@ import LicenseIntroContainer from "../pages/exam/info/intro/LicenseIntroContaine
 import ReceiptContainer from "../pages/exam/receipt/ReceiptContainer";
 import ReceiptConfirmContainer from "../pages/exam/receipt/confirm/ReceiptConfirmContainer";
 import ReceiptInfoContainer from "../pages/exam/receipt/info/ReceiptInfoContainer";
+import ReceiptGuideContainer from "../pages/exam/receipt/guide/ReceiptGuideContainer";
 import ReceiptSubmitContainer from "../pages/exam/receipt/receipt/ReceiptSubmitContainer";
 import ResultsContainer from "../pages/exam/results/ResultsContainer";
 import CheckContainer from "../pages/exam/results/check/CheckContainer"
@@ -88,6 +89,10 @@ const router = createBrowserRouter([
                 path: "info",
                 element: <ReceiptInfoContainer />,
                 children: [
+                  {
+                    path: "guide",
+                    element: <ReceiptGuideContainer />
+                  },
                   {
                     path: "submit",
                     element: <ReceiptSubmitContainer />

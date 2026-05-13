@@ -1,4 +1,4 @@
-import { PRIMARY, styles } from "../../style";
+import * as S from "./style";
 
 const tableData = [
   {
@@ -23,37 +23,28 @@ const tableData = [
 
 const LicenseIntroContainer = () => {
   return (
-    <div style={{ background: "#fff", border: "1px solid #eee", borderRadius: 12, padding: "28px 32px" }}>
-      <h2 style={{ ...styles.sectionTitle, marginBottom: 20 }}>응시 자격 및 시험 과목</h2>
-      <table style={{ width: "100%", borderCollapse: "collapse" }}>
+    <S.Wrapper>
+      <S.SectionTitle style={{ marginBottom: 20 }}>응시 자격 및 시험 과목</S.SectionTitle>
+      <S.StyledTable>
         <thead>
-          <tr style={{ background: "#f5f7ff" }}>
+          <S.TheadRow>
             {["등급", "응시자격", "시험과목", "합격기준"].map((col) => (
-              <th key={col} style={{
-                padding: "12px 16px",
-                fontSize: 13,
-                fontWeight: 700,
-                color: PRIMARY,
-                border: "1px solid #e8eaf0",
-                textAlign: "center",
-              }}>{col}</th>
+              <S.Th key={col}>{col}</S.Th>
             ))}
-          </tr>
+          </S.TheadRow>
         </thead>
         <tbody>
           {tableData.map((row, i) => (
-            <tr key={i} style={{ background: i % 2 === 0 ? "#fff" : "#fafafa" }}>
-              <td style={{ padding: "14px 16px", fontSize: 13, fontWeight: 700, color: PRIMARY, border: "1px solid #eee", textAlign: "center" }}>
-                {row.grade}
-              </td>
-              <td style={{ padding: "14px 16px", fontSize: 13, color: "#444", border: "1px solid #eee" }}>{row.requirement}</td>
-              <td style={{ padding: "14px 16px", fontSize: 13, color: "#444", border: "1px solid #eee" }}>{row.subjects}</td>
-              <td style={{ padding: "14px 16px", fontSize: 13, color: "#444", border: "1px solid #eee" }}>{row.standard}</td>
-            </tr>
+            <S.TbodyRow key={i} $even={i % 2 === 0}>
+              <S.GradeTd>{row.grade}</S.GradeTd>
+              <S.Td>{row.requirement}</S.Td>
+              <S.Td>{row.subjects}</S.Td>
+              <S.Td>{row.standard}</S.Td>
+            </S.TbodyRow>
           ))}
         </tbody>
-      </table>
-    </div>
+      </S.StyledTable>
+    </S.Wrapper>
   );
 };
 

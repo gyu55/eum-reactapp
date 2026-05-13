@@ -81,8 +81,8 @@ function ExamCard({ exam }) {
 }
 
 const infoCards = [
-  { title: "자격시험안내", sub: "응시 자격 및 시험 개요", path: "/exam/info/intro" },
-  { title: "개요", sub: "시험 목적 및 운영 방향", path: "/exam/info/notice" },
+  { title: "자격시험안내", sub: "응시 자격 및 시험 개요", path: "/exam/info/intro", icon: "/assets/image/exam/exam_info_card1.png" },
+  { title: "개요", sub: "시험 목적 및 운영 방향", path: "/exam/info/notice", icon: "/assets/image/exam/exam_info_card2.png" },
 ];
 
 export default function ExamInfo() {
@@ -123,10 +123,7 @@ export default function ExamInfo() {
                 <p style={styles.heroSub}>수어 자격증 취득을 위한 시험 일정과 응시 안내를 확인하세요</p>
               </div>
               <div style={styles.heroIllust}>
-                <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
-                  <rect x="6" y="8" width="28" height="24" rx="3" stroke={PRIMARY} strokeWidth="1.8" fill="none"/>
-                  <path d="M12 16 H28 M12 21 H22 M12 26 H25" stroke={PRIMARY} strokeWidth="1.6" strokeLinecap="round"/>
-                </svg>
+                <img src="/assets/image/exam/exam_info_hero.svg" alt="" style={{ width: 80, height: 80, objectFit: "contain" }} />
               </div>
             </div>
 
@@ -147,13 +144,10 @@ export default function ExamInfo() {
                       ...styles.infoCard,
                       border: active ? `2px solid ${PRIMARY}` : "1.5px solid #eee",
                       background: active ? "#eef0ff" : "#fff",
-                    }} onClick={() => navigate(card.path)}>
+                    }} onClick={() => navigate(active ? "/exam/info" : card.path)}>
                       <div style={styles.infoCardInner}>
                         <div style={{ ...styles.infoCardIcon, background: active ? "#dde1ff" : "#eef0ff" }}>
-                          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                            <rect x="3" y="2" width="14" height="16" rx="2" stroke={PRIMARY} strokeWidth="1.5" fill="none"/>
-                            <path d="M6 7H14M6 10H11M6 13H12" stroke={PRIMARY} strokeWidth="1.3" strokeLinecap="round"/>
-                          </svg>
+                          <img src={card.icon} alt="" style={{ width: 30, height: 30, objectFit: "contain" }} />
                         </div>
                         <div>
                           <div style={{ ...styles.infoCardTitle, color: active ? PRIMARY : undefined }}>{card.title}</div>

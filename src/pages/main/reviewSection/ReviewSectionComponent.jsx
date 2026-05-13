@@ -27,15 +27,15 @@ const ReviewSection = () => {
   return (
     <div style={{
       width: '100%',
-      height: '61.85vh',
       backgroundColor: styles.backGroundGray,
       display: 'flex',
       flexDirection: 'column',
-      justifyContent: 'center',
+      alignItems: 'center',
       textAlign: 'center',
-      paddingTop: '12.04vh',
+      padding: '80px 40px 80px',
     }}>
-      <div style={{ display: 'flex', flexDirection: 'column', marginBottom: '2.04vh' }}>
+      {/* 타이틀 */}
+      <div style={{ display: 'flex', flexDirection: 'column', marginBottom: '16px' }}>
         <span style={{
           fontSize: theme.FONT_SIZE.h3,
           fontWeight: theme.FONT_WEIGHT.bold,
@@ -44,37 +44,45 @@ const ReviewSection = () => {
           fontSize: theme.FONT_SIZE.h9,
           fontWeight: theme.FONT_WEIGHT.light,
           color: styles.textGray,
-          marginTop: '2.04vh',
+          marginTop: '16px',
         }}>42,000명이 이음과 함께 수어를 배웠습니다.</span>
       </div>
 
-      <div style={{ display: 'flex', justifyContent: 'center', gap: '1.25vw', marginTop: '4.91vh' }}>
+      {/* 카드 목록 */}
+      <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', marginTop: '40px' }}>
         {REVIEWS.map((review, i) => (
           <div key={i} style={{
-            width: '22.08vw',
-            height: '24.07vh',
+            width: '340px',
             backgroundColor: theme.PALETTE.white,
             borderRadius: '20px',
+            padding: '28px 32px',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '12px',
+            textAlign: 'left',
           }}>
-            <div style={{ textAlign: 'left', marginTop: '3.7vh', marginLeft: '2.08vw' }}>
+            {/* 별점 */}
+            <div style={{ display: 'flex', gap: '2px' }}>
               {[...Array(5)].map((_, j) => (
                 <img key={j} src="/assets/image/main/starIcon.svg" alt="star" />
               ))}
             </div>
+
+            {/* 리뷰 텍스트 */}
             <span style={{
-              display: 'flex',
               fontSize: theme.FONT_SIZE.h10,
               fontWeight: theme.FONT_WEIGHT.regular,
-              textAlign: 'left',
-              marginTop: '1.39vh',
-              marginLeft: '2.08vw',
               whiteSpace: 'pre-line',
+              lineHeight: 1.7,
+              color: theme.PALETTE.black,
             }}>{review.text}</span>
-            <div style={{ display: 'flex', marginTop: '4vh', marginLeft: '2.08vw', gap: '15px' }}>
-              <img style={{ width: '2.19vw', height: 'auto' }} src={review.img} alt={review.name} />
-              <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'left', marginTop: '3px' }}>
+
+            {/* 프로필 */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginTop: 'auto', paddingTop: '12px' }}>
+              <img style={{ width: '40px', height: '40px', borderRadius: '12px', objectFit: 'cover' }} src={review.img} alt={review.name} />
+              <div style={{ display: 'flex', flexDirection: 'column' }}>
                 <span style={{ fontSize: theme.FONT_SIZE.h11, fontWeight: theme.FONT_WEIGHT.bold }}>{review.name}</span>
-                <span style={{ fontSize: theme.FONT_SIZE.h11, fontWeight: theme.FONT_WEIGHT.regular }}>{review.sub}</span>
+                <span style={{ fontSize: theme.FONT_SIZE.h11, fontWeight: theme.FONT_WEIGHT.regular, color: styles.textGray }}>{review.sub}</span>
               </div>
             </div>
           </div>

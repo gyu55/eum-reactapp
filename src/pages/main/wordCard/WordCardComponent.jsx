@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import theme from '../../../styles/theme';
 import { styles } from '../style';
 
-
 const WordCard = ({ card }) => {
   const [hovered, setHovered] = useState(false);
 
@@ -11,16 +10,18 @@ const WordCard = ({ card }) => {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
-        width: hovered ? '22vw' : '16vw',
-        height: '22vh',
+        width: hovered ? '360px' : '280px',
+        minHeight: '200px',
         backgroundColor: hovered ? theme.PALETTE.fourth.main : theme.PALETTE.white,
         borderRadius: '20px',
         border: hovered ? 'none' : `1px solid ${theme.GRAYSCALE[2]}`,
         padding: '24px',
         display: 'flex',
         flexDirection: 'column',
+        gap: '6px',
         transition: 'all 0.3s ease',
         cursor: 'pointer',
+        flexShrink: 0,
       }}
     >
       <span style={{ fontSize: '32px' }}>{card.emoji}</span>
@@ -50,7 +51,7 @@ const WordCard = ({ card }) => {
 
       {hovered && card.desc && (
         <>
-          <span style={{ fontSize: theme.FONT_SIZE.h11, color: theme.PALETTE.white }}>{card.desc}</span>
+          <span style={{ fontSize: theme.FONT_SIZE.h11, color: theme.PALETTE.white, lineHeight: 1.6 }}>{card.desc}</span>
           <button style={{
             marginTop: 'auto',
             border: `solid 1px ${theme.PALETTE.white}`,
@@ -59,6 +60,7 @@ const WordCard = ({ card }) => {
             fontSize: theme.FONT_SIZE.h10,
             fontWeight: theme.FONT_WEIGHT.bold,
             color: theme.PALETTE.white,
+            background: 'none',
             cursor: 'pointer',
             width: 'fit-content',
           }}>▶ 영상으로 보기</button>

@@ -25,6 +25,7 @@ const CustomServiceNoticeContainer = () => {
 
   useEffect(() => {
     setIsLoading(true);
+    
     // TODO: 백엔드 연동 시 fetch로 교체
     // const res = await fetch(`/api/notices/${id}`);
     // const data = await res.json();

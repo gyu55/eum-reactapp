@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { StudyQuizContext } from '../../../context/StudyQuizContext';
 import { QuizPage } from './style';
 
+// 문제화면 
 const StudyExperienceQuizComponent = () => {
     const {id, quiz} = useParams()
     const {state, actions} = useContext(StudyQuizContext)

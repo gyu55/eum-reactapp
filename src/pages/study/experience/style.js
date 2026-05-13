@@ -123,6 +123,8 @@ export const NonUser = styled.section`
 
 // ================================================================
 
+// 퀴즈 문제
+
 export const QuizPage = styled.section`
 
   width: 100%;

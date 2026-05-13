@@ -14,7 +14,7 @@ const menuLinks = tabMenuItems.filter((item) => !item.isCategory);
 
 const CustomServiceTabMenu = () => {
   const location = useLocation();
-  const [indicatorTop, setIndicatorTop] = useState(0);
+  const [indicatorTop, setIndicatorTop]       = useState(0);
   const [indicatorHeight, setIndicatorHeight] = useState(0);
   const itemRefs = useRef([]);
 
@@ -47,23 +47,26 @@ const CustomServiceTabMenu = () => {
         item.isCategory ? (
           <div key={i} style={styles.sidebarCategory}>{item.label}</div>
         ) : (
-          <NavLink
+          <div
             key={i}
-            to={item.path}
             ref={(el) => {
               const linkIndex = menuLinks.findIndex((m) => m.path === item.path);
               itemRefs.current[linkIndex] = el;
             }}
-            style={({ isActive }) => ({
-              ...styles.sidebarItem(isActive),
-              borderLeft: 'none',
-              display: 'block',
-              textDecoration: 'none',
-              transition: 'background 0.25s ease, color 0.25s ease',
-            })}
           >
-            {item.label}
-          </NavLink>
+            <NavLink
+              to={item.path}
+              style={({ isActive }) => ({
+                ...styles.sidebarItem(isActive),
+                borderLeft: 'none',
+                display: 'block',
+                textDecoration: 'none',
+                transition: 'background 0.25s ease, color 0.25s ease',
+              })}
+            >
+              {item.label}
+            </NavLink>
+          </div>
         )
       )}
     </div>

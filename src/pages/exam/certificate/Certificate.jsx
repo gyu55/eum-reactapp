@@ -40,14 +40,6 @@ export default function Certificate() {
                 <h1 style={styles.heroTitle}>수료증조회</h1>
                 <p style={styles.heroSub}>이수 완료 후 발급된 수료증을 조회하고 출력하세요</p>
               </div>
-              <div style={{ ...styles.heroIllust, background: "linear-gradient(135deg, #e8faf2 0%, #c2f0d8 100%)" }}>
-                <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
-                  <rect x="8" y="10" width="24" height="20" rx="3" stroke={CERT_GREEN} strokeWidth="1.8" fill="none"/>
-                  <path d="M13 18H27M13 23H21" stroke={CERT_GREEN} strokeWidth="1.6" strokeLinecap="round"/>
-                  <circle cx="28" cy="28" r="6" fill={CERT_GREEN} opacity="0.2"/>
-                  <path d="M26 28L28 30L31 26" stroke={CERT_GREEN} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </div>
             </div>
 
             <div style={{ ...styles.noticeBanner, background: "#f0faf5", border: "1px solid #c3f0d8", color: "#1a6b3a" }}>
@@ -64,7 +56,7 @@ export default function Certificate() {
                       ...styles.infoCard,
                       border: active ? `2px solid ${PRIMARY}` : "1.5px solid #eee",
                       background: active ? "#eef0ff" : "#fff",
-                    }} onClick={() => navigate(card.path)}>
+                    }} onClick={() => navigate(active ? "/exam/certificate" : card.path)}>
                       <div style={styles.infoCardInner}>
                         <div style={{ ...styles.infoCardIcon, background: active ? "#dde1ff" : "#eef0ff" }}>
                           <svg width="20" height="20" viewBox="0 0 20 20" fill="none">

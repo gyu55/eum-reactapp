@@ -38,11 +38,7 @@ export default function Results() {
                 <p style={styles.heroSub}>합격 여부를 확인하고 합격증을 발급받으세요</p>
               </div>
               <div style={styles.heroIllust}>
-                <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
-                  <circle cx="20" cy="15" r="8" stroke={PRIMARY} strokeWidth="1.8" fill="none"/>
-                  <path d="M14 35L20 27L26 35" stroke={PRIMARY} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-                  <path d="M17 15L19 17L23 13" stroke={PRIMARY} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
+                <img src="/assets/image/exam/exam_results_hero.svg" alt="" style={{ width: 80, height: 80, objectFit: "contain" }} />
               </div>
             </div>
 
@@ -61,7 +57,7 @@ export default function Results() {
                       ...styles.infoCard,
                       border: active ? `2px solid ${PRIMARY}` : "1.5px solid #eee",
                       background: active ? "#eef0ff" : "#fff",
-                    }} onClick={() => navigate(card.path)}>
+                    }} onClick={() => navigate(active ? "/exam/results" : card.path)}>
                       <div style={styles.infoCardInner}>
                         <div style={{ ...styles.infoCardIcon, background: active ? "#dde1ff" : "#eef0ff" }}>
                           <svg width="20" height="20" viewBox="0 0 20 20" fill="none">

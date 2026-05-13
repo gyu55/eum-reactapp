@@ -48,6 +48,12 @@ const PostFilterBar = ({
     onSearch?.(e.target.value);
   };
 
+  // 아래의 url 바꾸는 기능을 각 타입 버튼에 넣어야 함
+  /* <Link to={"/community/chat"}>실시간 채팅</Link> */
+  // community/profile/:userId/writed-post ("작성 게시글" 클릭 시)
+  // community/profile/:userId/writed-comment ("작성 댓글" 클릭 시)
+  // community/profile/:userId/liked-post ("좋아요한 글" 클릭 시)
+
   return (
     <Wrapper>
       <SearchRow>

@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, Outlet, useParams } from "react-router-dom";
 import S from "../communityStyle";
 import CommunityProfile from "./UserProfile/CommunityProfile";
 import UserActivity from "./UserProfile/UserActivity";
@@ -20,6 +20,10 @@ const CommunityUserProfileComponent = () => {
           {/* 메인 영역 */}
           <S.ColumnBlock>
             <CommunityProfile />
+
+            {/* 자식 아울렛 */}
+            {/* <Link to={"/community/chat"}>실시간 채팅</Link> */}
+            <Outlet />
 
             {/* 상단 검색바 및 필터 */}
             <PostFilterBar />

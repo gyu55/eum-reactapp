@@ -26,12 +26,17 @@ const FloatingProfile = ({ profile, onRemove }) => {
           width: `${profile.size}px`,
           height: `${profile.size}px`,
           borderRadius: '12px',
-          border:`solid 1px ${theme.GRAYSCALE[9]}` ,
           objectFit: 'cover',
         }}
       />
     </div>
   );
+};
+
+const getRandomX = () => {
+  return Math.random() < 0.5
+    ? Math.random() * 30  
+    : 70 + Math.random() * 20; 
 };
 
 const FloatingProfiles = () => {
@@ -55,10 +60,10 @@ const FloatingProfiles = () => {
       const newProfile = {
         id: Date.now(),
         src: TEMP_PROFILES[Math.floor(Math.random() * TEMP_PROFILES.length)],
-        x: Math.random() * 85,
+        x: getRandomX(),
         y: Math.random() * 50,
-        size: Math.floor(Math.random() * 20) + 40,
-        duration: Math.random() * 1 + 2,
+        size: 40,
+        duration: Math.random() * 1 + 3
       };
       setProfiles(prev => [...prev, newProfile]);
     }, 1500);
@@ -76,7 +81,7 @@ const FloatingProfiles = () => {
       top: 0, left: 0,
       width: '100%', height: '100%',
       overflow: 'hidden',
-      pointerEvents: 'none', 
+      pointerEvents: 'none',
     }}>
       {profiles.map(profile => (
         <FloatingProfile

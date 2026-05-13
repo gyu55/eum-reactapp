@@ -20,10 +20,17 @@ const timeNow = () => {
 };
 
 const headerBtn = {
-  width: '22px', height: '22px', borderRadius: '5px',
-  border: 'none', cursor: 'pointer', fontSize: '11px',
+  width: '22px', 
+  height: '22px', 
+  borderRadius: '5px',
+  border: 'none', 
+  cursor: 'pointer', 
+  fontSize: '11px',
   backgroundColor: 'rgba(255,255,255,0.25)',
-  color: theme.PALETTE.white, display: 'flex', alignItems: 'center', justifyContent: 'center',
+  color: theme.PALETTE.white, 
+  display: 'flex', 
+  alignItems: 'center', 
+  justifyContent: 'center',
 };
 
 const BotMessage = ({ text, time, children }) => (
@@ -143,6 +150,7 @@ const ChatbotModal = ({ onClose }) => {
         justifyContent: 'space-between',
         alignItems: 'center',
         flexShrink: 0,
+        color: theme.PALETTE.white
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <span style={{ fontSize: '18px' }}>🤚</span>

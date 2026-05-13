@@ -45,7 +45,7 @@ const NoticeCard = ({id, tag, title, date }) => {
           }}>{tag}</span>
         </div>
         <div 
-          onClick={() => navigate(`/notice/${id}`)}
+          onClick={() => navigate(`/customService/notice/${id}`)}
           style={{
             width: '28px',
             height: '28px',

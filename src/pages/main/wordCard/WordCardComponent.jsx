@@ -11,8 +11,8 @@ const WordCard = ({ card }) => {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
-        width: hovered ? '22.08vw' : '16.25vw',
-        height: '21.3vh',
+        width: hovered ? '22vw' : '16vw',
+        height: '22vh',
         backgroundColor: hovered ? theme.PALETTE.fourth.main : theme.PALETTE.white,
         borderRadius: '20px',
         border: hovered ? 'none' : `1px solid ${theme.GRAYSCALE[2]}`,
@@ -61,7 +61,6 @@ const WordCard = ({ card }) => {
             color: theme.PALETTE.white,
             cursor: 'pointer',
             width: 'fit-content',
-            background: 'none',
           }}>▶ 영상으로 보기</button>
         </>
       )}

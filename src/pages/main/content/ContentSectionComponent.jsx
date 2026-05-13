@@ -61,7 +61,7 @@ const ContentSection = () => {
           <button style={{
             textAlign: 'left', background: 'none', border: 'none', padding: '0', paddingTop: '23px',
             color: theme.PALETTE.black, fontSize: theme.FONT_SIZE.h10, fontWeight: theme.FONT_WEIGHT.bold,
-          }} onClick={() => navigate('/exam')}>바로가기 →</button>
+          }} onClick={() => {navigate('/exam/info'); window.scrollTo(0, 0)}}>바로가기 →</button>
           <img src='/assets/image/main/exam.svg' style={{ position: 'absolute', right: '80px', top: '50%', transform: 'translateY(-50%)', width: '160px', height: '160px' }} />
         </div>
 
@@ -92,7 +92,7 @@ const ContentSection = () => {
           <button style={{
             textAlign: 'left', background: 'none', border: 'none', padding: '0', paddingTop: '72px',
             color: theme.PALETTE.black, fontSize: theme.FONT_SIZE.h10, fontWeight: theme.FONT_WEIGHT.bold,
-          }} onClick={() => navigate('/community')}>바로가기 →</button>
+          }} onClick={() => {navigate('/community'); ; window.scrollTo(0, 0);}}>바로가기 →</button>
           <img src='/assets/image/main/community.svg' style={{ position: 'absolute', right: '80px', top: '50%', transform: 'translateY(-50%)', width: '160px', height: '160px' }} />
         </div>
       </div>
@@ -148,7 +148,7 @@ const ContentSection = () => {
               textAlign: 'left', background: 'none', border: 'none',
               paddingTop: card.paddingTop, color: theme.PALETTE.black,
               fontSize: theme.FONT_SIZE.h10, fontWeight: theme.FONT_WEIGHT.bold,
-            }} onClick={() => navigate(card.path)}>바로가기 →</button>
+            }} onClick={() =>  { navigate(card.path); window.scrollTo(0, 0); }}>바로가기 →</button>
             <img src={card.img} style={{ position: 'absolute', right: '50px', top: '50%', transform: 'translateY(-50%)', width: '120px', height: '120px' }} />
           </div>
         ))}

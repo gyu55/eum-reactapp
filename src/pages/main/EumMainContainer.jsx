@@ -16,7 +16,9 @@ const EumMainContainer = () => {
       <FloatingProfiles />
       <div style={styles.wrapper}>
         <BannerSection />
-        <ContentSection />
+        <div style={{paddingTop : '100px'}}>
+          <ContentSection />
+        </div>
         <CurriculumSection />
         <ReviewSection />
         <WordCardSection />

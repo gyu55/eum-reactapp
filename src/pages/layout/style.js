@@ -25,7 +25,7 @@ export const styles = {
   contentNav: {
     fontSize: theme.FONT_SIZE.h9,
     fontWeight: theme.FONT_WEIGHT.bold,
-    color: theme.PALETTE.primary.dark,
+    color: theme.PALETTE.primary.main,
     textDecoration: 'none'
   },
 

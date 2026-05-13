@@ -17,7 +17,6 @@ const CommunityContainer = () => {
         <div>
           <S.Page>
             <Link to={"/community/chat"}>실시간 채팅</Link>
-            <Link to={"/community/post"}>게시글</Link>
             <S.ContentArea>
               {/* 좌측 메인 */}
               <Outlet />

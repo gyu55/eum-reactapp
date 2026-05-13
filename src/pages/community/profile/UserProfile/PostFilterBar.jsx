@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import theme from "../../../../styles/theme";
 
@@ -23,19 +24,27 @@ const SORT_LIST = [
   { key: "popular", label: "인기순" },
 ];
 
+const TYPE_PATH = {
+  post: "writed-post",
+  comment: "writed-comment",
+  like: "liked-post",
+};
+
 const PostFilterBar = ({
   counts = { post: 42, comment: 42, like: 42 },
-  onTypeChange,
   onSortChange,
   onSearch,
 }) => {
+  const navigate = useNavigate();
+  const { userId } = useParams();
+
   const [activeType, setActiveType] = useState("post");
   const [activeSort, setActiveSort] = useState("latest");
   const [searchValue, setSearchValue] = useState("");
 
   const handleTypeClick = (key) => {
     setActiveType(key);
-    onTypeChange?.(key);
+    navigate(`/community/profile/${userId}/${TYPE_PATH[key]}`);
   };
 
   const handleSortClick = (key) => {
@@ -47,17 +56,6 @@ const PostFilterBar = ({
     setSearchValue(e.target.value);
     onSearch?.(e.target.value);
   };
-
-  // 아래의 url 바꾸는 기능을 각 타입 버튼에 넣어야 함
-  /* <Link to={"/community/chat"}>실시간 채팅</Link> */
-  // community/profile/:userId/writed-post ("작성 게시글" 클릭 시)
-  // 랜더링 될 컴포넌트: UserWritePostList
-
-  // community/profile/:userId/writed-comment ("작성 댓글" 클릭 시)
-  // 랜더링 될 컴포넌트: UserWriteComment
-
-  // community/profile/:userId/liked-post ("좋아요한 글" 클릭 시)
-  // 랜더링 될 컴포넌트: UserClickedLike
 
   return (
     <Wrapper>

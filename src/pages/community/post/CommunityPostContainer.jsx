@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, Outlet } from "react-router-dom";
+import { Link } from "react-router-dom";
 import S from "../communityStyle";
 import T from "../communityTextStyle";
 import LiveChatCard from "../chat/chatComponents/LiveChatCard";
@@ -133,11 +133,6 @@ const CommunityPostContainer = () => {
         {/* 포스트 카드 목록 + 페이지네이션 */}
         <PostListSection />
       </S.ColumnBlock>
-      {/* <PostDetailPage /> */}
-      <Outlet />
-
-      {/* 여기에 임시로 개발 목적으로 포스트 디테일 */}
-      {/* <PostDetailPage /> */}
     </div>
   );
 };

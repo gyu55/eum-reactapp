@@ -1,13 +1,11 @@
 import React from "react";
-import { Link, Outlet, useParams } from "react-router-dom";
+import { Outlet, useParams } from "react-router-dom";
 import S from "../communityStyle";
 import CommunityProfile from "./UserProfile/CommunityProfile";
 import UserActivity from "./UserProfile/UserActivity";
 import UserChatRequest from "./UserProfile/UserChatRequest";
 import UserReportBlock from "./UserProfile/UserReportBlock";
 import PostFilterBar from "./UserProfile/PostFilterBar";
-import UserWritePostList from "./filter/UserWritePostList";
-import UserWriteComment from "./filter/UserWriteComment";
 
 const CommunityUserProfileComponent = () => {
   const { userId } = useParams();
@@ -21,20 +19,11 @@ const CommunityUserProfileComponent = () => {
           <S.ColumnBlock>
             <CommunityProfile />
 
-            {/* 자식 아울렛 */}
-            {/* <Link to={"/community/chat"}>실시간 채팅</Link> */}
-            <Outlet />
-
             {/* 상단 검색바 및 필터 */}
             <PostFilterBar />
 
-            {/* 아래 부분들은 outer 에 들어가야 함 */}
-            {/* 유저가 작성한 게시글 목록 컴포넌트 */}
-
-            <UserWritePostList />
-
-            {/* 유저가 작성한 댓글 목록 컴포넌트 */}
-            <UserWriteComment />
+            {/* 필터 버튼에 따라 렌더링되는 자식 컴포넌트 */}
+            <Outlet />
           </S.ColumnBlock>
 
           {/* 사이드 영역 */}

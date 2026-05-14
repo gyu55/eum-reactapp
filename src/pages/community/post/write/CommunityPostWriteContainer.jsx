@@ -1,13 +1,12 @@
-import React from 'react';
-import CommunityPostWriteComponent from './CommunityPostWriteComponent';
+import React from "react";
+import PostWrite from "./PostWrite";
 
 const CommunityPostWriteContainer = () => {
-    return (
-        <div>
-            게시글 작성 컨테이너
-            <CommunityPostWriteComponent />
-        </div>
-    );
+  return (
+    <div>
+      <PostWrite />
+    </div>
+  );
 };
 
 export default CommunityPostWriteContainer;

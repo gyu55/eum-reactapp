@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import theme from "../../../../../styles/theme";
-import { h10Bold, h11Bold, h11Regular } from "../../../../../styles/common";
 import {
   NoticeItem,
   NoticeList,

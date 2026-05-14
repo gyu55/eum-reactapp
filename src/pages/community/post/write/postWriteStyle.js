@@ -160,7 +160,6 @@ export const InputField = styled.input`
   height: 49px;
   padding: 0 24px;
   ${h10Regular}
-
   ${textFieldStyle}
   ${leftAreaWidth}
 `;
@@ -315,10 +314,7 @@ export const TagInputField = styled.input`
   background: ${theme.PALETTE.white};
   border: 1px solid ${theme.GRAYSCALE[8]};
   border-radius: ${RADIUS.input};
-  font-weight: ${theme.FONT_WEIGHT.regular};
-  font-size: ${theme.FONT_SIZE.h10};
-  line-height: 22px;
-  letter-spacing: -0.28px;
+  ${h10Regular}
   color: ${theme.TEXT_COLOR.basic};
   box-sizing: border-box;
   outline: none;

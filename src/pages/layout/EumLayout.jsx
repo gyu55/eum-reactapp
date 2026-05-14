@@ -82,7 +82,7 @@ const EumLayout = () => {
                   borderRadius: '20px',
                   padding: '4px 14px 4px 4px',
                   cursor: 'pointer',
-                }} onClick={() => {}}>
+                }}>
                   <img
                     src={user.userProfile}
                     alt="프로필"

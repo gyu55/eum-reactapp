@@ -38,7 +38,7 @@ const WordCardSection = () => {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        gap: '1.25vw',
+        gap: '24px',
         marginTop: '5vh',
       }}>
         {WORD_CARDS.map((card, index) => (

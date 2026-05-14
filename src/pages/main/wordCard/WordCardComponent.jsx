@@ -11,7 +11,7 @@ const WordCard = ({ card }) => {
       onMouseLeave={() => setHovered(false)}
       style={{
         width: hovered ? '360px' : '280px',
-        minHeight: '200px',
+        height: '200px',
         backgroundColor: hovered ? theme.PALETTE.fourth.main : theme.PALETTE.white,
         borderRadius: '20px',
         border: hovered ? 'none' : `1px solid ${theme.GRAYSCALE[2]}`,
@@ -20,6 +20,7 @@ const WordCard = ({ card }) => {
         flexDirection: 'column',
         gap: '6px',
         transition: 'all 0.3s ease',
+        transform: hovered ? 'scale(1.05)' : 'scale(1.05)',
         cursor: 'pointer',
         flexShrink: 0,
       }}

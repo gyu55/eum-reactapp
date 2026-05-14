@@ -61,7 +61,7 @@ const CustomServiceTabMenu = () => {
                 borderLeft: 'none',
                 display: 'block',
                 textDecoration: 'none',
-                transition: 'background 0.25s ease, color 0.25s ease',
+                transition: 'all 0.5s ease',
               })}
             >
               {item.label}

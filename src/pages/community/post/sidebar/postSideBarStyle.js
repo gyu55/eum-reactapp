@@ -221,3 +221,58 @@ export const NoticeList = styled.div`
   flex-direction: column;
   gap: 12px;
 `;
+
+/* ── Notice Item ── */
+export const NoticeItemWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: ${SURFACE.section};
+  border-radius: ${RADIUS.input};
+  padding: 8px;
+  width: 100%;
+  box-sizing: border-box;
+`;
+
+export const NoticeItemLeftArea = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+`;
+
+export const NoticeItemBadge = styled.div`
+  background: ${PALETTE.primary.main};
+  color: ${PALETTE.white};
+  font-weight: ${FONT_WEIGHT.bold};
+  font-size: ${FONT_SIZE.h12};
+  text-align: center;
+  padding: 4px 5px;
+  border-radius: 4px;
+  flex-shrink: 0;
+  white-space: nowrap;
+`;
+
+export const NoticeItemTitle = styled.p`
+  color: ${TEXT_COLOR.basic};
+  font-weight: ${FONT_WEIGHT.regular};
+  font-size: ${FONT_SIZE.h11};
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+  flex: 1;
+`;
+
+export const NoticeItemDateText = styled.p`
+  color: ${GRAYSCALE[9]};
+  font-weight: ${FONT_WEIGHT.regular};
+  font-size: ${FONT_SIZE.h12};
+  text-align: right;
+  margin: 0;
+  flex-shrink: 0;
+  white-space: nowrap;
+`;

@@ -55,6 +55,7 @@ const CommentItem = ({
       <S.LeftArea>
         <S.AuthorAvatar
           size="40px"
+          border-radius="8px"
           src={avatar}
           alt={userNickname}
           onError={(e) => {

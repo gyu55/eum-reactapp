@@ -2,6 +2,7 @@
 // theme.js에 이미 있는 값은 여기에 중복 정의하지 않는다.
 
 import theme from "../../styles/theme";
+import originalProfile from "./assets/userProfile/default.png";
 import defaultProfileImg from "./assets/userProfile/default1.png";
 import defaultReportIcon from "./assets/postDetail/singo.png";
 import defaultLinkIcon from "./assets/postDetail/link_copy.svg";
@@ -178,6 +179,7 @@ export const TYPE = {
 
 // 게시글 상세 기본 이미지 (URL 로딩 실패 시 폴백용)
 export const DEFAULT_IMAGES = {
+  originalProfile: originalProfile,
   authorProfile: defaultProfileImg,
   reportIcon: defaultReportIcon,
   linkIcon: defaultLinkIcon,

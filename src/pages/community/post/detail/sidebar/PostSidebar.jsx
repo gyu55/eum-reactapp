@@ -9,10 +9,11 @@
 import styled from "styled-components";
 import theme from "../../../../../styles/theme";
 import { FONT_FAMILY, LAYOUT, RADIUS, SURFACE } from "../../../constants";
+import { DEFAULT_IMAGES } from "../../../constants";
 import { useNavigate } from "react-router-dom";
+import { AuthorAvatar } from "../postDetailStyle";
 import NoticeItem from "./NoticeItem";
 import RelatedPostCard from "./RelatedPostCard";
-
 const { PALETTE, GRAYSCALE, TEXT_COLOR, FONT_SIZE, FONT_WEIGHT } = theme;
 
 const authorProfileImg =
@@ -100,13 +101,6 @@ const AuthorProfileBlock = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 4px;
-`;
-
-const AuthorAvatar = styled.img`
-  width: 64px;
-  height: 64px;
-  border-radius: ${RADIUS.button};
-  object-fit: cover;
 `;
 
 const AuthorName = styled.p`
@@ -234,9 +228,10 @@ const NoticeCard = styled(Card)`
 `;
 
 const NoticeTitleText = styled.p`
-  font-family: ${FONT_FAMILY};
+  /* font-family: ${FONT_FAMILY};
   font-weight: ${FONT_WEIGHT.bold};
-  font-size: ${FONT_SIZE.h10};
+  font-size: ${FONT_SIZE.h10}; */
+
   color: ${TEXT_COLOR.basic};
   margin: 0;
   width: 100%;
@@ -307,7 +302,16 @@ const PostSidebar = ({
         </SectionHeader>
 
         <AuthorProfileBlock>
-          <AuthorAvatar src={authorAvatar} alt={authorName} />
+          {/* 유저 아바타 */}
+          <AuthorAvatar
+            size="64px"
+            border-radius="12px"
+            src={authorAvatar}
+            alt={authorName}
+            onError={(e) => {
+              e.currentTarget.src = DEFAULT_IMAGES.authorProfile;
+            }}
+          />
           <AuthorName>{authorName}</AuthorName>
           <LevelBadge>{authorLevel}</LevelBadge>
         </AuthorProfileBlock>

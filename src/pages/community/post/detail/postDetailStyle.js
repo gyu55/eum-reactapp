@@ -113,7 +113,7 @@ export const AuthorRow = styled.div`
 export const AuthorAvatar = styled.img`
   width: ${({ size }) => size || "44px"};
   height: ${({ size }) => size || "44px"};
-  border-radius: ${RADIUS.sm};
+  border-radius: ${({ borderRadius }) => borderRadius || "10px"};
   object-fit: cover;
   flex-shrink: 0;
 `;

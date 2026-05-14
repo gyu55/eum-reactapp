@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import CommentItem from "./CommentItem";
-import { getComments } from "../communityApi/commentApi";
+import { getComments, postComment } from "../communityApi/commentApi";
 import {
   CommentSectionWrapper,
   HeaderRow,
@@ -39,6 +39,7 @@ const mapComment = (item) => ({
 const CommentSection = ({ postId }) => {
   const [comments, setComments] = useState([]);
   const [inputValue, setInputValue] = useState("");
+  const [refreshKey, setRefreshKey] = useState(0);
 
   useEffect(() => {
     if (!postId) return;
@@ -47,11 +48,17 @@ const CommentSection = ({ postId }) => {
         setComments(Array.isArray(data) ? data.map(mapComment) : []),
       )
       .catch(() => setComments([]));
-  }, [postId]);
+  }, [postId, refreshKey]);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!inputValue.trim()) return;
-    setInputValue("");
+    try {
+      await postComment(postId, inputValue.trim());
+      setInputValue("");
+      setRefreshKey((prev) => prev + 1);
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   return (

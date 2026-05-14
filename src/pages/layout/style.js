@@ -36,7 +36,8 @@ export const styles = {
     justifyContent: 'center',
     alignItems: 'center',
     width: '88px',
-    height: '32px'
+    height: '32px',
+    textDecoration: 'none'
   },
 
   rigthBorderNav: {
@@ -62,6 +63,7 @@ export const styles = {
     height: '32px',
     border: 'none',
     cursor: 'pointer',
+    textDecoration: 'none'
   },
 
   join: {

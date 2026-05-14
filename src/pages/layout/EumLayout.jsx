@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Outlet, Link } from 'react-router-dom';
+import { Outlet, Link, Navigate } from 'react-router-dom';
 import theme from '../../styles/theme';
 import { styles } from './style';
 
@@ -50,12 +50,12 @@ const EumLayout = () => {
 
           <nav style={{ marginLeft: 'auto', display: 'flex', gap: '12px', alignItems: 'center' }}>
             <div style={{ display: 'flex', gap: '24px', alignItems: 'center' }}>
-              <div style={styles.rightNav}>
-                <Link to="/login" style={styles.rigthBorderNav}>로그인</Link>
-              </div>
-              <button style={styles.rigthBackGroundNav}>
-                <Link to="/join" style={styles.join}>회원가입</Link>
-              </button>
+              <Link to="/login" style={styles.rightNav}>
+                <span style={styles.rigthBorderNav}>로그인</span>
+              </Link>
+              <Link to="/join" style={styles.rigthBackGroundNav}>
+                <span style={styles.join}>회원가입</span>
+              </Link>
             </div>
           </nav>
         </header>

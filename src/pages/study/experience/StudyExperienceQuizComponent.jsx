@@ -5,64 +5,81 @@ import { QuizPage } from './style';
 
 // 문제화면 
 const StudyExperienceQuizComponent = () => {
-    const {id, quiz} = useParams()
-    const {state, actions} = useContext(StudyQuizContext)
-    const {quizzes} = state;
+    const { id, quiz } = useParams();
+    const { state } = useContext(StudyQuizContext);
+    const { quizzes, loading, error } = state;
+    
 
-    const foundQuiz = quizzes.find((quiz) => quiz.id === id)
-    // context에 값을 저장
+    const foundQuiz = quizzes.find((item) => item.id === Number(id));
+
+        console.log("id:", id);
+        console.log("quizzes:", quizzes);
+        console.log("foundQuiz:", foundQuiz);
+
+    if (loading) {
+        return <p>문제를 불러오는 중...</p>;
+    }
+
+    if (error) {
+        return <p>{error}</p>;
+    }
+
+    if (!foundQuiz) {
+        return <p>문제를 찾을 수 없어요.</p>;
+    }
+
 
     return (
         <QuizPage>
             <div className="quizInner">
                 <div className="quizTop">
-                    <p className="quizCategory">{quiz}</p>
-                    <p className="quizCount">{id} / 5</p>
+                <p className="quizCategory">{quiz}</p>
+                <p className="quizCount">{id} / {quizzes.length}</p>
                 </div>
 
                 <div className="progressBar">
-                    <div className="progressFill" />
+                <div
+                    className="progressFill"
+                    style={{
+                    width: `${(Number(id) / quizzes.length) * 100}%`,
+                    }}
+                />
                 </div>
 
                 <div className="questionBox">
-                    <p className="questionTitle">
-                        이 수어는 무슨 뜻일까요?
-                    </p>
+                <p className="questionTitle">
+                    {foundQuiz.title}
+                </p>
 
-                    <div className="imageBox">
-                        이미지
-                    </div>
+                <div className="imageBox">
+                    {foundQuiz.image ? (
+                    <img src={foundQuiz.image} alt={foundQuiz.title} />
+                    ) : (
+                    '이미지'
+                    )}
+                </div>
                 </div>
 
                 <div className="answerList">
-                    <button className="answerItem">
-                        <span className="answerAlpha">A</span>
-                        <span className="answerText">안녕하세요</span>
+                {foundQuiz.answers.map((answer, index) => (
+                    <button className="answerItem" key={index}>
+                    <span className="answerAlpha">
+                        {String.fromCharCode(65 + index)}
+                    </span>
+                    <span className="answerText">
+                        {answer.example}
+                    </span>
                     </button>
-
-                    <button className="answerItem">
-                        <span className="answerAlpha">B</span>
-                        <span className="answerText">감사합니다</span>
-                    </button>
-
-                    <button className="answerItem">
-                        <span className="answerAlpha">C</span>
-                        <span className="answerText">미안합니다</span>
-                    </button>
-
-                    <button className="answerItem">
-                        <span className="answerAlpha">D</span>
-                        <span className="answerText">반갑습니다</span>
-                    </button>
+                ))}
                 </div>
 
                 <div className="quizBottom">
-                    <button className="prevBtn">이전</button>
-                    <button className="nextBtn">다음</button>
+                <button className="prevBtn">이전</button>
+                <button className="nextBtn">다음</button>
                 </div>
             </div>
-        </QuizPage>
-    )
+    </QuizPage>
+  );
 };
 
 export default StudyExperienceQuizComponent;

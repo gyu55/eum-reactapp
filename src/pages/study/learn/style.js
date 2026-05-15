@@ -110,6 +110,7 @@ export const QuizPages = styled.section`
     color: #999;
     font-size: 16px;
     font-weight: 700;
+    
   }
 
   .answerList {

@@ -5,7 +5,6 @@ import { useParams } from 'react-router-dom';
 
 // 학습 화면
 const LearnComponent = () => {
-
     const {id, quiz} = useParams()
     const {state, actions} = useContext(StudyQuizContext)
     const {quizzes} = state;
@@ -19,7 +18,7 @@ const LearnComponent = () => {
                 <div className="quizInner">
                     <div className="quizTop">
                         <p className="quizCategory">{quiz}</p>
-                        <p className="quizCount">{id} 4 / 5</p>
+                        <p className="quizCount">{id} / 5</p>
                     </div>
 
                     <div className="progressBar">

@@ -208,6 +208,12 @@ export const QuizPage = styled.section`
     color: #999;
     font-size: 16px;
     font-weight: 700;
+
+    .imageBox img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
   }
 
   .answerList {

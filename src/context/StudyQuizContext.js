@@ -12,7 +12,7 @@ export const StudyQuizContext = createContext({
 
     actions: {
 
-        // getQuizzes: () => {}, -> back 연결 시 사용
+        getQuizzes: () => {}, // -> back 연결 시 사용
         insertQuizzes: () => {},
         removeQuizzes: () => {},
         insertAnswers: () => {},
@@ -89,20 +89,39 @@ const StudyQuizProvider = ({children}) => {
         }
     };
 
+    const insertAnswers = (answer) => {
+        setAnswers((prev) => [...prev, answer]);
+    };
+
+    const removeAnswers = () => {
+        setAnswers([]);
+    };
+
 
     const value = {
 
        state: {
-        quizzes: quizzes, answers: answers
+        quizzes: quizzes, 
+        answers: answers,
+        loading: loading,
+        error: error
         },
+
         actions: {
 
+            getQuizzes,
             insertQuizzes: () => {},
             removeQuizzes: () => {},
-            insertAnswers: () => {},
-            removeAnswers: () => {},
-        }
-    }
+            insertAnswers,
+            removeAnswers,
+
+            // getQuizzes: () => {},
+            // insertQuizzes: () => {},
+            // removeQuizzes: () => {},
+            // insertAnswers: () => {},
+            // removeAnswers: () => {},
+        },
+    };
 
     return (
 

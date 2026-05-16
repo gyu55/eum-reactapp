@@ -1,13 +1,8 @@
 import React from "react";
-import { Link, Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { Page, ContentArea } from "./communityStyle";
 import MainRightSide from "./common/MainRightSide";
 import { ChatProvider } from "./context/ChatContext";
-
-const users = [
-  { userId: 1, userName: "홍길동" },
-  { userId: 2, userName: "장보고" },
-];
 
 const S = {
   Page,
@@ -21,7 +16,6 @@ const CommunityContainer = () => {
       <>
         <div>
           <S.Page>
-            <Link to={"/community/chat"}>실시간 채팅</Link>
             <S.ContentArea>
               {/* 좌측 메인 */}
               <Outlet />

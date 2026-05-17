@@ -97,18 +97,31 @@ let wsMessageSeq = 0;
 const makeWsMessageId = (msg) =>
   `ws-${msg.userId}-${msg.chatCreateAt}-${++wsMessageSeq}`;
 
-const toDisplayMessage = (msg, currentUserId) => ({
-  id: msg.id ?? makeWsMessageId(msg),
-  chatContent: msg.chatContent,
-  chatCreateAt: formatTime(msg.chatCreateAt),
-  chatType: msg.chatType,
-  userNickname: msg.userNickname ?? `사용자`,
-  userProfile: msg.userProfile ?? "default.jpg",
-  chatRoomId: msg.chatRoomId,
-  // WS 메시지는 chatIsMe를 직접 제공, REST 초기 로딩은 userId 비교로 판별
-  chatIsMe:
-    msg.chatIsMe ?? (currentUserId != null && msg.userId === currentUserId),
-});
+const toDisplayMessage = (msg, currentUserId) => {
+  const {
+    id,
+    chatContent,
+    chatCreateAt,
+    chatType,
+    userNickname = "사용자",
+    userProfile = "default.jpg",
+    chatRoomId,
+    chatIsMe,
+    userId,
+  } = msg;
+
+  return {
+    id: id ?? makeWsMessageId(msg),
+    chatContent,
+    chatCreateAt: formatTime(chatCreateAt),
+    chatType,
+    userNickname,
+    userProfile,
+    chatRoomId,
+    // WS 메시지는 chatIsMe를 직접 제공, REST 초기 로딩은 userId 비교로 판별
+    chatIsMe: chatIsMe ?? (currentUserId != null && userId === currentUserId),
+  };
+};
 
 const PopupChatScreen = () => {
   const [selectedUser, setSelectedUser] = useState(null);

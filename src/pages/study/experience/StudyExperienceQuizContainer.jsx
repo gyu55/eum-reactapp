@@ -1,29 +1,14 @@
-import React, { useContext, useEffect } from 'react';
-import StudyQuizProvider, { StudyQuizContext } from '../../../context/StudyQuizContext';
-import { Outlet, useParams } from 'react-router-dom';
+import React from 'react';
+import { Outlet } from 'react-router-dom';
+import StudyQuizProvider from '../../../context/StudyQuizContext';
 
-const StudyExperienceQuizContent  = () => {
-
-    const { quiz } = useParams();
-    const { actions } = useContext(StudyQuizContext);
-
-    useEffect(() => {
-    actions.getQuizzes(quiz);
-    }, [quiz]);
-
-    return <Outlet />;
-};
 
 const StudyExperienceQuizContainer = () => {
 
     return (
-        <div>
-            <StudyQuizProvider>
-                <StudyExperienceQuizContent />
-                {/* {quiz} 비회원 Quiz 컨테이너
-                <Outlet /> */}
-            </StudyQuizProvider>
-        </div>
+        <StudyQuizProvider>
+            <Outlet />
+        </StudyQuizProvider>
     );
 };
 

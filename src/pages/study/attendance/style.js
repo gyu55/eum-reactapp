@@ -799,4 +799,3 @@ export const AttendPopUpWrap = styled.div`
     }
   }
 `;
- 

@@ -14,6 +14,11 @@ import {
   PostCategoryRow,
   AllChatButton,
 } from "./communityPostContainerStyle";
+import LiveChatCardCandidate1 from "../chat/chatComponents/chatCardCandidate/LiveChatCardCandidate1.jsx";
+
+import LiveChatCardCandidate2 from "../chat/chatComponents/chatCardCandidate/LiveChatCardCandidate2.jsx";
+
+import LiveChatCardCandidate3 from "../chat/chatComponents/chatCardCandidate/LiveChatCardCandidate3.jsx";
 
 const S = {
   ColumnBlock,
@@ -70,7 +75,7 @@ const CommunityPostContainer = () => {
         {/* 채팅방 */}
         <S.LiveChatRow>
           {MOCK_FEATURED_ROOMS.map((room) => (
-            <LiveChatCard
+            <LiveChatCardCandidate1
               key={room.id}
               title={room.title}
               description={room.description}

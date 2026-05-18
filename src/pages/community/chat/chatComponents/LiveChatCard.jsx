@@ -127,7 +127,9 @@ const LiveChatCard = ({
           <RoomTitle style={{ marginTop: isLive ? "8px" : "0" }}>
             {chatRoomName}
           </RoomTitle>
-          <T.H10Regular $color={theme.GRAYSCALE[9]}>{chatRoomDetail}</T.H10Regular>
+          <T.H10Regular $color={theme.GRAYSCALE[9]}>
+            {chatRoomDetail}
+          </T.H10Regular>
         </InfoArea>
         <Divider />
         <BottomRow>

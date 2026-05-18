@@ -1,23 +1,20 @@
-import React from 'react';
-import { styles } from '../style';
-import CustomServicePrivacyComponent from './CustomServicePrivacyComponent';
+import React from "react";
+import * as S from "./style";
+import CustomServicePrivacyComponent from "./CustomServicePrivacyComponent";
 
 const CustomServicePrivacyContainer = () => {
   return (
     <>
-      {/* 히어로 카드 */}
-      <div style={styles.heroCard}>
+      <S.HeroCard>
         <div>
-          <div style={styles.heroBadge()}>고객지원</div>
-          <h1 style={styles.heroTitle}>개인정보 처리방침</h1>
-          <p style={styles.heroSub}>시행일 : 2026.05.05</p>
+          <S.HeroBadge>고객지원</S.HeroBadge>
+          <S.HeroTitle>개인정보 처리방침</S.HeroTitle>
+          <S.HeroSub>시행일 : 2026.05.05</S.HeroSub>
         </div>
-        <div style={styles.heroIllust}>
-          <span style={{ display:'flex' }}>
-            <img src="/assets/image/customService/eumServiceIcon.svg" alt=""  style={{width:'80px'}}/>
-          </span>
-        </div>
-      </div>
+        <S.HeroIllust>
+          <img src="/assets/image/customService/eumServiceIcon.svg" alt="" style={{ width: "80px" }} />
+        </S.HeroIllust>
+      </S.HeroCard>
 
       <CustomServicePrivacyComponent />
     </>

@@ -1,15 +1,23 @@
-import React from 'react';
-import MyPageCertificateComponent from './MyPageCertificateComponent';
-import { Outlet } from 'react-router-dom';
+import React from "react";
+import { Outlet, useLocation } from "react-router-dom";
+
+import MyPageCertificateComponent from "./MyPageCertificateComponent";
 
 const MyPageCertificateContainer = () => {
-    return (
-        <div>
-            마이페이지 자격증 컨테이너
-            <MyPageCertificateComponent />
-            <Outlet />
-        </div>
-    );
+  const location = useLocation();
+
+  const isCertificateMain =
+    location.pathname === "/mypage/certificate";
+
+  return (
+    <>
+      {isCertificateMain ? (
+        <MyPageCertificateComponent />
+      ) : (
+        <Outlet />
+      )}
+    </>
+  );
 };
 
 export default MyPageCertificateContainer;

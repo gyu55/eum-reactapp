@@ -1,20 +1,29 @@
-import React from 'react';
-import ConfirmAddressSearchComponent from './ConfirmAddressSearchComponent';
-import { useNavigate } from 'react-router-dom';
+import React from "react";
+import { useNavigate } from "react-router-dom";
+
+import ConfirmAddressSearchComponent from "./ConfirmAddressSearchComponent";
 
 const ConfirmAddressSearchContainer = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    const handleSelect = () => {
-        navigate('/mypage/certificate/confirm');
-    };
+  const handleCancel = () => {
+    navigate("/mypage/certificate");
+  };
 
-    return (
-        <div>
-            주소검색 페이지
-            <ConfirmAddressSearchComponent onSelect={handleSelect} />
-        </div>
-    );
+  const handleConfirm = (selectedAddress) => {
+    navigate("/mypage/certificate/confirm", {
+      state: {
+        selectedAddress,
+      },
+    });
+  };
+
+  return (
+    <ConfirmAddressSearchComponent
+      onCancel={handleCancel}
+      onConfirm={handleConfirm}
+    />
+  );
 };
 
 export default ConfirmAddressSearchContainer;

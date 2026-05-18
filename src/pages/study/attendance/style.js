@@ -326,7 +326,7 @@ export const StyledDate = styled.div`
   font-size: 0.8rem;
   font-weight: 500;
   cursor: pointer;
-  z-index: 1; /* 버튼이 다른 요소 위에 나타나도록 설정 */
+  /* z-index: 1; 버튼이 다른 요소 위에 나타나도록 설정 */
 `;
 
 // 출석 미출석
@@ -799,4 +799,3 @@ export const AttendPopUpWrap = styled.div`
     }
   }
 `;
- 

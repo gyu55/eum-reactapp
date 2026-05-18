@@ -4,6 +4,7 @@ import { StudyQuizContext } from '../../../context/StudyQuizContext';
 
 
 // 퀴즈 목록
+
 const StudyChapterComponent = () => {
     const {id, quiz} = useParams()
     const {state, actions} = useContext(StudyQuizContext)

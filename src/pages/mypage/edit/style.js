@@ -3,13 +3,12 @@ import theme from "../../../styles/theme";
 
 const { PALETTE, GRAYSCALE, FONT_WEIGHT } = theme;
 
-/* 전체 영역 */
-export const EditWrapper = styled.div`
-  margin-top: 48px;
-`;
+const S = {};
+
+/* EditLayout CSS */
 
 /* 정보수정 레이아웃 */
-export const EditLayout = styled.div`
+S.EditLayout = styled.div`
   display: flex;
   align-items: flex-start;
   gap: 17px;
@@ -17,13 +16,13 @@ export const EditLayout = styled.div`
   margin-left: 8px;
 `;
 
-/* 정보수정 왼쪽 영역 */
-export const EditMainArea = styled.div`
+/* 왼쪽 영역 */
+S.EditMainArea = styled.div`
   width: 1001px;
 `;
 
-/* 오른쪽 사이드 영역 */
-export const EditSideArea = styled.div`
+/* 오른쪽 영역 */
+S.EditSideArea = styled.div`
   width: 312px;
   margin-top: 74px;
 
@@ -32,12 +31,10 @@ export const EditSideArea = styled.div`
   gap: 12px;
 `;
 
-
-/* 프로필 카드 CSS */
-
+/* ProfileCard CSS */
 
 /* 섹션 제목 */
-export const SectionTitle = styled.h2`
+S.SectionTitle = styled.h2`
   margin: 24px 0 8px;
 
   font-size: 16px;
@@ -46,7 +43,7 @@ export const SectionTitle = styled.h2`
 `;
 
 /* 섹션 설명 */
-export const SectionDesc = styled.p`
+S.SectionDesc = styled.p`
   margin: 0 0 10px;
 
   font-size: 10px;
@@ -54,8 +51,13 @@ export const SectionDesc = styled.p`
   color: #a6a6a6;
 `;
 
+/* 기본 프로필 섹션 */
+S.ProfileSection = styled.div`
+  width: 991px;
+`;
+
 /* 기본 프로필 카드 */
-export const ProfileEditCard = styled.div`
+S.ProfileEditCard = styled.div`
   width: 991px;
   min-height: 606px;
   padding: 30px 27px 32px;
@@ -65,20 +67,14 @@ export const ProfileEditCard = styled.div`
   background: ${PALETTE.white};
 `;
 
-/* 기본 프로필 섹션 */
-export const ProfileSection = styled.div`
-  width: 991px;
-  margin-left: 0;
-`;
-
 /* 프로필 상단 */
-export const ProfileTop = styled.div`
+S.ProfileTop = styled.div`
   display: flex;
   align-items: flex-start;
 `;
 
 /* 프로필 이미지 */
-export const ProfileImageBox = styled.div`
+S.ProfileImageBox = styled.div`
   width: 88px;
   height: 88px;
   flex-shrink: 0;
@@ -86,15 +82,21 @@ export const ProfileImageBox = styled.div`
   border-radius: 18px;
   background: ${GRAYSCALE[2]};
   overflow: hidden;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 `;
 
-/* 이미지 설명 영역 */
-export const ProfileImageInfo = styled.div`
+/* 이미지 설명 */
+S.ProfileImageInfo = styled.div`
   margin-left: 23px;
 `;
 
 /* 프로필 사진 제목 */
-export const ProfileImageTitle = styled.p`
+S.ProfileImageTitle = styled.p`
   margin: 0 0 10px;
 
   font-size: 14px;
@@ -103,7 +105,7 @@ export const ProfileImageTitle = styled.p`
 `;
 
 /* 업로드 설명 */
-export const UploadDesc = styled.p`
+S.UploadDesc = styled.p`
   margin: 0;
 
   font-size: 12px;
@@ -113,14 +115,14 @@ export const UploadDesc = styled.p`
 `;
 
 /* 사진 버튼 영역 */
-export const ImageButtonArea = styled.div`
+S.ImageButtonArea = styled.div`
   display: flex;
   gap: 8px;
   margin-top: 17px;
 `;
 
-/* 사진변경 버튼 */
-export const ImageChangeButton = styled.button`
+/* 사진 변경 버튼 */
+S.ImageChangeButton = styled.button`
   width: 94px;
   height: 30px;
 
@@ -134,7 +136,7 @@ export const ImageChangeButton = styled.button`
 `;
 
 /* 삭제 버튼 */
-export const ImageDeleteButton = styled.button`
+S.ImageDeleteButton = styled.button`
   width: 55px;
   height: 30px;
 
@@ -148,29 +150,29 @@ export const ImageDeleteButton = styled.button`
 `;
 
 /* 입력 영역 */
-export const FormArea = styled.div`
+S.FormArea = styled.div`
   margin-top: 26px;
 `;
 
 /* 2열 입력 그룹 */
-export const FieldGroup = styled.div`
+S.FieldGroup = styled.div`
   display: grid;
   grid-template-columns: 456px 1fr;
   column-gap: 14px;
 `;
 
 /* 입력 묶음 */
-export const Field = styled.div`
+S.Field = styled.div`
   width: 456px;
 `;
 
-/* 닉네임 입력 묶음 */
-export const NicknameField = styled.div`
+/* 닉네임 영역 */
+S.NicknameField = styled.div`
   width: 458px;
 `;
 
 /* 라벨 */
-export const Label = styled.label`
+S.Label = styled.label`
   display: flex;
   align-items: center;
   gap: 3px;
@@ -181,14 +183,14 @@ export const Label = styled.label`
 `;
 
 /* 필수 표시 */
-export const Required = styled.span`
+S.Required = styled.span`
   font-size: 13px;
   font-weight: ${FONT_WEIGHT.bold};
   color: #ef4444;
 `;
 
 /* 입력 박스 */
-export const Input = styled.input`
+S.Input = styled.input`
   width: 100%;
   height: 44px;
   padding: 0 14px;
@@ -197,11 +199,10 @@ export const Input = styled.input`
   border: 1px solid #e5e7eb;
   border-radius: 10px;
 
+  font-family: "Pretendard";
   font-size: 14px;
   font-weight: ${FONT_WEIGHT.regular};
   color: #666666;
-
-  font-family: "Pretendard";
 
   &:focus {
     outline: none;
@@ -210,19 +211,19 @@ export const Input = styled.input`
 `;
 
 /* 닉네임 입력 줄 */
-export const NicknameInputRow = styled.div`
+S.NicknameInputRow = styled.div`
   display: grid;
   grid-template-columns: 363px 81px;
   column-gap: 14px;
 `;
 
 /* 닉네임 입력 */
-export const NicknameInput = styled(Input)`
+S.NicknameInput = styled(S.Input)`
   width: 363px;
 `;
 
-/* 중복 확인 버튼 */
-export const CheckButton = styled.button`
+/* 확인 버튼 */
+S.CheckButton = styled.button`
   width: 81px;
   height: 44px;
 
@@ -236,19 +237,19 @@ export const CheckButton = styled.button`
 `;
 
 /* 자기소개 영역 */
-export const IntroArea = styled.div`
+S.IntroArea = styled.div`
   margin-top: 22px;
 `;
 
-/* 자기소개 라벨 줄 */
-export const IntroLabelRow = styled.div`
+/* 자기소개 라벨 */
+S.IntroLabelRow = styled.div`
   display: flex;
   align-items: center;
   gap: 5px;
 `;
 
 /* 선택 뱃지 */
-export const OptionalBadge = styled.span`
+S.OptionalBadge = styled.span`
   width: 34px;
   height: 15px;
 
@@ -265,7 +266,7 @@ export const OptionalBadge = styled.span`
 `;
 
 /* 자기소개 입력 */
-export const IntroTextarea = styled.textarea`
+S.IntroTextarea = styled.textarea`
   width: 928px;
   height: 90px;
   padding: 14px;
@@ -295,7 +296,7 @@ export const IntroTextarea = styled.textarea`
 `;
 
 /* 글자 수 */
-export const CountText = styled.p`
+S.CountText = styled.p`
   margin: 11px 0 0;
   text-align: right;
 
@@ -305,7 +306,7 @@ export const CountText = styled.p`
 `;
 
 /* 추가정보 구분선 */
-export const ExtraDivider = styled.div`
+S.ExtraDivider = styled.div`
   position: relative;
   margin-top: 57px;
 
@@ -314,7 +315,7 @@ export const ExtraDivider = styled.div`
 `;
 
 /* 추가정보 라벨 */
-export const ExtraLabel = styled.div`
+S.ExtraLabel = styled.div`
   position: absolute;
   left: 50%;
   top: 50%;
@@ -335,13 +336,13 @@ export const ExtraLabel = styled.div`
   color: #9ca3af;
 `;
 
-/* 추가정보 입력 영역 */
-export const ExtraFormArea = styled.div`
+/* 추가정보 영역 */
+S.ExtraFormArea = styled.div`
   margin-top: 28px;
 `;
 
 /* 셀렉트 래퍼 */
-export const SelectWrapper = styled.div`
+S.SelectWrapper = styled.div`
   position: relative;
 
   width: 456px;
@@ -351,7 +352,6 @@ export const SelectWrapper = styled.div`
   border: 1px solid #e5e7eb;
   border-radius: 10px;
   background: ${PALETTE.white};
-
   overflow: hidden;
 
   &::after {
@@ -380,7 +380,7 @@ export const SelectWrapper = styled.div`
 `;
 
 /* 셀렉트 박스 */
-export const Select = styled.select`
+S.Select = styled.select`
   width: 100%;
   height: 100%;
   padding: 0 40px 0 14px;
@@ -403,14 +403,14 @@ export const Select = styled.select`
 `;
 
 /* 하단 구분선 */
-export const BottomDivider = styled.div`
+S.BottomDivider = styled.div`
   margin-top: 26px;
   height: 1px;
   background: #f3f4f6;
 `;
 
-/* 하단 버튼 영역 */
-export const BottomArea = styled.div`
+/* 하단 영역 */
+S.BottomArea = styled.div`
   margin-top: 20px;
 
   display: flex;
@@ -419,7 +419,7 @@ export const BottomArea = styled.div`
 `;
 
 /* 필수 안내 */
-export const RequiredGuide = styled.p`
+S.RequiredGuide = styled.p`
   margin: 0;
 
   font-size: 12px;
@@ -428,13 +428,13 @@ export const RequiredGuide = styled.p`
 `;
 
 /* 버튼 묶음 */
-export const ButtonArea = styled.div`
+S.ButtonArea = styled.div`
   display: flex;
   gap: 8px;
 `;
 
 /* 취소 버튼 */
-export const CancelButton = styled.button`
+S.CancelButton = styled.button`
   width: 75px;
   height: 39px;
 
@@ -448,7 +448,7 @@ export const CancelButton = styled.button`
 `;
 
 /* 저장 버튼 */
-export const SaveButton = styled.button`
+S.SaveButton = styled.button`
   width: 113px;
   height: 37px;
 
@@ -461,16 +461,16 @@ export const SaveButton = styled.button`
   color: ${PALETTE.white};
 `;
 
-/* 계정정보 카드CSS */
+/* AccountInfoCard CSS */
 
 /* 계정 정보 섹션 */
-export const AccountInfoSection = styled.div`
+S.AccountInfoSection = styled.div`
   width: 1001px;
   margin-top: 16px;
 `;
 
 /* 계정 정보 카드 */
-export const AccountInfoCardBox = styled.div`
+S.AccountInfoCardBox = styled.div`
   width: 1001px;
   height: 213px;
   padding: 17px 27px 21px;
@@ -481,31 +481,31 @@ export const AccountInfoCardBox = styled.div`
 `;
 
 /* 계정 정보 입력 영역 */
-export const AccountFieldGroup = styled.div`
+S.AccountFieldGroup = styled.div`
   display: grid;
   grid-template-columns: 456px 1fr;
   column-gap: 14px;
 `;
 
 /* 전화번호 영역 */
-export const PhoneField = styled.div`
+S.PhoneField = styled.div`
   width: 551px;
 `;
 
 /* 전화번호 입력 줄 */
-export const PhoneInputRow = styled.div`
+S.PhoneInputRow = styled.div`
   display: grid;
   grid-template-columns: 363px 81px;
   column-gap: 14px;
 `;
 
 /* 전화번호 입력 */
-export const PhoneInput = styled(Input)`
+S.PhoneInput = styled(S.Input)`
   width: 363px;
 `;
 
 /* 계정 설명 */
-export const FieldDesc = styled.p`
+S.FieldDesc = styled.p`
   margin: 7px 0 0;
 
   font-size: 12px;
@@ -513,31 +513,31 @@ export const FieldDesc = styled.p`
   color: #9ca3af;
 `;
 
-/* 계정 정보 하단 구분선 */
-export const AccountDivider = styled.div`
+/* 계정 정보 구분선 */
+S.AccountDivider = styled.div`
   margin-top: 24px;
   height: 1px;
   background: #f3f4f6;
 `;
 
 /* 계정 정보 버튼 영역 */
-export const AccountBottomArea = styled.div`
+S.AccountBottomArea = styled.div`
   margin-top: 18px;
 
   display: flex;
   justify-content: flex-end;
 `;
 
-/* 비밀번호 변경CSS */
+/* PasswordChangeCard CSS */
 
-/* 비밀번호 변경 섹션 */
-export const PasswordSection = styled.div`
+/* 비밀번호 섹션 */
+S.PasswordSection = styled.div`
   width: 1001px;
   margin-top: 16px;
 `;
 
-/* 비밀번호 변경 카드 */
-export const PasswordCardBox = styled.div`
+/* 비밀번호 카드 */
+S.PasswordCardBox = styled.div`
   width: 1001px;
   height: 323px;
   padding: 31px 27px 0;
@@ -548,12 +548,12 @@ export const PasswordCardBox = styled.div`
 `;
 
 /* 현재 비밀번호 영역 */
-export const PasswordFullField = styled.div`
+S.PasswordFullField = styled.div`
   width: 951px;
 `;
 
 /* 비밀번호 입력 그룹 */
-export const PasswordFieldGroup = styled.div`
+S.PasswordFieldGroup = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   column-gap: 20px;
@@ -561,24 +561,24 @@ export const PasswordFieldGroup = styled.div`
 `;
 
 /* 비밀번호 입력 묶음 */
-export const PasswordField = styled.div`
+S.PasswordField = styled.div`
   width: 466px;
 `;
 
 /* 비밀번호 입력 */
-export const PasswordInput = styled(Input)`
+S.PasswordInput = styled(S.Input)`
   width: 100%;
 `;
 
-/* 비밀번호 안내 바 */
-export const PasswordStrengthBar = styled.div`
+/* 비밀번호 강도 바 */
+S.PasswordStrengthBar = styled.div`
   display: flex;
   gap: 6px;
   margin-top: 13px;
 `;
 
-/* 비밀번호 안내 막대 */
-export const PasswordStrengthItem = styled.div`
+/* 비밀번호 강도 막대 */
+S.PasswordStrengthItem = styled.div`
   width: 151px;
   height: 4px;
 
@@ -586,8 +586,8 @@ export const PasswordStrengthItem = styled.div`
   background: #f3f4f6;
 `;
 
-/* 비밀번호 안내 문구 */
-export const PasswordDesc = styled.p`
+/* 비밀번호 안내 */
+S.PasswordDesc = styled.p`
   margin: 7px 0 0;
 
   font-size: 12px;
@@ -595,15 +595,15 @@ export const PasswordDesc = styled.p`
   color: #9ca3af;
 `;
 
-/* 비밀번호 하단 구분선 */
-export const PasswordDivider = styled.div`
+/* 비밀번호 구분선 */
+S.PasswordDivider = styled.div`
   margin-top: 23px;
   height: 1px;
   background: #f3f4f6;
 `;
 
-/* 비밀번호 하단 영역 */
-export const PasswordBottomArea = styled.div`
+/* 비밀번호 하단 */
+S.PasswordBottomArea = styled.div`
   height: 64px;
 
   display: flex;
@@ -612,7 +612,7 @@ export const PasswordBottomArea = styled.div`
 `;
 
 /* 비밀번호 권장 문구 */
-export const PasswordGuide = styled.p`
+S.PasswordGuide = styled.p`
   margin: 0;
 
   font-size: 12px;
@@ -621,7 +621,7 @@ export const PasswordGuide = styled.p`
 `;
 
 /* 회원 탈퇴 영역 */
-export const EditWithdrawArea = styled.div`
+S.EditWithdrawArea = styled.div`
   width: 1001px;
   margin-top: 20px;
 
@@ -629,10 +629,10 @@ export const EditWithdrawArea = styled.div`
   justify-content: flex-end;
 `;
 
-/* 프로필 미리보기 CSS */
+/* ProfilePreviewCard CSS */
 
-/* 프로필 미리보기 카드 */
-export const PreviewCardBox = styled.div`
+/* 미리보기 카드 */
+S.PreviewCardBox = styled.div`
   width: 312px;
   height: 300px;
   padding: 18px 20px 21px;
@@ -643,7 +643,7 @@ export const PreviewCardBox = styled.div`
 `;
 
 /* 미리보기 제목 */
-export const PreviewTitle = styled.p`
+S.PreviewTitle = styled.p`
   margin: 0 0 15px;
 
   font-size: 14px;
@@ -652,7 +652,7 @@ export const PreviewTitle = styled.p`
 `;
 
 /* 미리보기 내부 박스 */
-export const PreviewInnerBox = styled.div`
+S.PreviewInnerBox = styled.div`
   width: 272px;
   height: 230px;
   padding-top: 11px;
@@ -668,7 +668,7 @@ export const PreviewInnerBox = styled.div`
 `;
 
 /* 미리보기 프로필 이미지 */
-export const PreviewProfileImage = styled.div`
+S.PreviewProfileImage = styled.div`
   width: 64px;
   height: 64px;
 
@@ -684,7 +684,7 @@ export const PreviewProfileImage = styled.div`
 `;
 
 /* 미리보기 이름 */
-export const PreviewUserName = styled.p`
+S.PreviewUserName = styled.p`
   margin: 13px 0 0;
 
   font-size: 16px;
@@ -692,8 +692,8 @@ export const PreviewUserName = styled.p`
   color: #333333;
 `;
 
-/* 미리보기 레벨 버튼 */
-export const PreviewLevelButton = styled.button`
+/* 레벨 버튼 */
+S.PreviewLevelButton = styled.button`
   width: 84px;
   height: 17px;
   margin-top: 7px;
@@ -712,8 +712,8 @@ export const PreviewLevelButton = styled.button`
   color: #4359fc;
 `;
 
-/* 미리보기 소개 */
-export const PreviewIntro = styled.p`
+/* 소개 */
+S.PreviewIntro = styled.p`
   margin: 17px 0 0;
 
   font-size: 12px;
@@ -723,8 +723,8 @@ export const PreviewIntro = styled.p`
   color: #9ca3af;
 `;
 
-/* 미리보기 안내 */
-export const PreviewGuideText = styled.p`
+/* 안내 문구 */
+S.PreviewGuideText = styled.p`
   margin: 16px 0 0;
 
   font-size: 11px;
@@ -732,8 +732,10 @@ export const PreviewGuideText = styled.p`
   color: #9ca3af;
 `;
 
-/* 작성 안내 카드 CSS */
-export const GuideCardBox = styled.div`
+/* ProfileGuideCard CSS */
+
+/* 작성 안내 카드 */
+S.GuideCardBox = styled.div`
   width: 312px;
   height: 220px;
   padding: 23px 20px 22px;
@@ -744,7 +746,7 @@ export const GuideCardBox = styled.div`
 `;
 
 /* 작성 안내 제목 */
-export const GuideTitle = styled.p`
+S.GuideTitle = styled.p`
   margin: 0 0 17px;
 
   font-size: 14px;
@@ -753,14 +755,14 @@ export const GuideTitle = styled.p`
 `;
 
 /* 작성 안내 목록 */
-export const GuideList = styled.div`
+S.GuideList = styled.div`
   display: flex;
   flex-direction: column;
   gap: 13px;
 `;
 
 /* 작성 안내 행 */
-export const GuideItem = styled.p`
+S.GuideItem = styled.p`
   margin: 0;
 
   font-size: 12px;
@@ -769,17 +771,17 @@ export const GuideItem = styled.p`
   color: #9ca3af;
 `;
 
-/* 작성 안내 강조 */
-export const GuideStrong = styled.span`
+/* 강조 텍스트 */
+S.GuideStrong = styled.span`
   font-size: 12px;
   font-weight: ${FONT_WEIGHT.bold};
   color: #9ca3af;
 `;
 
-/* 보안 안내 카드 CSS */
+/* SecurityGuideCard CSS */
 
 /* 보안 안내 카드 */
-export const SecurityCardBox = styled.div`
+S.SecurityCardBox = styled.div`
   width: 312px;
   min-height: 218px;
   padding: 23px 20px 22px;
@@ -790,7 +792,7 @@ export const SecurityCardBox = styled.div`
 `;
 
 /* 보안 안내 제목 */
-export const SecurityTitle = styled.p`
+S.SecurityTitle = styled.p`
   margin: 0 0 14px;
 
   font-size: 14px;
@@ -799,7 +801,7 @@ export const SecurityTitle = styled.p`
 `;
 
 /* 개인정보 보호 박스 */
-export const SecurityNoticeBox = styled.div`
+S.SecurityNoticeBox = styled.div`
   width: 272px;
   height: 80px;
   padding: 12px 14px;
@@ -811,7 +813,7 @@ export const SecurityNoticeBox = styled.div`
 `;
 
 /* 개인정보 보호 제목 */
-export const SecurityNoticeTitle = styled.p`
+S.SecurityNoticeTitle = styled.p`
   margin: 0 0 10px;
 
   font-size: 12px;
@@ -820,7 +822,7 @@ export const SecurityNoticeTitle = styled.p`
 `;
 
 /* 개인정보 보호 설명 */
-export const SecurityNoticeText = styled.p`
+S.SecurityNoticeText = styled.p`
   margin: 0;
 
   font-size: 12px;
@@ -830,12 +832,12 @@ export const SecurityNoticeText = styled.p`
 `;
 
 /* 접속 정보 영역 */
-export const SecurityAccessInfo = styled.div`
+S.SecurityAccessInfo = styled.div`
   margin-top: 17px;
 `;
 
 /* 접속 정보 줄 */
-export const SecurityAccessRow = styled.p`
+S.SecurityAccessRow = styled.p`
   margin: 0;
 
   font-size: 12px;
@@ -848,8 +850,10 @@ export const SecurityAccessRow = styled.p`
 `;
 
 /* 접속 정보 값 */
-export const SecurityAccessValue = styled.span`
+S.SecurityAccessValue = styled.span`
   font-size: 12px;
   font-weight: ${FONT_WEIGHT.bold};
   color: #333333;
 `;
+
+export default S;

@@ -1,17 +1,7 @@
 import React, { useState } from "react";
 import WithdrawActionButtons from "./WithdrawActionButtons";
 
-import {
-  ConfirmWithdrawSection,
-  ConfirmWithdrawTitle,
-  ConfirmWithdrawCardBox,
-  ConfirmCheckRow,
-  ConfirmCheckInput,
-  ConfirmCheckBox,
-  ConfirmPasswordArea,
-  ConfirmPasswordLabel,
-  ConfirmPasswordInput,
-} from "../style";
+import S from "../style";
 
 const CheckIcon = () => {
   return (
@@ -37,35 +27,41 @@ const ConfirmWithdrawCard = () => {
   const [checked, setChecked] = useState(false);
 
   return (
-    <ConfirmWithdrawSection>
-      <ConfirmWithdrawTitle>정말 탈퇴하시겠어요?</ConfirmWithdrawTitle>
+    <S.ConfirmWithdrawSection>
+      <S.ConfirmWithdrawTitle>
+        정말 탈퇴하시겠어요?
+      </S.ConfirmWithdrawTitle>
 
-      <ConfirmWithdrawCardBox>
-        <ConfirmCheckRow>
-          <ConfirmCheckInput
+      <S.ConfirmWithdrawCardBox>
+        <S.ConfirmCheckRow>
+          <S.ConfirmCheckInput
             type="checkbox"
             checked={checked}
             onChange={() => setChecked((prev) => !prev)}
           />
-          <ConfirmCheckBox $checked={checked}>
-            {checked && <CheckIcon />}
-          </ConfirmCheckBox>
-          안내 사항을 확인했고 탈퇴 후 복구가 어려울 수 있음을 이해했습니다.
-        </ConfirmCheckRow>
 
-        <ConfirmPasswordArea>
-          <ConfirmPasswordLabel>비밀번호 입력</ConfirmPasswordLabel>
+          <S.ConfirmCheckBox $checked={checked}>
+            {checked && <CheckIcon />}
+          </S.ConfirmCheckBox>
+
+          안내 사항을 확인했고 탈퇴 후 복구가 어려울 수 있음을 이해했습니다.
+        </S.ConfirmCheckRow>
+
+        <S.ConfirmPasswordArea>
+          <S.ConfirmPasswordLabel>
+            비밀번호 입력
+          </S.ConfirmPasswordLabel>
 
           {/* 탈퇴 확인용 비밀번호 입력 */}
-          <ConfirmPasswordInput
+          <S.ConfirmPasswordInput
             type="password"
             placeholder="비밀번호 입력"
           />
-        </ConfirmPasswordArea>
-      </ConfirmWithdrawCardBox>
+        </S.ConfirmPasswordArea>
+      </S.ConfirmWithdrawCardBox>
 
       <WithdrawActionButtons />
-    </ConfirmWithdrawSection>
+    </S.ConfirmWithdrawSection>
   );
 };
 

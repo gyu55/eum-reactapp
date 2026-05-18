@@ -1,9 +1,10 @@
 import React from "react";
 import { Outlet, useLocation } from "react-router-dom";
+
 import MyPageTabMenu from "./MyPageTabMenu";
 import MyPageComponent from "./MyPageComponent";
 
-import { Page, Inner } from "./style";
+import S from "./style";
 
 const MyPageContainer = () => {
   const { pathname } = useLocation();
@@ -11,13 +12,13 @@ const MyPageContainer = () => {
   const isMyPageMain = pathname === "/mypage";
 
   return (
-    <Page>
-      <Inner>
+    <S.Page>
+      <S.Inner>
         <MyPageTabMenu />
 
         {isMyPageMain ? <MyPageComponent /> : <Outlet />}
-      </Inner>
-    </Page>
+      </S.Inner>
+    </S.Page>
   );
 };
 

@@ -10,7 +10,6 @@ const StudyChapterContainer = () => {
     const location = useLocation();
 
     const isChapterMain = location.pathname === "/study/chapter" || location.pathname === "/study/chapter/";
-
     const quizList = [
         {
             id: 1,
@@ -51,10 +50,8 @@ const StudyChapterContainer = () => {
     ];
 
     if (!isChapterMain) {
-        
         return <Outlet />;
     }
-
 
 
     return (

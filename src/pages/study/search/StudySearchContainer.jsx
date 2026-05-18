@@ -1,6 +1,6 @@
 import React from 'react';
-import StudySearchComponent from './StudySearchComponent';
 import { Outlet } from 'react-router-dom';
+import StudySearchComponent from './StudySearchComponent';
 
 const StudySearchContainer = () => {
     return (

@@ -1,87 +1,67 @@
 import React from "react";
 
-import {
-  PhoneInput,
-  AccountInfoSection,
-  SectionTitle,
-  SectionDesc,
-  AccountInfoCardBox,
-  AccountFieldGroup,
-  Field,
-  PhoneField,
-  PhoneInputRow,
-  Label,
-  Required,
-  Input,
-  CheckButton,
-  FieldDesc,
-  AccountDivider,
-  AccountBottomArea,
-  ButtonArea,
-  CancelButton,
-  SaveButton,
-} from "../style";
+import S from "../style";
 
 const AccountInfoCard = () => {
   return (
-    <AccountInfoSection>
+    <S.AccountInfoSection>
       {/* 섹션 제목 */}
-      <SectionTitle>계정 정보</SectionTitle>
+      <S.SectionTitle>계정 정보</S.SectionTitle>
 
       {/* 섹션 설명 */}
-      <SectionDesc>이메일 및 연락처 정보를 수정합니다</SectionDesc>
+      <S.SectionDesc>이메일 및 연락처 정보를 수정합니다</S.SectionDesc>
 
       {/* 계정 정보 카드 */}
-      <AccountInfoCardBox>
-        <AccountFieldGroup>
+      <S.AccountInfoCardBox>
+        <S.AccountFieldGroup>
           {/* 이메일 */}
-          <Field>
-            <Label>
+          <S.Field>
+            <S.Label>
               이메일
-              <Required>*</Required>
-            </Label>
+              <S.Required>*</S.Required>
+            </S.Label>
 
             {/* 이메일 정보 연동 */}
-            <Input type="email" placeholder="user123@gmail.com" />
+            <S.Input type="email" placeholder="user123@gmail.com" />
 
-            <FieldDesc>
+            <S.FieldDesc>
               이메일은 변경할 수 없습니다 · 소셜 로그인 계정
-            </FieldDesc>
-          </Field>
+            </S.FieldDesc>
+          </S.Field>
 
           {/* 전화번호 */}
-          <PhoneField>
-            <Label>
+          <S.PhoneField>
+            <S.Label>
               전화번호
-              <Required>*</Required>
-            </Label>
+              <S.Required>*</S.Required>
+            </S.Label>
 
-            <PhoneInputRow>
+            <S.PhoneInputRow>
               {/* 전화번호 정보 연동 */}
-              <PhoneInput type="tel" placeholder="01012345678" />
+              <S.PhoneInput type="tel" placeholder="01012345678" />
 
               {/* 휴대폰 인증 연동 */}
-              <CheckButton type="button">인증하기</CheckButton>
-            </PhoneInputRow>
+              <S.CheckButton type="button">인증하기</S.CheckButton>
+            </S.PhoneInputRow>
 
-            <FieldDesc>
+            <S.FieldDesc>
               알림 수신 및 본인 확인에 사용됩니다
-            </FieldDesc>
-          </PhoneField>
-        </AccountFieldGroup>
+            </S.FieldDesc>
+          </S.PhoneField>
+        </S.AccountFieldGroup>
 
-        <AccountDivider />
+        <S.AccountDivider />
 
-        <AccountBottomArea>
-          <ButtonArea>
-            <CancelButton type="button">취소</CancelButton>
+        <S.AccountBottomArea>
+          <S.ButtonArea>
+            <S.CancelButton type="button">취소</S.CancelButton>
 
             {/* 계정 정보 저장 연동 */}
-            <SaveButton type="button">저장하기</SaveButton>
-          </ButtonArea>
-        </AccountBottomArea>
-      </AccountInfoCardBox>
-    </AccountInfoSection>
+            <S.SaveButton type="button">저장하기</S.SaveButton>
+          </S.ButtonArea>
+        </S.AccountBottomArea>
+      </S.AccountInfoCardBox>
+    </S.AccountInfoSection>
   );
 };
 

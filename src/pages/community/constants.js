@@ -2,6 +2,10 @@
 // theme.js에 이미 있는 값은 여기에 중복 정의하지 않는다.
 
 import theme from "../../styles/theme";
+import originalProfile from "./assets/userProfile/default.png";
+import defaultProfileImg from "./assets/userProfile/default1.png";
+import defaultReportIcon from "./assets/postDetail/singo.png";
+import defaultLinkIcon from "./assets/postDetail/link_copy.svg";
 
 // 외곽선 내부 사이즈
 const borderWidth = 2;
@@ -172,3 +176,21 @@ export const TYPE = {
   REQUEST: "request",
   ROOM: "room",
 };
+
+// 게시글 상세 기본 이미지 (URL 로딩 실패 시 폴백용)
+export const DEFAULT_IMAGES = {
+  originalProfile: originalProfile,
+  authorProfile: defaultProfileImg,
+  reportIcon: defaultReportIcon,
+  linkIcon: defaultLinkIcon,
+};
+
+// 게시글 카테고리 목록 — label: UI 표시값, value: DB POST_TAG 저장값
+export const POST_CATEGORIES = [
+  { label: "전체", value: "" },
+  { label: "자유게시판", value: "자유게시판" },
+  { label: "질문게시판", value: "질문게시판" },
+  { label: "수어 학습", value: "수어학습" },
+  { label: "학습 후기", value: "학습후기" },
+  { label: "취업·진로", value: "취업·진로" },
+];

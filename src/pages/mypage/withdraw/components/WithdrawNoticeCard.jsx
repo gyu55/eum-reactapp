@@ -1,12 +1,6 @@
 import React from "react";
 
-import {
-  WithdrawSection,
-  WithdrawSectionTitle,
-  WithdrawNoticeCard,
-  WithdrawNoticeList,
-  WithdrawNoticeItem,
-} from "../style";
+import S from "../style";
 
 const noticeList = [
   "탈퇴 시 프로필 및 계정 정보는 삭제됩니다.",
@@ -15,22 +9,22 @@ const noticeList = [
   "탈퇴 후 계정 복구는 어려울 수 있습니다.",
 ];
 
-const WithdrawNoticeCardComponent = () => {
+const WithdrawNoticeCard = () => {
   return (
-    <WithdrawSection>
-      <WithdrawSectionTitle>탈퇴 시 유의사항</WithdrawSectionTitle>
+    <S.WithdrawSection>
+      <S.WithdrawSectionTitle>탈퇴 시 유의사항</S.WithdrawSectionTitle>
 
-      <WithdrawNoticeCard>
-        <WithdrawNoticeList>
+      <S.WithdrawNoticeCard>
+        <S.WithdrawNoticeList>
           {noticeList.map((notice) => (
-            <WithdrawNoticeItem key={notice}>
+            <S.WithdrawNoticeItem key={notice}>
               · {notice}
-            </WithdrawNoticeItem>
+            </S.WithdrawNoticeItem>
           ))}
-        </WithdrawNoticeList>
-      </WithdrawNoticeCard>
-    </WithdrawSection>
+        </S.WithdrawNoticeList>
+      </S.WithdrawNoticeCard>
+    </S.WithdrawSection>
   );
 };
 
-export default WithdrawNoticeCardComponent;
+export default WithdrawNoticeCard;

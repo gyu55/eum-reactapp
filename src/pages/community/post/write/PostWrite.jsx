@@ -63,136 +63,171 @@ const PostWrite = () => {
   const navigate = useNavigate();
   const [activeCategory, setActiveCategory] = useState("전체");
 
+  const S = {
+    ActionBtn,
+    ActionButtons,
+    BodyCol,
+    CardBody,
+    CardHeader,
+    CategoryCol,
+    CategoryHint,
+    CategoryPill,
+    CategoryPills,
+    ContentArea,
+    FieldLabel,
+    FieldRow,
+    FileBtn,
+    FileButtons,
+    FileDropSub,
+    FileDropTitle,
+    FileDropZone,
+    InputField,
+    LabelText,
+    LeftBlock,
+    Page,
+    RequiredMark,
+    RightBlock,
+    SaveIcon,
+    SaveNotice,
+    SaveText,
+    TagCol,
+    TagHint,
+    TagInputField,
+    TextArea,
+    UploadIcon,
+    WriteCard,
+  };
+
   return (
-    <Page>
+    <S.Page>
       {/* 콘텐츠 영역 */}
-      <ContentArea>
+      <S.ContentArea>
         {/* 왼쪽: 작성 영역 (984px) */}
-        <LeftBlock>
+        <S.LeftBlock>
           {/* 상단 액션 버튼 */}
-          <ActionButtons>
-            <ActionBtn $type="cancel" onClick={() => navigate(-1)}>
+          <S.ActionButtons>
+            <S.ActionBtn $type="cancel" onClick={() => navigate(-1)}>
               취소
-            </ActionBtn>
-            <ActionBtn $type="draft">임시저장</ActionBtn>
-            <ActionBtn $type="submit">등록하기</ActionBtn>
-          </ActionButtons>
+            </S.ActionBtn>
+            <S.ActionBtn $type="draft">임시저장</S.ActionBtn>
+            <S.ActionBtn $type="submit">등록하기</S.ActionBtn>
+          </S.ActionButtons>
 
           {/* 작성 카드 */}
-          <WriteCard>
-            <CardHeader>
+          <S.WriteCard>
+            <S.CardHeader>
               <p>이음 커뮤니티에 새 글을 작성합니다</p>
-            </CardHeader>
+            </S.CardHeader>
 
-            <CardBody>
+            <S.CardBody>
               {/* 카테고리 */}
-              <FieldRow>
-                <FieldLabel>
-                  <LabelText>카테고리</LabelText>
-                  <RequiredMark>*</RequiredMark>
-                </FieldLabel>
-                <CategoryCol>
-                  <CategoryHint>
+              <S.FieldRow>
+                <S.FieldLabel>
+                  <S.LabelText>카테고리</S.LabelText>
+                  <S.RequiredMark>*</S.RequiredMark>
+                </S.FieldLabel>
+                <S.CategoryCol>
+                  <S.CategoryHint>
                     글의 성격에 맞는 카테고리를 선택해 주세요
-                  </CategoryHint>
-                  <CategoryPills>
+                  </S.CategoryHint>
+                  <S.CategoryPills>
                     {CATEGORIES.map((cat) => (
-                      <CategoryPill
+                      <S.CategoryPill
                         key={cat}
                         $active={activeCategory === cat}
                         onClick={() => setActiveCategory(cat)}
                       >
                         {cat}
-                      </CategoryPill>
+                      </S.CategoryPill>
                     ))}
-                  </CategoryPills>
-                </CategoryCol>
-              </FieldRow>
+                  </S.CategoryPills>
+                </S.CategoryCol>
+              </S.FieldRow>
 
               {/* 제목 */}
-              <FieldRow>
-                <FieldLabel>
-                  <LabelText>제목</LabelText>
-                  <RequiredMark>*</RequiredMark>
-                </FieldLabel>
-                <InputField placeholder="제목을 입력해 주세요 zz" />
-              </FieldRow>
+              <S.FieldRow>
+                <S.FieldLabel>
+                  <S.LabelText>제목</S.LabelText>
+                  <S.RequiredMark>*</S.RequiredMark>
+                </S.FieldLabel>
+                <S.InputField placeholder="제목을 입력해 주세요 zz" />
+              </S.FieldRow>
 
               {/* 본문 */}
-              <FieldRow>
-                <FieldLabel>
-                  <LabelText>본문</LabelText>
-                  <RequiredMark>*</RequiredMark>
-                </FieldLabel>
-                <BodyCol>
+              <S.FieldRow>
+                <S.FieldLabel>
+                  <S.LabelText>본문</S.LabelText>
+                  <S.RequiredMark>*</S.RequiredMark>
+                </S.FieldLabel>
+                <S.BodyCol>
                   <ToolBar />
-                  <TextArea placeholder="내용을 입력해 주세요" />
-                </BodyCol>
-              </FieldRow>
+                  <S.TextArea placeholder="내용을 입력해 주세요" />
+                </S.BodyCol>
+              </S.FieldRow>
 
               {/* 첨부파일 */}
-              <FieldRow>
-                <FieldLabel>
-                  <LabelText>첨부파일</LabelText>
-                </FieldLabel>
-                <FileDropZone>
-                  <UploadIcon src={iconUpload} alt="파일 업로드" />
-                  <FileDropTitle>
+              <S.FieldRow>
+                <S.FieldLabel>
+                  <S.LabelText>첨부파일</S.LabelText>
+                </S.FieldLabel>
+                <S.FileDropZone>
+                  <S.UploadIcon src={iconUpload} alt="파일 업로드" />
+                  <S.FileDropTitle>
                     파일을 드래그하거나 클릭해서 첨부하세요
-                  </FileDropTitle>
-                  <FileDropSub>
+                  </S.FileDropTitle>
+                  <S.FileDropSub>
                     JPG, PNG, GIF, MP4 지원 · 파일당 최대 10MB
-                  </FileDropSub>
-                  <FileButtons>
-                    <FileBtn>이미지 첨부</FileBtn>
-                    <FileBtn>영상 첨부</FileBtn>
-                  </FileButtons>
-                </FileDropZone>
-              </FieldRow>
+                  </S.FileDropSub>
+                  <S.FileButtons>
+                    <S.FileBtn>이미지 첨부</S.FileBtn>
+                    <S.FileBtn>영상 첨부</S.FileBtn>
+                  </S.FileButtons>
+                </S.FileDropZone>
+              </S.FieldRow>
 
               {/* 태그 */}
-              <FieldRow>
-                <FieldLabel>
-                  <LabelText>태그</LabelText>
-                </FieldLabel>
-                <TagCol>
-                  <TagHint>Enter 또는 쉼표로 태그 추가 (최대 10개)</TagHint>
-                  <TagInputField placeholder="# 태그를 입력하세요" />
-                  <TagHint>예: #수어기초 #학습인증 #30일도전</TagHint>
-                </TagCol>
-              </FieldRow>
-            </CardBody>
-          </WriteCard>
+              <S.FieldRow>
+                <S.FieldLabel>
+                  <S.LabelText>태그</S.LabelText>
+                </S.FieldLabel>
+                <S.TagCol>
+                  <S.TagHint>Enter 또는 쉼표로 태그 추가 (최대 10개)</S.TagHint>
+                  <S.TagInputField placeholder="# 태그를 입력하세요" />
+                  <S.TagHint>예: #수어기초 #학습인증 #30일도전</S.TagHint>
+                </S.TagCol>
+              </S.FieldRow>
+            </S.CardBody>
+          </S.WriteCard>
 
           {/* 하단 액션 버튼 */}
-          <ActionButtons>
-            <ActionBtn $type="cancel" onClick={() => navigate(-1)}>
+          <S.ActionButtons>
+            <S.ActionBtn $type="cancel" onClick={() => navigate(-1)}>
               취소
-            </ActionBtn>
-            <ActionBtn $type="draft">임시저장</ActionBtn>
-            <ActionBtn $type="submit">등록하기</ActionBtn>
-          </ActionButtons>
-        </LeftBlock>
+            </S.ActionBtn>
+            <S.ActionBtn $type="draft">임시저장</S.ActionBtn>
+            <S.ActionBtn $type="submit">등록하기</S.ActionBtn>
+          </S.ActionButtons>
+        </S.LeftBlock>
 
         {/* 오른쪽: 사이드바 (312px) */}
-        <RightBlock>
+        <S.RightBlock>
           {/* 작성 가이드 */}
           <PostingGuide />
           {/* 커뮤니티 규칙 */}
           <CommunityRule />
 
           {/* 자동 임시저장 알림 */}
-          <SaveNotice>
-            <SaveIcon src={iconSaveNotice} alt="" />
-            <SaveText>
+          <S.SaveNotice>
+            <S.SaveIcon src={iconSaveNotice} alt="" />
+            <S.SaveText>
               {
                 "작성 중인 글은 자동으로 임시 저장됩니다.\n언제든지 이어서 작성할 수 있어요."
               }
-            </SaveText>
-          </SaveNotice>
-        </RightBlock>
-      </ContentArea>
-    </Page>
+            </S.SaveText>
+          </S.SaveNotice>
+        </S.RightBlock>
+      </S.ContentArea>
+    </S.Page>
   );
 };
 

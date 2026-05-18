@@ -1,15 +1,9 @@
-// import React from "react";
-// import styled from "styled-components";
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import { faHeart, faCommentDots } from "@fortawesome/free-solid-svg-icons";
-// import theme from "../../styles/theme";
-// import { FONT_FAMILY, SURFACE, RADIUS } from "../../constants";
-
 import styled from "styled-components";
-import theme from "../../../../../styles/theme";
-import { FONT_FAMILY, RADIUS, SURFACE } from "../../../constants";
+import theme from "../../../../styles/theme";
+import { FONT_FAMILY, RADIUS, SURFACE } from "../../constants";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCommentDots, faHeart } from "@fortawesome/free-solid-svg-icons";
+import { h11Bold } from "../../../../styles/common";
 
 const { GRAYSCALE, TEXT_COLOR, FONT_SIZE, FONT_WEIGHT } = theme;
 

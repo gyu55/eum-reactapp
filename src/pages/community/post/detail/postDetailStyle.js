@@ -111,9 +111,9 @@ export const AuthorRow = styled.div`
 `;
 
 export const AuthorAvatar = styled.img`
-  width: 44px;
-  height: 44px;
-  border-radius: ${RADIUS.sm};
+  width: ${({ size }) => size || "44px"};
+  height: ${({ size }) => size || "44px"};
+  border-radius: ${({ borderRadius }) => borderRadius || "10px"};
   object-fit: cover;
   flex-shrink: 0;
 `;
@@ -292,7 +292,7 @@ export const ActionRow = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 275px;
+  width: 100%;
 `;
 
 export const LikeButton = styled.button`
@@ -342,9 +342,9 @@ export const IconButton = styled.button`
   }
 
   img {
-    width: 24px;
-    height: 24px;
-    object-fit: cover;
+    width: 60%;
+    height: 60%;
+    object-fit: contain;
   }
 
   svg {

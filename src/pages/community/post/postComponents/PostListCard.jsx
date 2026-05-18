@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComment, faEye, faHeart } from "@fortawesome/free-solid-svg-icons";
 import {
@@ -30,6 +31,24 @@ const defaultProfiles = [
   defaultProfile4,
 ];
 
+const S = {
+  Avatar,
+  AvatarAndAuthorRow,
+  AuthorName,
+  Card,
+  ContentAndTitleRow,
+  ContentArea,
+  Description,
+  PostMetaRow,
+  PostStateRow,
+  StatItem,
+  Tag,
+  TagAndTimeRow,
+  Thumbnail,
+  TimeText,
+  Title,
+};
+
 const PostListCard = ({
   id = 0,
   postTag = "",
@@ -42,35 +61,36 @@ const PostListCard = ({
   commentCount = 0,
   postReadCount = 0,
 }) => {
+  const navigate = useNavigate();
   const fallbackProfile = defaultProfiles[id % defaultProfiles.length];
 
   return (
     // 포스트 카드 영역
-    <Card>
+    <S.Card onClick={() => navigate(`/community/post/${id}`)}>
       {/* 태그 및 작성 시각 */}
-      <TagAndTimeRow>
-        <Tag>{postTag}</Tag>
-        <TimeText>{postCreateAt}</TimeText>
-      </TagAndTimeRow>
+      <S.TagAndTimeRow>
+        <S.Tag>{postTag}</S.Tag>
+        <S.TimeText>{postCreateAt}</S.TimeText>
+      </S.TagAndTimeRow>
 
       {/* 게시글 컨텐츠 (제목, 내용) 및 썸네일 row */}
-      <ContentAndTitleRow>
+      <S.ContentAndTitleRow>
         {/* 게시글 제목 및 내용 */}
-        <ContentArea>
-          <Title>{postTitle}</Title>
-          <Description>{postContent}</Description>
-        </ContentArea>
+        <S.ContentArea>
+          <S.Title>{postTitle}</S.Title>
+          <S.Description>{postContent}</S.Description>
+        </S.ContentArea>
         {/* 게시글 썸네일 — 추후 API 연동 시 실제 이미지로 교체 */}
-        <Thumbnail>
+        <S.Thumbnail>
           <img src={postDefaultProfile} alt="게시글 썸네일" />
-        </Thumbnail>
-      </ContentAndTitleRow>
+        </S.Thumbnail>
+      </S.ContentAndTitleRow>
 
       {/* 작성자 및 좋아요, 조회수, 댓글 수 나타내기 */}
-      <PostMetaRow>
+      <S.PostMetaRow>
         {/* 작성자 프로필 이미지 및 이름 */}
-        <AvatarAndAuthorRow>
-          <Avatar
+        <S.AvatarAndAuthorRow>
+          <S.Avatar
             src={userProfile || fallbackProfile}
             alt={userNickname}
             onError={(e) => {
@@ -78,29 +98,29 @@ const PostListCard = ({
               e.target.src = fallbackProfile;
             }}
           />
-          <AuthorName>{userNickname}</AuthorName>
-        </AvatarAndAuthorRow>
+          <S.AuthorName>{userNickname}</S.AuthorName>
+        </S.AvatarAndAuthorRow>
 
         {/* 좋아요, 조회수, 댓글 수 row */}
-        <PostStateRow>
+        <S.PostStateRow>
           {/* 좋아요 */}
-          <StatItem>
+          <S.StatItem>
             <FontAwesomeIcon icon={faHeart} />
             <span>{likeCount}</span>
-          </StatItem>
+          </S.StatItem>
           {/* 댓글수 */}
-          <StatItem>
+          <S.StatItem>
             <FontAwesomeIcon icon={faComment} />
             <span>{commentCount}</span>
-          </StatItem>
+          </S.StatItem>
           {/* 조회수 */}
-          <StatItem>
+          <S.StatItem>
             <FontAwesomeIcon icon={faEye} />
             <span>{postReadCount}</span>
-          </StatItem>
-        </PostStateRow>
-      </PostMetaRow>
-    </Card>
+          </S.StatItem>
+        </S.PostStateRow>
+      </S.PostMetaRow>
+    </S.Card>
   );
 };
 

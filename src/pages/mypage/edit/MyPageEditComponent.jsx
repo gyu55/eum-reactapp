@@ -6,16 +6,11 @@ import AccountInfoCard from "./components/AccountInfoCard";
 import PasswordChangeCard from "./components/PasswordChangeCard";
 import ProfilePreviewCard from "./components/ProfilePreviewCard";
 import ProfileGuideCard from "./components/ProfileGuideCard";
+import SecurityGuideCard from "./components/SecurityGuideCard";
 import LevelGuideModal from "../components/LevelGuideModal";
 
-import {
-  EditLayout,
-  EditMainArea,
-  EditSideArea,
-  EditWithdrawArea,
-} from "./style";
-import { WithdrawButton } from "../style";
-import SecurityGuideCard from "./components/SecurityGuideCard";
+import S from "./style";
+import MyPageStyle from "../style";
 
 const MyPageEditComponent = () => {
   const navigate = useNavigate();
@@ -35,25 +30,27 @@ const MyPageEditComponent = () => {
 
   return (
     <>
-      <EditLayout>
-        <EditMainArea>
+      <S.EditLayout>
+        {/* 왼쪽 영역 */}
+        <S.EditMainArea>
           <ProfileCard />
           <AccountInfoCard />
           <PasswordChangeCard />
 
-          <EditWithdrawArea>
-            <WithdrawButton type="button" onClick={handleWithdrawClick}>
+          <S.EditWithdrawArea>
+            <MyPageStyle.WithdrawButton type="button" onClick={handleWithdrawClick}>
               회원 탈퇴
-            </WithdrawButton>
-          </EditWithdrawArea>
-        </EditMainArea>
+            </MyPageStyle.WithdrawButton>
+          </S.EditWithdrawArea>
+        </S.EditMainArea>
 
-        <EditSideArea>
+        {/* 오른쪽 영역 */}
+        <S.EditSideArea>
           <ProfilePreviewCard onLevelClick={openLevelModal} />
           <ProfileGuideCard />
           <SecurityGuideCard />
-        </EditSideArea>
-      </EditLayout>
+        </S.EditSideArea>
+      </S.EditLayout>
 
       {isLevelModalOpen && <LevelGuideModal onClose={closeLevelModal} />}
     </>

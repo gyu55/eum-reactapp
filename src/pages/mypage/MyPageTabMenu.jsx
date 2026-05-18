@@ -1,6 +1,6 @@
 import React from "react";
 
-import { TabMenu, TabButton } from "./style";
+import S from "./style";
 
 const tabs = [
   { name: "마이페이지", path: "/mypage", size: "main" },
@@ -11,18 +11,18 @@ const tabs = [
 
 const MyPageTabMenu = () => {
   return (
-    <TabMenu>
+    <S.TabMenu>
       {tabs.map((tab) => (
-        <TabButton
+        <S.TabButton
           key={tab.path}
           to={tab.path}
           $size={tab.size}
           end={tab.path === "/mypage"}
         >
           <span>{tab.name}</span>
-        </TabButton>
+        </S.TabButton>
       ))}
-    </TabMenu>
+    </S.TabMenu>
   );
 };
 

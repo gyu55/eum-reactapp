@@ -3,15 +3,17 @@ import theme from "../../../styles/theme";
 
 const { PALETTE, FONT_WEIGHT } = theme;
 
-/* 틸퇴시 유의사항 CSS */
+const S = {};
+
+/* 탈퇴시 유의사항 CSS */
 
 /* 전체 영역 */
-export const WithdrawWrapper = styled.div`
+S.WithdrawWrapper = styled.div`
   margin-top: 18px;
 `;
 
 /* 안내 문구 */
-export const WithdrawIntroText = styled.p`
+S.WithdrawIntroText = styled.p`
   margin: 0;
 
   font-size: 16px;
@@ -20,12 +22,12 @@ export const WithdrawIntroText = styled.p`
 `;
 
 /* 섹션 영역 */
-export const WithdrawSection = styled.section`
+S.WithdrawSection = styled.section`
   margin-top: 50px;
 `;
 
 /* 섹션 제목 */
-export const WithdrawSectionTitle = styled.h3`
+S.WithdrawSectionTitle = styled.h3`
   margin: 0 0 18px 14px;
 
   font-size: 16px;
@@ -34,7 +36,7 @@ export const WithdrawSectionTitle = styled.h3`
 `;
 
 /* 탈퇴 유의사항 카드 */
-export const WithdrawNoticeCard = styled.div`
+S.WithdrawNoticeCard = styled.div`
   width: 780px;
   height: 172px;
   padding: 31px 16px;
@@ -46,7 +48,7 @@ export const WithdrawNoticeCard = styled.div`
 `;
 
 /* 유의사항 목록 */
-export const WithdrawNoticeList = styled.ul`
+S.WithdrawNoticeList = styled.ul`
   margin: 0;
   padding-left: 0;
 
@@ -54,7 +56,7 @@ export const WithdrawNoticeList = styled.ul`
 `;
 
 /* 유의사항 문구 */
-export const WithdrawNoticeItem = styled.li`
+S.WithdrawNoticeItem = styled.li`
   font-size: 12px;
   font-weight: ${FONT_WEIGHT.regular};
   color: #555555;
@@ -67,12 +69,12 @@ export const WithdrawNoticeItem = styled.li`
 /* 탈퇴사유 선택 CSS */
 
 /* 탈퇴 사유 섹션 */
-export const WithdrawReasonSection = styled.section`
+S.WithdrawReasonSection = styled.section`
   margin-top: 23px;
 `;
 
 /* 탈퇴 사유 제목 */
-export const WithdrawReasonTitle = styled.h3`
+S.WithdrawReasonTitle = styled.h3`
   margin: 0 0 5px 14px;
 
   font-size: 16px;
@@ -81,7 +83,7 @@ export const WithdrawReasonTitle = styled.h3`
 `;
 
 /* 탈퇴 사유 설명 */
-export const WithdrawReasonDesc = styled.p`
+S.WithdrawReasonDesc = styled.p`
   margin: 0 0 6px 14px;
 
   font-size: 10px;
@@ -90,7 +92,7 @@ export const WithdrawReasonDesc = styled.p`
 `;
 
 /* 탈퇴 사유 카드 */
-export const WithdrawReasonCardBox = styled.div`
+S.WithdrawReasonCardBox = styled.div`
   width: 780px;
   height: 179px;
   padding: 28px 17px 43px;
@@ -102,7 +104,7 @@ export const WithdrawReasonCardBox = styled.div`
 `;
 
 /* 사유 목록 */
-export const ReasonList = styled.div`
+S.ReasonList = styled.div`
   margin-top: 0;
 
   display: grid;
@@ -112,14 +114,14 @@ export const ReasonList = styled.div`
 `;
 
 /* 사유 열 */
-export const ReasonColumn = styled.div`
+S.ReasonColumn = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
 `;
 
 /* 사유 항목 */
-export const ReasonItem = styled.label`
+S.ReasonItem = styled.label`
   display: flex;
   align-items: center;
   gap: 5px;
@@ -130,13 +132,13 @@ export const ReasonItem = styled.label`
   cursor: pointer;
 `;
 
-/* 라디오 숨김 */
-export const ReasonRadio = styled.input`
+/* 체크 input 숨김 */
+S.ReasonRadio = styled.input`
   display: none;
 `;
 
-/* 라디오 원 */
-export const ReasonCircle = styled.span`
+/* 체크 원 */
+S.ReasonCircle = styled.span`
   width: 19px;
   height: 19px;
   box-sizing: border-box;
@@ -151,13 +153,13 @@ export const ReasonCircle = styled.span`
 `;
 
 /* 기타 줄 */
-export const OtherReasonRow = styled.div`
+S.OtherReasonRow = styled.div`
   display: flex;
   align-items: center;
 `;
 
 /* 기타 입력 */
-export const OtherReasonInput = styled.input`
+S.OtherReasonInput = styled.input`
   width: 300px;
   height: 40px;
   margin-left: 53px;
@@ -187,12 +189,12 @@ export const OtherReasonInput = styled.input`
 /* 최종 확인 CSS */
 
 /* 최종 확인 섹션 */
-export const ConfirmWithdrawSection = styled.section`
+S.ConfirmWithdrawSection = styled.section`
   margin-top: 25px;
 `;
 
 /* 최종 확인 제목 */
-export const ConfirmWithdrawTitle = styled.h3`
+S.ConfirmWithdrawTitle = styled.h3`
   margin: 0 0 7px 14px;
 
   font-size: 16px;
@@ -201,7 +203,7 @@ export const ConfirmWithdrawTitle = styled.h3`
 `;
 
 /* 최종 확인 카드 */
-export const ConfirmWithdrawCardBox = styled.div`
+S.ConfirmWithdrawCardBox = styled.div`
   width: 780px;
   height: 178px;
   padding: 26px 22px 21px;
@@ -213,7 +215,7 @@ export const ConfirmWithdrawCardBox = styled.div`
 `;
 
 /* 확인 체크 영역 */
-export const ConfirmCheckRow = styled.label`
+S.ConfirmCheckRow = styled.label`
   display: flex;
   align-items: center;
   gap: 8px;
@@ -225,12 +227,12 @@ export const ConfirmCheckRow = styled.label`
 `;
 
 /* 체크박스 숨김 */
-export const ConfirmCheckInput = styled.input`
+S.ConfirmCheckInput = styled.input`
   display: none;
 `;
 
 /* 체크박스 */
-export const ConfirmCheckBox = styled.span`
+S.ConfirmCheckBox = styled.span`
   width: 22px;
   height: 22px;
   box-sizing: border-box;
@@ -245,12 +247,12 @@ export const ConfirmCheckBox = styled.span`
 `;
 
 /* 비밀번호 영역 */
-export const ConfirmPasswordArea = styled.div`
+S.ConfirmPasswordArea = styled.div`
   margin-top: 23px;
 `;
 
 /* 비밀번호 라벨 */
-export const ConfirmPasswordLabel = styled.label`
+S.ConfirmPasswordLabel = styled.label`
   display: block;
   margin-bottom: 16px;
 
@@ -260,7 +262,7 @@ export const ConfirmPasswordLabel = styled.label`
 `;
 
 /* 비밀번호 입력 */
-export const ConfirmPasswordInput = styled.input`
+S.ConfirmPasswordInput = styled.input`
   width: 720px;
   height: 44px;
   padding: 0 14px;
@@ -289,7 +291,7 @@ export const ConfirmPasswordInput = styled.input`
 /* WithdrawActionButtons CSS */
 
 /* 하단 버튼 영역 */
-export const WithdrawActionArea = styled.div`
+S.WithdrawActionArea = styled.div`
   width: 780px;
   margin-top: 5px;
 
@@ -299,7 +301,7 @@ export const WithdrawActionArea = styled.div`
 `;
 
 /* 취소 버튼 */
-export const WithdrawCancelButton = styled.button`
+S.WithdrawCancelButton = styled.button`
   width: 90px;
   height: 44px;
 
@@ -313,7 +315,7 @@ export const WithdrawCancelButton = styled.button`
 `;
 
 /* 회원 탈퇴 버튼 */
-export const WithdrawSubmitButton = styled.button`
+S.WithdrawSubmitButton = styled.button`
   width: 120px;
   height: 44px;
 
@@ -325,3 +327,5 @@ export const WithdrawSubmitButton = styled.button`
   font-weight: ${FONT_WEIGHT.regular};
   color: ${PALETTE.white};
 `;
+
+export default S;

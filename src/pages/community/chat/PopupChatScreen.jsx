@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { colors } from "../constants";
 import S from "./ChatStyle";
 import PopupChatHeader from "./popupChat/PopupChatHeader";
@@ -6,8 +6,12 @@ import PopupParticipantList from "./popupChat/PopupParticipantList";
 import PopupChatCenter from "./popupChat/PopupChatCenter";
 import PopupRoomInfoPanel from "./popupChat/PopupRoomInfoPanel";
 import PopupUserInfoPanel from "./popupChat/PopupUserInfoPanel";
+import { useChatContext } from "../context/ChatContext";
+import useAuthStore from "../../../store/authStore";
+import { getChatMessages } from "../communityApi/chatApi";
 
-// Figma asset URLs (expires in 7 days)
+const WS_BASE = "ws://localhost:10000/ws/chat";
+
 const USERS = [
   {
     id: 1,
@@ -71,59 +75,6 @@ const USERS = [
   },
 ];
 
-const MESSAGES = [
-  {
-    id: 1,
-    type: "other",
-    sender: "상대방",
-    avatar:
-      "https://www.figma.com/api/mcp/asset/047eac11-c15a-4d40-bf4b-3c6cc159b4de",
-    content: "메세지 메세지",
-    time: "14:02",
-  },
-  {
-    id: 2,
-    type: "other",
-    sender: "상대방",
-    avatar:
-      "https://www.figma.com/api/mcp/asset/f2fad4c6-fd43-4ef4-8d70-4cf117c31970",
-    content: "메세지 메세지",
-    time: "14:02",
-  },
-  {
-    id: 3,
-    type: "other",
-    sender: "상대방",
-    avatar:
-      "https://www.figma.com/api/mcp/asset/047eac11-c15a-4d40-bf4b-3c6cc159b4de",
-    content:
-      "여러줄 메세지 여러줄 메세지 여러줄 메세지 여러줄 메세지 여러줄 메세지 여러줄 메세지 여러줄 메세지",
-    time: "14:02",
-  },
-  {
-    id: 4,
-    type: "mine",
-    content: "안녕하세요! 오늘도 열공해요 💪",
-    time: "15:00",
-  },
-  {
-    id: 5,
-    type: "other",
-    sender: "상대방",
-    avatar:
-      "https://www.figma.com/api/mcp/asset/f2fad4c6-fd43-4ef4-8d70-4cf117c31970",
-    content: "메세지 메세지",
-    time: "14:02",
-  },
-  {
-    id: 6,
-    type: "mine",
-    content:
-      "안녕하세요! 오늘도 열공해요 💪안녕하세요! 오늘도 열공해안녕하세요! 오늘도 열공해",
-    time: "15:00",
-  },
-];
-
 const TAGS = [
   { label: "#수어기초", bg: colors.primaryLight, color: colors.primary },
   { label: "#일상수어", bg: colors.liveBg, color: colors.live },
@@ -133,8 +84,95 @@ const TAGS = [
   { label: "#초보환영", bg: "#e1beec", color: "#b63fde" },
 ];
 
+const formatTime = (dateStr) => {
+  const d = new Date(dateStr);
+  return d.toLocaleTimeString("ko-KR", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  });
+};
+
+let wsMessageSeq = 0;
+const makeWsMessageId = (msg) =>
+  `ws-${msg.userId}-${msg.chatCreateAt}-${++wsMessageSeq}`;
+
+const toDisplayMessage = (msg, currentUserId) => ({
+  id: msg.id ?? makeWsMessageId(msg),
+  type: msg.userId === currentUserId ? "mine" : "other",
+  sender: msg.userNickname ?? `사용자 ${msg.userId}`,
+  avatar: msg.userProfile ?? "",
+  content: msg.chatContent,
+  time: formatTime(msg.chatCreateAt),
+});
+
 const PopupChatScreen = () => {
   const [selectedUser, setSelectedUser] = useState(null);
+  const [messages, setMessages] = useState([]);
+  const { activeChatRoom } = useChatContext();
+  const { user } = useAuthStore();
+  const wsRef = useRef(null);
+
+  const chatRoomId = activeChatRoom?.id;
+  const currentUserId = user?.id;
+
+  useEffect(() => {
+    if (!chatRoomId) return;
+
+    let ws;
+    let cancelled = false;
+
+    const init = async () => {
+      try {
+        const data = await getChatMessages(chatRoomId);
+        if (cancelled) return;
+        const sorted = [...data].sort(
+          (a, b) => new Date(a.chatCreateAt) - new Date(b.chatCreateAt),
+        );
+        setMessages(sorted.map((msg) => toDisplayMessage(msg, currentUserId)));
+      } catch (err) {
+        if (!cancelled) console.error("메시지 불러오기 실패:", err);
+      }
+
+      if (cancelled) return;
+
+      ws = new WebSocket(`${WS_BASE}/${chatRoomId}`);
+      wsRef.current = ws;
+
+      ws.onmessage = (event) => {
+        try {
+          const msg = JSON.parse(event.data);
+          setMessages((prev) => [...prev, toDisplayMessage(msg, currentUserId)]);
+        } catch (e) {
+          console.error("WS 메시지 파싱 실패:", e);
+        }
+      };
+
+      ws.onerror = (err) => console.error("WebSocket 오류:", err);
+    };
+
+    init();
+
+    return () => {
+      cancelled = true;
+      ws?.close();
+      wsRef.current = null;
+    };
+  }, [chatRoomId, currentUserId]);
+
+  const handleSendMessage = useCallback(
+    (content) => {
+      const text = content.trim();
+      if (!text || !chatRoomId) return;
+      const ws = wsRef.current;
+      if (!ws || ws.readyState !== WebSocket.OPEN) {
+        console.warn("WebSocket이 아직 연결되지 않았습니다.");
+        return;
+      }
+      ws.send(JSON.stringify({ chatContent: text, chatType: "텍스트" }));
+    },
+    [chatRoomId],
+  );
 
   const handleUserClick = (user) => {
     setSelectedUser((prev) => (prev?.id === user.id ? null : user));
@@ -150,7 +188,10 @@ const PopupChatScreen = () => {
             selectedUserId={selectedUser?.id}
             onUserClick={handleUserClick}
           />
-          <PopupChatCenter messages={MESSAGES} />
+          <PopupChatCenter
+            messages={messages}
+            onSendMessage={handleSendMessage}
+          />
           <S.RightPanel>
             {selectedUser ? (
               <PopupUserInfoPanel

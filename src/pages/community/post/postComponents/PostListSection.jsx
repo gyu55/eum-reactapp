@@ -2,7 +2,12 @@ import React, { useState, useEffect } from "react";
 import PostListCard from "./PostListCard.jsx";
 import PageCount from "./PageCount";
 import { fetchPosts } from "../../communityApi/postApi";
-import S from "../../communityStyle";
+import { ColumnBlock } from "../../communityStyle";
+import { height } from "@fortawesome/free-solid-svg-icons/fa0";
+
+const S = {
+  ColumnBlock,
+};
 
 const PostListSection = ({ postTag = "" }) => {
   const [posts, setPosts] = useState([]);
@@ -11,6 +16,10 @@ const PostListSection = ({ postTag = "" }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   // const { userId } = useParams({ userId });
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [postTag]);
 
   useEffect(() => {
     const load = async () => {
@@ -36,7 +45,7 @@ const PostListSection = ({ postTag = "" }) => {
   if (isLoading) return <div>로딩 중...</div>;
 
   return (
-    <S.ColumnBlock>
+    <S.ColumnBlock marginBottom="42px">
       {posts.map(
         ({
           id,

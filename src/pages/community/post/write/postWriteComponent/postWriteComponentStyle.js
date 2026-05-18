@@ -61,3 +61,20 @@ export const NoticeText = styled.p`
   ${h11Regular}
   color: ${theme.GRAYSCALE[9]};
 `;
+
+// 커뮤니티 규칙
+
+export const NoticeDanger = styled.strong`
+  font-weight: ${theme.FONT_WEIGHT.bold};
+  color: ${theme.PALETTE.red};
+`;
+
+export const NoticeGreen = styled.strong`
+  font-weight: ${theme.FONT_WEIGHT.bold};
+  color: ${theme.PALETTE.secondary.main};
+`;
+
+export const NoticeStrong = styled.strong`
+  font-weight: ${theme.FONT_WEIGHT.bold};
+  color: ${theme.TEXT_COLOR.basic};
+`;

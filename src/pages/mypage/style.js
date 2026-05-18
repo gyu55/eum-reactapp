@@ -4,16 +4,18 @@ import theme from "../../styles/theme";
 
 const { PALETTE, GRAYSCALE, FONT_SIZE, FONT_WEIGHT } = theme;
 
-/* MyPageComponent */
+const S = {};
+
+/* MyPageComponent CSS */
 
 /* 전체 페이지 배경 */
-export const Page = styled.div`
+S.Page = styled.div`
   min-height: 100vh;
   background-color: #f7f7fb;
 `;
 
 /* 중앙 컨텐츠 영역 */
-export const Inner = styled.div`
+S.Inner = styled.div`
   width: 1320px;
   margin: 0 auto;
   padding-top: 36px;
@@ -21,31 +23,33 @@ export const Inner = styled.div`
 `;
 
 /* 좌우 레이아웃 */
-export const Layout = styled.div`
+S.Layout = styled.div`
   display: flex;
   gap: 20px;
   margin-top: 26px;
 `;
 
 /* 왼쪽 메인 영역 */
-export const LeftArea = styled.div`
+S.LeftArea = styled.div`
   width: 988px;
+
   display: flex;
   flex-direction: column;
   gap: 16px;
 `;
 
 /* 오른쪽 사이드 영역 */
-export const RightArea = styled.div`
+S.RightArea = styled.div`
   width: 312px;
   flex-shrink: 0;
+
   display: flex;
   flex-direction: column;
   gap: 16px;
 `;
 
 /* 회원 탈퇴 */
-export const WithdrawButton = styled.button`
+S.WithdrawButton = styled.button`
   align-self: flex-end;
 
   font-size: ${FONT_SIZE.h11};
@@ -53,11 +57,12 @@ export const WithdrawButton = styled.button`
   color: ${GRAYSCALE[9]};
 `;
 
-/* MyPageTabMenu */
+/* MyPageTabMenu CSS */
 
 /* 탭 메뉴 전체 */
-export const TabMenu = styled.div`
+S.TabMenu = styled.div`
   height: 37px;
+
   display: flex;
   align-items: center;
   gap: 10px;
@@ -80,7 +85,7 @@ const tabSizeCSS = {
 };
 
 /* 탭 버튼 */
-export const TabButton = styled(NavLink)`
+S.TabButton = styled(NavLink)`
   ${({ $size }) => tabSizeCSS[$size]}
 
   display: flex;
@@ -111,3 +116,5 @@ export const TabButton = styled(NavLink)`
     outline: none;
   }
 `;
+
+export default S;

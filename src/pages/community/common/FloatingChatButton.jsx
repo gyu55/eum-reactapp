@@ -1,16 +1,12 @@
-// import React from "react";
-// import styled, { keyframes } from "styled-components";
-// import theme from "../../styles/theme";
-// import { FONT_FAMILY, RADIUS, SHADOW } from "../../constants";
-
+import { useState, useEffect, useRef } from "react";
 import styled, { keyframes } from "styled-components";
 import theme from "../../../styles/theme";
-import { ALPHA, FONT_FAMILY, RADIUS, SHADOW } from "../constants";
+import { ALPHA, RADIUS, SHADOW } from "../constants";
 import chatDefaultProfile from "../assets/chat/chat_default_profile.svg";
 import expandImg from "../assets/chat/expand.svg";
 import { h10Bold, h11Medium } from "../../../styles/common";
 
-const { PALETTE, GRADIENT, GRAYSCALE, FONT_SIZE, FONT_WEIGHT } = theme;
+const { PALETTE, GRADIENT, GRAYSCALE } = theme;
 const liveDotsImg =
   "https://www.figma.com/api/mcp/asset/73ce8508-8d79-4321-924d-7baff373298a";
 
@@ -24,7 +20,7 @@ const Wrapper = styled.div`
   bottom: 32px;
   right: 32px;
   z-index: 100;
-  animation: ${fadeIn} 0.3s ease;
+  transform-origin: bottom right;
 `;
 
 const Button = styled.button`
@@ -38,6 +34,7 @@ const Button = styled.button`
   cursor: pointer;
   overflow: hidden;
   box-shadow: ${SHADOW.float};
+  animation: ${fadeIn} 0.3s ease;
   transition:
     transform 0.2s ease,
     box-shadow 0.2s ease;
@@ -109,8 +106,19 @@ const FloatingChatButton = ({
   liveCount = "200명",
   onClick,
 }) => {
+  const initialDPR = useRef(window.devicePixelRatio);
+  const [scale, setScale] = useState(1);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setScale(initialDPR.current / window.devicePixelRatio);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
-    <Wrapper>
+    <Wrapper style={{ transform: `scale(${scale})` }}>
       {/* 사이드 채팅 창 여는 버튼 개념 */}
       <Button onClick={onClick} aria-label={`${roomName} 열기`}>
         {/* 기본 프로필 */}

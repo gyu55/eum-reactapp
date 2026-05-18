@@ -7,60 +7,66 @@ import {
   SideCard,
   SideCardTitle,
   SideDivider,
+  NoticeStrong,
 } from "./postWriteComponentStyle";
-import styled from "styled-components";
-import theme from "../../../../../styles/theme";
 
 const PostingGuide = () => {
-  const NoticeStrong = styled.strong`
-    font-weight: ${theme.FONT_WEIGHT.bold};
-    color: ${theme.TEXT_COLOR.basic};
-  `;
+  const S = {
+    NoticeItem,
+    NoticeList,
+    NoticeText,
+    NumberBadge,
+    SideCard,
+    SideCardTitle,
+    SideDivider,
+    NoticeStrong,
+  };
+
   return (
     <div>
-      <SideCard>
-        <SideCardTitle>📋 작성 가이드</SideCardTitle>
-        <SideDivider />
-        <NoticeList>
-          <NoticeItem>
-            <NumberBadge>
+      <S.SideCard>
+        <S.SideCardTitle>📋 작성 가이드</S.SideCardTitle>
+        <S.SideDivider />
+        <S.NoticeList>
+          <S.NoticeItem>
+            <S.NumberBadge>
               <span>1</span>
-            </NumberBadge>
-            <NoticeText>
-              <NoticeStrong>카테고리</NoticeStrong>를 먼저 선택해 주세요.
+            </S.NumberBadge>
+            <S.NoticeText>
+              <S.NoticeStrong>카테고리</S.NoticeStrong>를 먼저 선택해 주세요.
               {"\n"}
               글의 성격에 맞는 게시판에 올려야{"\n"}더 많은 분들이 볼 수 있어요.
-            </NoticeText>
-          </NoticeItem>
-          <NoticeItem>
-            <NumberBadge>
+            </S.NoticeText>
+          </S.NoticeItem>
+          <S.NoticeItem>
+            <S.NumberBadge>
               <span>2</span>
-            </NumberBadge>
-            <NoticeText>
-              <NoticeStrong>제목</NoticeStrong>은 내용을 잘 나타낼 수 있도록
+            </S.NumberBadge>
+            <S.NoticeText>
+              <S.NoticeStrong>제목</S.NoticeStrong>은 내용을 잘 나타낼 수 있도록
               {"\n"}명확하게 작성해 주세요.
-            </NoticeText>
-          </NoticeItem>
-          <NoticeItem>
-            <NumberBadge>
+            </S.NoticeText>
+          </S.NoticeItem>
+          <S.NoticeItem>
+            <S.NumberBadge>
               <span>3</span>
-            </NumberBadge>
-            <NoticeText>
-              <NoticeStrong>태그</NoticeStrong>를 추가하면 비슷한 관심사의
+            </S.NumberBadge>
+            <S.NoticeText>
+              <S.NoticeStrong>태그</S.NoticeStrong>를 추가하면 비슷한 관심사의
               {"\n"}분들이 글을 더 쉽게 찾아요
-            </NoticeText>
-          </NoticeItem>
-          <NoticeItem>
-            <NumberBadge>
+            </S.NoticeText>
+          </S.NoticeItem>
+          <S.NoticeItem>
+            <S.NumberBadge>
               <span>4</span>
-            </NumberBadge>
-            <NoticeText>
+            </S.NumberBadge>
+            <S.NoticeText>
               수어 영상이나 이미지를 첨부하면{"\n"}
-              <NoticeStrong>훨씬 풍부한 게시글</NoticeStrong>이 됩니다.
-            </NoticeText>
-          </NoticeItem>
-        </NoticeList>
-      </SideCard>
+              <S.NoticeStrong>훨씬 풍부한 게시글</S.NoticeStrong>이 됩니다.
+            </S.NoticeText>
+          </S.NoticeItem>
+        </S.NoticeList>
+      </S.SideCard>
     </div>
   );
 };

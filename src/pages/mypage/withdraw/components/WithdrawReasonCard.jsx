@@ -1,18 +1,6 @@
 import React, { useState } from "react";
 
-import {
-  WithdrawReasonSection,
-  WithdrawReasonTitle,
-  WithdrawReasonDesc,
-  WithdrawReasonCardBox,
-  ReasonList,
-  ReasonColumn,
-  ReasonItem,
-  ReasonRadio,
-  ReasonCircle,
-  OtherReasonRow,
-  OtherReasonInput,
-} from "../style";
+import S from "../style";
 
 const leftReasons = [
   "자주 사용하지 않아요",
@@ -50,20 +38,20 @@ const WithdrawReasonCard = () => {
   const [selectedReason, setSelectedReason] = useState("");
 
   return (
-    <WithdrawReasonSection>
-      <WithdrawReasonTitle>탈퇴 사유 선택</WithdrawReasonTitle>
-      <WithdrawReasonDesc>어떤 이유로 탈퇴하시나요?</WithdrawReasonDesc>
+    <S.WithdrawReasonSection>
+      <S.WithdrawReasonTitle>탈퇴 사유 선택</S.WithdrawReasonTitle>
+      <S.WithdrawReasonDesc>어떤 이유로 탈퇴하시나요?</S.WithdrawReasonDesc>
 
-      <WithdrawReasonCardBox>
+      <S.WithdrawReasonCardBox>
         {/* 탈퇴 사유 선택값은 회원 탈퇴 요청 시 함께 전달 */}
-        <ReasonList>
-          <ReasonColumn>
+        <S.ReasonList>
+          <S.ReasonColumn>
             {leftReasons.map((reason) => {
               const checked = selectedReason === reason;
 
               return (
-                <ReasonItem key={reason}>
-                  <ReasonRadio
+                <S.ReasonItem key={reason}>
+                  <S.ReasonRadio
                     type="checkbox"
                     name="withdrawReason"
                     checked={checked}
@@ -71,47 +59,48 @@ const WithdrawReasonCard = () => {
                       setSelectedReason((prev) => (prev === reason ? "" : reason))
                     }
                   />
-                  <ReasonCircle $checked={checked}>
+                  <S.ReasonCircle $checked={checked}>
                     {checked && <CheckIcon />}
-                  </ReasonCircle>
+                  </S.ReasonCircle>
                   {reason}
-                </ReasonItem>
+                </S.ReasonItem>
               );
             })}
-          </ReasonColumn>
+          </S.ReasonColumn>
 
-          <ReasonColumn>
+          <S.ReasonColumn>
             {rightReasons.map((reason) => {
               const checked = selectedReason === reason;
 
               if (reason === "기타") {
                 return (
-                  <OtherReasonRow key={reason}>
-                    <ReasonItem>
-                      <ReasonRadio
+                  <S.OtherReasonRow key={reason}>
+                    <S.ReasonItem>
+                      <S.ReasonRadio
                         type="checkbox"
                         name="withdrawReason"
                         checked={checked}
                         onChange={() =>
-                          setSelectedReason((prev) => (prev === reason ? "" : reason))
+                          setSelectedReason((prev) =>
+                            prev === reason ? "" : reason
+                          )
                         }
                       />
-                      <ReasonCircle $checked={checked}>
+                      <S.ReasonCircle $checked={checked}>
                         {checked && <CheckIcon />}
-                      </ReasonCircle>
+                      </S.ReasonCircle>
                       {reason}
-                    </ReasonItem>
-                    {/* API 연동 필요 */}
-                    {checked && (
-                      <OtherReasonInput placeholder="기타 사유 입력" />
-                    )}
-                  </OtherReasonRow>
+                    </S.ReasonItem>
+
+                    {/* 기타 사유 입력 */}
+                    {checked && <S.OtherReasonInput placeholder="기타 사유 입력" />}
+                  </S.OtherReasonRow>
                 );
               }
 
               return (
-                <ReasonItem key={reason}>
-                  <ReasonRadio
+                <S.ReasonItem key={reason}>
+                  <S.ReasonRadio
                     type="checkbox"
                     name="withdrawReason"
                     checked={checked}
@@ -119,17 +108,17 @@ const WithdrawReasonCard = () => {
                       setSelectedReason((prev) => (prev === reason ? "" : reason))
                     }
                   />
-                  <ReasonCircle $checked={checked}>
+                  <S.ReasonCircle $checked={checked}>
                     {checked && <CheckIcon />}
-                  </ReasonCircle>
+                  </S.ReasonCircle>
                   {reason}
-                </ReasonItem>
+                </S.ReasonItem>
               );
             })}
-          </ReasonColumn>
-        </ReasonList>
-      </WithdrawReasonCardBox>
-    </WithdrawReasonSection>
+          </S.ReasonColumn>
+        </S.ReasonList>
+      </S.WithdrawReasonCardBox>
+    </S.WithdrawReasonSection>
   );
 };
 

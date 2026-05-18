@@ -1,11 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-import {
-  WithdrawActionArea,
-  WithdrawCancelButton,
-  WithdrawSubmitButton,
-} from "../style";
+import S from "../style";
 
 const WithdrawActionButtons = () => {
   const navigate = useNavigate();
@@ -20,15 +16,15 @@ const WithdrawActionButtons = () => {
   };
 
   return (
-    <WithdrawActionArea>
-      <WithdrawCancelButton type="button" onClick={handleCancelClick}>
+    <S.WithdrawActionArea>
+      <S.WithdrawCancelButton type="button" onClick={handleCancelClick}>
         취소
-      </WithdrawCancelButton>
+      </S.WithdrawCancelButton>
 
-      <WithdrawSubmitButton type="button" onClick={handleWithdrawClick}>
+      <S.WithdrawSubmitButton type="button" onClick={handleWithdrawClick}>
         회원 탈퇴
-      </WithdrawSubmitButton>
-    </WithdrawActionArea>
+      </S.WithdrawSubmitButton>
+    </S.WithdrawActionArea>
   );
 };
 

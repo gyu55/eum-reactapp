@@ -1,108 +1,88 @@
 import React from "react";
 
-import {
-  PasswordSection,
-  SectionTitle,
-  SectionDesc,
-  PasswordCardBox,
-  PasswordFullField,
-  PasswordFieldGroup,
-  PasswordField,
-  Label,
-  Required,
-  PasswordInput,
-  PasswordStrengthBar,
-  PasswordStrengthItem,
-  PasswordDesc,
-  PasswordDivider,
-  PasswordBottomArea,
-  PasswordGuide,
-  ButtonArea,
-  CancelButton,
-  SaveButton,
-} from "../style";
+import S from "../style";
 
 const PasswordChangeCard = () => {
   return (
-    <PasswordSection>
+    <S.PasswordSection>
       {/* 섹션 제목 */}
-      <SectionTitle>비밀번호 변경</SectionTitle>
+      <S.SectionTitle>비밀번호 변경</S.SectionTitle>
 
       {/* 섹션 설명 */}
-      <SectionDesc>
+      <S.SectionDesc>
         계정 보안을 위해 주기적으로 비밀번호를 변경해 주세요
-      </SectionDesc>
+      </S.SectionDesc>
 
       {/* 비밀번호 변경 카드 */}
-      <PasswordCardBox>
+      <S.PasswordCardBox>
         {/* 현재 비밀번호 */}
-        <PasswordFullField>
-          <Label>
+        <S.PasswordFullField>
+          <S.Label>
             현재 비밀번호
-            <Required>*</Required>
-          </Label>
+            <S.Required>*</S.Required>
+          </S.Label>
 
           {/* 현재 비밀번호 확인 */}
-          <PasswordInput
+          <S.PasswordInput
             type="password"
             placeholder="현재 비밀번호를 입력해 주세요"
           />
-        </PasswordFullField>
+        </S.PasswordFullField>
 
-        <PasswordFieldGroup>
+        <S.PasswordFieldGroup>
           {/* 새 비밀번호 */}
-          <PasswordField>
-            <Label>
+          <S.PasswordField>
+            <S.Label>
               새 비밀번호
-              <Required>*</Required>
-            </Label>
+              <S.Required>*</S.Required>
+            </S.Label>
 
             {/* 새 비밀번호 입력 */}
-            <PasswordInput
+            <S.PasswordInput
               type="password"
               placeholder="새 비밀번호 (8자 이상)"
             />
 
-            <PasswordStrengthBar>
-              <PasswordStrengthItem />
-              <PasswordStrengthItem />
-              <PasswordStrengthItem />
-            </PasswordStrengthBar>
+            <S.PasswordStrengthBar>
+              <S.PasswordStrengthItem />
+              <S.PasswordStrengthItem />
+              <S.PasswordStrengthItem />
+            </S.PasswordStrengthBar>
 
-            <PasswordDesc>비밀번호를 입력해 주세요</PasswordDesc>
-          </PasswordField>
+            <S.PasswordDesc>비밀번호를 입력해 주세요</S.PasswordDesc>
+          </S.PasswordField>
 
           {/* 새 비밀번호 확인 */}
-          <PasswordField>
-            <Label>
+          <S.PasswordField>
+            <S.Label>
               새 비밀번호 확인
-              <Required>*</Required>
-            </Label>
+              <S.Required>*</S.Required>
+            </S.Label>
 
             {/* 새 비밀번호 재입력 */}
-            <PasswordInput
+            <S.PasswordInput
               type="password"
               placeholder="새 비밀번호를 다시 입력해 주세요"
             />
-          </PasswordField>
-        </PasswordFieldGroup>
+          </S.PasswordField>
+        </S.PasswordFieldGroup>
 
-        <PasswordDivider />
+        <S.PasswordDivider />
 
-        <PasswordBottomArea>
-          <PasswordGuide>
+        <S.PasswordBottomArea>
+          <S.PasswordGuide>
             영문·숫자·특수문자 조합 8자 이상 권장
-          </PasswordGuide>
+          </S.PasswordGuide>
 
-          <ButtonArea>
-            <CancelButton type="button">취소</CancelButton>
+          <S.ButtonArea>
+            <S.CancelButton type="button">취소</S.CancelButton>
 
             {/* 비밀번호 변경 처리 */}
-            <SaveButton type="button">변경하기</SaveButton>
-          </ButtonArea>
-        </PasswordBottomArea>
-      </PasswordCardBox>
-    </PasswordSection>
+            <S.SaveButton type="button">변경하기</S.SaveButton>
+          </S.ButtonArea>
+        </S.PasswordBottomArea>
+      </S.PasswordCardBox>
+    </S.PasswordSection>
   );
 };
 

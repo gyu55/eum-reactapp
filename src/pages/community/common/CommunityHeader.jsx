@@ -12,7 +12,6 @@ const Container = styled.div`
   /* height: 237px; */
   position: relative;
   overflow: hidden;
-  /* margin-bottom: 40px; */
 `;
 
 const ContainerColorSection = styled.div`
@@ -76,7 +75,6 @@ const StatisticsSection = styled.div`
 const StatItem = styled.div`
   display: flex;
   flex-direction: column;
-  /* align-items: flex-start; */
   align-items: center;
   gap: 0;
 `;
@@ -85,21 +83,15 @@ const StatNumber = styled.p`
   font-family: "Pretendard";
   font-size: ${theme.FONT_SIZE.h7};
   font-weight: ${theme.FONT_WEIGHT.bold};
-  /* line-height: 32px; */
   letter-spacing: -0.48px;
   color: ${theme.PALETTE.white};
-  /* margin: 0 0 30px 0; */
 `;
 
 const StatLabel = styled.p`
   font-family: "Pretendard";
   font-size: ${theme.FONT_SIZE.h11};
   font-weight: ${theme.FONT_WEIGHT.regular};
-  /* ${h11Regular} */
-  /* line-height: 20px; */
-  /* letter-spacing: -0.24px; */
   color: rgba(255, 255, 255, 0.85);
-  /* color: white; */
   margin: 0;
 `;
 

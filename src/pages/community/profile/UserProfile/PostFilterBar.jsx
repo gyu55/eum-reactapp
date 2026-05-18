@@ -3,20 +3,17 @@ import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import theme from "../../../../styles/theme";
 
-// Figma asset URLs — 7일 후 만료
-const ICON_POST =
-  "https://www.figma.com/api/mcp/asset/bd7c9cbe-6afa-409f-9c53-c0502569a2ed";
-const ICON_COMMENT =
-  "https://www.figma.com/api/mcp/asset/f4441c11-e0f1-4839-9118-e67a6d221989";
-const ICON_LIKE =
-  "https://www.figma.com/api/mcp/asset/ce27d7c9-7075-4b28-96b1-4fc59784fd73";
-const ICON_SEARCH =
-  "https://www.figma.com/api/mcp/asset/27421e9c-a690-4a9d-ad0f-4a381195ea09";
+import iconPost from "../../assets/icon/postWrite.svg";
+import iconPostActive from "../../assets/icon/postWriteWhite.svg";
+import iconComment from "../../assets/icon/comment.svg";
+import iconCommentActive from "../../assets/icon/commentWhite.svg";
+import iconLike from "../../assets/icon/heart.svg";
+import iconSearch from "../../assets/icon/search.svg";
 
 const TYPE_LIST = [
-  { key: "post", label: "작성 게시글", icon: ICON_POST },
-  { key: "comment", label: "작성 댓글", icon: ICON_COMMENT },
-  { key: "like", label: "좋아요한 글", icon: ICON_LIKE },
+  { key: "post", label: "작성 게시글", icon: iconPost, iconActive: iconPostActive },
+  { key: "comment", label: "작성 댓글", icon: iconComment, iconActive: iconCommentActive },
+  { key: "like", label: "좋아요한 글", icon: iconLike, iconActive: iconLike },
 ];
 
 const SORT_LIST = [
@@ -67,18 +64,18 @@ const PostFilterBar = ({
             value={searchValue}
             onChange={handleSearchChange}
           />
-          <SearchIcon src={ICON_SEARCH} alt="검색" />
+          <SearchIcon src={iconSearch} alt="검색" />
         </SearchBox>
       </SearchRow>
       <FilterRow>
-        {TYPE_LIST.map(({ key, label, icon }) => (
+        {TYPE_LIST.map(({ key, label, icon, iconActive }) => (
           <TypeTab
             key={key}
             $active={activeType === key}
             onClick={() => handleTypeClick(key)}
           >
             <TabIconLabel>
-              <TabIcon src={icon} alt={label} />
+              <TabIcon src={activeType === key ? iconActive : icon} alt={label} />
               <TabLabel $active={activeType === key}>{label}</TabLabel>
             </TabIconLabel>
             <CountBadge $active={activeType === key}>{counts[key]}</CountBadge>

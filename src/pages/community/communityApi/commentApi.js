@@ -8,6 +8,16 @@ export const getComments = async (postId) => {
   return result.data || [];
 };
 
+// 유저가 작성한 댓글 목록 페이지네이션 조회
+export const getUserComments = async (userId, page = 1) => {
+  const response = await fetch(
+    `${ROOT_URL}/comments/users/${userId}?page=${page}`
+  );
+  if (!response.ok) throw new Error("유저 댓글을 불러오는 데 실패했습니다.");
+  const result = await response.json();
+  return result.data;
+};
+
 // 댓글 작성
 export const postComment = async (postId, commentContent) => {
   const response = await fetch(`${ROOT_URL}/comments/${postId}`, {

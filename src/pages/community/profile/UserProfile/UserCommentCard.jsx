@@ -35,11 +35,13 @@ const UserCommentTitleAndDetail = styled.div`
 `;
 
 // 유저 프로필
-const UserCommentProfile = styled.div`
+const UserCommentProfile = styled.img`
   width: ${COMMENT.avatarSize};
   height: ${COMMENT.avatarSize};
   border-radius: ${RADIUS.smallCard};
+  object-fit: cover;
   background: gray;
+  flex-shrink: 0;
 `;
 
 // 댓글 작성자 및 댓글 내용
@@ -60,30 +62,35 @@ const UserCommentCreateAt = styled.div`
   margin-left: 52px;
 `;
 
-// comment DTO 고려하기
-const UserCommentCard = () => {
+const formatDate = (dateStr) => {
+  const date = new Date(dateStr);
+  return date.toLocaleDateString("ko-KR", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+};
+
+const UserCommentCard = ({
+  userNickname,
+  userProfile,
+  commentContent,
+  commentCreateAt,
+}) => {
   return (
     <div>
       <UserCommentWrapper>
-        {/* 유저 프로필과 내용 단 row 로 감싸는 블럭 */}
         <UserCommentMid>
-          {/* 유저 프로필 이미지 */}
-          <UserCommentProfile />
-
-          {/* 작성자 및 댓글 내용 */}
+          <UserCommentProfile src={userProfile} alt={userNickname} />
           <UserCommentTitleAndDetail>
-            <UserCommentWriter>작성자</UserCommentWriter>
-            <UserCommentDetail>
-              내용이 이렇게 있습니다. 감사합니다
-            </UserCommentDetail>
+            <UserCommentWriter>{userNickname}</UserCommentWriter>
+            <UserCommentDetail>{commentContent}</UserCommentDetail>
           </UserCommentTitleAndDetail>
         </UserCommentMid>
 
-        {/* 구분선 */}
         <Divider />
 
-        {/* 작성 시간 */}
-        <UserCommentCreateAt>5분 전</UserCommentCreateAt>
+        <UserCommentCreateAt>{formatDate(commentCreateAt)}</UserCommentCreateAt>
       </UserCommentWrapper>
     </div>
   );

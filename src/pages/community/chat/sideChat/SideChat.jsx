@@ -21,7 +21,7 @@ const ChatPanel = styled.div`
 // ─── Component ────────────────────────────────────────────────────────────────
 
 const SideChat = () => {
-  const { sideInitialType, closeSideChat, expandFromSide } = useChatContext();
+  const { sideInitialType, closeSideChat, expandFromSide, activeChatRoom } = useChatContext();
   const [type, setType] = useState(sideInitialType);
   const [selectedRoom, setSelectedRoom] = useState(null);
 
@@ -56,7 +56,12 @@ const SideChat = () => {
           onTabChange={handleTabChange}
         />
       )}
-      {type === TYPE.ROOM && <SideChatComponent onViewAll={handleBack} />}
+      {type === TYPE.ROOM && (
+        <SideChatComponent
+          chatRoomId={selectedRoom?.id ?? activeChatRoom?.id}
+          onViewAll={handleBack}
+        />
+      )}
     </ChatPanel>
   );
 };

@@ -66,6 +66,7 @@ const UserWriteComment = () => {
             commentCreateAt,
             commentReplyCount,
             commentLikeCount,
+            postId,
           }) => (
             <UserCommentCard
               key={id}
@@ -75,6 +76,7 @@ const UserWriteComment = () => {
               commentCreateAt={commentCreateAt}
               commentReplyCount={commentReplyCount}
               commentLikeCount={commentLikeCount}
+              postId={postId}
             />
           ),
         )}

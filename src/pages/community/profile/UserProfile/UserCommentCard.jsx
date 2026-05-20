@@ -2,11 +2,12 @@ import React from "react";
 import styled from "styled-components";
 import { h10Regular, h11Regular, h9Bold } from "../../../../styles/common";
 import theme from "../../../../styles/theme";
-import { COMMENT, LAYOUT, RADIUS } from "../../constants";
-import { Divider } from "../../communityStyle";
+import { BORDER_STYLE, COMMENT, LAYOUT, RADIUS } from "../../constants";
+import { Divider, hoverStyle } from "../../communityStyle";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCommentDots, faHeart } from "@fortawesome/free-solid-svg-icons";
 import { ReactionItem, ReactionsRow } from "../../comment/commentStyle";
+import { useNavigate } from "react-router-dom";
 
 const S = {
   ReactionsRow,
@@ -27,6 +28,9 @@ const UserCommentWrapper = styled.div`
   flex-direction: column;
   padding: 16px;
   gap: 12px;
+
+  border: ${BORDER_STYLE.original};
+  ${hoverStyle}
 `;
 
 // 유저 프로필 및 댓글 내용 row 로 묶기
@@ -93,10 +97,12 @@ const UserCommentCard = ({
   commentCreateAt,
   commentLikeCount,
   commentReplyCount,
+  postId,
 }) => {
+  const navigate = useNavigate();
   return (
     <div>
-      <UserCommentWrapper>
+      <UserCommentWrapper onClick={() => navigate(`/community/post/${postId}`)}>
         <UserCommentMid>
           <UserCommentProfile src={userProfile} alt={userNickname} />
           <UserCommentTitleAndDetail>

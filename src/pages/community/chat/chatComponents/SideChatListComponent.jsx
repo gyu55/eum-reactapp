@@ -6,6 +6,8 @@ import chatDefaultProfile from "../../assets/chat/chat_default_profile.svg";
 import { ThumbnailBox } from "./chatComponentStyle";
 import useChatRoomList from "../hooks/useChatRoomList";
 
+import defaultProfileImg from "../../assets/chat/chat_default_profile.svg";
+
 // ─── List Body ───────────────────────────────────────────────────────────────
 
 const ListBody = styled.div`
@@ -156,9 +158,13 @@ const SideChatListComponent = ({ onRoomClick, onTabChange }) => {
             onClick={() => handleRoomClick(room)}
           >
             <RoomLeft>
+              {/* 방 썸네일 */}
               <ThumbnailBox
                 src={room.thumbnail || chatDefaultProfile}
                 alt={room.name}
+                onError={(e) => {
+                  e.target.src = defaultProfileImg;
+                }}
               />
               <RoomInfo>
                 <RoomName>{room.name}</RoomName>

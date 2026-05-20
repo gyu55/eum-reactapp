@@ -1,8 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 
 import S from "../style";
 
 const PasswordChangeCard = () => {
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const strengthCount =
+    newPassword.length >= 8 ? 3 : newPassword.length >= 6 ? 2 : newPassword.length >= 3 ? 1 : 0;
+
+  const isPasswordMismatch =
+    confirmPassword.length > 0 && newPassword !== confirmPassword;
+
+  const handleChangePassword = () => {
+    // 비밀번호 변경 API 연동 예정
+    if (isPasswordMismatch) {
+      alert("새 비밀번호와 비밀번호 확인이 일치하지 않습니다.");
+      return;
+    }
+  };
+
   return (
     <S.PasswordSection>
       {/* 섹션 제목 */}
@@ -15,7 +32,6 @@ const PasswordChangeCard = () => {
 
       {/* 비밀번호 변경 카드 */}
       <S.PasswordCardBox>
-        {/* 현재 비밀번호 */}
         <S.PasswordFullField>
           <S.Label>
             현재 비밀번호
@@ -30,7 +46,6 @@ const PasswordChangeCard = () => {
         </S.PasswordFullField>
 
         <S.PasswordFieldGroup>
-          {/* 새 비밀번호 */}
           <S.PasswordField>
             <S.Label>
               새 비밀번호
@@ -41,18 +56,22 @@ const PasswordChangeCard = () => {
             <S.PasswordInput
               type="password"
               placeholder="새 비밀번호 (8자 이상)"
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
             />
 
+            {/* 비밀번호 강도 표시 */}
             <S.PasswordStrengthBar>
-              <S.PasswordStrengthItem />
-              <S.PasswordStrengthItem />
-              <S.PasswordStrengthItem />
+              <S.PasswordStrengthItem $active={strengthCount >= 1} />
+              <S.PasswordStrengthItem $active={strengthCount >= 2} />
+              <S.PasswordStrengthItem $active={strengthCount >= 3} />
             </S.PasswordStrengthBar>
 
-            <S.PasswordDesc>비밀번호를 입력해 주세요</S.PasswordDesc>
+            {newPassword.length === 0 && (
+              <S.PasswordDesc>비밀번호를 입력해 주세요</S.PasswordDesc>
+            )}
           </S.PasswordField>
 
-          {/* 새 비밀번호 확인 */}
           <S.PasswordField>
             <S.Label>
               새 비밀번호 확인
@@ -63,7 +82,15 @@ const PasswordChangeCard = () => {
             <S.PasswordInput
               type="password"
               placeholder="새 비밀번호를 다시 입력해 주세요"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
             />
+
+            {isPasswordMismatch && (
+              <S.PasswordErrorText>
+                비밀번호가 틀립니다.
+              </S.PasswordErrorText>
+            )}
           </S.PasswordField>
         </S.PasswordFieldGroup>
 
@@ -75,10 +102,14 @@ const PasswordChangeCard = () => {
           </S.PasswordGuide>
 
           <S.ButtonArea>
-            <S.CancelButton type="button">취소</S.CancelButton>
+            <S.CancelButton type="button">
+              취소
+            </S.CancelButton>
 
             {/* 비밀번호 변경 처리 */}
-            <S.SaveButton type="button">변경하기</S.SaveButton>
+            <S.SaveButton type="button" onClick={handleChangePassword}>
+              변경하기
+            </S.SaveButton>
           </S.ButtonArea>
         </S.PasswordBottomArea>
       </S.PasswordCardBox>

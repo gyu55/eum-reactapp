@@ -22,7 +22,9 @@ const AccountInfoCard = () => {
             </S.Label>
 
             {/* 이메일 정보 연동 */}
-            <S.Input type="email" placeholder="user123@gmail.com" />
+            <S.ReadOnlyField>
+              user123@gmail.com
+            </S.ReadOnlyField>
 
             <S.FieldDesc>
               이메일은 변경할 수 없습니다 · 소셜 로그인 계정

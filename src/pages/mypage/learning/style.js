@@ -124,12 +124,19 @@ S.LearningResultRow = styled.div`
 S.LearningText = styled.span`
   font-size: 13px;
   font-weight: ${FONT_WEIGHT.regular};
-  color: #333333;
 
   text-align: center;
 
+  /* 제목 */
   &:first-child {
     text-align: left;
+    color: #333333;
+  }
+
+  /* 진행도, 시간, 정답률 */
+  &:not(:first-child) {
+    font-size: 12px;
+    color: #9ca3af;
   }
 `;
 

@@ -11,6 +11,7 @@ export const fetchSignWords = async (keyword, pageNo = 1, numOfRows = 10) => {
   }
 
   const result = await response.json();
+  console.log("수어 검색 응답", result);
 
   if (!result.success) {
     throw new Error(result.message);

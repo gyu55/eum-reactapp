@@ -24,6 +24,8 @@ import {
   FilterTab,
 } from "../ChatStyle";
 import { useChatContext } from "../../context/ChatContext";
+import useChatRoomList from "../hooks/useChatRoomList";
+import chatDefaultProfile from "../../assets/chat/chat_default_profile.svg";
 
 const S = {
   SelectLeftPanel,
@@ -50,18 +52,7 @@ const S = {
   FilterTab,
 };
 
-const chatIconUrl =
-  "https://www.figma.com/api/mcp/asset/b4896850-6051-457c-b680-087b71fd7760";
-
 const FILTER_TABS = ["라이브 채팅방", "팔로우 한 유저", "요청"];
-
-const LIVE_ROOMS = [
-  { id: 1, name: "수어 학습 질문방", count: 84 },
-  { id: 2, name: "수어 학습 질문방", count: 0 },
-  { id: 3, name: "수어 학습 질문방", count: 0 },
-  { id: 4, name: "수어 학습 질문방", count: 0 },
-  { id: 5, name: "수어 학습 질문방", count: 0 },
-];
 
 const FOLLOW_USERS = [
   { id: 1, name: "ㅇㅇㅇ님" },
@@ -79,8 +70,9 @@ const REQUEST_USERS = [
 const SelectRoomListPanel = () => {
   const { popupSelectCurrentFilter, updateSelectFilter, handleSelectRoom } =
     useChatContext();
-  const [activeRoom, setActiveRoom] = useState(LIVE_ROOMS[0]?.id ?? null);
+  const [activeRoom, setActiveRoom] = useState(null);
   const [activeFilter, setActiveFilter] = useState(popupSelectCurrentFilter);
+  const { rooms, isLoading, hasMore, loaderRef } = useChatRoomList();
 
   const handleFilterChange = (tab) => {
     setActiveFilter(tab);
@@ -95,12 +87,22 @@ const SelectRoomListPanel = () => {
       <S.PanelTop>
         <S.PanelHeader>
           <S.PanelLabel>라이브 채팅방</S.PanelLabel>
-          <S.SelectCountBadge>247</S.SelectCountBadge>
+          <S.SelectCountBadge>{rooms.length}</S.SelectCountBadge>
         </S.PanelHeader>
         <S.Divider />
         {activeFilter === "라이브 채팅방" ? (
           <S.RoomList>
-            {LIVE_ROOMS.map((room) => (
+            {isLoading && rooms.length === 0 && (
+              <S.RoomCountText style={{ textAlign: "center", padding: "12px" }}>
+                불러오는 중...
+              </S.RoomCountText>
+            )}
+            {!isLoading && rooms.length === 0 && (
+              <S.RoomCountText style={{ textAlign: "center", padding: "12px" }}>
+                채팅방이 없습니다.
+              </S.RoomCountText>
+            )}
+            {rooms.map((room) => (
               <S.RoomItem
                 key={room.id}
                 $active={activeRoom === room.id}
@@ -111,7 +113,13 @@ const SelectRoomListPanel = () => {
               >
                 <S.RoomItemLeft>
                   <S.RoomIconBox>
-                    <img src={chatIconUrl} alt="" />
+                    <img
+                      src={room.thumbnail || chatDefaultProfile}
+                      alt={room.name}
+                      onError={(e) => {
+                        e.target.src = chatDefaultProfile;
+                      }}
+                    />
                   </S.RoomIconBox>
                   <S.RoomMetaCol>
                     <S.RoomNameText>{room.name}</S.RoomNameText>
@@ -124,6 +132,14 @@ const SelectRoomListPanel = () => {
                 <S.RoomCountText>{room.count}명</S.RoomCountText>
               </S.RoomItem>
             ))}
+            {hasMore && (
+              <S.RoomCountText
+                ref={loaderRef}
+                style={{ textAlign: "center", padding: "8px" }}
+              >
+                {isLoading ? "불러오는 중..." : ""}
+              </S.RoomCountText>
+            )}
           </S.RoomList>
         ) : (
           <S.SelectUserList>

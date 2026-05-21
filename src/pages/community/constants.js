@@ -175,6 +175,7 @@ export const TYPE = {
   LIST: "list",
   REQUEST: "request",
   ROOM: "room",
+  ONGOING: "ongoing",
 };
 
 // 게시글 상세 기본 이미지 (URL 로딩 실패 시 폴백용)

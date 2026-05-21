@@ -5,6 +5,7 @@ import SideChatHeader from "../chatComponents/SideChatHeader";
 import SideChatListComponent from "../chatComponents/SideChatListComponent";
 import SideChatRequestComponent from "../chatComponents/SideChatRequestComponent";
 import SideChatComponent from "../chatComponents/SideChatComponent";
+import SideChatOngoingComponent from "../chatComponents/SideChatOngoingComponent";
 import { useChatContext } from "../../context/ChatContext";
 
 // ─── Panel ───────────────────────────────────────────────────────────────────
@@ -21,12 +22,16 @@ const ChatPanel = styled.div`
 // ─── Component ────────────────────────────────────────────────────────────────
 
 const SideChat = () => {
-  const { sideInitialType, closeSideChat, expandFromSide, activeChatRoom } = useChatContext();
+  const { sideInitialType, closeSideChat, expandFromSide, activeChatRoom } =
+    useChatContext();
   const [type, setType] = useState(sideInitialType);
   const [selectedRoom, setSelectedRoom] = useState(null);
 
-  const handleTabChange = (tab) =>
-    setType(tab === "request" ? TYPE.REQUEST : TYPE.LIST);
+  const handleTabChange = (tab) => {
+    if (tab === "request") setType(TYPE.REQUEST);
+    else if (tab === "chatting") setType(TYPE.ONGOING);
+    else setType(TYPE.LIST);
+  };
 
   const handleRoomClick = (room) => {
     setSelectedRoom(room);
@@ -56,7 +61,14 @@ const SideChat = () => {
           onTabChange={handleTabChange}
         />
       )}
+      {type === TYPE.ONGOING && (
+        <SideChatOngoingComponent
+          onRoomClick={handleRoomClick}
+          onTabChange={handleTabChange}
+        />
+      )}
       {type === TYPE.ROOM && (
+        // 채팅 메세지 입력 하는 채팅방
         <SideChatComponent
           chatRoomId={selectedRoom?.id ?? activeChatRoom?.id}
           onViewAll={handleBack}

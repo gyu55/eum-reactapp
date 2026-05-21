@@ -16,6 +16,7 @@ import {
   OngoingLastTime,
   OngoingLastMsg,
 } from "../ChatStyle";
+import useJoinedChatRoomList from "../hooks/useJoinedChatRoomList";
 
 const S = {
   SelectRightPanel,
@@ -35,55 +36,55 @@ const S = {
   OngoingLastMsg,
 };
 
-const ONGOING_ROOMS = [
-  {
-    id: 1,
-    name: "수어 학습 질문방",
-    count: "00",
-    time: "00:00",
-    lastMsg: "마지막 메세ㅇㅇㅇㅇㅇㅇ지..",
-  },
-  {
-    id: 2,
-    name: "수어 학습 질문방",
-    count: "00",
-    time: "00:00",
-    lastMsg: "마지막 메세ㅇㅇㅇㅇㅇㅇ지..",
-  },
-  {
-    id: 3,
-    name: "수어 학습 질문방",
-    count: "00",
-    time: "00:00",
-    lastMsg: "마지막 메세ㅇㅇㅇㅇㅇㅇ지..",
-  },
-];
+const SelectOngoingPanel = () => {
+  const { rooms, isLoading, hasMore, loaderRef } = useJoinedChatRoomList();
 
-const SelectOngoingPanel = () => (
-  <S.SelectRightPanel>
-    <S.PanelHeader>
-      <S.PanelLabel>진행중인 채팅방</S.PanelLabel>
-      <S.SelectCountBadge>{ONGOING_ROOMS.length}</S.SelectCountBadge>
-    </S.PanelHeader>
-    <S.Divider />
-    <S.OngoingRoomList>
-      {ONGOING_ROOMS.map((room) => (
-        <S.OngoingRoomItem key={room.id}>
-          <S.OngoingProfileBox />
-          <S.OngoingRoomInfo>
-            <S.OngoingRoomTopRow>
-              <S.OngoingRoomNameRow>
-                <S.OngoingRoomName>{room.name}</S.OngoingRoomName>
-                <S.OngoingRoomCount>{room.count}명</S.OngoingRoomCount>
-              </S.OngoingRoomNameRow>
-              <S.OngoingLastTime>{room.time}</S.OngoingLastTime>
-            </S.OngoingRoomTopRow>
-            <S.OngoingLastMsg>{room.lastMsg}</S.OngoingLastMsg>
-          </S.OngoingRoomInfo>
-        </S.OngoingRoomItem>
-      ))}
-    </S.OngoingRoomList>
-  </S.SelectRightPanel>
-);
+  return (
+    <S.SelectRightPanel>
+      <S.PanelHeader>
+        <S.PanelLabel>진행중인 채팅방</S.PanelLabel>
+        <S.SelectCountBadge>{rooms.length}</S.SelectCountBadge>
+      </S.PanelHeader>
+      <S.Divider />
+      <S.OngoingRoomList>
+        {isLoading && rooms.length === 0 ? (
+          <div style={{ padding: "12px", textAlign: "center", fontSize: "12px" }}>
+            불러오는 중...
+          </div>
+        ) : !isLoading && rooms.length === 0 ? (
+          <div style={{ padding: "12px", textAlign: "center", fontSize: "12px" }}>
+            진행중인 채팅방이 없습니다.
+          </div>
+        ) : (
+          <>
+            {rooms.map((room) => (
+              <S.OngoingRoomItem key={room.id}>
+                <S.OngoingProfileBox />
+                <S.OngoingRoomInfo>
+                  <S.OngoingRoomTopRow>
+                    <S.OngoingRoomNameRow>
+                      <S.OngoingRoomName>{room.name}</S.OngoingRoomName>
+                      <S.OngoingRoomCount>{room.count}명</S.OngoingRoomCount>
+                    </S.OngoingRoomNameRow>
+                    <S.OngoingLastTime>{room.time}</S.OngoingLastTime>
+                  </S.OngoingRoomTopRow>
+                  <S.OngoingLastMsg>{room.lastMsg}</S.OngoingLastMsg>
+                </S.OngoingRoomInfo>
+              </S.OngoingRoomItem>
+            ))}
+            {hasMore && (
+              <div
+                ref={loaderRef}
+                style={{ padding: "8px", textAlign: "center", fontSize: "12px" }}
+              >
+                {isLoading ? "불러오는 중..." : ""}
+              </div>
+            )}
+          </>
+        )}
+      </S.OngoingRoomList>
+    </S.SelectRightPanel>
+  );
+};
 
 export default SelectOngoingPanel;

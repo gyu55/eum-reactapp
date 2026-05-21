@@ -27,3 +27,10 @@ export const getChatRoomInfo = async (chatRoomId) => {
   const { data } = await response.json();
   return data;
 };
+
+export const getJoinedChatRooms = async (page = 1) => {
+  const response = await fetch(`${ROOT_URL}/chat-rooms/joined?page=${page}`);
+  if (!response.ok) throw new Error("참여중인 채팅방 목록을 불러오는 데 실패했습니다.");
+  const { data } = await response.json();
+  return data;
+};

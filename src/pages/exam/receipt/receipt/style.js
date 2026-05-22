@@ -116,6 +116,29 @@ export const FileDropSub = styled.div`
   color: #aaa;
 `;
 
+export const InfoBox = styled.div`
+  background: #f5f7ff;
+  border: 1px solid #dde3ff;
+  border-radius: 8px;
+  padding: 14px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+`;
+
+export const InfoRow = styled.div`
+  display: flex;
+  gap: 12px;
+  font-size: 13px;
+  color: #333;
+`;
+
+export const InfoLabel = styled.span`
+  font-weight: 600;
+  color: #888;
+  min-width: 60px;
+`;
+
 export const SubmitBtn = styled.button`
   background: ${PRIMARY};
   color: #fff;

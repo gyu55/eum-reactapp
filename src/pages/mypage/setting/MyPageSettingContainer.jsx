@@ -1,15 +1,15 @@
-import React from 'react';
-import MyPageSettingComponent from './MyPageSettingComponent';
-import { Outlet } from 'react-router-dom';
+import React from "react";
+import { Outlet } from "react-router-dom";
+
+import MyPageSettingComponent from "./MyPageSettingComponent";
 
 const MyPageSettingContainer = () => {
-    return (
-        <div>
-            마이페이지 설정 컨테이너
-            <MyPageSettingComponent />
-            <Outlet />
-        </div>
-    );
+  return (
+    <>
+      <MyPageSettingComponent />
+      <Outlet />
+    </>
+  );
 };
 
 export default MyPageSettingContainer;

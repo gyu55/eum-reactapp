@@ -24,6 +24,8 @@ export default function SocialJoinComponent() {
   const handleSendCode = async () => {
     const memberPhone = phone.replace(/\D/g, "");
     if (!memberPhone) return;
+    // 테스트 시: 아래 두 줄 주석 해제, 실서비스 시 주석 처리
+    setCodeSent(true); setCodeVerified(true); setSmsMsg("(테스트) 인증 생략"); return;
     setSmsLoading(true);
     setSmsMsg("");
     try {
@@ -49,6 +51,8 @@ export default function SocialJoinComponent() {
   const handleVerifyCode = async () => {
     const memberPhone = phone.replace(/\D/g, "");
     if (!memberPhone || !verifyCode) return;
+    // 테스트 시: 아래 두 줄 주석 해제, 실서비스 시 주석 처리
+    setCodeVerified(true); setSmsMsg("(테스트) 인증 완료"); return;
     setSmsLoading(true);
     setSmsMsg("");
     try {

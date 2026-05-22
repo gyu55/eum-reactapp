@@ -123,11 +123,90 @@ export const BannerContent = styled.div`
     font-weight: ${({ theme }) => theme.FONT_WEIGHT.medium};
   }
 
-  a {
-    color: #1a1a1a;
-    font-size: ${({ theme }) => theme.FONT_SIZE.h8};
-    font-weight: ${({ theme }) => theme.FONT_WEIGHT.medium};
-    text-decoration: none;
+`;
+
+export const HeroExperienceLink = styled(Link)`
+  position: relative;
+  display: inline-block;
+  width: 190px;
+  height: 52px;
+  padding: 0;
+  border: 0;
+  color: #1a1a1a;
+  font-size: ${({ theme }) => theme.FONT_SIZE.h9};
+  font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
+  line-height: 52px;
+  text-decoration: none;
+  vertical-align: middle;
+  outline: none;
+
+  .circle {
+    position: relative;
+    display: block;
+    width: 52px;
+    height: 52px;
+    margin: 0;
+    border-radius: 999px;
+    background: #4359FC;
+    transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+  }
+
+  .icon {
+    position: absolute;
+    inset-block: 0;
+    margin: auto;
+    background: #fff;
+    transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+  }
+
+  .arrow {
+    left: 14px;
+    width: 18px;
+    height: 2px;
+    background: transparent;
+  }
+
+  .arrow::before {
+    position: absolute;
+    top: -5px;
+    right: 1px;
+    width: 11px;
+    height: 11px;
+    border-top: 2px solid #fff;
+    border-right: 2px solid #fff;
+    content: "";
+    transform: rotate(45deg);
+  }
+
+  .buttonText {
+    position: absolute;
+    inset: 0;
+    padding-left: 68px;
+    color: #282936;
+    text-align: center;
+    transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+  }
+
+  &:hover .circle,
+  &:focus-visible .circle {
+    width: 110%;
+  }
+
+  &:hover .arrow,
+  &:focus-visible .arrow {
+    background: #fff;
+    transform: translateX(16px);
+  }
+
+  &:hover .buttonText,
+  &:focus-visible .buttonText {
+    color: #fff;
+  }
+
+  &:focus-visible {
+    border-radius: 999px;
+    outline: 3px solid rgba(67, 89, 252, 0.28);
+    outline-offset: 94px;
   }
 `;
 

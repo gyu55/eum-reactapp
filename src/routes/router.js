@@ -61,6 +61,7 @@ import MyPageWithdrawContainer from "../pages/mypage/withdraw/MyPageWithdrawCont
 import CustomServiceNoticeListContainer from '../pages/customservice/notice/list/CustomServiceNoticeListContainer';
 import CustomServiceNoticeWriteContainer from '../pages/customservice/notice/write/CustomServiceNoticeWriteContainer';
 import CustomServiceNoticeEditContainer from "../pages/customservice/notice/edit/CustomServiceNoticeEditContainer";
+import FindAccountContainer from "../pages/auth/find-account/FindAccountContainer";
 
 const router = createBrowserRouter([
   {
@@ -332,19 +333,23 @@ const router = createBrowserRouter([
           }
         ]
       },
-      {
-        path: "login",
-        element: <LoginContainer />
-      },
-      {
-        path: "join",
-        element: <JoinContainer />
-      },
-      {
-        path: "social-join",
-        element: <SocialJoinContainer />
-      }
     ]
+  },
+  {
+    path: "/login",
+    element: <LoginContainer />
+  },
+  {
+    path: "/join",
+    element: <JoinContainer />
+  },
+  {
+    path: "/social-join",
+    element: <SocialJoinContainer />
+  },
+  {
+    path: "/find-account",
+    element: <FindAccountContainer />
   },
 ])
 

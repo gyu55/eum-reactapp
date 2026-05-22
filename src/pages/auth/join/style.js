@@ -5,6 +5,22 @@ const fadeInUp = keyframes`
   to   { opacity: 1; transform: translateY(0); }
 `;
 
+const scaleIn = keyframes`
+  0%   { transform: scale(0); opacity: 0; }
+  70%  { transform: scale(1.15); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+`;
+
+const drawCheck = keyframes`
+  from { stroke-dashoffset: 40; }
+  to   { stroke-dashoffset: 0; }
+`;
+
+const slideUp = keyframes`
+  from { transform: translateY(28px); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+`;
+
 const PRIMARY = "#4359fc";
 
 export const PageWrap = styled.div`
@@ -219,4 +235,41 @@ export const FieldHint = styled.div`
   font-size: 11px;
   margin-top: 4px;
   color: ${({ $ok }) => ($ok ? "#03C75A" : "#e74c3c")};
+`;
+
+export const DoneWrap = styled.div`
+  text-align: center;
+  padding: 60px 32px;
+`;
+
+export const CheckCircle = styled.div`
+  width: 88px;
+  height: 88px;
+  margin: 0 auto 28px;
+  animation: ${scaleIn} 0.55s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+
+  svg { width: 100%; height: 100%; }
+
+  path {
+    stroke-dasharray: 40;
+    stroke-dashoffset: 40;
+    animation: ${drawCheck} 0.4s ease 0.45s forwards;
+  }
+`;
+
+export const DoneTitle = styled.div`
+  font-size: 22px;
+  font-weight: 700;
+  color: #111;
+  margin-bottom: 8px;
+  opacity: 0;
+  animation: ${slideUp} 0.5s ease 0.35s forwards;
+`;
+
+export const DoneSub = styled.div`
+  font-size: 14px;
+  color: #888;
+  margin-bottom: 36px;
+  opacity: 0;
+  animation: ${slideUp} 0.5s ease 0.5s forwards;
 `;

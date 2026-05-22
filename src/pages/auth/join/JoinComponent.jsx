@@ -363,17 +363,26 @@ export default function JoinComponent() {
 
         {/* 3단계: 가입완료 */}
         {currentStep === 2 && (
-          <S.FormCard style={{ textAlign: "center", padding: "60px 32px" }}>
-            <div style={{ fontSize: 52, marginBottom: 16 }}>🎉</div>
-            <div style={{ fontSize: 22, fontWeight: 700, color: "#111", marginBottom: 8 }}>
-              회원가입이 완료되었습니다!
-            </div>
-            <div style={{ fontSize: 14, color: "#888", marginBottom: 32 }}>
-              이음과 함께 새로운 소통을 시작해보세요.
-            </div>
-            <S.SubmitBtn onClick={() => navigate("/login")} style={{ maxWidth: 240, margin: "0 auto" }}>
-              로그인하러 가기
-            </S.SubmitBtn>
+          <S.FormCard>
+            <S.DoneWrap>
+              <S.CheckCircle>
+                <svg viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="26" cy="26" r="24" stroke="#4359fc" strokeWidth="2.5" />
+                  <path
+                    d="M14 26l9 9 15-15"
+                    stroke="#4359fc"
+                    strokeWidth="3"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </S.CheckCircle>
+              <S.DoneTitle>회원가입이 완료되었습니다!</S.DoneTitle>
+              <S.DoneSub>이음과 함께 새로운 소통을 시작해보세요.</S.DoneSub>
+              <S.SubmitBtn onClick={() => navigate("/login")} style={{ maxWidth: 240, margin: "0 auto" }}>
+                로그인하러 가기
+              </S.SubmitBtn>
+            </S.DoneWrap>
           </S.FormCard>
         )}
 

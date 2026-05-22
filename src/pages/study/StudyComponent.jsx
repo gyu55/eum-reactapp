@@ -1,6 +1,6 @@
 // 학습 홈 화면 컴포넌트: 메인 카드, 검색 진입, 로그인 필요 기능 분기담당
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import StudyAttendancePopup from "./attendance/StudyAttendancePopup";
 import { useStudyUser } from "./hooks/useStudyUser";
 import * as S from "./style";
@@ -197,7 +197,12 @@ const StudyComponent = () => {
           <p className="heroIcons">👋 ✌️</p>
           <h1>지금 바로 배워보세요!</h1>
           <p>회원가입 없이 다양한 언어표현을 재미있게 체험할 수 있어요</p>
-          <Link to="/study/experience">지금 체험하기 😶‍🌫️🤖👻 →</Link>
+          <S.HeroExperienceLink to="/study/experience" aria-label="체험학습으로 이동">
+            <span className="circle">
+              <span className="icon arrow" />
+            </span>
+            <span className="buttonText">지금 체험하기 👻</span>
+          </S.HeroExperienceLink>
         </S.BannerContent>
       </S.Banner>
 

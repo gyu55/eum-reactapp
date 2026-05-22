@@ -24,7 +24,7 @@ const ReceiptSubmitContainer = () => {
   const [birth, setBirth] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
-  const [fileNames, setFileNames] = useState([]);
+  const [files, setFiles] = useState([]); // 실제 File 객체 배열
   const [submitLoading, setSubmitLoading] = useState(false);
   const [submitMsg, setSubmitMsg] = useState("");
   const [submitOk, setSubmitOk] = useState(false);
@@ -39,6 +39,16 @@ const ReceiptSubmitContainer = () => {
       .catch(() => {});
   }, []);
 
+  const handleFileChange = (e) => {
+    if (e.target.files.length > 0) {
+      setFiles(prev => [...prev, ...Array.from(e.target.files)]);
+    }
+  };
+
+  const handleFileRemove = (i) => {
+    setFiles(prev => prev.filter((_, idx) => idx !== i));
+  };
+
   const handleSubmit = async () => {
     if (!selectedTestId) {
       setSubmitMsg("시험 회차를 선택해주세요.");
@@ -48,11 +58,14 @@ const ReceiptSubmitContainer = () => {
     setSubmitLoading(true);
     setSubmitMsg("");
     try {
+      const formData = new FormData();
+      formData.append("testId", selectedTestId);
+      files.forEach(file => formData.append("files", file));
+
       const res = await fetch("http://localhost:10000/api/test-apply", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
         credentials: "include",
-        body: JSON.stringify({ testId: Number(selectedTestId) }),
+        body: formData,
       });
       const data = await res.json();
       if (res.status === 401) {
@@ -191,29 +204,18 @@ const ReceiptSubmitContainer = () => {
             multiple
             ref={fileRef}
             style={{ display: "none" }}
-            onChange={e => {
-              if (e.target.files.length > 0) {
-                setFileNames(prev => [...prev, ...Array.from(e.target.files).map(f => f.name)]);
-              }
-            }}
+            onChange={handleFileChange}
           />
-          {fileNames.map((name, i) => (
+          {files.map((file, i) => (
             <S.FilePreviewRow key={i} style={{ marginBottom: 8 }}>
               <span>📄</span>
-              <S.FilePreviewName>{name}</S.FilePreviewName>
-              <S.FileRemoveBtn
-                onClick={() => {
-                  const updated = fileNames.filter((_, idx) => idx !== i);
-                  setFileNames(updated);
-                  if (updated.length === 0 && fileRef.current) fileRef.current.value = "";
-                }}
-                title="파일 제거"
-              >
+              <S.FilePreviewName>{file.name}</S.FilePreviewName>
+              <S.FileRemoveBtn onClick={() => handleFileRemove(i)} title="파일 제거">
                 ✕
               </S.FileRemoveBtn>
             </S.FilePreviewRow>
           ))}
-          <S.FileDropZone onClick={() => fileRef.current.click()}>
+          <S.FileDropZone onClick={() => { fileRef.current.value = ""; fileRef.current.click(); }}>
             <S.FileDropText>클릭하여 파일을 선택하세요</S.FileDropText>
             <S.FileDropSub>PDF, JPG, PNG 등 지원</S.FileDropSub>
           </S.FileDropZone>

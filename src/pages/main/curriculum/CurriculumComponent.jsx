@@ -1,15 +1,7 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import * as S from "./style.js";
-import theme from "../../../styles/theme";
+import theme from "../../../styles/theme.js";
 
-const STEPS = [
-  { step: 1, label: "입문",   count: "8강",  active: true },
-  { step: 2, label: "초급",   count: "12강", active: false },
-  { step: 3, label: "중급",   count: "12강", active: false },
-  { step: 4, label: "고급",   count: "18강", active: false },
-  { step: 5, label: "자격증", count: "도전", active: false },
-];
 
 const CURRICULUM = [
   { step: 1, label: "입문",   count: "8강",  color: theme.PALETTE.primary.main, items: ["수어란 무엇인가", "기본 손모양 익히기", "인사 표현", "감정 표현", "숫자와 날짜", "색깔과 사물", "가족 표현", "복습 및 테스트"] },
@@ -19,7 +11,7 @@ const CURRICULUM = [
   { step: 5, label: "자격증", count: "도전", color: theme.PALETTE.primary.main, items: ["자격증 소개", "시험 유형 분석", "기출 문제 풀이 1", "기출 문제 풀이 2", "실기 준비 1", "실기 준비 2", "모의 시험", "최종 점검"] },
 ];
 
-const CurriculumModal = ({ onClose }) => {
+const CurriculumComponent = ({ onClose }) => {
   const [activeStep, setActiveStep] = useState(0);
   const current = CURRICULUM[activeStep];
 
@@ -30,7 +22,6 @@ const CurriculumModal = ({ onClose }) => {
           <S.ModalTitle>커리큘럼 전체 보기</S.ModalTitle>
           <S.ModalCloseBtn onClick={onClose}>✕</S.ModalCloseBtn>
         </S.ModalHeader>
-
         <S.ModalTabRow>
           {CURRICULUM.map((c, i) => (
             <S.ModalTabBtn key={i} $active={activeStep === i} onClick={() => setActiveStep(i)}>
@@ -38,7 +29,6 @@ const CurriculumModal = ({ onClose }) => {
             </S.ModalTabBtn>
           ))}
         </S.ModalTabRow>
-
         <S.ModalContent>
           <S.ModalContentHeader>
             <S.ModalStepCircle $color={current.color}>{current.step}</S.ModalStepCircle>
@@ -59,55 +49,4 @@ const CurriculumModal = ({ onClose }) => {
   );
 };
 
-const CurriculumSection = () => {
-  const navigate = useNavigate();
-  const [showModal, setShowModal] = useState(false);
-
-  return (
-    <S.Section>
-      {showModal && <CurriculumModal onClose={() => setShowModal(false)} />}
-
-      <S.SectionTitle>💎 커리큘럼</S.SectionTitle>
-
-      {/* 스텝 */}
-      <S.StepRow>
-        {STEPS.map((s, i) => (
-          <React.Fragment key={s.step}>
-            <S.StepItem>
-              <S.StepCircle $active={s.active}>{s.step}</S.StepCircle>
-              <S.StepLabel $active={s.active}>{s.label}</S.StepLabel>
-              <S.StepCount>{s.count}</S.StepCount>
-            </S.StepItem>
-            {i < STEPS.length - 1 && <S.StepLine />}
-          </React.Fragment>
-        ))}
-      </S.StepRow>
-
-      {/* 소개 박스 */}
-      <S.InfoBox>
-        <S.InfoSubTitle>이음 커리큘럼 소개</S.InfoSubTitle>
-        <S.InfoTitle>입문부터 자격증까지</S.InfoTitle>
-        <S.InfoMeta>총 5단계 · 50강 · 평균 수료 기간 6개월</S.InfoMeta>
-        <S.TagRow>
-          {["#무료시작", "#단계별학습", "#라이브참여", "#자격증", "#커뮤니티"].map((tag) => (
-            <span key={tag}>{tag}</span>
-          ))}
-        </S.TagRow>
-        <S.BtnRow>
-          <S.PrimaryBtn>
-            <S.PrimaryBtnLabel onClick={() => { navigate("/study/experience"); window.scrollTo(0, 0); }}>
-              무료로 시작하기 →
-            </S.PrimaryBtnLabel>
-          </S.PrimaryBtn>
-          <S.OutlineBtn>
-            <S.OutlineBtnLabel onClick={() => setShowModal(true)}>
-              커리큘럼 보기
-            </S.OutlineBtnLabel>
-          </S.OutlineBtn>
-        </S.BtnRow>
-      </S.InfoBox>
-    </S.Section>
-  );
-};
-
-export default CurriculumSection;
+export default CurriculumComponent;

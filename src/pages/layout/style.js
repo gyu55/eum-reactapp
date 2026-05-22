@@ -15,12 +15,13 @@ export const Header = styled.header`
   border-bottom: 1px solid ${theme.GRAYSCALE[8]};
   background-color: ${theme.GRAYSCALE[10]};
   z-index: 1;
+  min-width: 320px; 
 `;
 
 export const LogoNav = styled.nav`
   display: flex;
   align-items: center;
-  gap: 112px;
+  gap: clamp(24px, 5vw, 112px);
 `;
 
 export const MainNav = styled.nav`
@@ -36,6 +37,7 @@ export const ContentNav = styled.span`
   border-bottom: 3px solid ${({ $hovered }) => ($hovered ? theme.PALETTE.primary.main : "transparent")};
   padding-bottom: 29px;
   transition: border-color 0.15s;
+  white-space: nowrap;
 `;
 
 export const RightNav = styled.nav`
@@ -43,6 +45,7 @@ export const RightNav = styled.nav`
   display: flex;
   gap: 12px;
   align-items: center;
+  flex-shrink: 0;
 `;
 
 export const RightBorderBtn = styled.div`

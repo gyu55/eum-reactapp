@@ -1,3 +1,4 @@
+import styled from "styled-components"
 import theme from "../../styles/theme"
 import EumMainContainer from "./EumMainContainer"
 
@@ -8,6 +9,16 @@ const dailyGray = "#9090B0"
 const clickDailyGray = "#90909B"
 const dailyBorderGray = "#EEEFFE"
 const noticeGray = "#aaa"
+
+export const Wrapper = styled.div`
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+`;
+
+export const BottomSpacer = styled.div`
+  margin-bottom: 70px;
+`;
 
 export const styles = {
   
@@ -21,8 +32,6 @@ export const styles = {
 
 // 최상위 wrapper
   wrapper: {
-    overflow: 'hidden',
-    position: 'relative',
     width: '100%',
     minHeight: "100vh",
   },
@@ -65,31 +74,6 @@ export const styles = {
     paddingBottom:'5.93vh'
   },
 
-  // CTA 버튼 wrapper
-  ctaWrapper: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignContent: 'center',
-    alignItems: 'center',
-    marginTop: '3.33vh',
-    marginBottom: '40.28vh',
-  },
-
-  // CTA 버튼
-  ctaButton: {
-    fontSize: theme.FONT_SIZE.h7,  
-    fontWeight: theme.FONT_WEIGHT.bold, 
-    textAlign: 'center',
-    padding: '20px 50px',
-    borderRadius: '50px',
-    height: '5.56vh',
-    width: '13.02vw',
-    whiteSpace: 'nowrap',
-    display: 'flex',
-    justifyContent: 'center',
-    alignContent: 'center',
-    alignItems: 'center',
-  },
 
   // 각 블롭 개별 속성
   blobGreen: {
@@ -121,7 +105,7 @@ export const styles = {
   blobOrange: {
     position: 'absolute', 
     borderRadius: '50%',
-    right: '786px',
+    right: '50vw',
     top: '57px',
     width: '283px',
     height: '283px',
@@ -134,7 +118,7 @@ export const styles = {
   blobYellow: {
     position: 'absolute', 
     borderRadius: '50%',
-    left: '850px',
+    left: '60vw',
     top: '688px',
     width: '288px',
     height: '288px',
@@ -161,7 +145,7 @@ export const styles = {
   blobPink: {
     position: 'absolute', 
     borderRadius: '50%',
-    left: '1288px',
+    left: '85vw',
     top: '135px',
     width: '288px',
     height: '288px',
@@ -190,7 +174,7 @@ export const styles = {
     padding: '20px 50px',
     borderRadius : '50px',
     height:'60px',
-    width:'13.02vw',
+    width: 'clamp(140px, 13.02vw, 220px)',
     whiteSpace: 'nowrap',
     display : 'flex',
     justifyContent: 'center',

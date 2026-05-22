@@ -26,7 +26,7 @@ export const SectionTitle = styled.span`
 export const StepRow = styled.div`
   display: flex;
   align-items: flex-start;
-  width: 670px;
+  width: 650px;
   margin-bottom: 25px;
 `;
 
@@ -72,7 +72,7 @@ export const StepLine = styled.div`
 /* ── Info Box ── */
 
 export const InfoBox = styled.div`
-  width: 1096px;
+  width: 920px;
   height: 355px;
   border-radius: 50px;
   border: solid 1px ${theme.PALETTE.primary.main};
@@ -123,34 +123,94 @@ export const PrimaryBtn = styled.div`
   height: 60px;
   border-radius: 40px;
   background-color: ${theme.PALETTE.primary.main};
+  border: 2px solid ${theme.PALETTE.primary.main};  /* 추가 */
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
+  overflow: hidden;  /* 추가 */
+  transition: background-color 0.3s ease;  /* 추가 */
+
+  &:hover {
+    background-color: ${theme.PALETTE.white};
+  }
+
+  &::before {
+    content: '→';
+    font-size: 16px;
+    max-width: 0;
+    font-weight: ${theme.FONT_WEIGHT.bold};
+    overflow: hidden;
+    white-space: nowrap;
+    transition: max-width 0.3s ease;
+    color: transparent;
+  }
+
+  &:hover::before {
+    max-width: 30px;
+    color: ${theme.PALETTE.primary.main};
+  }
 `;
 
 export const PrimaryBtnLabel = styled.button`
-  color: ${theme.PALETTE.white};
+  color: ${theme.PALETTE.white};  /* 기본 흰색 */
   font-size: ${theme.FONT_SIZE.h8};
   font-weight: ${theme.FONT_WEIGHT.bold};
   background: none;
   border: none;
   cursor: pointer;
+  transition: color 0.3s ease;  /* 추가 */
+  pointer-events: none;  /* 추가 - 부모 hover가 정확히 동작하게 */
+
+  ${PrimaryBtn}:hover & {
+    color: ${theme.PALETTE.primary.main};  /* 부모 hover 시 파란색 */
+  }
 `;
 
 export const OutlineBtn = styled.div`
   width: 200px;
   height: 60px;
   border-radius: 40px;
-  border: solid 1px ${theme.PALETTE.primary.main};
+  border: solid 2px ${theme.PALETTE.primary.main};
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  overflow: hidden;
+  position: relative;
+
+  &:hover {
+    background-color: ${theme.PALETTE.primary.main};
+  }
+
+  &:hover button {
+    color: ${theme.PALETTE.white};
+  }
+
+  /* 화살표 */
+  &::before {
+    content: '→';
+    color: ${theme.PALETTE.white};
+    font-weight: ${theme.FONT_WEIGHT.bold};
+    font-size: 16px;
+    max-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    transition: max-width 0.3s ease;
+    margin-right: 0;
+  }
+
+  &:hover::before {
+    max-width: 30px;   /* 펼쳐지면서 나옴 */
+    margin-right: 8px;
+  }
 `;
 
 export const OutlineBtnLabel = styled.button`
   color: ${theme.PALETTE.primary.main};
   font-size: ${theme.FONT_SIZE.h8};
-  font-weight: ${theme.FONT_WEIGHT.medium};
+  font-weight: ${theme.FONT_WEIGHT.bold};
   background: none;
   border: none;
   cursor: pointer;
@@ -177,7 +237,9 @@ export const ModalBox = styled.div`
   padding: 36px 40px;
   width: 700px;
   max-height: 80vh;
-  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
 `;
 
@@ -224,7 +286,10 @@ export const ModalTabBtn = styled.button`
 export const ModalContent = styled.div`
   background: #f8f9ff;
   border-radius: 16px;
-  padding: 20px 24px;
+  padding: 20px 24px 20px 24px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 `;
 
 export const ModalContentHeader = styled.div`
@@ -262,6 +327,23 @@ export const ModalItemList = styled.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
+  max-height: 380px;
+  overflow-y: auto;
+  padding-right: 8px;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #ddd;
+    border-radius: 999px;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background: #bbb;
+  }
 `;
 
 export const ModalItem = styled.div`

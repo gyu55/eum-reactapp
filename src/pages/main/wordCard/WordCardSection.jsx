@@ -10,7 +10,7 @@ const WORD_CARDS = [
 
 const WordCardSection = () => {
   return (
-    <S.SectionWrap>
+    <S.SectionWrap id="word-card-section">
       <S.SectionTitleRow>
         <S.TitleStart>매일 새로운</S.TitleStart>
         <S.TitleHighlight>수어 단어</S.TitleHighlight>

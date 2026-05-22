@@ -35,6 +35,7 @@ export const TopCardRow = styled.div`
   flex-direction: row;
   margin-top: 80px;
   gap: 24px;
+  
 `;
 
 export const BottomCardRow = styled.div`
@@ -57,6 +58,10 @@ export const LargeCard = styled.div`
   display: flex;
   flex-direction: column;
   gap: 13px;
+  &:hover {
+    border-color: ${theme.PALETTE.primary.main};
+    box-shadow: 0 12px 30px ${theme.PALETTE.primary.main}40;
+  }
 `;
 
 /* ── Small Card (하단 3개) ── */
@@ -72,6 +77,10 @@ export const SmallCard = styled.div`
   display: flex;
   flex-direction: column;
   gap: 7px;
+  &:hover {
+    border-color: ${theme.PALETTE.primary.main};
+    box-shadow: 0 0 0 3px ${theme.PALETTE.primary.main};
+  }
 `;
 
 /* ── Card Badge ── */
@@ -99,6 +108,7 @@ export const LargeCardTitle = styled.div`
   display: flex;
   font-size: ${theme.FONT_SIZE.h7};
   font-weight: ${theme.FONT_WEIGHT.bold};
+
   gap: 9px;
 `;
 
@@ -125,7 +135,7 @@ export const CardDesc = styled.div`
 export const InfoTagRow = styled.div`
   display: flex;
   flex-direction: row;
-  gap: 8px;
+  gap: 10px;
 `;
 
 export const InfoTag = styled.div`
@@ -137,12 +147,27 @@ export const InfoTag = styled.div`
   width: 153px;
   height: 29px;
 `;
+export const InfoTag2 = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: ${backGroundGray};
+  border-radius: 10px;
+  width: 170px;
+  height: 29px;
+`;
 
 export const InfoTagGray = styled.span`
   font-size: ${theme.FONT_SIZE.h11};
   font-weight: ${theme.FONT_WEIGHT.regular};
   color: ${textGray};
   padding-right: 9px;
+`;
+export const InfoTagGray2 = styled.span`
+  font-size: ${theme.FONT_SIZE.h11};
+  font-weight: ${theme.FONT_WEIGHT.regular};
+  color: ${textGray};
+  padding-right: 6px;
 `;
 
 export const InfoTagSep = styled.span`
@@ -157,6 +182,12 @@ export const InfoTagBold = styled.span`
   font-weight: ${theme.FONT_WEIGHT.bold};
   padding-left: 9px;
 `;
+export const InfoTagBold2 = styled.span`
+  color: ${theme.PALETTE.black};
+  font-size: ${theme.FONT_SIZE.h11};
+  font-weight: ${theme.FONT_WEIGHT.bold};
+  padding-left: 6px;
+`;
 
 /* ── Go Button ── */
 
@@ -165,7 +196,19 @@ export const GoBtn = styled.button`
   background: none;
   border: none;
   padding: 0;
-  padding-top: ${({ $pt }) => $pt || "0px"};
+  margin-top: ${({ $pt }) => $pt || "0px"};
+  color: ${theme.PALETTE.black};
+  font-size: ${theme.FONT_SIZE.h10};
+  font-weight: ${theme.FONT_WEIGHT.bold};
+  cursor: pointer;
+`;
+
+export const GoBtn2 = styled.button`
+  text-align: left;
+  background: none;
+  border: none;
+  padding: 0;
+  margin-top: ${({ $pt }) => $pt || "0px"};
   color: ${theme.PALETTE.black};
   font-size: ${theme.FONT_SIZE.h10};
   font-weight: ${theme.FONT_WEIGHT.bold};
@@ -176,11 +219,11 @@ export const GoBtn = styled.button`
 
 export const LargeCardImg = styled.img`
   position: absolute;
-  right: 80px;
+  right: 50px;
   top: 50%;
   transform: translateY(-50%);
-  width: 160px;
-  height: 160px;
+  width: 130px;
+  height: 130px;
 `;
 
 export const SmallCardImg = styled.img`
@@ -188,6 +231,6 @@ export const SmallCardImg = styled.img`
   right: 50px;
   top: 50%;
   transform: translateY(-50%);
-  width: 120px;
-  height: 120px;
+  width: 90px;
+  height: 90px;
 `;

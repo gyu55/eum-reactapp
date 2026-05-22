@@ -1,6 +1,13 @@
 import styled from "styled-components";
 import theme from "../../../styles/theme";
 
+
+export const BannerWrap = styled.div`
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+`;
+
 export const HeadlineWrapper = styled.div`
   display: flex;
   justify-content: center;
@@ -65,7 +72,7 @@ export const BlobBlue = styled.div`
 export const BlobOrange = styled.div`
   position: absolute;
   border-radius: 50%;
-  left: 600px;
+  left: 40vw; 
   top: 10px;
   width: 283px;
   height: 283px;
@@ -78,7 +85,7 @@ export const BlobOrange = styled.div`
 export const BlobYellow = styled.div`
   position: absolute;
   border-radius: 50%;
-  left: 800px;
+  right: 35vw;  
   top: 500px;
   width: 288px;
   height: 288px;
@@ -93,7 +100,7 @@ export const BlobPurple = styled.div`
   position: absolute;
   border-radius: 50%;
   top: 400px;
-  right: -150px;
+  right: -80px;
   width: 384px;
   height: 384px;
   background-color: #c4a8ff;
@@ -105,7 +112,7 @@ export const BlobPurple = styled.div`
 export const BlobPink = styled.div`
   position: absolute;
   border-radius: 50%;
-  left: 1100px;
+  right: 5vw;
   top: 50px;
   width: 288px;
   height: 288px;
@@ -134,7 +141,7 @@ export const StartBtn = styled.button`
   padding: 20px 50px;
   border-radius: 50px;
   height: 60px;
-  width: 13.02vw;
+  width: 200px;
   white-space: nowrap;
   display: flex;
   justify-content: center;
@@ -142,6 +149,11 @@ export const StartBtn = styled.button`
   align-items: center;
   border: none;
   cursor: pointer;
+  &:hover {
+    background-color: ${theme.PALETTE.white};
+    color: ${theme.PALETTE.primary.main};
+    border :solid 3px ${theme.PALETTE.primary.main}
+  }
 `;
 
 export const FloatingWrap = styled.div`
@@ -159,7 +171,7 @@ export const FloatingItem = styled.div`
   left: ${({ $x }) => $x}%;
   bottom: ${({ $y }) => $y}%;
   animation: floatUp ${({ $duration }) => $duration}s ease-in forwards;
-  z-index: 0;
+  z-index: -1;
 `;
 
 export const ProfileImg = styled.img`

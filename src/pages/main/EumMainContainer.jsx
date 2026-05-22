@@ -1,29 +1,30 @@
 import React from 'react';
 import { styles } from './style';
+import * as S from "./style.js";
 import ChatbotButton from '../chatbot/ChatbotButtonComponent';
 import FloatingProfiles from './bannerSection/FloatingProfileComponent';
 import BannerSection from './bannerSection/BannerSectionComponent';
 import ContentSection from './content/ContentSectionComponent';
-import CurriculumSection from './curriculum/CurriculumSectionComponent';
 import ReviewSection from './reviewSection/ReviewSectionComponent';
-import WordCardSection from './wordCard/WordCardSectionComponent';
+import WordCardSection from './wordCard/WordCardSection.jsx';
 import NoticeSection from './notice/NoticeSectionComponent';
+import CurriculumSection from './curriculum/CurriculumSection';
 
 const EumMainContainer = () => {
   return (
     <>
       <ChatbotButton />
       <FloatingProfiles />
-      <div style={styles.wrapper}>
+      <S.Wrapper>
         <BannerSection />
         <ContentSection />
         <CurriculumSection />
         <ReviewSection />
         <WordCardSection />
-        <div style={{marginBottom:'70px'}}>
-        <NoticeSection />
-        </div>
-      </div>
+        <S.BottomSpacer>
+          <NoticeSection />
+        </S.BottomSpacer>
+      </S.Wrapper>
     </>
   );
 };

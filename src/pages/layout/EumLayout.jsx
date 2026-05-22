@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Outlet, Link } from "react-router-dom";
 import * as S from "./style.js";
 import NotificationDropdown from "./NotificationDropdown";
+import useAuthStore from "../../store/authStore.js";
 
 const navLinks = [
   { label: "커뮤니티", to: "/community" },
@@ -16,16 +17,23 @@ const EumLayout = () => {
   const [notifCount, setNotifCount]             = useState(0);
   const [showNotification, setShowNotification] = useState(false);
 
-  useEffect(() => {}, []);
+  const setAuthUser        = useAuthStore((state) => state.setUser);
+  const setIsAuthenticated = useAuthStore((state) => state.setIsAuthenticated);
 
   useEffect(() => {
     fetch("http://localhost:10000/private/api/users/me", { credentials: "include" })
       .then((res) => (res.ok ? res.json() : null))
-      .then((data) => { if (data?.success) setUser(data.data); })
+      .then((data) => { 
+        if (data?.success) {
+        setUser(data.data);
+        setAuthUser(data.data);      // 추가
+        setIsAuthenticated(true);    // 추가
+      }
+    })
       .catch(() => {});
   }, []);
 
-  // ── 백엔드 연동 시 아래 주석 해제 ──────────────────────────────
+  // ── 종 알림 백엔드 연동 시 아래 주석 해제 ──────────────────────────────
   // useEffect(() => {
   //   if (!user) return;
   //   const fetchNotifCount = async () => {
@@ -46,6 +54,8 @@ const EumLayout = () => {
       await fetch("http://localhost:10000/logout", { method: "POST", credentials: "include" });
     } catch {}
     setUser(null);
+    setAuthUser(null);
+    setIsAuthenticated(false);
     window.location.href = "/";
     window.scrollTo(0, 0);
   };

@@ -7,7 +7,7 @@ const BannerSection = React.memo(() => {
   const navigate = useNavigate();
 
   return (
-    <>
+    <S.BannerWrap>
       <S.HeadlineWrapper>
         <S.HeadlineText>
           손짓 하나로 <br />
@@ -35,7 +35,7 @@ const BannerSection = React.memo(() => {
           지금 시작하기 →
         </S.StartBtn>
       </S.BtnChapter>
-    </>
+    </S.BannerWrap>
   );
 });
 

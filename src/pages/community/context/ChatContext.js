@@ -16,7 +16,9 @@ export const VIEW = {
 const ChatContext = createContext(null);
 
 export const ChatProvider = ({ children }) => {
+  // 현재 눌러서 들어온 채팅방
   const [activeChatRoom, setActiveChatRoom] = useState(null);
+  // 팝업 혹은 사이드 창 상태
   const [view, setView] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [sideInitialType, setSideInitialType] = useState(TYPE.LIST);
@@ -37,6 +39,7 @@ export const ChatProvider = ({ children }) => {
   }, []);
 
   // 팝업 최소화 → 사이드 채팅 표시 (채팅 화면 → TYPE.ROOM, activeChatRoom 유지)
+  // 해당 부분은 채팅방 일 때 감소 될 때 그대로 채팅방이 뜨도록 하기
   const minimizeChat = useCallback(() => {
     setSideInitialType(TYPE.ROOM);
     setView(VIEW.SIDE);

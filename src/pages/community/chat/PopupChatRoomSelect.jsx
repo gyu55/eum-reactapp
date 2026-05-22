@@ -30,8 +30,7 @@ const S = {
   CloseBtn,
 };
 
-// 채팅방 헤더 임시 버튼
-
+// 채팅방 헤더 버튼
 const PopupChatRoomSelect = () => {
   const { handleSelectMinimize, handleSelectClose } = useChatContext();
 

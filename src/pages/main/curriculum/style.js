@@ -142,7 +142,7 @@ export const PrimaryBtn = styled.div`
     font-weight: ${theme.FONT_WEIGHT.bold};
     overflow: hidden;
     white-space: nowrap;
-    transition: max-width 0.3s ease;
+    transition: max-width 0.5s ease;
     color: transparent;
   }
 
@@ -159,7 +159,7 @@ export const PrimaryBtnLabel = styled.button`
   background: none;
   border: none;
   cursor: pointer;
-  transition: color 0.3s ease;  /* 추가 */
+  transition: color 0.5s ease;  /* 추가 */
   pointer-events: none;  /* 추가 - 부모 hover가 정확히 동작하게 */
 
   ${PrimaryBtn}:hover & {

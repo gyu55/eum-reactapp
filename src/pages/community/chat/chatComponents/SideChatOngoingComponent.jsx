@@ -134,18 +134,18 @@ const SideChatOngoingComponent = () => {
             {rooms.map((room) => (
               <RoomItem key={room.id} onClick={() => selectRoom(room)}>
                 <ThumbnailBox
-                  src={room.thumbnail || chatDefaultProfile}
-                  alt={room.name}
+                  src={room.chatRoomProfile || chatDefaultProfile}
+                  alt={room.chatRoomName}
                   onError={(e) => {
                     e.target.src = chatDefaultProfile;
                   }}
                 />
                 <RoomInfo>
                   <RoomTopRow>
-                    <RoomName>{room.name}</RoomName>
+                    <RoomName>{room.chatRoomName}</RoomName>
                     <RoomTime>{room.time}</RoomTime>
                   </RoomTopRow>
-                  <RoomLastMsg>{room.lastMsg || `${room.count}명`}</RoomLastMsg>
+                  <RoomLastMsg>{room.chatRoomDetail || `${room.chatRoomUsers}명`}</RoomLastMsg>
                 </RoomInfo>
               </RoomItem>
             ))}

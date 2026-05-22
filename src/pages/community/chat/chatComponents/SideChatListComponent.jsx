@@ -5,7 +5,7 @@ import { h10Bold, h11Bold, h11Regular } from "../../../../styles/common";
 import chatDefaultProfile from "../../assets/chat/chat_default_profile.svg";
 import { ThumbnailBox } from "./chatComponentStyle";
 import useChatRoomList from "../hooks/useChatRoomList";
-import { useChatContext, LIST_FILTER } from "../../context/ChatContext";
+import { useChatContext } from "../../context/ChatContext";
 import { SIDE_TABS } from "./sideChatTabs";
 
 import defaultProfileImg from "../../assets/chat/chat_default_profile.svg";
@@ -144,14 +144,14 @@ const SideChatListComponent = () => {
             <RoomLeft>
               {/* 방 썸네일 */}
               <ThumbnailBox
-                src={room.thumbnail || chatDefaultProfile}
-                alt={room.name}
+                src={room.chatRoomProfile || chatDefaultProfile}
+                alt={room.chatRoomName}
                 onError={(e) => {
                   e.target.src = defaultProfileImg;
                 }}
               />
               <RoomInfo>
-                <RoomName>{room.name}</RoomName>
+                <RoomName>{room.chatRoomName}</RoomName>
                 {room.isLive && (
                   <LiveBadge>
                     <LiveDot />
@@ -160,7 +160,7 @@ const SideChatListComponent = () => {
                 )}
               </RoomInfo>
             </RoomLeft>
-            <CountText>{room.count}명</CountText>
+            <CountText>{room.chatRoomUsers}명</CountText>
           </RoomItem>
         ))}
         {hasMore && (

@@ -113,22 +113,22 @@ const SelectRoomListPanel = () => {
                 <S.RoomItemLeft>
                   <S.RoomIconBox>
                     <img
-                      src={room.thumbnail || chatDefaultProfile}
-                      alt={room.name}
+                      src={room.chatRoomProfile || chatDefaultProfile}
+                      alt={room.chatRoomName}
                       onError={(e) => {
                         e.target.src = chatDefaultProfile;
                       }}
                     />
                   </S.RoomIconBox>
                   <S.RoomMetaCol>
-                    <S.RoomNameText>{room.name}</S.RoomNameText>
+                    <S.RoomNameText>{room.chatRoomName}</S.RoomNameText>
                     <S.LiveRow>
                       <S.SelectLiveDot />
                       <S.SelectLiveLabel>라이브</S.SelectLiveLabel>
                     </S.LiveRow>
                   </S.RoomMetaCol>
                 </S.RoomItemLeft>
-                <S.RoomCountText>{room.count}명</S.RoomCountText>
+                <S.RoomCountText>{room.chatRoomUsers}명</S.RoomCountText>
               </S.RoomItem>
             ))}
             {hasMore && (

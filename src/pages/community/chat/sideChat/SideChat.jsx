@@ -33,7 +33,7 @@ const SideChat = () => {
       <SideChatHeader
         screen={screen}
         listFilter={listFilter}
-        chatPartnerName={chatRoomDTO?.name ?? chatRoomDTO?.chatRoomName}
+        chatPartnerName={chatRoomDTO?.chatRoomName}
         onMinimize={handleMinimize}
         onExpand={expandView}
         onClose={closeView}

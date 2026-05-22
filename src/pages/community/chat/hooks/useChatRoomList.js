@@ -30,11 +30,11 @@ const useChatRoomList = () => {
         const newRooms = (data.rooms ?? []).map(
           ({ id, chatRoomName, chatRoomDetail, chatRoomUsers, chatRoomProfile }) => ({
             id,
-            name: chatRoomName,
-            detail: chatRoomDetail,
-            count: chatRoomUsers ?? 0,
+            chatRoomName,
+            chatRoomDetail,
+            chatRoomUsers: chatRoomUsers ?? 0,
             isLive: true,
-            thumbnail: chatRoomProfile ?? null,
+            chatRoomProfile: chatRoomProfile ?? null,
           })
         );
         setRooms((prev) => (page === 1 ? newRooms : [...prev, ...newRooms]));

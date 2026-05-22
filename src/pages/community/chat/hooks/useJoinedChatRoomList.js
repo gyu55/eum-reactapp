@@ -18,11 +18,11 @@ const formatLastTime = (dateStr) => {
 
 const toDisplayRoom = (room) => ({
   id: room.id,
-  name: room.chatRoomName,
-  count: room.chatRoomUsers ?? 0,
+  chatRoomName: room.chatRoomName,
+  chatRoomUsers: room.chatRoomUsers ?? 0,
   time: formatLastTime(room.chatLastReadAt),
-  lastMsg: room.chatRoomDetail ?? "",
-  thumbnail: room.chatRoomProfile ?? null,
+  chatRoomDetail: room.chatRoomDetail ?? "",
+  chatRoomProfile: room.chatRoomProfile ?? null,
 });
 
 const useJoinedChatRoomList = () => {

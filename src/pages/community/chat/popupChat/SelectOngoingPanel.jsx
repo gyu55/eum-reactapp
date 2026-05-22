@@ -65,12 +65,12 @@ const SelectOngoingPanel = () => {
                 <S.OngoingRoomInfo>
                   <S.OngoingRoomTopRow>
                     <S.OngoingRoomNameRow>
-                      <S.OngoingRoomName>{room.name}</S.OngoingRoomName>
-                      <S.OngoingRoomCount>{room.count}명</S.OngoingRoomCount>
+                      <S.OngoingRoomName>{room.chatRoomName}</S.OngoingRoomName>
+                      <S.OngoingRoomCount>{room.chatRoomUsers}명</S.OngoingRoomCount>
                     </S.OngoingRoomNameRow>
                     <S.OngoingLastTime>{room.time}</S.OngoingLastTime>
                   </S.OngoingRoomTopRow>
-                  <S.OngoingLastMsg>{room.lastMsg}</S.OngoingLastMsg>
+                  <S.OngoingLastMsg>{room.chatRoomDetail}</S.OngoingLastMsg>
                 </S.OngoingRoomInfo>
               </S.OngoingRoomItem>
             ))}

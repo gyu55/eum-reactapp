@@ -1,219 +1,110 @@
-import { useState } from 'react';
-import { AttendIS, AttendNotice, AttendReward, AttendTitle, AttendWrap, CalendarWrap, HeadsUp, SideWrap, StyledCalendar, StyledCalendarWrapper, StyledDate, StyledDot } from './style';
-import moment from 'moment';
+// 출석 화면 컴포넌트: 출석 현황, 주간 출석, 보상 목록 표시를 담당
+import { useMemo, useState } from "react";
+import moment from "moment";
+import "moment/locale/ko";
 import "react-calendar/dist/Calendar.css";
+import AttendanceRewardList from "./parts/AttendanceRewardList";
+import AttendanceSummaryCard from "./parts/AttendanceSummaryCard";
+import WeeklyAttendance from "./parts/WeeklyAttendance";
+import * as S from "./style";
 
-// 출석체크 화면
-const StudyAttendanceComponent = () => {
+const summaryCards = [
+  { id: "streak", icon: "🔥", label: "현재 연속 출석", keyName: "streakDays", unit: "일" },
+  { id: "month", icon: "🗓️", label: "이번 달 출석", keyName: "monthlyDays", unit: "일" },
+  { id: "exp", icon: "⚡", label: "총 획득 EXP", keyName: "totalExp", unit: "" },
+  { id: "badge", icon: "🏅", label: "획득 뱃지", keyName: "badgeCount", unit: "개" },
+];
 
-    // 달력
-    const today = new Date();
-    const [date, setDate] = useState(today);
-    const [activeStartDate, setActiveStartDate] = useState(today);
-    const attendDay = ["2026-05-05", "2026-05-06"];
-    
-    const handleDateChange = (newDate) => {
-        setDate(newDate);
-    };
-    
-    const handleTodayClick = () => {
-        const today = new Date();
-        setActiveStartDate(today);
-        setDate(today);
-    };
+moment.locale("ko");
 
-    // 이번주 출석
-    const weekList = [
+const StudyAttendanceComponent = ({ loading, error, summary }) => {
+  const initialDate = useMemo(() => new Date(`${summary?.currentDate || "2026-05-21"}T00:00:00`), [summary?.currentDate]);
+  const today = useMemo(() => new Date(), []);
+  const [date, setDate] = useState(initialDate);
+  const [activeStartDate, setActiveStartDate] = useState(initialDate);
 
-        {id: 1, day:"월", status: "check"},
-        {id: 2, day:"화", status: "check"},
-        {id: 3, day:"수", status: "today"},
-        {id: 4, day:"목", status: "empty"},
-        {id: 5, day:"금", status: "empty"},
-        {id: 6, day:"토", status: "empty"},
-        {id: 7, day:"일", status: "empty"},
-    ];
+  // 출석날짜목록: 백엔드에서 받은 날짜 배열과 달력 날짜를 비교할 때 사용
+  const attendanceDateSet = useMemo(() => new Set(summary?.attendanceDates || []), [summary?.attendanceDates]);
 
+  // 오늘로 이동: 달력을 실제 오늘 날짜가 있는 월로 돌아감
+  const handleTodayClick = () => {
 
-    return(
-        <AttendWrap>
-            {/* Title */}
-            <AttendTitle>
-                <div className='checkAttendance' >
-                    <p className='checkDesc1'>출석체크</p>
-                    <span className='checkDesc2'>매일 출석하고 보상을 받아요</span>
-                </div>
+    setDate(today);
+    setActiveStartDate(today);
+  };
 
-                <div className='checkComplete'>
-                    <p className='completeDesc1'>✅ 오늘 출석 완료!</p>
-                    <span className='completeDesc2'>+30 XP 획득했어요!</span>
-                </div>
-            </AttendTitle>
+  if (loading) {
+    return <S.AttendanceWrap>출석 정보를 불러오는 중입니다.</S.AttendanceWrap>;
+  }
 
-            {/* 알림 */}
-            <AttendNotice>
-                <div className='straight'>
-                    <p className='noticeIcon'>🔥</p>
-                    <p className='noticeDay'>7일</p>
-                    <p className='noticeText'>현재 연속 출석</p>
-                </div>
+  return (
+    <S.AttendanceWrap>
+      <S.AttendanceHeader>
+        <div>
+          <S.AttendanceTitle>출석체크</S.AttendanceTitle>
+          <S.AttendanceDesc>매일 출석하고 보상을 받아요</S.AttendanceDesc>
+        </div>
 
-                <div className='month'>
-                    <p className='noticeIcon'>📅</p>
-                    <p className='noticeDay'>14일</p>
-                    <p className='noticeText'>이번달 출석</p>
-                </div>
+        <S.TodayStatus $checked={summary.checkedToday}>
+          <strong>{summary.checkedToday ? "✅ 오늘 출석 완료!" : "출석 전"}</strong>
+          <span>{summary.todayLabel}</span>
+        </S.TodayStatus>
+      </S.AttendanceHeader>
 
-                <div className='exp'>
-                    <p className='noticeIcon'>⚡</p>
-                    <p className='noticeDay'>1,240</p>
-                    <p className='noticeText'>총 획득 EXP</p>
-                </div>
+      {error && <S.AttendanceNotice>{error}</S.AttendanceNotice>}
 
-                <div className='badge'>
-                    <p className='noticeIcon'>🏅</p>
-                    <p className='noticeDay'>3개</p>
-                    <p className='noticeText'>획득 뱃지</p>
-                </div>
-            </AttendNotice>
+      <S.SummaryGrid>
+        {summaryCards.map((card) => (
+          <AttendanceSummaryCard
+            key={card.id}
+            tone={card.id}
+            icon={card.icon}
+            label={card.label}
+            value={`${summary[card.keyName]}${card.unit}`}
+          />
+        ))}
+      </S.SummaryGrid>
 
-            {/* 달력 */}
-            <StyledCalendarWrapper>
-                <CalendarWrap>
-                    <StyledCalendar
-                        value={date} //선택한 날짜
-                        onChange={handleDateChange} //날짜 클릭시 실행
-                        formatDay={(locale, date) => moment(date).format("D")} //일
-                        formatYear={(locale, date) => moment(date).format("YYYY")} //연도
-                        formatMonthYear={(locale, date) => moment(date).format("YYYY. MM")} //상단 월
-                        formatShortWeekday={(locale, date) => moment(date).format("ddd")} // 요일
-                        // formatShortWeekday={( locale, date ) => {
-                        //     const weekDays = ["일", "월", "화", "수", "목", "금", "토"];
-                        //     return weekDays[date.getDay()];
-                        // }} // 요일
-                        calendarType="gregory" // 그레고리력 달력
+      <S.AttendanceContent>
+        <S.CalendarCard>
+          <S.CalendarFrame>
+            <S.StyledCalendar
+              value={date}
+              onChange={setDate}
+              activeStartDate={activeStartDate}
+              onActiveStartDateChange={({ activeStartDate }) => setActiveStartDate(activeStartDate)}
+              formatDay={(locale, date) => moment(date).format("D")}
+              formatYear={(locale, date) => moment(date).format("YYYY")}
+              formatMonthYear={(locale, date) => moment(date).format("YYYY. MM")}
+              formatShortWeekday={(locale, date) => moment(date).format("dd")}
+              calendarType="gregory"
+              showNeighboringMonth
+              next2Label={null}
+              prev2Label={null}
+              minDetail="year"
+              tileContent={({ date, view }) => {
+                const formattedDate = moment(date).format("YYYY-MM-DD");
+                if (view !== "month" || !attendanceDateSet.has(formattedDate)) return null;
+                return <S.CalendarDot />;
+              }}
+            />
+            <S.CalendarTodayButton type="button" onClick={handleTodayClick}>
+              Today
+            </S.CalendarTodayButton>
+          </S.CalendarFrame>
+          <S.CalendarLegend>
+            <span>출석</span>
+            <span>미출석</span>
+          </S.CalendarLegend>
+        </S.CalendarCard>
 
-                        showNeighboringMonth={true} // 이전/다음달 날짜 보기 -> true / 안봄 -> false
-                        // 2칸 이동 버튼 숨기기 -> >> <<
-                        next2Label={null}
-                        prev2Label={null}
-                        minDetail="year" // 어디까지 보여줄지
-                        activeStartDate={activeStartDate === null ? undefined : activeStartDate} // 현재 보고있는 달
-                        
-                        // 달력 월 바뀔 때
-                        // 사용자가 다음달 버튼 누를 activeStartDate 여기에 저장
-                        onActiveStartDateChange={({ activeStartDate }) =>
-                        setActiveStartDate(activeStartDate)}
-                        
-                        // 날짜 칸 안에 추가 내용 넣기
-                        //  html 배열 / . 점찍기 등
-                        tileContent={({ date, view }) => {
-                            let html = [];
-                            if (view === "month") { // view가 'month'일 때
-                                // 해당 날짜가 특정 날짜인지 확인
-                                if (attendDay.find((x) => x === moment(date).format("YYYY-MM-DD"))) {
-                                // 점 추가 -> 여기해결하기    
-                                html.push(<StyledDot key={moment(date).format("YYYY-MM-DD")} />);
-                                console.log(moment(date).format("YYYY-MM-DD"));
-                                }
-                            }
-                            return <>{html}</>;
-                        }}
-                    />
-                    
-                    {/*  Today 버튼 */}
-                    <StyledDate onClick={handleTodayClick}>Today</StyledDate>
-                    <AttendIS>
-                        <span className='in'>출석</span>
-                        <span className='out'>미출석</span>
-                    </AttendIS>
-                </CalendarWrap>
-
-                <SideWrap>
-                    {/* weeks */}
-                    <HeadsUp>
-                        <p className='weekTitle'>이번 주</p>
-                        <div className='weekList'>
-                            {weekList.map((item) => (
-                                <div className='weekItem' key={item.id}>
-                                    <p className={item.status === "today" ? "day todayText" : "day"}>
-                                        {item.day}
-                                    </p>
-
-                                    <div className={`circle ${item.status}`}>
-                                        {/* 출석완료한날 */}
-                                        {item.status === "check" && "✓"}
-                                        {/* 오늘 */}
-                                        {item.status === "today" && "오늘"}
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-
-                        <p className='weekText'>
-                            <span>3일 출석</span> · 4일 남음
-                        </p>
-
-                        <div className='progressBar'>
-                            <p className='progressFill' />
-                        </div>
-                    </HeadsUp>
-
-                    {/* 출석보상 */}
-                    <AttendReward>
-                        <p className='rewardTitle'>출석 보상</p>
-
-                        <div className="rewardList">
-                            <div className="rewardItem done">
-                                <div className="dayCircle">3일</div>
-
-                                <div className="rewardText">
-                                    <p className="rewardName">3일 연속</p>
-                                    <p className="rewardDesc">+50 XP</p>
-                                </div>
-
-                                <button className="rewardButton complete">완료</button>
-                            </div>
-
-                            <div className="rewardItem receive">
-                                <div className="dayCircle">7일</div>
-
-                                <div className="rewardText">
-                                    <p className="rewardName">7일 연속</p>
-                                    <p className="rewardDesc">+100 XP · 🏅 뱃지</p>
-                                </div>
-
-                                <button className="rewardButton receiveButton">수령</button>
-                            </div>
-
-                            <div className="rewardItem locked">
-                                <div className="dayCircle">14일</div>
-
-                                <div className="rewardText">
-                                    <p className="rewardName">14일 연속</p>
-                                    <p className="rewardDesc">+200 XP · 🏅 뱃지</p>
-                                </div>
-
-                                <div className="lockIcon">🔒</div>
-                            </div>
-
-                            <div className="rewardItem locked">
-                                <div className="dayCircle">30일</div>
-
-                                <div className="rewardText">
-                                    <p className="rewardName">30일 연속</p>
-                                    <p className="rewardDesc">+500 XP · 🏅 뱃지</p>
-                                </div>
-
-                                <div className="lockIcon">🔒</div>
-                            </div>
-                        </div>                    
-                    </AttendReward>
-                </SideWrap>
-            </StyledCalendarWrapper>
-        </AttendWrap>
-    );
-
+        <S.SidePanel>
+          <WeeklyAttendance week={summary.weeklyStatus} progress={summary.weekProgress} />
+          <AttendanceRewardList rewards={summary.rewards} />
+        </S.SidePanel>
+      </S.AttendanceContent>
+    </S.AttendanceWrap>
+  );
 };
 
 export default StudyAttendanceComponent;

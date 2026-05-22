@@ -1,144 +1,191 @@
+// 출석 스타일
 import styled from "styled-components";
-import theme from "../../../styles/theme";
-import "react-calendar/dist/Calendar.css";
 import Calendar from "react-calendar";
 
+const summaryTone = {
+  streak: { border: "#ffbf66", bg: "#fff7e8", value: "#ff8004" },
+  month: { border: "#7ca0ff", bg: "#eef9ff", value: "#4359fc" },
+  exp: { border: "#8b82ff", bg: "#f3f0ff", value: "#4359fc" },
+  badge: { border: "#ffbf66", bg: "#fff8e8", value: "#ff8004" },
+};
 
-// 출석체크 화면_style
-
-// 크기
-const fontSize = (key) => ({theme}) => theme.FONT_SIZE[key];
-// 굵기
-const fontWeight = (key) => ({theme}) => theme.FONT_WEIGHT[key];
-// 행간
-const lineHeight = (key) => ({theme}) => theme.FONT_LINE[key];
-// 색
-const textColor = (key) => ({theme}) => theme.PALETTE[key];
-
-
-// 출석체크_화면
- 
-// 전체
-export const AttendWrap = styled.section`
+export const AttendanceWrap = styled.section`
   width: 100%;
   min-height: 100vh;
-  /* background: #f8f9ff; */
-  padding: 120px 0 180px;
-  box-sizing: border-box;
+  padding: 258px 24px 350px;
+  background: #f7f8ff;
+  color: #1f2430;
+  font-family: Pretendard, sans-serif;
+
+  @media (max-width: 768px) {
+    padding: 104px 16px 72px;
+  }
 `;
 
-// Title
-export const AttendTitle = styled.div`
-  width: min(1200px, calc(100% - 48px));
-  margin: 0 auto 32px;
-
+export const AttendanceHeader = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 24px;
+  width: min(1204px, 100%);
+  margin: 0 auto 16px;
 
-  .checkAttendance{
-    display: flex;
+  @media (max-width: 720px) {
+    align-items: flex-start;
     flex-direction: column;
-    gap: 8px;
-
-    .checkDesc1{
-      color: ${textColor("black")};
-      font-size: ${fontSize("h6")};
-      font-weight: ${fontWeight("bold")};
-    }
-    .checkDesc2{
-      color: #a6a6a6;
-      font-size: ${fontSize("h9")};
-      font-weight: ${fontWeight("light")};
-    }
-  }
-
-  .checkComplete{
-    width: 194px;
-    height: 58px;
-    padding-top: 1%;
-    border-radius: 18px;
-    border: 2px solid #129D1B;
-    box-sizing: border-box;
-    text-align: center;
-
-    .completeDesc1{
-      color: #129D1B;
-      font-size: ${fontSize("h10")};
-      font-weight: ${fontWeight("bold")};
-    }
-    .completeDesc2{
-      color: #AAE5AE;
-      font-size: ${fontSize("h11")};
-      font-weight: ${fontWeight("regular")};
-    }
   }
 `;
 
-// 알림
-export const AttendNotice = styled.div`
-  width: min(1200px, calc(100% - 48px));
-  margin: 0 auto 50px;
+export const AttendanceKicker = styled.p`
+  margin: 0 0 10px;
+  color: #4359fc;
+  font-size: 14px;
+  font-weight: 900;
+`;
 
+export const AttendanceTitle = styled.h1`
+  margin: 0 0 7px;
+  color: #1a1a1a;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.48px;
+`;
+
+export const AttendanceDesc = styled.p`
+  margin: 0;
+  color: #a6a6a6;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: -0.24px;
+`;
+
+export const AttendanceNotice = styled.p`
+  width: min(1204px, 100%);
+  margin: 0 auto 20px;
+  padding: 12px 16px;
+  border: 1px solid #dfe3ff;
+  border-radius: 8px;
+  background: #f1f3ff;
+  color: #4359fc;
+  font-size: 14px;
+  font-weight: 800;
+`;
+
+export const TodayStatus = styled.div`
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
+  align-content: center;
+  min-width: 194px;
+  min-height: 58px;
+  padding: 0 16px;
+  border: 2px solid ${({ $checked }) => ($checked ? "#129d1b" : "#e5e8f2")};
+  border-radius: 12px;
+  background: ${({ $checked }) => ($checked ? "#f0fdf4" : "#fff")};
+  text-align: center;
 
-  .straight,
-  .month,
-  .exp,
-  .badge{
-    height: 132px;
-    border: 1.5px solid #e6e6e6;
-    border-radius: 20px;
-    box-sizing: border-box;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding-left: 15%;
-
-    .noticeIcon{
-      margin: 0 0 10px;
-      font-size: 28px;
-      line-height: 1;
-    }
-
-    .noticeDay{
-      margin: 0 0 8px;
-      color: #4359fc;
-      font-size: 28px;
-      font-weight: 900;
-      line-height: 1;
-    }
-    
-    .noticeText{
-      margin: 0;
-      color: #666;
-      font-size: 14px;
-      font-weight: 600;
-    }
+  strong {
+    margin-bottom: 3px;
+    color: ${({ $checked }) => ($checked ? "#129d1b" : "#777")};
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: -0.28px;
   }
+
+  span {
+    color: #aae5ae;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: -0.22px;
+  }
+`;
+
+export const SummaryGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 20px;
+  width: min(1207px, 100%);
+  margin: 0 auto 24px;
+
+  @media (max-width: 860px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @media (max-width: 520px) {
+    grid-template-columns: 1fr;
+  }
+`;
+
+export const SummaryCard = styled.article`
+  min-height: 100px;
+  padding: 18px 28px;
+  border: 1px solid ${({ $tone }) => summaryTone[$tone]?.border || "#e8ebf4"};
+  border-radius: 12px;
+  background: ${({ $tone }) => summaryTone[$tone]?.bg || "#fff"};
+  box-shadow: none;
+
+  strong,
+  span {
+    display: block;
+  }
+
+  strong {
+    margin: 5px 0 5px;
+    color: ${({ $tone }) => summaryTone[$tone]?.value || "#4359fc"};
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.56px;
+  }
+
+  span {
+    color: #a6a6a6;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 20px;
+    letter-spacing: -0.24px;
+  }
+`;
+
+export const SummaryIcon = styled.div`
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 24px;
+  margin: 0;
+  border-radius: 0;
+  background: transparent;
+  font-size: 24px;
+  line-height: 1;
+`;
+
+export const AttendanceContent = styled.div`
+  display: grid;
+  grid-template-columns: minmax(0, 820px) 356px;
+  gap: 28px;
+  padding-top: 1%;
+  align-items: start;
+  width: min(1204px, 100%);
+  margin: 0 auto;
+
+  @media (max-width: 1060px) {
+    grid-template-columns: 1fr;
+  }
+`;
+
+export const CalendarCard = styled.article`
+  position: relative;
+  min-height: 600px;
+  padding: 0;
+  border: 0;
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: none;
 `;
 
 // 달력 전체
-export const StyledCalendarWrapper = styled.div`
-  
-  /* // width: 820px;
-  // height: 549px;
-  /* display: flex; */
-  // justify-content: center;
-  // position: relative;
-  /* margin: auto; */
-  // margin-top: 50px; */
-
-  width: min(1250px, calc(100% - 48px));
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 820px 330px;
-  gap: 30px;
-  align-items: start;
-  
+export const CalendarFrame = styled.div`
+  position: relative;
 
   .react-calendar {
     width: 820px;
@@ -146,11 +193,13 @@ export const StyledCalendarWrapper = styled.div`
     border: 1px solid #e6e6e6;
     border-radius: 25px;
     padding: 7% 4%;
+    font-family: Pretendard;
+    font-size: 14px;
   }
 
   /* 전체 클릭 비활성화 */
   .react-calendar__tile {
-    pointer-events: none; /* 클릭 비활성화 */
+    pointer-events: none;
     position: relative;
     background-color: transparent !important;
   }
@@ -158,68 +207,61 @@ export const StyledCalendarWrapper = styled.div`
   /* 호버 이벤트 제거 */
   .react-calendar__tile:hover {
     background-color: inherit;
-    cursor: default; /* 마우스 커서도 기본으로 변경 */
+    cursor: default;
   }
 
   .react-calendar__navigation {
-    border-bottom: 1px solid #DFDFDF;
-    padding-bottom: 2%;
     height: 57px;
-  }
-
-  /* 2024.09 텍스트 색상 설정 */
-  .react-calendar__navigation__label__labelText {
-    color: #3F3F3F;
+    padding-bottom: 2%;
+    border-bottom: 1px solid #dfdfdf;
   }
 
   /* 좌우 네비게이션 버튼 색상 설정 (<, >) */
-  .react-calendar__navigation__arrow {
-    background-color: transparent;
-    color: #7C97FE;
-  }
-
   /* 버튼 폰트 설정 */
   .react-calendar__navigation button {
-    font-weight: 600;
+    background-color: transparent;
+    color: #7c97fe;
     font-size: 1rem;
+    font-weight: 600;
   }
 
-  /* 네비게이션 버튼 호버 이벤트 제거 */
-  .react-calendar__navigation button:hover {
-    background-color: transparent; /* 기본 배경 제거 */
-    color: #7C97FE; /* 호버 시 텍스트 색상 설정 (기본 색상 유지) */
+  .react-calendar__navigation button:disabled {
+    color: #c5cad5;
+    background: transparent;
   }
 
-  /* 네비게이션 텍스트 호버 이벤트 제거 */
-  .react-calendar__navigation__label__labelText:hover {
-    color: #3F3F3F; /* 호버 시 색상 유지 */
+  .react-calendar__navigation button:enabled:hover,
+  .react-calendar__navigation button:enabled:focus {
+    background: transparent;
+    color: #7c97fe;
+    outline: none;
   }
 
   /* 네비게이션 텍스트 클릭 비활성화 */
-  .react-calendar__navigation__label {
-    pointer-events: none; /* 클릭 이벤트 비활성화 */
-  }
-
-  /* 네비게이션 버튼 클릭 시 배경색 변경 방지 */
-  .react-calendar__navigation button:active {
-    background-color: transparent; /* 배경색 투명으로 설정 */
-  }
-
-  /* 네비게이션 버튼 포커스 상태 스타일 */
-  .react-calendar__navigation button:focus {
-    background-color: transparent; /* 배경색 투명으로 설정 */
-    outline: none; /* 기본 테두리 제거 */
-  }
-
   /* 년/월 상단 네비게이션 칸 크기 줄이기 */
   .react-calendar__navigation__label {
+    pointer-events: none;
     flex-grow: 0 !important;
+  }
+
+  /* 년.월 텍스트 색상 설정 */
+  .react-calendar__navigation__label__labelText {
+    color: #3f3f3f;
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  .react-calendar__month-view__weekdays {
+    margin-top: 2%;
+    padding-bottom: 4%;
+    border-bottom: 0;
   }
 
   /* 요일 밑줄 제거 */
   .react-calendar__month-view__weekdays abbr {
-    text-decoration: none;
+    font-size: 13px;
     font-weight: 700;
+    text-decoration: none;
   }
 
   /* 기본요일 폰트 */
@@ -229,12 +271,32 @@ export const StyledCalendarWrapper = styled.div`
 
   /* 일요일에 빨간 폰트 */
   .react-calendar__month-view__weekdays__weekday--weekend abbr[title="일요일"] {
-    color: #FF0000;
+    color: #ff0000;
   }
 
   /* 토요일에 파란 폰트 */
   .react-calendar__month-view__weekdays__weekday--weekend abbr[title="토요일"] {
-    color: #2E7AF2;
+    color: #2e7af2;
+  }
+
+  /* 일 날짜 간격 */
+  .react-calendar__tile {
+    padding: 18px;
+    border-radius: 0;
+    color: #424242;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 0;
+  }
+
+  .react-calendar__tile:enabled:hover,
+  .react-calendar__tile:enabled:focus {
+    background: transparent;
+  }
+
+  .react-calendar__month-view__days__day abbr {
+
+    color: #424242;
   }
 
   /* 일요일 날짜 숫자 */
@@ -244,558 +306,445 @@ export const StyledCalendarWrapper = styled.div`
 
   /* 토요일 날짜 숫자는 기본색 유지 또는 파란색 */
   .react-calendar__month-view__days__day--weekend:nth-child(7n) abbr {
-    color: #2E7AF2;
-  }
-
-  .react-calendar__month-view__days__day abbr {
-    color: #424242;
+    color: #2e7af2;
   }
 
   /* 이전 달과 다음 달의 날짜 숫자들의 색상 변경 */
-  .react-calendar__month-view__days__day--neighboringMonth{
-    abbr {
-      color: #BDBDBD !important;
-    }
-  } 
+  .react-calendar__month-view__days__day--neighboringMonth abbr {
+    color: #bdbdbd !important;
+  }
+
+  /* 오늘 날짜 폰트 컬러 */
+  .react-calendar__tile--now {
+    position: relative;
+    background: none;
+  }
+
+  /* 오늘 날짜 원형 스타일 */
+  .react-calendar__tile--now::after {
+    content: "";
+    position: absolute;
+    top: 48%;
+    left: 50%;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #7c97fe;
+    transform: translate(-50%, -50%);
+  }
 
   .react-calendar__tile--active {
     background: none;
     color: #424242;
   }
 
-  /* 오늘 날짜 폰트 컬러 */
-  .react-calendar__tile--now {
-    background: none;
-    position: relative; /* 원형 위치 조정에 필요 */
-    z-index: 1;
-    abbr {
-      color: white;
-      position: relative;
-      z-index: 2;
-    }
+  .react-calendar__tile--active abbr {
+    color: inherit;
   }
 
-  /* 오늘 날짜 원형 스타일 */
-  .react-calendar__tile--now::after {
-    content: ''; /* 내용 추가 */
-    position: absolute; /* 절대 위치 */
-    top: 50%; /* 수직 중앙 정렬 */
-    left: 50%; /* 수평 중앙 정렬 */
-    width: 30px; /* 원형 너비 조정 */
-    height: 30px; /* 원형 높이 조정 */
-    border-radius: 50%; /* 원형 유지 */
-    background-color: #7C97FE; /* 원형 배경색 */
-    transform: translate(-50%, -50%); /* 중앙 정렬 */
+  .react-calendar__tile--now abbr {
+    position: relative;
+    z-index: 2;
+    color: #fff;
   }
-
-  /* 네비게이션 월 스타일 적용 */
-  .react-calendar__year-view__months__month {
-    border-radius: 0.8rem;
-    background-color: white;
-    padding: 0;
-  }
-
-  /* 일 날짜 간격 */
-  .react-calendar__tile {
-    padding: 17px;
-  }
-  padding: 28px 22px;
-`;
-
-// CalendarWrapper
-export const CalendarWrap = styled.div`
-  position: relative;
-  background: #fff;
-  border-radius: 20px;
-  box-sizing: border-box;
 `;
 
 export const StyledCalendar = styled(Calendar)``;
 
 /* 오늘 버튼 스타일 */
-export const StyledDate = styled.div`
+export const CalendarTodayButton = styled.button`
   position: absolute;
-  top: 60px; 
-  right: 58px; 
-  background-color: #7C97FE;
-  color: white;
+  top: 60px;
+  right: 58px;
   width: 90px;
-  text-align: center;
-  line-height: 1.6rem;
+  border: 0;
   border-radius: 50px;
+  background-color: #7c97fe;
+  color: #fff;
   font-size: 0.8rem;
   font-weight: 500;
+  line-height: 1.6rem;
+  text-align: center;
   cursor: pointer;
-  /* z-index: 1; 버튼이 다른 요소 위에 나타나도록 설정 */
-`;
-
-// 출석 미출석
-export const AttendIS = styled.div`
-  position: absolute;
-  left: 90px;
-  bottom: 58px;
-
-  display: flex;
-  align-items: center;
-  gap: 34px;
-
-  .in{
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    padding-left: 18px;
-
-    font-size: 14px;
-    font-weight: 600;
-
-    color: #666;
-  }
-
-  .out{
-    position: relative;
-
-    display: inline-flex;
-    align-items: center;
-
-    padding-left: 18px;
-
-    font-size: 14px;
-    font-weight: 600;
-
-    color: #c9c9c9;
-  }
-
-  
-  .in::before,
-  .out::before {
-    content: "";
-    position: absolute;
-    left: 0;
-
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-  }
-
-  .in::before {
-    background: #4359fc;
-  }
-
-
 `;
 
 /* 특정 날짜에 점 표시 스타일 */
-export const StyledDot = styled.div`
-  background-color: #4359FC;
-  border-radius: 50%;
+export const CalendarDot = styled.span`
+  position: absolute;
+  left: 50%;
+  top: 83%;
   width: 0.3rem;
   height: 0.3rem;
-  position: absolute;
-  top: 70%; /* 이 값을 조정하여 날짜 바로 아래에 위치시킵니다 */
-  left: 50%;
-  transform: translateX(-50%); /* 수평 중앙 정렬 유지 */
+  border-radius: 50%;
+  background-color: #4359fc;
+  transform: translateX(-50%);
 `;
 
-//SideWrap
-export const SideWrap = styled.div`
+export const CardTitle = styled.h2`
+  margin: 0 0 18px;
+  color: #1a1a1a;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  letter-spacing: -0.32px;
+`;
+
+export const CalendarWeekHead = styled.div`
   display: grid;
-  gap: 20px;
+  grid-template-columns: repeat(7, 1fr);
+  margin-bottom: 12px;
+  border-bottom: 1px solid #eef1f5;
+
+  span {
+    padding-bottom: 12px;
+    color: #8a93a3;
+    font-size: 13px;
+    font-weight: 900;
+    text-align: center;
+  }
 `;
 
-// 이번주
-export const HeadsUp = styled.div`
-  width: 356px;
-  height: 225px;
-  padding: 30px 26px;
-  box-sizing: border-box;
+export const CalendarGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+`;
 
-  background: #fff;
-  border: 1.5px solid #e6e6e6;
-  border-radius: 22px;
+export const CalendarDay = styled.div`
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 68px;
+  border: 1px solid ${({ $today }) => ($today ? "#4359fc" : "#f1f3f8")};
+  border-radius: 8px;
+  background: ${({ $today }) => ($today ? "#f5f7ff" : "#fff")};
 
-  .weekTitle{
-    margin: 0 0 18px;
-    color: #1a1a1a;
-    font-size: 20px;
+  span {
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: ${({ $today }) => ($today ? "#4359fc" : "transparent")};
+    color: ${({ $today }) => ($today ? "#fff" : "#2c2c2a")};
+    font-size: 14px;
     font-weight: 900;
   }
 
-  .weekList{
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 5px;
-    margin-bottom: 32px;
-
-    .weekItem{
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 9px;
-    }
-
-    .day{
-      margin: 0;
-      color: #aaa;
-      font-size: 13px;
-      font-weight: 700;
-    }
-
-    .todayText{
-      color: #4359fc;
-    }
-
-    .circle{
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      background: #eeeeee;
-      color: #fff;
-      font-size: 12px;
-      font-weight: 900;
-    }
-
-    .circle.check{
-      background: #4359fc;
-      font-size: 18px;
-    }
-
-    .circle.today{
-      background: #4359fc;
-      font-size: 11px;
-    }
-
-    .circle.empty{
-      background: #eeeeee;
-    }
+  &::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 12px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: ${({ $checked }) => ($checked ? "#4359fc" : "#d8dde8")};
+    transform: translateX(-50%);
   }
+`;
 
-  .weekText{
-    margin: 0 0 14px;
-    color: #aaa;
+/* 출석 미출석 */
+export const CalendarLegend = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 34px;
+  margin: 0;
+  position: absolute;
+  left: 70px;
+  bottom: 38px;
+
+  span {
+    position: relative;
+    padding-left: 16px;
+    color: #666;
     font-size: 14px;
-
-    .weekText span{
-      color: #999;
-    }
-
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: 0;
   }
 
-  .progressBar{
-    width: 100%;
-    height: 8px;
-    border-radius: 999px;
-    background: #f0f0f0;
-    overflow: hidden;
-
-    .progressFill{
-      width: 43%;
-      height: 100%;
-      border-radius: 999px;
-      background: #4359fc;
-
-    }
+  span::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #4359fc;
+    transform: translateY(-50%);
   }
 
+  span:last-child::before {
+    background: #d8dde8;
+  }
 `;
 
-// 출석보상
-export const AttendReward = styled.div`
+export const SidePanel = styled.aside`
+  display: grid;
+  gap: 20px;
   width: 356px;
-  height: 355px;
-  padding: 28px 30px;
-  box-sizing: border-box;
+`;
 
-  background: #fff;
+export const WeeklyCard = styled.article`
+  width: 356px;
+  min-height: 205px;
+  padding: 25px 24px;
   border: 1.5px solid #e6e6e6;
-  border-radius: 22px;
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: none;
+`;
 
-  .rewardTitle{
-    margin: 0 0 28px;
-    padding-bottom: 5%;
+export const WeekList = styled.div`
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+  margin-bottom: 25px;
+`;
 
-    border-bottom: 1px solid #eeeeee;
+export const WeekItem = styled.div`
+  display: grid;
+  justify-items: center;
+  gap: 9px;
 
-    color: #1a1a1a;
-    font-size: 16px;
-    font-weight: 700;
+  span {
+    color: ${({ $status }) => ($status === "today" ? "#4359fc" : "#a6a6a6")};
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: -0.2px;
   }
 
-  .rewardList {
-    display: flex;
-    flex-direction: column;
-    gap: 27px;
-
-    .rewardItem {
-      display: grid;
-      grid-template-columns: 44px 1fr 66px;
-      align-items: center;
-      column-gap: 10px;
-    }
-
-    .dayCircle {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      font-size: 10px;
-    }
-
-    .rewardText {
-      min-width: 0;
-    }
-
-    .rewardName {
-      margin: 0 0 6px;
-
-      color: #1a1a1a;
-      font-size: 12px;
-      font-weight: 900;
-    }
-
-    .rewardDesc {
-      margin: 0;
-
-      color: #aaa;
-      font-size: 12px;
-      font-weight: 600;
-    }
-
-    .rewardButton {
-      width: 52px;
-      height: 24px;
-
-      border: 0;
-      border-radius: 999px;
-
-      font-size: 10px;
-      font-weight: 900;
-      cursor: pointer;
-    }
-
-    .lockIcon {
-      width: 55px;
-      text-align: center;
-      font-size: 16px;
-    }
-
-    .done .dayCircle {
-      background: #eef0ff;
-      color: #4359fc;
-    }
-
-    .done .complete {
-      background: #eef0ff;
-      color: #4359fc;
-    }
-
-    .receive .dayCircle {
-      background: #fff1d8;
-      color: #ff7a00;
-    }
-
-    .receive .rewardName {
-      color: #ff7a00;
-    }
-
-    .receive .receiveButton {
-      background: #fff1d8;
-      color: #ff7a00;
-    }
-
-    .locked .dayCircle {
-      background: #f1f1f1;
-      color: #c8c8c8;
-    }
-
-    .locked .rewardName,
-    .locked .rewardDesc {
-      color: #c8c8c8;
-    }
+  strong {
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: ${({ $status }) => ($status === "done" || $status === "today" ? "#4359fc" : "#eef1f5")};
+    color: #fff;
+    font-size: ${({ $status }) => ($status === "today" ? "10px" : "12px")};
+    font-weight: ${({ $status }) => ($status === "today" ? 700 : 400)};
   }
 `;
 
+export const WeeklyProgressText = styled.p`
+  margin: 0 0 12px;
+  color: #a6a6a6;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: -0.28px;
 
-// ================================================================
+  strong {
+    color: #4359fc;
+  }
+`;
 
+export const WeeklyProgressBar = styled.div`
+  overflow: hidden;
+  height: 8px;
+  border-radius: 999px;
+  background: #eef1f5;
 
-// 출석체크 PopUp 화면
+  span {
+    display: block;
+    width: ${({ $progress }) => $progress || 0}%;
+    height: 100%;
+    border-radius: inherit;
+    background: #4359fc;
+  }
+`;
 
-export const AttendPopUpWrap = styled.div`
+export const RewardCard = styled.article`
+  width: 356px;
+  min-height: 315px;
+  padding: 30px 30px;
+  border: 1.5px solid #e6e6e6;
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: none;
+`;
+
+export const RewardList = styled.div`
+  display: grid;
+  gap: 22px;
+  padding-top: 18px;
+  border-top: 1px solid #eeeeee;
+`;
+
+export const RewardItem = styled.article`
+  display: grid;
+  grid-template-columns: 45px minmax(0, 1fr) 56px;
+  gap: 12px;
+  align-items: center;
+
+  strong {
+    display: block;
+    margin-bottom: 5px;
+    color: ${({ $status }) => ($status === "receive" ? "#ff8004" : $status === "locked" ? "#c8c8c8" : "#1a1a1a")};
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: -0.28px;
+  }
+
+  span {
+    color: ${({ $status }) => ($status === "locked" ? "#c8c8c8" : "#a6a6a6")};
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: -0.24px;
+  }
+
+  button {
+    height: 28px;
+    border: 0;
+    border-radius: 999px;
+    background: ${({ $status }) => ($status === "receive" ? "#fff1d8" : $status === "locked" ? "transparent" : "#eef1ff")};
+    color: ${({ $status }) => ($status === "receive" ? "#ff8004" : $status === "locked" ? "#777" : "#4359fc")};
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+`;
+
+export const RewardDay = styled.div`
+  display: grid;
+  place-items: center;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  background: #eef1ff;
+  color: #4359fc;
+  font-size: 9px;
+  font-weight: 700;
+`;
+
+export const AttendancePopupWrap = styled.div`
   position: fixed;
   inset: 0;
-  z-index: 9999;
-
+  z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: center;
-
+  padding: 24px;
   background: rgba(0, 0, 0, 0.35);
+  font-family: Pretendard, sans-serif;
 
-  .attendancePopup::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-
-    width: 100%;
-    height: 208px;
-
-    background: #ff8004;
-    z-index: 0;
+  .popup {
+    position: relative;
+    width: min(430px, 100%);
+    padding: 42px 36px 34px;
+    border-radius: 30px;
+    background: ${({ theme }) => theme.PALETTE.white};
+    box-shadow: 0 18px 50px rgba(0, 0, 0, 0.18);
+    text-align: center;
   }
 
-  .attendancePopup{
-    position: relative;
+  .close {
+    position: absolute;
+    top: 20px;
+    right: 22px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    color: #777;
+    font-size: 24px;
+    line-height: 1;
+  }
 
-    width: 440px;
-    padding: 42px 34px 34px;
-    box-sizing: border-box;
+  .fire {
+    width: 88px;
+    height: 88px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 22px;
+    border-radius: 50%;
+    background: #fff2dc;
+    font-size: 44px;
+  }
 
-    background: #fff;
-    border-radius: 28px;
-    text-align: center;
+  h2 {
+    margin: 0 0 10px;
+    color: #1a1a1a;
+    font-size: ${({ theme }) => theme.FONT_SIZE.h6};
+    line-height: ${({ theme }) => theme.FONT_LINE.h6};
+    font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
+  }
 
-    overflow: hidden;
+  .date {
+    margin: 0 0 26px;
+    color: #777;
+    font-size: ${({ theme }) => theme.FONT_SIZE.h10};
+  }
 
-    .closeBtn{
-      position: absolute;
-      top: 22px;
-      right: 28px;
-      z-index: 3;
+  .rewards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    margin-bottom: 26px;
 
-      border: 0;
-      background: transparent;
-      color: #fff;
+    div {
+      padding: 20px 14px;
+      border-radius: 18px;
+      background: #f7f7fb;
+    }
 
-      font-size: 30px;
-      font-weight: 300;
+    span,
+    small,
+    strong {
+      display: block;
+    }
+
+    span {
+      margin-bottom: 10px;
+      font-size: 28px;
       line-height: 1;
-      cursor: pointer;
     }
 
-    .popupHeader{
-      position: relative;
-      z-index: 1;
-
-      height: 160px;
-      color: #fff;
-
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-
-      .fireIcon {
-        margin: 8px 0 20px;
-        font-size: 46px;
-        line-height: 1;
-      }
-
-      .popupHeader h1 {
-        margin: 0 0 8px;
-
-        font-size: 26px;
-        font-weight: 900;
-      }
-
-      .date {
-        margin: 0;
-
-        font-size: 15px;
-        font-weight: 500;
-      }
+    small {
+      margin-bottom: 8px;
+      color: #777;
+      font-size: ${({ theme }) => theme.FONT_SIZE.h12};
     }
 
-    .rewardBoxWrap{
-      position: relative;
-      z-index: 1;
-
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 22px;
-
-      margin: 28px 0 68px;
-
-      .rewardBox {
-        height: 106px;
-        padding: 18px 10px;
-        box-sizing: border-box;
-
-        background: transparent;
-        border: 1.5px solid #7157ff;
-        border-radius: 14px;
-
-        .rewardIcon {
-          margin: 0 0 8px;
-          font-size: 24px;
-          line-height: 1;
-        }
-
-        .rewardLabel {
-          margin: 0 0 4px;
-
-          color: #b8aaaa;
-          font-size: 13px;
-          font-weight: 600;
-        }
-
-        .rewardPoint {
-          margin: 0;
-
-          color: #4359fc;
-          font-size: 22px;
-          font-weight: 900;
-        }
-      }
+    strong {
+      color: #1a1a1a;
+      font-size: ${({ theme }) => theme.FONT_SIZE.h10};
+      font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
     }
+  }
 
-    .attendNotice{
-      margin: 0 0 12px;
+  .notice {
+    margin: 0 0 12px;
+    color: #1a1a1a;
+    font-size: ${({ theme }) => theme.FONT_SIZE.h10};
+    font-weight: ${({ theme }) => theme.FONT_WEIGHT.medium};
+  }
 
-      color: #8b7d7d;
-      font-size: 15px;
-      font-weight: 500;
+  .bar {
+    height: 10px;
+    overflow: hidden;
+    margin-bottom: 28px;
+    border-radius: 999px;
+    background: #ececf2;
+
+    span {
+      display: block;
+      width: 50%;
+      height: 100%;
+      border-radius: inherit;
+      background: ${({ theme }) => theme.PALETTE.primary.main};
     }
+  }
 
-    .attendNotice span{
-      color: #ff7a00;
-      font-weight: 900;
-    }
-
-    .attendNoticeBar{
-      width: 376px;
-      height: 7px;
-      margin: 0 auto 42px;
-
-      background: #f7e7e6;
-      border-radius: 999px;
-      overflow: hidden;
-
-      .barFill {
-        width: 50%;
-        height: 100%;
-
-        background: #ff8004;
-        border-radius: 999px;
-      }
-    }
-
-    .detailBtn {
-      border: 0;
-      background: transparent;
-      color: #1f1717;
-
-      font-size: 22px;
-      font-weight: 500;
-      cursor: pointer;
-    }
+  .detail {
+    width: 100%;
+    height: 54px;
+    border-radius: 15px;
+    background: ${({ theme }) => theme.PALETTE.primary.main};
+    color: ${({ theme }) => theme.PALETTE.white};
+    font-size: ${({ theme }) => theme.FONT_SIZE.h10};
+    font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
   }
 `;

@@ -1,36 +1,90 @@
-import { LearnPage as S } from "./style";
-import { useNavigate } from "react-router-dom";
-import { useLearn } from "./hooks/useLearn";
+// 학습 메인 컴포넌트: 메뉴, 로드맵, 퀘스트, 진행도 확인
+import { useMemo, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useLearn } from "../hooks/useLearn";
+import LearnQuestPanel from "./parts/LearnQuestPanel";
+import LearnRoadmapItem from "./parts/LearnRoadmapItem";
+import * as S from "./style";
 
+const SERVICE_READY_MESSAGE = "\uc11c\ube44\uc2a4 \uc900\ube44\uc911\uc785\ub2c8\ub2e4.";
 
-const LearnComponent = ({ onStartQuiz, onChangeView }) => {
-  const { data, loading, error, selectedEduId, words, selectedWord, selectedVideo,
-    handleSelectEdu, handleSelectWord, handleFinishWordStudy,} = useLearn();
-
+const LearnComponent = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const { data, loading, error } = useLearn();
+  const [activeType, setActiveType] = useState(location.state?.activeType || "sign");
+  const roadmap = data.roadmaps[activeType] || data.roadmaps.sign;
 
-return (
-    <S.Page>
-      <S.ContentWrap>
-        <S.SideMenu>
-          {data.sideMenus.map((menu) => (
+  const currentMenus = useMemo(
+    () =>
+      data.menus.map((menu) => ({
+        ...menu,
+        active: menu.type ? menu.type === activeType : false,
+      })),
+    [activeType, data.menus]
+  );
+
+  // 레슨 시작: 선택한 학습 경로로 이동
+  const handleStartLesson = (lesson) => {
+    if (activeType === "sign" && Number.isFinite(Number(lesson.id))) {
+      navigate("/study/learn/quiz/greeting/questions/1", {
+        state: {
+          eduId: lesson.id,
+          lessonTitle: lesson.title,
+        },
+      });
+
+      return;
+    }
+
+    if (!lesson.to) {
+      alert(SERVICE_READY_MESSAGE);
+
+      return;
+    }
+
+    navigate(lesson.to);
+  };
+
+  // 사이드 메뉴: 학습 종류를 바꾸거나 연결된 경로로 이동
+  const handleMenu = (menu) => {
+    if (menu.type) {
+      setActiveType(menu.type);
+
+      return;
+    }
+
+    if (!menu.to) {
+      alert(SERVICE_READY_MESSAGE);
+
+      return;
+    }
+
+    navigate(menu.to);
+  };
+
+  // 학습종류선택: hover 또는 focus 시 보여줄 학습 고정
+  const handleSelectLearningType = (menu) => {
+
+    if (!menu.type)
+      return;
+
+    setActiveType(menu.type);
+  };
+
+  return (
+    <S.LearnWrap>
+      <S.LearnLayout>
+        <S.SideMenu aria-label="\ud559\uc2b5 \uba54\ub274">
+          {currentMenus.map((menu) => (
             <S.SideButton
               key={menu.id}
               type="button"
               $active={menu.active}
-              onClick={() => {
-                if (menu.id === "letter") {
-                  onChangeView?.("alphabet");
-                  return;
-                }
-                if (menu.id === "signal") {
-                  onStartQuiz?.("sos", 1);
-                  return;
-                }
-                if (menu.id === "profile") {
-                  navigate("/mypage/learning");
-                }
-              }}
+              onMouseEnter={() => handleSelectLearningType(menu)}
+              onMouseOver={() => handleSelectLearningType(menu)}
+              onFocus={() => handleSelectLearningType(menu)}
+              onClick={() => handleMenu(menu)}
             >
               <span>{menu.icon}</span>
               {menu.label}
@@ -38,131 +92,57 @@ return (
           ))}
         </S.SideMenu>
 
-        <S.Main>
-          <S.TopLine>
-            <S.Streak>
-              <span>🔥</span>
-              {data.streak}
-            </S.Streak>
-          </S.TopLine>
+        <S.MainArea>
+          <S.TopBar>
+            <S.StreakBadge>{"\ud83d\udd25"} {data.streak}</S.StreakBadge>
+            <S.GuideButton type="button">{roadmap.chapter.guideLabel}</S.GuideButton>
+          </S.TopBar>
 
-          <S.ChapterHeader>
-            <strong>{data.chapter.title}</strong>
-            <button type="button">{data.chapter.guideLabel}</button>
-          </S.ChapterHeader>
+          <S.ChapterPanel>
+            <S.ChapterHead>
+              <S.Title>{roadmap.chapter.title}</S.Title>
+              <S.GuidePill type="button">{"\ud83d\udcd6"} {roadmap.chapter.guideLabel}</S.GuidePill>
+            </S.ChapterHead>
 
-          {loading && <S.StatusText>학습 정보를 불러오는 중이에요.</S.StatusText>}
-          {error && <S.StatusText>{error}</S.StatusText>}
+            {loading && <S.StatusText>{"\ud559\uc2b5 \uc815\ubcf4\ub97c \ubd88\ub7ec\uc624\ub294 \uc911\uc774\uc5d0\uc694."}</S.StatusText>}
+            {error && <S.StatusText>{error}</S.StatusText>}
 
-          <S.RoadMap>
-            {data.lessons.map((lesson) => (
-              <S.LessonItem key={lesson.id} $status={lesson.status}>
-                <S.LessonCircle $status={lesson.status}>{lesson.icon}</S.LessonCircle>
-                <S.LessonCard $status={lesson.status}>
-                  <div>
-                    <S.LessonTitle $status={lesson.status}>{lesson.title}</S.LessonTitle>
-                    <S.LessonDesc $status={lesson.status}>{lesson.desc}</S.LessonDesc>
-                  </div>
-
-                  {lesson.quizType ? (
-                    <S.LessonStartButton
-                      type="button"
-                      onClick={() => onStartQuiz?.(lesson.quizType, lesson.quizId)}
-                    >
-                      {lesson.buttonText}
-                    </S.LessonStartButton>
-                  ) : (
-                    <S.LessonButton
-                      type="button"
-                      $status={lesson.status}
-                      onClick={() => handleSelectEdu(lesson.id)}
-                    >
-                      {lesson.buttonText}
-                    </S.LessonButton>
-                  )}
-                </S.LessonCard>
-              </S.LessonItem>
-            ))}
-          </S.RoadMap>
-
-          {selectedEduId && words.length === 0 && !loading && (
-            <S.StatusText>등록된 단어가 없습니다.</S.StatusText>
-          )}
-
-          {words.length > 0 && (
-            <S.WordPanel>
-              {words.map((word) => (
-                <S.WordCard key={word.id} type="button" onClick={() => handleSelectWord(word)}>
-                  <S.WordTitle>{word.wordsTitle}</S.WordTitle>
-                  <S.WordDesc>{word.wordsDetail}</S.WordDesc>
-                </S.WordCard>
+            <S.RoadmapList>
+              {roadmap.lessons.map((lesson) => (
+                <LearnRoadmapItem key={lesson.id} lesson={lesson} onStart={handleStartLesson} />
               ))}
-            </S.WordPanel>
-          )}
+            </S.RoadmapList>
 
-          {selectedVideo && (
-            <S.VideoPanel>
-              <S.VideoTitle>{selectedVideo.eduVideoTitle}</S.VideoTitle>
-              <S.VideoDesc>{selectedVideo.eduVideoDetail}</S.VideoDesc>
-              <S.Video controls>
-                <source src={selectedVideo.eduVideoUrl} type="video/mp4" />
-              </S.Video>
-            </S.VideoPanel>
-          )}
+            <S.NextChapter type="button" onClick={() => alert(SERVICE_READY_MESSAGE)}>
+              <strong>{roadmap.chapter.nextTitle}</strong>
+              <span>{roadmap.chapter.nextDesc} {"\u2192"}</span>
+            </S.NextChapter>
 
-          {selectedWord && (
-            <S.FinishButton type="button" onClick={handleFinishWordStudy}>
-              학습 완료
-            </S.FinishButton>
-          )}
+          </S.ChapterPanel>
+        </S.MainArea>
 
-          <S.NextChapter type="button">
-            <strong>{data.nextChapter.title}</strong>
-            <span>{data.nextChapter.desc}</span>
-          </S.NextChapter>
-        </S.Main>
-
-        <S.QuestPanel>
-          <S.QuestTitle>오늘의 퀘스트</S.QuestTitle>
-
-          {data.quests.map((quest) => (
-            <S.QuestItem key={quest.id}>
-              <S.QuestIcon>{quest.icon}</S.QuestIcon>
-              <div>
-                <S.QuestName>{quest.title}</S.QuestName>
-                <S.QuestBar>
-                  <span style={{ width: `${(quest.current / quest.total) * 100}%` }} />
-                </S.QuestBar>
-              </div>
-              <S.QuestCount>
-                {quest.current} / {quest.total}
-              </S.QuestCount>
-              <S.RewardIcon>🎁</S.RewardIcon>
-            </S.QuestItem>
-          ))}
-        </S.QuestPanel>
-      </S.ContentWrap>
+        <LearnQuestPanel quests={data.quests} />
+      </S.LearnLayout>
 
       <S.ProgressArea>
-        <div>
-          <S.ProgressTitle>{data.chapter.progressTitle}</S.ProgressTitle>
-          <S.ProgressDesc>{data.chapter.progressDesc}</S.ProgressDesc>
-        </div>
-
-        <S.ProgressBar>
-          <span style={{ width: `${data.chapter.percent}%` }} />
+        <S.ProgressText>
+          <S.ProgressTitle>{roadmap.chapter.progressTitle}</S.ProgressTitle>
+          <S.ProgressDesc>{roadmap.chapter.progressDesc}</S.ProgressDesc>
+        </S.ProgressText>
+        <S.ProgressBar $progress={roadmap.chapter.percent} aria-label="\uc624\ub298\uc758 \ud559\uc2b5 \uc9c4\ud589\ub960">
+          <span />
         </S.ProgressBar>
-
-        <S.Percent>{data.chapter.percent}%</S.Percent>
-
+        <S.Percent>{roadmap.chapter.percent}%</S.Percent>
         <S.ExpBox>
-          <span>획득 EXP</span>
-          <strong>+{data.chapter.exp}</strong>
+          <span>{"\ud68d\ub4dd EXP"}</span>
+          <strong>
+            <S.ExpIcon>{"\u26a1"}</S.ExpIcon>
+            {roadmap.chapter.exp}
+          </strong>
         </S.ExpBox>
       </S.ProgressArea>
-    </S.Page>
+    </S.LearnWrap>
   );
 };
-
 
 export default LearnComponent;

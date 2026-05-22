@@ -1,14 +1,8 @@
-import React from 'react';
-import { Outlet } from 'react-router-dom';
-import StudySearchComponent from './StudySearchComponent';
+// 검색컨테이너: 수어 검색 화면 컴포넌트를 연결합니다.
+import StudySearchComponent from "./StudySearchComponent";
 
 const StudySearchContainer = () => {
-    return (
-        <div>
-            <StudySearchComponent />
-            <Outlet />
-        </div>
-    );
+  return <StudySearchComponent />;
 };
 
 export default StudySearchContainer;

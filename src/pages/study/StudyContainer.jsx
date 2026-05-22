@@ -1,20 +1,9 @@
-import React from 'react';
-import StudyComponent from './StudyComponent';
-import { Outlet, useLocation } from 'react-router-dom';
+// 학습 라우터 컨테이너: /study 진입과 하위 Outlet
+import { Outlet } from "react-router-dom";
 
 const StudyContainer = () => {
 
-    const location = useLocation();
-    const isStudyMain = location.pathname === '/study' || location.pathname === '/study/';
-
-    if(isStudyMain){
-        return <StudyComponent />;
-    }
-    return (
-        <>
-            <Outlet />
-        </>
-    );
+  return <Outlet />;
 };
 
 export default StudyContainer;

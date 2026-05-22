@@ -1,27 +1,24 @@
-import React from "react";
-import { LearnQuizPage as S } from "../style";
+// 학습퀴즈피드백: 정답/오답 결과와 다음 행동 버튼
+import * as S from "../style";
 
-const LearnQuizFeedback = ({ status, exp = 10, desc, answer, onNext }) => {
+const LearnQuizFeedback = ({ status, exp, message, answer, onNext }) => {
+
   const isCorrect = status === "correct";
 
   return (
-    <S.Feedback $status={status}>
-      <S.FeedbackIcon>{isCorrect ? "🎉" : "💔"}</S.FeedbackIcon>
-
-      <div>
-        <S.FeedbackTitle $status={status}>
-          {isCorrect ? "정답이에요!" : "아쉬워요!"}
-        </S.FeedbackTitle>
-        <S.FeedbackDesc $status={status}>
-          {isCorrect ? desc : `정답은 "${answer}" — ${desc}`}
-        </S.FeedbackDesc>
-        {isCorrect && <S.FeedbackReward>❤️ +{exp} XP 🎯</S.FeedbackReward>}
-      </div>
-
-      <S.FeedbackButton type="button" $status={status} onClick={onNext}>
-        계속하기
-      </S.FeedbackButton>
-    </S.Feedback>
+    <S.LearnQuizFeedback $status={status}>
+      <S.LearnQuizFeedbackIcon $status={status}>{isCorrect ? "🎉" : "💔"}</S.LearnQuizFeedbackIcon>
+      <S.LearnQuizFeedbackText $status={status}>
+        <strong>{isCorrect ? "정답이에요!" : "아쉬워요!"}</strong>
+        <p>{message}</p>
+        <span>{isCorrect ? `+${exp} XP 획득` : `정답: ${answer}`}</span>
+      </S.LearnQuizFeedbackText>
+      <S.LearnQuizFeedbackActions $status={status}>
+        <button type="button" onClick={onNext}>
+          계속하기
+        </button>
+      </S.LearnQuizFeedbackActions>
+    </S.LearnQuizFeedback>
   );
 };
 

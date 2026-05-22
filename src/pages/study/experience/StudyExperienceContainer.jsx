@@ -1,23 +1,9 @@
-import React from "react";
-import { Outlet, useLocation } from "react-router-dom";
-import StudyExperienceComponent from "./StudyExperienceComponent";
+// 체험학습 컨테이너: 비회원 체험 목록과 하위 퀴즈 라우터
+import { Outlet } from "react-router-dom";
 
 const StudyExperienceContainer = () => {
 
-  const location = useLocation();
-  const isExperienceMain =
-  location.pathname === "/study/experience" ||
-  location.pathname === "/study/experience/";
-
-  if (!isExperienceMain) {
-    return <Outlet />;
-  }
-
-  return (
-    <>
-      <StudyExperienceComponent />
-    </>
-  );
+  return <Outlet />;
 };
 
 export default StudyExperienceContainer;

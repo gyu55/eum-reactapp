@@ -1,119 +1,67 @@
-import React, { useEffect, useState } from "react";
-import { Outlet, useLocation } from "react-router-dom";
+// 체험학습 목록 컴포넌트: 비회원 미리보기 학습 카드 목록
+import { useNavigate } from "react-router-dom";
 import ExperienceCard from "./parts/ExperienceCard";
-import { NonUser } from "./style";
+import * as S from "./style";
 
-// 임시데이터
-const learnTrialList = [    
-    {
-        id: 1,
-        level: 3,
-        title: "이 수어는 무슨 뜻일까요?",
-        desc: "손 모양으로 단어를 맞혀 보세요",
-        img: "👋",
-        color: "#fff0ec",
-        link: "/study/experience/sign/1",
-    },
-    {
-        id: 2,
-        level: 3,
-        title: "두 손으로 표현하는 감정",
-        desc: "일상 생활 수어 표현을 배워보세요",
-        img: "🤲",
-        color: "#f5f0ff",
-        link: "/study/experience/sign/2",
-    },
-    {
-        id: 3,
-        level: 4,
-        title: "복합 수어 표현에 도전!",
-        desc: "여러 단어를 연결해 문장을 만들어요",
-        img: "🏥",
-        color: "#edf6ff",
-        link: "/study/experience/sos/1",
-    },
-    {
-        id: 4,
-        level: 1,
-        title: "숫자 수어를 알아보세요",
-        desc: "1부터 10까지 숫자를 세어 보세요",
-        img: "✌️",
-        color: "#f0fbf0",
-        link: "/study/experience/sign/3",
-    },
-    {
-        id: 5,
-        level: 2,
-        title: "모스부호 기초",
-        desc: "짧고 긴 신호로 의미를 읽어 보세요",
-        img: "···",
-        color: "#fffbec",
-        link: "/study/experience/morse/1",
-    },
-    {
-        id: 6,
-        level: 3,
-        title: "응급 상황 표현",
-        desc: "도움이 필요한 상황을 수어로 표현해요",
-        img: "🆘",
-        color: "#f3eeff",
-        link: "/study/experience/sos/1",
-    },
+// 비회원이 바로 체험할 수 있는 학습 카드 목록
+const experienceItems = [
+  {
+    label: "수어",
+    title: "기본 인사 수어",
+    desc: "처음 만나는 상황에서 자주 쓰는 인사 표현을 배워요.",
+    count: "5문제 체험",
+    image: "/assets/image/signLearn.png",
+    tone: "yellow",
+    quiz: "sign",
+  },
+  {
+    label: "응급",
+    title: "응급 수신호",
+    desc: "도움이 필요한 순간을 알리는 기본 신호를 확인해요.",
+    count: "5문제 체험",
+    image: "/assets/image/emergency.png",
+    tone: "red",
+    quiz: "sos",
+  },
+  {
+    label: "모스",
+    title: "모스부호 입문",
+    desc: "점과 선으로 간단한 메시지를 읽는 방법을 체험해요.",
+    count: "5문제 체험",
+    image: "/assets/image/mors.png",
+    tone: "purple",
+    quiz: "morse",
+  },
 ];
 
-const loadList = async () => {
-    // const { data } = await fetch("/api/study/experience");
-    return learnTrialList;
-};
-
-
-// 비회원 체험학습 화면
 const StudyExperienceComponent = () => {
+  const navigate = useNavigate();
 
-    const [trialList, setTrialList] = useState(learnTrialList);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
+  // 선택한 체험 퀴즈 첫 문제로 이동
+  const handleStart = (item) => {
+    navigate(`/study/experience/${item.quiz}/questions/1`);
+  };
 
-    
-    useEffect(() => {
+  return (
+    <S.ExperienceWrap>
+      <S.ExperienceHero>
+        <span>무료 체험</span>
+        <h1>회원가입 없이 먼저 배워보세요</h1>
+        <p>짧은 문제로 수어, 응급 수신호, 모스부호의 기본 흐름을 가볍게 경험할 수 있어요.</p>
+      </S.ExperienceHero>
 
-        const showList = async () => {
-            try {
-                setLoading(true);
-                setError(null);
+      <S.ExperienceGrid>
+        {experienceItems.map((item) => (
+          <ExperienceCard key={item.quiz} item={item} onStart={handleStart} />
+        ))}
+      </S.ExperienceGrid>
 
-                const data = await loadList();
-                setTrialList(data);
-
-            } catch (error) {
-                setError("체험학습 목록을 불러오지 못했어요.");
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        showList();
-
-    }, []);
-
-
-    return (
-        <NonUser.Wrapper>
-            <NonUser.Inner>
-                <NonUser.SectionTitle>미리보기 학습</NonUser.SectionTitle>
-                {loading && <NonUser.StatusText>목록을 불러오는 중이에요.</NonUser.StatusText>}
-                {error && <NonUser.StatusText>{error}</NonUser.StatusText>}
-
-                <NonUser.CardGrid>
-                {trialList.map((item) => (
-                    <ExperienceCard key={item.id} item={item} />
-                ))}
-                </NonUser.CardGrid>
-
-                <NonUser.QuizLink to="/study/experience/sign/1">퀴즈 풀기 →</NonUser.QuizLink>
-            </NonUser.Inner>
-        </NonUser.Wrapper>
-    );
+      <S.ExperienceNotice>
+        <strong>체험 후에는?</strong>
+        <p>회원가입을 하면 정식 퀴즈, 출석 보상, 학습 기록 저장 기능을 이어서 사용할 수 있어요.</p>
+      </S.ExperienceNotice>
+    </S.ExperienceWrap>
+  );
 };
 
 export default StudyExperienceComponent;

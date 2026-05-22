@@ -1,126 +1,115 @@
-import React, { useState } from "react";
+// 문자학습컴포넌트: 한글 자모 카드 목록과 글자 상세 팝업
+import { useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { alphabetMenus, alphabetQuests, alphabetSections, getAlphabetInfo } from "./data/alphabetMock";
 import LearnAlphabetPopup from "./parts/LearnAlphabetPopup";
-import { LearnAlphabetPage as S } from "./style";
+import LetterCard from "./parts/LetterCard";
+import * as S from "./style";
 
+const SERVICE_READY_MESSAGE = "서비스 준비중입니다.";
 
-const alphabetData = {
-  menus: [
-    { id: "learn", icon: "🏠", label: "학습" },
-    { id: "letter", icon: "韓", label: "문자", active: true },
-    { id: "signal", icon: "🚦", label: "수신호" },
-    { id: "profile", icon: "👤", label: "프로필" },
-    { id: "more", icon: "⋯", label: "더보기" },
-  ],
-  quests: [
-    { id: 1, icon: "⚡", title: "10 EXP 획득하기", current: 0, total: 10 },
-    { id: 2, icon: "🤟", title: "레슨 2개에서 연속 5개 정답", current: 0, total: 2 },
-    { id: 3, icon: "⏱", title: "10분 동안 학습하기", current: 0, total: 10 },
-  ],
-  sections: [
-    {
-      title: "기본 자음",
-      letters: ["ㄱ", "ㄴ", "ㄷ", "ㄹ", "ㅁ", "ㅂ", "ㅅ", "ㅇ", "ㅈ", "ㅊ", "ㅋ", "ㅌ", "ㅍ", "ㅎ"],
-    },
-    {
-      title: "된소리 자음",
-      letters: ["ㄲ", "ㄸ", "ㅉ", "ㅃ", "ㅆ"],
-    },
-    {
-      title: "기본 모음",
-      letters: ["ㅏ", "ㅑ", "ㅓ", "ㅕ", "ㅗ", "ㅛ", "ㅜ", "ㅠ", "ㅡ", "ㅣ", "ㅐ", "ㅔ", "ㅒ", "ㅖ"],
-    },
-    {
-      title: "이중 모음",
-      letters: ["ㅘ", "ㅝ", "ㅙ", "ㅞ", "ㅚ", "ㅟ", "ㅢ"],
-    },
-  ],
-};
+const LearnAlphabetComponent = () => {
+  const navigate = useNavigate();
+  const [selectedIndex, setSelectedIndex] = useState(null);
 
-const getLetterInfo = (letter) => ({
-  letter,
-  name: letter === "ㄱ" ? "기역" : "글자",
-  sound: letter === "ㄱ" ? "[ g / k ]" : "[ sound ]",
-  desc: ["가장 기본적인 자음이에요.", '"가나다"의 첫 자음이에요.'],
-});
+  // 전체글자목록: 팝업에서 이전/다음 이동할 때 사용합니다.
+  const letters = useMemo(() => alphabetSections.flatMap((section) => section.letters), []);
+  const selectedLetter = selectedIndex !== null ? getAlphabetInfo(letters[selectedIndex]) : null;
 
-const LearnAlphabetComponent = ({ onChangeView }) => {
-  const [selectedLetter, setSelectedLetter] = useState(null);
+  // 메뉴이동: 왼쪽 메뉴에서 연결된 화면이동
+  const handleMenu = (menu) => {
+    if (!menu.to) {
+      alert(SERVICE_READY_MESSAGE);
 
-  const openPopup = (letter) => {
-    setSelectedLetter(getLetterInfo(letter));
+      return;
+    }
+
+    navigate(menu.to, { state: { activeType: menu.activeType } });
+  };
+
+  // 글자선택: 선택한 글자의 상세 팝업열림
+  const handleOpenLetter = (letter) => {
+    setSelectedIndex(letters.indexOf(letter));
+  };
+
+  // 이전글자: 팝업에서 이전 글자로 이동
+  const handlePrev = () => {
+    setSelectedIndex((prev) => (prev <= 0 ? letters.length - 1 : prev - 1));
+  };
+
+  // 다음글자: 팝업에서 다음 글자로 이동
+  const handleNext = () => {
+    setSelectedIndex((prev) => (prev >= letters.length - 1 ? 0 : prev + 1));
   };
 
   return (
-    <S.Page>
-      <S.Layout>
-        <S.SideMenu>
-          {alphabetData.menus.map((menu) => (
-            <S.SideButton
-              key={menu.id}
-              type="button"
-              $active={menu.active}
-              onClick={() => menu.id === "learn" && onChangeView?.("learn")}
-            >
+    <S.AlphaWrap>
+      <S.AlphaLayout>
+        <S.SideMenu aria-label="학습 메뉴">
+          {alphabetMenus.map((menu) => (
+            <S.SideButton key={menu.id} type="button" $active={menu.active} onClick={() => handleMenu(menu)}>
               <span>{menu.icon}</span>
               {menu.label}
             </S.SideButton>
           ))}
         </S.SideMenu>
 
-        <S.Main>
-          <S.Title>수어로 한글을 표현해봐요.</S.Title>
-          <S.Desc>자음과 모음을 손으로 표현하는 수지한국어를 배워보세요.</S.Desc>
-          <S.StartButton type="button" onClick={() => openPopup("ㄱ")}>
-            글자 학습 시작하기
-          </S.StartButton>
+        <S.AlphaMain>
+          <S.AlphaHeader>
+            <S.AlphaTitle>수어로 한글을 표현해볼까요?</S.AlphaTitle>
+            <S.AlphaDesc>자음과 모음을 손 모양으로 익히고, 글자별 설명을 팝업에서 확인해보세요.</S.AlphaDesc>
+            <S.AlphaStartButton type="button" onClick={() => handleOpenLetter(letters[0])}>
+              글자 학습 시작하기
+            </S.AlphaStartButton>
+          </S.AlphaHeader>
 
-          {alphabetData.sections.map((section) => (
-            <S.Section key={section.title}>
-              <S.SectionTitle>{section.title}</S.SectionTitle>
-              <S.LetterGrid>
+          {alphabetSections.map((section) => (
+            <S.AlphaSection key={section.id}>
+              <S.AlphaSectionTitle>{section.title}</S.AlphaSectionTitle>
+              <S.AlphaLetterGrid>
                 {section.letters.map((letter) => (
-                  <S.LetterCard key={letter} type="button" onClick={() => openPopup(letter)}>
-                    <strong>{letter}</strong>
-                    <span />
-                  </S.LetterCard>
+                  <LetterCard key={letter} letter={letter} onClick={() => handleOpenLetter(letter)} />
                 ))}
-              </S.LetterGrid>
-            </S.Section>
+              </S.AlphaLetterGrid>
+            </S.AlphaSection>
           ))}
-        </S.Main>
+        </S.AlphaMain>
 
-        <S.QuestPanel>
-          <S.QuestHead>
-            <strong>오늘의 퀘스트</strong>
-          </S.QuestHead>
+        <S.AlphaQuestPanel>
+          <S.QuestTitle>오늘의 퀘스트</S.QuestTitle>
+          {alphabetQuests.map((quest) => {
+            const progress = Math.min((quest.current / quest.total) * 100, 100);
 
-          {alphabetData.quests.map((quest) => (
-            <S.QuestItem key={quest.id}>
-              <S.QuestIcon>{quest.icon}</S.QuestIcon>
-              <div>
-                <S.QuestName>{quest.title}</S.QuestName>
-                <S.QuestBar>
-                  <span style={{ width: `${(quest.current / quest.total) * 100}%` }} />
-                </S.QuestBar>
-              </div>
-              <S.QuestCount>
-                {quest.current} / {quest.total}
-              </S.QuestCount>
-              <S.QuestReward>🎁</S.QuestReward>
-            </S.QuestItem>
-          ))}
-        </S.QuestPanel>
-      </S.Layout>
+            return (
+              <S.QuestItem key={quest.id}>
+                <S.QuestIcon>{quest.icon}</S.QuestIcon>
+                <S.QuestInfo>
+                  <S.QuestName>{quest.title}</S.QuestName>
+                  <S.QuestBar $progress={progress} aria-label={`${quest.title} 진행률`}>
+                    <span />
+                  </S.QuestBar>
+                </S.QuestInfo>
+                <S.QuestMeta>
+                  <S.QuestCount>
+                    {quest.current} / {quest.total}
+                  </S.QuestCount>
+                  <S.QuestReward>{quest.reward}</S.QuestReward>
+                </S.QuestMeta>
+              </S.QuestItem>
+            );
+          })}
+        </S.AlphaQuestPanel>
+      </S.AlphaLayout>
 
       {selectedLetter && (
         <LearnAlphabetPopup
           letter={selectedLetter}
-          onClose={() => setSelectedLetter(null)}
-          onPrev={() => openPopup("ㄱ")}
-          onNext={() => openPopup("ㄴ")}
+          onClose={() => setSelectedIndex(null)}
+          onPrev={handlePrev}
+          onNext={handleNext}
         />
       )}
-    </S.Page>
+    </S.AlphaWrap>
   );
 };
 

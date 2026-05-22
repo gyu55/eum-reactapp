@@ -1,161 +1,209 @@
-import React, { useContext, useEffect, useMemo, useState } from "react";
-import { useParams } from "react-router-dom";
-import QuizCompleteCard from "./parts/QuizCompleteCard";
-import QuizOptionList from "./parts/QuizOptionList";
-import { QuizPage as S } from "./style";
+// 체험 퀴즈 컴포넌트: 비회원 퀴즈 문제, 정답 피드백, 완료
+import { useContext, useEffect, useMemo, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import QuizFeedback from "../components/QuizFeedback";
+import QuizProgress from "../components/QuizProgress";
+import QuizShell from "../components/QuizShell";
+import StudyStatusMessage from "../components/StudyStatusMessage";
 import { StudyQuizContext } from "../../../context/StudyQuizContext";
+import { experienceQuizMock } from "./data/experienceQuizMock";
+import * as S from "./style";
 
-// 문제 풀이 화면
 const StudyExperienceQuizComponent = () => {
-  
-  const { id, quiz } = useParams();
-  const {
-    state: { quizzes, answers, loading, error },
-    actions: { getQuizzes, insertAnswers, removeAnswers },
-  } = useContext(StudyQuizContext);
-  const [selected, setSelected] = useState(null);
-  const [status, setStatus] = useState("solving");
+  const navigate = useNavigate();
+  const { quiz, id } = useParams();
+  const { state, actions } = useContext(StudyQuizContext);
+  const [selectedOption, setSelectedOption] = useState(null);
+  const [isComplete, setIsComplete] = useState(false);
 
-  const foundQuiz = useMemo(
-    () => quizzes.find((item) => item.id === Number(id)),
-    [quizzes, id]
+  const quizData = experienceQuizMock[quiz];
+  const currentIndex = Math.max(Number(id || 1) - 1, 0);
+  const currentQuestion = quizData?.questions[currentIndex];
+
+
+  // 현재 체험 퀴즈 데이터 -> context
+  useEffect(() => {
+    if (!quizData)
+      return;
+
+    actions.setQuiz({
+      mode: "guest",
+      quizId: quiz,
+      quizType: "experience",
+      questions: quizData.questions,
+    });
+  }, [actions, quiz, quizData]);
+
+  // 주소의 문제 번호가 바뀔 때 선택 상태를 초기화
+  useEffect(() => {
+    setSelectedOption(null);
+    setIsComplete(false);
+  }, [id, quiz]);
+
+  // 현재까지 정답 수를 계산하는 값
+  const correctCount = useMemo(
+    () => state.answers.filter((answer) => answer.isCorrect).length,
+    [state.answers]
   );
 
-  useEffect(() => {
-    removeAnswers();
-    getQuizzes(quiz);
-    setSelected(null);
-    setStatus("solving");
-  }, [quiz]);
+  // 보기를 선택했을 때 정답 여부를 저장
+  const handleSelectOption = (option) => {
+    if (selectedOption)
+      return;
 
-  useEffect(() => {
-    setSelected(null);
-    setStatus("solving");
-  }, [id]);
-
-  if (loading) {
-    return (
-      <S.Page>
-        <S.Shell>
-          <S.Message>문제를 불러오는 중이에요.</S.Message>
-        </S.Shell>
-      </S.Page>
-    );
-  }
-
-  if (error) {
-    return (
-      <S.Page>
-        <S.Shell>
-          <S.Message>{error}</S.Message>
-        </S.Shell>
-      </S.Page>
-    );
-  }
-
-  if (!foundQuiz) {
-    return (
-      <S.Page>
-        <S.Shell>
-          <S.Message>문제를 찾을 수 없어요.</S.Message>
-        </S.Shell>
-      </S.Page>
-    );
-  }
-
-  const currentIndex = quizzes.findIndex((item) => item.id === foundQuiz.id);
-  const totalCount = Math.max(quizzes.length, 1);
-  const progress = `${((currentIndex + 1) / totalCount) * 100}%`;
-  const correctCount = answers.filter((answer) => answer.correct).length;
-  const accuracy = Math.round((correctCount / totalCount) * 100);
-  const rewardExp = status === "solving" ? foundQuiz.exp || 10 : 20;
-
-  const handleCheckAnswer = () => {
-    if (selected === null) return;
-
-    const isCorrect = Boolean(foundQuiz.answers[selected]?.correct);
-
-    insertAnswers({
-      quizType: quiz,
-      quizId: foundQuiz.id,
-      selected,
-      correct: isCorrect,
+    setSelectedOption(option);
+    actions.selectAnswer({
+      questionId: currentQuestion.id,
+      selectedId: option.id,
+      isCorrect: option.correct,
     });
-
-    setStatus(isCorrect ? "correct" : "incorrect");
   };
 
+  // 다음 문제 또는 결과 화면으로 이동
+  const handleNext = () => {
+    const isLastQuestion = currentIndex >= quizData.questions.length - 1;
+
+    if (isLastQuestion) {
+      setIsComplete(true);
+
+      return;
+    }
+
+    navigate(`/study/experience/${quiz}/questions/${currentIndex + 2}`);
+  };
+
+  // 선택 없이 확인을 눌렀을 때 alert
   const handleConfirm = () => {
-    setStatus("done");
+    if (!selectedOption) {
+
+      alert("답을 먼저 선택해주세요.");
+      return;
+    }
+
+    handleNext();
   };
 
-  const handleSkip = () => {
-    insertAnswers({
-      quizType: quiz,
-      quizId: foundQuiz.id,
-      selected: null,
-      correct: false,
-    });
-    setStatus("done");
-  };
-
-  if (status === "done") {
+  if (!quizData || !currentQuestion) {
     return (
-      <S.Page>
-        <QuizCompleteCard accuracy={accuracy} />
-      </S.Page>
+      <QuizShell>
+        <StudyStatusMessage>체험 퀴즈 정보를 찾을 수 없습니다.</StudyStatusMessage>
+      </QuizShell>
     );
   }
-
-  const feedbackText =
-    status === "correct" ? "정답이에요!" : status === "incorrect" ? "아쉬워요!" : "";
 
   return (
-    <S.Page>
-      <S.Shell>
-        <S.LessonTitle>{foundQuiz.lessonTitle || "기본 인사 표현"}</S.LessonTitle>
+    <QuizShell>
+      <S.ExperienceQuizPage $dimmed={isComplete}>
+        <S.ExperienceQuizHeader>
+          <button type="button" onClick={() => navigate("/study/experience")}>
+            ←
+          </button>
+          <span>{currentQuestion.category || quizData.title}</span>
+          <strong>
+            {currentIndex + 1} / {quizData.questions.length}
+          </strong>
+          <em>⚡ 20</em>
+        </S.ExperienceQuizHeader>
 
-        <S.Top>
-          <S.Back to="/study/experience">‹</S.Back>
-          <S.Progress $value={progress}>
-            <span />
-          </S.Progress>
-          <S.Count>
-            {currentIndex + 1} / {totalCount}
-          </S.Count>
-          <S.Exp>⚡ {rewardExp}</S.Exp>
-          {status === "solving" && <S.Heart>❤️ {foundQuiz.heart || 5}</S.Heart>}
-        </S.Top>
+        <S.ExperienceQuizPanel>
+          <QuizProgress current={currentIndex + 1} total={quizData.questions.length} />
 
-        <S.Divider />
-        <S.Question>{foundQuiz.title}</S.Question>
-        <S.ImageSlot>
-          {foundQuiz.image ? <img src={foundQuiz.image} alt={foundQuiz.title} /> : foundQuiz.emoji}
-        </S.ImageSlot>
+          <S.QuestionInfo>
+            <h2>{currentQuestion.question}</h2>
+          </S.QuestionInfo>
 
-        <QuizOptionList
-          answers={foundQuiz.answers}
-          selected={selected}
-          status={status}
-          onSelect={setSelected}
-        />
+          <S.GestureBox>{currentQuestion.gesture || "👋"}</S.GestureBox>
 
-        {feedbackText && <S.Feedback $status={status}>{feedbackText}</S.Feedback>}
+          <S.OptionList>
+            {currentQuestion.options.map((option) => (
+              <S.TextOptionButton
+                key={option.id}
+                type="button"
+                $selected={selectedOption?.id === option.id}
+                $correct={option.correct}
+                onClick={() => handleSelectOption(option)}
+              >
+                <strong>{option.label}</strong>
+                <span>{option.text}</span>
+              </S.TextOptionButton>
+            ))}
+          </S.OptionList>
 
-        <S.Bottom>
-          <S.GhostButton type="button" onClick={handleSkip}>
-            건너뛰기
-          </S.GhostButton>
-          <S.PrimaryButton
-            type="button"
-            onClick={status === "solving" ? handleCheckAnswer : handleConfirm}
-            disabled={status === "solving" && selected === null}
-          >
-            확인
-          </S.PrimaryButton>
-        </S.Bottom>
-      </S.Shell>
-    </S.Page>
+          {selectedOption && (
+            <QuizFeedback
+              status={selectedOption.correct ? "correct" : "wrong"}
+              title={selectedOption.correct ? "정답이에요!" : "다시 기억해볼까요?"}
+              desc={currentQuestion.explanation}
+              onNext={handleNext}
+              buttonText="확인"
+            />
+          )}
+
+          <S.QuizBottomBar>
+            <button type="button" onClick={handleNext}>
+              건너뛰기
+            </button>
+            <button type="button" onClick={handleConfirm}>
+              확인
+            </button>
+          </S.QuizBottomBar>
+        </S.ExperienceQuizPanel>
+      </S.ExperienceQuizPage>
+
+      {isComplete && (
+        <S.AuthPromptOverlay>
+          <S.AuthPromptModal>
+            <S.ModalClose type="button" onClick={() => navigate("/study")}>
+              ×
+            </S.ModalClose>
+            <S.CheckIcon>✓</S.CheckIcon>
+            <h2>체험학습 완료!</h2>
+            <p className="summary">기본 인사 문법 · {quizData.questions.length}문제 완료</p>
+
+            <S.ResultStats>
+              <div>
+                <strong>{Math.round((correctCount / quizData.questions.length) * 100)}%</strong>
+                <span>정확도</span>
+              </div>
+              <div>
+                <strong>2분</strong>
+                <span>소요시간</span>
+              </div>
+            </S.ResultStats>
+
+            <S.NextStepList>
+              <span>다음 학습 단계</span>
+              <p>일상 표현 - 감사·사과</p>
+              <small>5문제 · 약 3분</small>
+              <p>숫자·날짜 표현</p>
+              <small>5문제 · 약 3분</small>
+            </S.NextStepList>
+
+            <S.MemberBenefits>
+              <span>회원 혜택</span>
+              <li>
+                <strong>전체 커리큘럼</strong>
+                <small>300개 이상 수어 학습 콘텐츠</small>
+              </li>
+              <li>
+                <strong>학습 기록</strong>
+                <small>진도와 성적을 저장하고 이어서 학습</small>
+              </li>
+              <li>
+                <strong>커뮤니티 채팅</strong>
+                <small>회원끼리 자유롭게 소통</small>
+              </li>
+            </S.MemberBenefits>
+
+            <S.EmailSignupLink to="/join">이메일로 가입하기</S.EmailSignupLink>
+            <S.SocialDivider>또는 소셜 계정으로 시작하기</S.SocialDivider>
+            <S.SocialButton to="/login" $provider="kakao">Kakao로 시작하기</S.SocialButton>
+            <S.SocialButton to="/login" $provider="naver">Naver로 시작하기</S.SocialButton>
+            <S.SocialButton to="/login" $provider="google">Google로 시작하기</S.SocialButton>
+          </S.AuthPromptModal>
+        </S.AuthPromptOverlay>
+      )}
+    </QuizShell>
   );
 };
 

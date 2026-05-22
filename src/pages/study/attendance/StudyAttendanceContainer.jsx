@@ -1,17 +1,11 @@
-import React, { useState } from 'react';
-import StudyAttendanceComponent from './StudyAttendanceComponent';
-import { Outlet } from 'react-router-dom';
-
+// 출석 컨테이너: 출석 데이터 조회와 출석 화면 연결을 담당
+import { useAttendance } from "../hooks/useAttendance";
+import StudyAttendanceComponent from "./StudyAttendanceComponent";
 
 const StudyAttendanceContainer = () => {
-    // const [isOpen, setIsOpen] = useState(true);
-    
-    return (
-        <div>
-            <StudyAttendanceComponent />
-            <Outlet />
-        </div>
-    );
+  const { loading, error, summary } = useAttendance();
+
+  return <StudyAttendanceComponent loading={loading} error={error} summary={summary} />;
 };
 
 export default StudyAttendanceContainer;

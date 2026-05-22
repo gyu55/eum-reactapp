@@ -1,54 +1,9 @@
-import React, { useState } from 'react';
-import LearnComponent from './LearnComponent';
-import { Outlet, useLocation } from 'react-router-dom';
-import StudyQuizProvider from '../../../context/StudyQuizContext';
-import LearnQuizComponent from './LearnQuizComponent';
-import LearnAlphabetComponent from './LearnAlphabetComponent';
-
+// 학습 컨테이너: 학습 대시보드와 하위 문자/퀴즈 라우터
+import { Outlet } from "react-router-dom";
 
 const LearnContainer = () => {
-    // const location = useLocation();
 
-    // const isLearnMain =
-    //     location.pathname === "/study/learn" ||
-    //     location.pathname === "/study/learn/";
-    const [view, setView] = useState("learn");
-    const [learnQuiz, setLearnQuiz] = useState(null);
-
-    const openQuiz = (quizType, quizId) => {
-        setLearnQuiz({ quizType, quizId });
-    };
-
-    const closeQuiz = () => {
-        setLearnQuiz(null);
-    };
-    
-    // if (!isLearnMain) {
-
-    //     return (
-    //         <StudyQuizProvider>
-    //             <Outlet />
-    //         </StudyQuizProvider>
-    //     );
-    // }
-
-    return (
-        <StudyQuizProvider>
-        {learnQuiz ? (
-            <LearnQuizComponent
-            quizType={learnQuiz.quizType}
-            quizId={learnQuiz.quizId}
-            onClose={closeQuiz}
-            onFinish={closeQuiz}
-            />
-        ) : view === "alphabet" ? (
-            <LearnAlphabetComponent onChangeView={setView} />
-        ) : (
-            <LearnComponent onStartQuiz={openQuiz} onChangeView={setView} />
-        )}
-        </StudyQuizProvider>
-    );
+  return <Outlet />;
 };
-
 
 export default LearnContainer;

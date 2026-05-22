@@ -1,482 +1,538 @@
+// 체험학습 스타일
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { StudyWrap } from "../style";
 
-const PRIMARY = "#4359fc";
-const BLACK = "#1a1a1a";
-const GREY = "#666";
+export const ExperienceWrap = styled.section`
+  width: 100%;
+  min-height: calc(100vh - 80px);
+  padding: 110px 0 150px;
+  background: #f7f7fb;
+  font-family: Pretendard, sans-serif;
+`;
 
-export const ExperiencePage = StudyWrap;
+export const ExperienceHero = styled.header`
+  width: min(920px, calc(100% - 48px));
+  margin: 0 auto 72px;
+  text-align: center;
 
-export const NonUser = {
-  Wrapper: styled.div`
-    width: 100%;
-    min-height: calc(100vh - 80px);
-    background: #fff;
-    padding: 120px 0 170px;
-    font-family: Pretendard, sans-serif;
-  `,
+  span {
+    display: inline-flex;
+    margin-bottom: 22px;
+    padding: 8px 20px;
+    border-radius: 999px;
+    background: ${({ theme }) => theme.PALETTE.primary.main};
+    color: ${({ theme }) => theme.PALETTE.white};
+    font-size: ${({ theme }) => theme.FONT_SIZE.h11};
+    font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
+  }
 
-  Inner: styled.div`
-    width: 1200px;
+  h1 {
+    margin: 0 0 24px;
+    color: #1a1a1a;
+    font-size: ${({ theme }) => theme.FONT_SIZE.h3};
+    line-height: ${({ theme }) => theme.FONT_LINE.h3};
+    font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
+  }
+
+  p {
+    width: min(520px, 100%);
     margin: 0 auto;
-  `,
+    color: #555;
+    font-size: ${({ theme }) => theme.FONT_SIZE.h9};
+    line-height: ${({ theme }) => theme.FONT_LINE.h9};
+    font-weight: ${({ theme }) => theme.FONT_WEIGHT.medium};
+  }
+`;
 
-  SectionTitle: styled.h2`
-    margin: 0 0 32px;
-    color: ${BLACK};
-    font-size: 28px;
-    font-weight: 700;
-    line-height: 1;
-    letter-spacing: -0.56px;
-  `,
+export const ExperienceGrid = styled.div`
+  width: min(1180px, calc(100% - 48px));
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  margin: 0 auto 56px;
+`;
 
-  StatusText: styled.p`
-    margin: -16px 0 28px;
-    color: ${GREY};
-    font-size: 14px;
-    line-height: 22px;
-  `,
-
-  CardGrid: styled.div`
-    display: grid;
-    grid-template-columns: repeat(3, 375px);
-    gap: 36px 45px;
-  `,
-
-  CardLink: styled(Link)`
-    display: block;
-    width: 375px;
-    height: 286px;
-    overflow: hidden;
-    border: 1px solid #ddd;
-    border-radius: 16px;
-    background: #fff;
-    color: inherit;
-    text-decoration: none;
-  `,
-
-  Thumbnail: styled.div`
-    height: 164px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: ${({ $bg }) => $bg};
-  `,
-
-  Emoji: styled.span`
-    font-size: 68px;
-    line-height: 1;
-  `,
-
-  CardBody: styled.div`
-    padding: 28px 22px 0;
-  `,
-
-  Level: styled.div`
-    margin-bottom: 8px;
-    color: #ffc72c;
-    font-size: 12px;
-    font-weight: 700;
-    line-height: 1;
-    letter-spacing: 1px;
-  `,
-
-  CardTitle: styled.h3`
-    margin: 0;
-    color: ${BLACK};
-    font-size: 16px;
-    font-weight: 700;
-    line-height: 24px;
-    letter-spacing: -0.32px;
-  `,
-
-  CardDesc: styled.p`
-    margin: 6px 0 0;
-    color: #a6a6a6;
-    font-size: 12px;
-    font-weight: 400;
-    line-height: 21px;
-    letter-spacing: -0.24px;
-  `,
-
-  QuizLink: styled(Link)`
-    display: block;
-    width: fit-content;
-    margin: 50px auto 0;
-    color: ${GREY};
-    font-size: 20px;
-    font-weight: 700;
-    line-height: 1;
-    letter-spacing: -0.4px;
-    text-decoration: none;
-  `,
+const toneMap = {
+  yellow: "#ffcb38",
+  red: "#f14141",
+  purple: "#b63fde",
 };
 
-export const QuizPage = {
-  Page: styled.div`
-    width: 100%;
-    min-height: 100vh;
-    padding: 110px 0 150px;
-    background: #fff;
-    font-family: Pretendard, sans-serif;
-  `,
+export const ExperienceCard = styled.button`
+  min-height: 420px;
+  padding: 42px 36px 36px;
+  border: 0;
+  border-radius: 24px;
+  background: ${({ theme }) => theme.PALETTE.white};
+  text-align: left;
+  cursor: pointer;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 
-  Shell: styled.div`
-    width: 660px;
-    margin: 0 auto;
-  `,
+  &:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 24px 54px rgba(0, 0, 0, 0.1);
+  }
 
-  LessonTitle: styled.h2`
-    margin: 0 0 12px 50px;
-    color: ${BLACK};
-    font-size: 16px;
-    font-weight: 700;
-    line-height: 24px;
-  `,
-
-  Top: styled.div`
-    display: grid;
-    grid-template-columns: 28px 1fr auto auto auto;
-    gap: 16px;
-    align-items: center;
-    margin-bottom: 70px;
-  `,
-
-  Back: styled(Link)`
-    color: ${BLACK};
-    font-size: 22px;
-    text-decoration: none;
-  `,
-
-  Progress: styled.div`
-    height: 8px;
-    overflow: hidden;
+  .badge {
+    display: inline-flex;
+    margin-bottom: 34px;
+    padding: 7px 17px;
     border-radius: 999px;
-    background: #eef0ff;
+    background: ${({ $tone }) => toneMap[$tone] || "#4359fc"};
+    color: ${({ theme }) => theme.PALETTE.white};
+    font-size: ${({ theme }) => theme.FONT_SIZE.h11};
+    font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
+  }
 
-    span {
-      display: block;
-      width: ${({ $value }) => $value || "45%"};
-      height: 100%;
-      border-radius: inherit;
-      background: ${PRIMARY};
-    }
-  `,
+  img {
+    width: 116px;
+    height: 116px;
+    display: block;
+    margin: 0 auto 36px;
+    padding: 18px;
+    border-radius: 36px;
+    background: #f7f7fb;
+    object-fit: contain;
+    box-sizing: border-box;
+  }
 
-  Count: styled.span`
-    color: ${GREY};
-    font-size: 14px;
-    font-weight: 700;
-  `,
+  strong {
+    display: block;
+    margin-bottom: 16px;
+    color: #1a1a1a;
+    font-size: ${({ theme }) => theme.FONT_SIZE.h7};
+    line-height: ${({ theme }) => theme.FONT_LINE.h7};
+    font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
+  }
 
-  Exp: styled.span`
-    color: ${PRIMARY};
-    font-size: 14px;
-    font-weight: 700;
-  `,
-
-  Heart: styled.span`
-    color: #ff5c75;
-    font-size: 14px;
-    font-weight: 700;
-  `,
-
-  Divider: styled.div`
-    height: 1px;
-    margin-bottom: 36px;
-    background: #ececf3;
-  `,
-
-  Question: styled.h1`
+  p {
+    min-height: 52px;
     margin: 0 0 34px;
-    color: ${BLACK};
-    font-size: 24px;
-    font-weight: 700;
-    line-height: 34px;
-  `,
+    color: #666;
+    font-size: ${({ theme }) => theme.FONT_SIZE.h10};
+    line-height: ${({ theme }) => theme.FONT_LINE.h10};
+  }
 
-  ImageSlot: styled.div`
-    height: 200px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 42px;
-    border-radius: 20px;
-    background: #f7f7fb;
-    font-size: 88px;
-  `,
+  em {
+    color: ${({ theme }) => theme.PALETTE.primary.main};
+    font-size: ${({ theme }) => theme.FONT_SIZE.h10};
+    font-style: normal;
+    font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
+  }
+`;
 
-  Options: styled.div`
-    display: grid;
-    gap: 20px;
-  `,
+export const ExperienceNotice = styled.aside`
+  width: min(720px, calc(100% - 48px));
+  margin: 0 auto;
+  padding: 28px 34px;
+  border-radius: 18px;
+  background: ${({ theme }) => theme.PALETTE.white};
+  text-align: center;
 
-  Option: styled.button`
-    min-height: 58px;
-    display: grid;
-    grid-template-columns: 48px 1fr;
-    align-items: center;
-    border: 1px solid
-      ${({ $active, $correct, $wrong }) => {
-        if ($correct) return "#23c16b";
-        if ($wrong) return "#ff5c75";
-        if ($active) return PRIMARY;
-        return "#ececf3";
-      }};
-    border-radius: 16px;
-    background: ${({ $active, $correct, $wrong }) => {
-      if ($correct) return "#effaf4";
-      if ($wrong) return "#fff0f3";
-      if ($active) return "#eef2ff";
-      return "#fff";
-    }};
-    color: ${BLACK};
-    font-size: 16px;
-    font-weight: 700;
-    text-align: left;
-    cursor: pointer;
+  strong {
+    display: block;
+    margin-bottom: 10px;
+    color: #1a1a1a;
+    font-size: ${({ theme }) => theme.FONT_SIZE.h9};
+    font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
+  }
 
-    &:disabled {
-      opacity: 0.55;
-      cursor: not-allowed;
-    }
-  `,
-
-  OptionKey: styled.span`
-    color: ${PRIMARY};
-    text-align: center;
-  `,
-
-  Bottom: styled.div`
-    display: flex;
-    justify-content: space-between;
-    margin-top: 60px;
-    padding-top: 28px;
-    border-top: 1px solid #ececf3;
-  `,
-
-  Feedback: styled.div`
-    margin-top: 66px;
-    color: ${({ $status }) => ($status === "correct" ? PRIMARY : "#ff5c75")};
-    font-size: 28px;
-    font-weight: 700;
-    text-align: center;
-    letter-spacing: -0.56px;
-  `,
-
-  GhostButton: styled.button`
-    border: 0;
-    background: transparent;
-    color: ${GREY};
-    font-size: 16px;
-    font-weight: 700;
-    cursor: pointer;
-  `,
-
-  PrimaryButton: styled.button`
-    min-width: 160px;
-    height: 48px;
-    border: 0;
-    border-radius: 14px;
-    background: ${PRIMARY};
-    color: #fff;
-    font-size: 16px;
-    font-weight: 700;
-    cursor: pointer;
-  `,
-
-  Message: styled.p`
-    margin: 0 0 24px;
-    color: ${GREY};
-    font-size: 14px;
-    text-align: center;
-  `,
-
-  Result: styled.div`
-    width: 660px;
-    margin: 0 auto;
-    padding: 72px 80px;
-    border-radius: 28px;
-    background: #fff;
-    box-shadow: 0 0 0 1px #f2f2f2;
-    text-align: center;
-  `,
-
-  CompleteCard: styled.div`
-    width: 520px;
-    margin: 0 auto;
-    padding: 64px 48px 54px;
-    border-radius: 28px;
-    background: #fff;
-    box-shadow: 0 0 0 1px #f2f2f2, 0 20px 60px rgba(67, 89, 252, 0.08);
-    text-align: center;
-  `,
-
-  ResultIcon: styled.div`
-    font-size: 64px;
-    line-height: 1;
-  `,
-
-  ResultTitle: styled.h1`
-    margin: 24px 0 8px;
-    font-size: 28px;
-    font-weight: 700;
-  `,
-
-  ResultText: styled.p`
+  p {
     margin: 0;
-    color: ${GREY};
-    font-size: 14px;
-  `,
+    color: #666;
+    font-size: ${({ theme }) => theme.FONT_SIZE.h10};
+    line-height: ${({ theme }) => theme.FONT_LINE.h10};
+  }
+`;
 
-  Stats: styled.div`
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-    margin: 40px 0;
-  `,
+export const ExperienceQuizHeader = styled.header`
+  width: 640px;
+  max-width: 100%;
+  display: grid;
+  grid-template-columns: 44px 1fr auto auto;
+  align-items: center;
+  column-gap: 16px;
+  margin: 0 auto 22px;
 
-  Stat: styled.div`
-    padding: 20px;
-    border-radius: 16px;
-    background: #f7f7fb;
+  button {
+    color: #666;
+    font-size: ${({ theme }) => theme.FONT_SIZE.h9};
+  }
 
-    strong {
-      display: block;
-      margin-bottom: 4px;
-      color: ${PRIMARY};
-      font-size: 24px;
+  span {
+    color: #1a1a1a;
+    font-size: ${({ theme }) => theme.FONT_SIZE.h9};
+    font-weight: ${({ theme }) => theme.FONT_WEIGHT.medium};
+  }
+
+  strong {
+    color: #22c55e;
+    font-size: ${({ theme }) => theme.FONT_SIZE.h11};
+    font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
+  }
+
+  em {
+    color: ${({ theme }) => theme.PALETTE.primary.main};
+    font-size: ${({ theme }) => theme.FONT_SIZE.h11};
+    font-style: normal;
+    font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
+  }
+`;
+
+export const ExperienceQuizPage = styled.div`
+  position: relative;
+  width: 100%;
+  min-height: 980px;
+  padding: 42px 0 100px;
+  opacity: ${({ $dimmed }) => ($dimmed ? 0.35 : 1)};
+`;
+
+export const ExperienceQuizPanel = styled.article`
+  width: 640px;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  padding: 0 0 44px;
+  border-bottom: 1px solid #e6e6e6;
+`;
+
+export const QuestionInfo = styled.div`
+  margin-top: 54px;
+
+  h2 {
+    margin: 0;
+    color: #1a1a1a;
+    font-size: 19px;
+    line-height: 1;
+    font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
+  }
+`;
+
+export const GestureBox = styled.div`
+  width: 360px;
+  height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 42px auto 40px;
+  border: 1px dashed #129d1b;
+  border-radius: 12px;
+  font-size: 88px;
+  line-height: 1;
+`;
+
+export const OptionList = styled.div`
+  display: grid;
+  gap: 28px;
+  margin-bottom: 70px;
+`;
+
+export const TextOptionButton = styled.button`
+  display: grid;
+  grid-template-columns: 42px 1fr;
+  align-items: center;
+  width: 260px;
+  color: ${({ $selected, $correct }) => ($selected && $correct ? "#129d1b" : "#1a1a1a")};
+  text-align: left;
+  font-size: ${({ theme }) => theme.FONT_SIZE.h9};
+  font-weight: ${({ $selected }) => ($selected ? 700 : 500)};
+
+  strong,
+  span {
+    line-height: 24px;
+  }
+`;
+
+export const QuizBottomBar = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding-top: 28px;
+  border-top: 1px solid #e6e6e6;
+
+  button {
+    color: ${({ theme }) => theme.PALETTE.primary.main};
+    font-size: ${({ theme }) => theme.FONT_SIZE.h10};
+    font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
+    letter-spacing: 0.3px;
+
+    &:first-child {
+      color: #c0c0c0;
     }
+  }
+`;
 
-    span {
-      color: ${GREY};
-      font-size: 12px;
-    }
-  `,
+export const ExperienceResultWrap = styled.div`
+  display: grid;
+  gap: 28px;
+`;
 
-  ResultActions: styled.div`
+export const ExperienceJoinGuide = styled.aside`
+  padding: 34px;
+  border-radius: 24px;
+  background: #f7f7fb;
+  text-align: center;
+
+  strong {
+    display: block;
+    margin-bottom: 12px;
+    color: #1a1a1a;
+    font-size: ${({ theme }) => theme.FONT_SIZE.h8};
+    font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
+  }
+
+  p {
+    width: min(520px, 100%);
+    margin: 0 auto 26px;
+    color: #666;
+    font-size: ${({ theme }) => theme.FONT_SIZE.h10};
+    line-height: ${({ theme }) => theme.FONT_LINE.h10};
+  }
+
+  div {
     display: flex;
     justify-content: center;
-    gap: 16px;
-  `,
+    gap: 12px;
+  }
 
-  LinkButton: styled(Link)`
-    min-width: 160px;
+  a {
+    min-width: 130px;
     height: 48px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     border-radius: 14px;
-    background: ${({ $primary }) => ($primary ? PRIMARY : "#f7f7fb")};
-    color: ${({ $primary }) => ($primary ? "#fff" : BLACK)};
-    font-size: 16px;
-    font-weight: 700;
+    background: ${({ theme }) => theme.PALETTE.primary.main};
+    color: ${({ theme }) => theme.PALETTE.white};
+    font-size: ${({ theme }) => theme.FONT_SIZE.h10};
+    font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
     text-decoration: none;
-  `,
 
-  NextBox: styled.div`
-    margin-top: 32px;
-    border-top: 1px solid #ececf3;
-    border-bottom: 1px solid #ececf3;
-    text-align: left;
-  `,
-
-  BoxLabel: styled.p`
-    margin: 16px 0 14px;
-    color: ${GREY};
-    font-size: 12px;
-    font-weight: 700;
-  `,
-
-  NextItem: styled.div`
-    padding: 0 0 14px;
-
-    & + & {
-      padding-top: 14px;
-      border-top: 1px solid #ececf3;
+    &:last-child {
+      background: ${({ theme }) => theme.PALETTE.white};
+      color: #1a1a1a;
     }
+  }
+`;
 
-    strong {
-      display: block;
-      color: ${BLACK};
-      font-size: 14px;
-      font-weight: 700;
-    }
+export const AuthPromptOverlay = styled.div`
+  position: fixed;
+  inset: 0;
+  z-index: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 36px 24px;
+  background: rgba(26, 26, 46, 0.34);
+`;
 
-    span {
-      display: block;
-      margin-top: 4px;
-      color: ${GREY};
-      font-size: 12px;
-    }
-  `,
+export const AuthPromptModal = styled.section`
+  position: relative;
+  width: 420px;
+  max-width: 100%;
+  padding: 30px 38px 22px;
+  border-radius: 18px;
+  background: ${({ theme }) => theme.PALETTE.white};
+  text-align: center;
+  box-shadow: 0 26px 80px rgba(0, 0, 0, 0.18);
 
-  BenefitBox: styled.div`
-    margin-top: 18px;
-    text-align: left;
-  `,
+  h2 {
+    margin: 10px 0 4px;
+    color: ${({ theme }) => theme.PALETTE.primary.main};
+    font-size: ${({ theme }) => theme.FONT_SIZE.h8};
+    font-weight: ${({ theme }) => theme.FONT_WEIGHT.medium};
+  }
 
-  BenefitItem: styled.div`
+  .summary {
+    margin: 0 0 16px;
+    color: #aaa;
+    font-size: ${({ theme }) => theme.FONT_SIZE.h12};
+  }
+`;
+
+export const ModalClose = styled.button`
+  position: absolute;
+  top: 20px;
+  right: 22px;
+  color: #c9c9c9;
+  font-size: 18px;
+`;
+
+export const CheckIcon = styled.div`
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  border: 5px solid ${({ theme }) => theme.PALETTE.primary.main};
+  border-radius: 50%;
+  color: ${({ theme }) => theme.PALETTE.primary.main};
+  font-size: 30px;
+  font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
+`;
+
+export const ResultStats = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 192px;
+  margin: 0 auto 22px;
+
+  div + div {
+    border-left: 1px solid #ececec;
+  }
+
+  strong {
+    display: block;
+    margin-bottom: 5px;
+    color: ${({ theme }) => theme.PALETTE.primary.main};
+    font-size: ${({ theme }) => theme.FONT_SIZE.h8};
+    font-weight: ${({ theme }) => theme.FONT_WEIGHT.regular};
+  }
+
+  span {
+    color: #bbb;
+    font-size: ${({ theme }) => theme.FONT_SIZE.h12};
+  }
+`;
+
+export const NextStepList = styled.div`
+  padding: 14px 0 0;
+  border-top: 1px solid #eee;
+  text-align: left;
+
+  span,
+  small {
+    display: block;
+    color: #ccc;
+    font-size: ${({ theme }) => theme.FONT_SIZE.h12};
+  }
+
+  p {
+    margin: 9px 0 3px;
+    color: #333;
+    font-size: ${({ theme }) => theme.FONT_SIZE.h12};
+  }
+`;
+
+export const MemberBenefits = styled.ul`
+  padding: 14px 0 0;
+  margin: 14px 0 14px;
+  border-top: 1px solid #eee;
+  list-style: none;
+  text-align: left;
+
+  > span {
+    display: block;
+    margin-bottom: 10px;
+    color: #ccc;
+    font-size: ${({ theme }) => theme.FONT_SIZE.h12};
+  }
+
+  li {
     display: grid;
-    grid-template-columns: 26px 1fr;
-    gap: 14px;
-    align-items: start;
-    margin-top: 16px;
+    grid-template-columns: 28px 1fr;
+    column-gap: 10px;
+    margin-bottom: 8px;
 
-    > span {
-      width: 26px;
-      height: 26px;
-      display: inline-flex;
+    &::before {
+      content: "✓";
+      width: 20px;
+      height: 20px;
+      display: flex;
       align-items: center;
       justify-content: center;
       border-radius: 50%;
-      background: #eef2ff;
-      color: ${PRIMARY};
-      font-size: 14px;
-      font-weight: 700;
-    }
-
-    strong {
-      display: block;
-      color: ${BLACK};
-      font-size: 14px;
-      font-weight: 700;
-    }
-
-    p {
-      margin: 6px 0 0;
-      color: ${GREY};
+      background: #f0fbf0;
+      color: #22c55e;
       font-size: 12px;
-      line-height: 1.55;
     }
-  `,
+  }
 
-  SignupTitle: styled.h2`
-    margin: 34px 0 6px;
-    color: ${BLACK};
-    font-size: 18px;
-    font-weight: 700;
-  `,
-
-  SignupDesc: styled.p`
-    margin: 0 0 22px;
-    color: ${GREY};
+  strong {
+    display: block;
+    grid-column: 2;
+    color: ${({ theme }) => theme.PALETTE.primary.main};
     font-size: 12px;
-  `,
+    font-weight: ${({ theme }) => theme.FONT_WEIGHT.regular};
+  }
 
-  AuthButton: styled(Link)`
-    width: 100%;
-    height: 42px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 10px;
-    border-radius: 12px;
-    background: ${({ $primary }) => ($primary ? PRIMARY : "#f7f7fb")};
-    color: ${({ $primary }) => ($primary ? "#fff" : BLACK)};
-    font-size: 14px;
-    font-weight: 700;
-    text-decoration: none;
-  `,
+  small {
+    display: block;
+    grid-column: 2;
+    margin-top: 2px;
+    color: #aaa;
+    font-size: ${({ theme }) => theme.FONT_SIZE.h12};
+  }
+`;
+
+export const EmailSignupLink = styled(Link)`
+  width: 100%;
+  height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  color: ${({ theme }) => theme.PALETTE.primary.main};
+  font-size: ${({ theme }) => theme.FONT_SIZE.h10};
+  font-weight: ${({ theme }) => theme.FONT_WEIGHT.medium};
+  text-decoration: none;
+`;
+
+export const SocialDivider = styled.p`
+  position: relative;
+  margin: 16px 0 10px;
+  color: #9ca3af;
+  font-size: ${({ theme }) => theme.FONT_SIZE.h10};
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 78px;
+    height: 1px;
+    background: #e5e7eb;
+  }
+
+  &::before {
+    left: 0;
+  }
+
+  &::after {
+    right: 0;
+  }
+`;
+
+const socialColors = {
+  kakao: {
+    bg: "#fee500",
+    color: "#000",
+  },
+  naver: {
+    bg: "#03c75a",
+    color: "#fff",
+  },
+  google: {
+    bg: "#fff",
+    color: "#000",
+  },
 };
+
+export const SocialButton = styled(Link)`
+  width: 100%;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 9px;
+  border: ${({ $provider }) => ($provider === "google" ? "1px solid #e0e0e0" : 0)};
+  border-radius: 10px;
+  background: ${({ $provider }) => socialColors[$provider]?.bg || "#fff"};
+  color: ${({ $provider }) => socialColors[$provider]?.color || "#000"};
+  font-size: ${({ theme }) => theme.FONT_SIZE.h10};
+  font-weight: ${({ theme }) => theme.FONT_WEIGHT.medium};
+  text-decoration: none;
+`;

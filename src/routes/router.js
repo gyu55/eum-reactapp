@@ -17,12 +17,6 @@ import LicenseContainer from "../pages/exam/results/license/LicenseContainer";
 import UpdateCheckContainer from "../pages/exam/update/check/UpdateCheckContainer";
 import UpdateContainer from "../pages/exam/update/UpdateContainer";
 import RenewContainer from "../pages/exam/update/renew/RenewContainer";
-import StudyContainer from "../pages/study/StudyContainer";
-import StudyChapterContainer from "../pages/study/chapter/StudyChapterContainer";
-import StudyChapterQuizContainer from "../pages/study/chapter/StudyChapterQuizContainer";
-import StudyChapterComponent from "../pages/study/chapter/StudyChapterComponent";
-import LearnContainer from "../pages/study/learn/LearnContainer";
-import StudyAttendanceContainer from "../pages/study/attendance/StudyAttendanceContainer";
 import MyPageContainer from "../pages/mypage/MyPageContainer";
 import CommunityContainer from "../pages/community/CommunityContainer";
 import LoginContainer from "../pages/auth/login/LoginContainer";
@@ -40,9 +34,6 @@ import CertificateContainer from "../pages/exam/certificate/CertificateContainer
 import CertificateCheckContainer from "../pages/exam/certificate/check/CertificateCheckContainer";
 import CertificatePrintContainer from "../pages/exam/certificate/print/CertificatePrintContainer";
 import CertificateReissueContainer from "../pages/exam/certificate/reissue/CertificateReissueContainer";
-import StudyExperienceContainer from "../pages/study/experience/StudyExperienceContainer";
-import StudyExperienceQuizContainer from "../pages/study/experience/StudyExperienceQuizContainer";
-import StudyExperienceQuizComponent from "../pages/study/experience/StudyExperienceQuizComponent";
 import MyPageLearningContainer from "../pages/mypage/learning/MyPageLearningContainer";
 import MyPageSettingContainer from "../pages/mypage/setting/MyPageSettingContainer";
 import MyPageCertificateConfirmContainer from "../pages/mypage/certificate/confirm/MyPageCertificateConfirmContainer";
@@ -50,7 +41,6 @@ import MyPageCertificateContainer from "../pages/mypage/certificate/MyPageCertif
 import MyPageCertificateGuideContainer from "../pages/mypage/certificate/guide/MyPageCertificateGuideContainer";
 import MyPageCertificateCompleteContainer from "../pages/mypage/certificate/complete/MyPageCertificateCompleteContainer";
 import ConfirmAddressSearchContainer from "../pages/mypage/certificate/confirm/address-search/ConfirmAddressSearchContainer";
-import StudySearchContainer from "../pages/study/search/StudySearchContainer";
 import CustomServiceContainer from "../pages/customservice/CustomServiceContainer";
 import CustomServiceInquireContainer from "../pages/customservice/inquire/CustomServiceInquireContainer";
 import CustomServiceNoticeContainer from "../pages/customservice/notice/CustomServiceNoticeContainer";
@@ -61,6 +51,24 @@ import MyPageWithdrawContainer from "../pages/mypage/withdraw/MyPageWithdrawCont
 import CustomServiceNoticeListContainer from '../pages/customservice/notice/list/CustomServiceNoticeListContainer';
 import CustomServiceNoticeWriteContainer from '../pages/customservice/notice/write/CustomServiceNoticeWriteContainer';
 import CustomServiceNoticeEditContainer from "../pages/customservice/notice/edit/CustomServiceNoticeEditContainer";
+import StudyContainer from "../pages/study/StudyContainer";
+import StudyComponent from "../pages/study/StudyComponent";
+import StudyExperienceContainer from "../pages/study/experience/StudyExperienceContainer";
+import StudyExperienceComponent from "../pages/study/experience/StudyExperienceComponent";
+import StudyExperienceQuizContainer from "../pages/study/experience/StudyExperienceQuizContainer";
+import StudyExperienceQuizComponent from "../pages/study/experience/StudyExperienceQuizComponent";
+import StudyAttendanceContainer from "../pages/study/attendance/StudyAttendanceContainer";
+import StudyChapterContainer from "../pages/study/chapter/StudyChapterContainer";
+import StudyChapterComponent from "../pages/study/chapter/StudyChapterComponent";
+import StudyChapterQuizContainer from "../pages/study/chapter/StudyChapterQuizContainer";
+import StudyChapterQuizComponent from "../pages/study/chapter/StudyChapterQuizComponent";
+import StudyChapterResultContainer from "../pages/study/chapter/StudyChapterResultContainer";
+import StudySearchContainer from "../pages/study/search/StudySearchContainer";
+import StudyLearnContainer from "../pages/study/learn/LearnContainer";
+import StudyLearnComponent from "../pages/study/learn/LearnComponent";
+import StudyLearnAlphabetContainer from "../pages/study/learn/LearnAlphabetContainer";
+import StudyLearnQuizContainer from "../pages/study/learn/LearnQuizContainer";
+import StudyLearnQuizComponent from "../pages/study/learn/LearnQuizComponent";
 import FindAccountContainer from "../pages/auth/find-account/FindAccountContainer";
 
 const router = createBrowserRouter([
@@ -68,11 +76,11 @@ const router = createBrowserRouter([
     path: "/",
     element: <EumLayout />,
     children: [
-      { 
-        path: "", 
-        element: <EumMainContainer /> 
+      {
+        path: "",
+        element: <EumMainContainer />
       },
-      { path: "exam", 
+      { path: "exam",
         element: <ExamContainer />,
         children: [
           {
@@ -166,19 +174,27 @@ const router = createBrowserRouter([
         element: <StudyContainer />,
         children: [
           {
+            index: true,
+            element: <StudyComponent />
+          },
+          {
             path: "experience",
             element: <StudyExperienceContainer />,
             children: [
               {
-                path: ":quiz", 
+                index: true,
+                element: <StudyExperienceComponent />
+              },
+              {
+                path: ":quiz",
                 element: <StudyExperienceQuizContainer />,
                 children: [
                   {
-                    path: ":id",
+                    path: "questions/:id",
                     element: <StudyExperienceQuizComponent />
                   }
                 ]
-              },
+              }
             ]
           },
           {
@@ -186,19 +202,31 @@ const router = createBrowserRouter([
             element: <StudyAttendanceContainer />
           },
           {
-            path: "chapter", 
+            path: "chapter",
             element: <StudyChapterContainer />,
             children: [
               {
-                path: ":quiz", 
+                index: true,
+                element: <StudyChapterComponent />
+              },
+              {
+                path: ":quiz",
                 element: <StudyChapterQuizContainer />,
                 children: [
                   {
-                    path: ":id",
-                    element: <StudyChapterComponent />
+                    index: true,
+                    element: <StudyChapterQuizComponent />
+                  },
+                  {
+                    path: "questions/:id",
+                    element: <StudyChapterQuizComponent />
+                  },
+                  {
+                    path: "result",
+                    element: <StudyChapterResultContainer />
                   }
                 ]
-              },
+              }
             ]
           },
           {
@@ -207,7 +235,27 @@ const router = createBrowserRouter([
           },
           {
             path: "learn",
-            element: <LearnContainer />
+            element: <StudyLearnContainer />,
+            children: [
+              {
+                index: true,
+                element: <StudyLearnComponent />
+              },
+              {
+                path: "alphabet",
+                element: <StudyLearnAlphabetContainer />
+              },
+              {
+                path: "quiz/:type",
+                element: <StudyLearnQuizContainer />,
+                children: [
+                  {
+                    path: "questions/:id",
+                    element: <StudyLearnQuizComponent />
+                  }
+                ]
+              }
+            ]
           }
         ]
       },
@@ -254,7 +302,7 @@ const router = createBrowserRouter([
           {
             path: "withdraw",
             element: <MyPageWithdrawContainer />
-          }  
+          }
         ]
       },
       {
@@ -298,7 +346,7 @@ const router = createBrowserRouter([
             ]
           },
           {
-            path: "notice/write",  
+            path: "notice/write",
             element: <CustomServiceNoticeWriteContainer />
           },
           {

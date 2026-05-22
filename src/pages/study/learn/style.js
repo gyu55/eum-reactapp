@@ -1,1265 +1,1377 @@
 import styled from "styled-components";
 
-const PRIMARY = "#4359fc";
-const BLACK = "#2c2c2a";
-const GREY = "#888";
-const LIGHT = "#f7f7fb";
-const LINE = "#ebedf4";
-const GREEN = "#16c56f";
-const GREEN_TEXT = "#15803d";
-const ORANGE = "#f6ad36";
-
-const statusStyle = {
-  done: {
-    circle: GREEN,
-    cardBg: "#f5fffa",
-    border: "#86efac",
-    title: GREEN_TEXT,
-    desc: "#888",
-    buttonBg: "#e7fff0",
-    button: GREEN_TEXT,
-  },
-  active: {
-    circle: PRIMARY,
-    cardBg: PRIMARY,
-    border: PRIMARY,
-    title: "#fff",
-    desc: "rgba(255,255,255,0.75)",
-    buttonBg: "#fff",
-    button: PRIMARY,
-  },
-  reward: {
-    circle: "#ffd98a",
-    cardBg: "#fff9e9",
-    border: "#ffe3a8",
-    title: "#d97706",
-    desc: "#888",
-    buttonBg: "#fff7dc",
-    button: "#aaa",
-  },
-  locked: {
-    circle: "#f1f1f1",
-    cardBg: "#f7f7f7",
-    border: "#f0f0f0",
-    title: "#bbb",
-    desc: "#ccc",
-    buttonBg: "#fff",
-    button: "#aaa",
-  },
+const statusColor = {
+  done: "#22c55e",
+  active: "#4359fc",
+  reward: "#f59e0b",
+  locked: "#d7dbe4",
 };
 
-export const LearnPage = {
-  Page: styled.div`
-    width: 100%;
-    min-height: calc(100vh - 80px);
-    padding: 300px 0 210px;
-    background: #fff;
-    color: ${BLACK};
-    font-family: Pretendard, sans-serif;
-  `,
+export const LearnWrap = styled.section`
+  position: relative;
+  z-index: 0;
+  isolation: isolate;
+  width: 100%;
+  min-height: 100vh;
+  padding: 142px 24px 120px;
+  background: #fff;
+  color: #2c2c2a;
+  font-family: Pretendard, sans-serif;
 
-  ContentWrap: styled.div`
-    width: 1320px;
-    min-height: 720px;
-    display: grid;
-    grid-template-columns: 180px 640px 300px;
-    gap: 40px;
-    margin: 0 auto;
-  `,
+  @media (max-width: 768px) {
+    padding: 104px 16px 72px;
+  }
+`;
 
-  SideMenu: styled.aside`
-    padding: 80px 0 0;
-    border-right: 1px solid #e1e1e8;
-  `,
+export const LearnLayout = styled.div`
+  display: grid;
+  grid-template-columns: 156px minmax(0, 760px) 310px;
+  gap: 42px;
+  align-items: start;
+  width: min(1268px, 100%);
+  margin: 0 auto;
 
-  SideButton: styled.button`
-    width: 135px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    margin-bottom: 13px;
-    padding: 0 18px;
-    border: 0;
-    border-radius: 8px;
-    background: ${({ $active }) => ($active ? "#eef1ff" : "transparent")};
-    color: ${({ $active }) => ($active ? PRIMARY : "#777")};
-    font-size: 15px;
-    font-weight: ${({ $active }) => ($active ? 700 : 400)};
-    text-align: left;
-    cursor: pointer;
+  > aside {
+    width: 310px;
+    padding: 22px;
+  }
 
-    span {
-      width: 18px;
-      text-align: center;
-      font-size: 13px;
-    }
-  `,
+  > aside h2 {
+    font-size: 17px;
+    margin-bottom: 18px;
+  }
 
-  Main: styled.main`
-    position: relative;
-    padding: 20px 0 0;
-    border-right: 1px solid #e1e1e8;
-  `,
+  @media (max-width: 1100px) {
+    grid-template-columns: 130px minmax(0, 1fr);
+  }
 
-  TopLine: styled.div`
-    height: 58px;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    padding-right: 36px;
-    border-bottom: 1px solid #e5e5ec;
-  `,
+  @media (max-width: 760px) {
+    grid-template-columns: 1fr;
+  }
+`;
 
-  Streak: styled.div`
+export const SideMenu = styled.nav`
+  display: grid;
+  gap: 8px;
+  padding: 4px 0;
+  border-right: 1px solid #f0f2f7;
+
+  @media (max-width: 760px) {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    border-right: 0;
+    border-bottom: 1px solid #ebedf5;
+    padding-bottom: 14px;
+  }
+`;
+
+export const SideButton = styled.button`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 122px;
+  height: 38px;
+  padding: 0 15px;
+  border: 0;
+  border-radius: 8px;
+  background: ${({ $active }) => ($active ? "#eef1ff" : "transparent")};
+  color: ${({ $active }) => ($active ? "#4359fc" : "#777")};
+  font-size: 15px;
+  font-weight: ${({ $active }) => ($active ? 900 : 700)};
+  cursor: pointer;
+
+  span {
     display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    color: #ff6b00;
-    font-size: 15px;
-    font-weight: 700;
+    justify-content: center;
+    width: 18px;
+    font-size: 14px;
+  }
 
-    span {
-      font-size: 18px;
-    }
-  `,
+  &:hover {
+    background: #f2f4ff;
+    color: #4359fc;
+  }
 
-  ChapterHeader: styled.div`
-    width: 520px;
-    height: 64px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin: 22px 0 78px 20px;
-    padding: 0 24px 0 32px;
-    border-radius: 12px;
-    background: ${PRIMARY};
-    box-sizing: border-box;
+  @media (max-width: 760px) {
+    justify-content: center;
+    width: 100%;
+    padding: 0 8px;
+    font-size: 12px;
+  }
+`;
 
-    strong {
-      color: #fff;
-      font-size: 20px;
-      font-weight: 700;
-      letter-spacing: -0.4px;
-    }
+export const MainArea = styled.div`
+  min-width: 0;
+  position: relative;
+`;
 
-    button {
-      width: 94px;
-      height: 26px;
-      border: 0;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.28);
-      color: #fff;
-      font-size: 13px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-  `,
+export const TopBar = styled.div`
+  position: absolute;
+  right: 0;
+  top: -40px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+`;
 
-  StatusText: styled.p`
-    margin: -50px 0 36px 112px;
-    color: ${GREY};
-    font-size: 13px;
-  `,
+export const StreakBadge = styled.span`
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  padding: 0 12px;
+  border-radius: 999px;
+  background: #fff7ed;
+  color: #ff6b00;
+  font-size: 15px;
+  font-weight: 900;
+`;
 
-  RoadMap: styled.div`
-    position: relative;
-    width: 430px;
-    display: grid;
-    gap: 20px;
-    margin-left: 130px;
+export const GuideButton = styled.button`
+  display: none;
+`;
+
+export const ChapterPanel = styled.article`
+  overflow: hidden;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 0 0 1px #edf0f7 inset;
+`;
+
+export const ChapterHead = styled.header`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  min-height: 64px;
+  padding: 0 28px;
+  background: #4359fc;
+`;
+
+export const Title = styled.h1`
+  margin: 0;
+  color: #fff;
+  font-size: 22px;
+  font-weight: 900;
+  line-height: 1.3;
+`;
+
+export const GuidePill = styled.button`
+  height: 32px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.28);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 900;
+  cursor: pointer;
+`;
+
+export const StatusText = styled.p`
+  margin: 18px 24px 0;
+  color: #777;
+  font-size: 14px;
+  font-weight: 700;
+`;
+
+export const RoadmapList = styled.div`
+  display: grid;
+  gap: 18px;
+  padding: 64px 76px 38px;
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 82px;
+    bottom: 54px;
+    left: 99px;
+    width: 3px;
+    background: #e5e9f4;
+  }
+
+  @media (max-width: 760px) {
+    padding: 34px 20px 28px;
 
     &::before {
-      content: "";
-      position: absolute;
-      left: 20px;
-      top: 20px;
-      bottom: 20px;
-      width: 3px;
-      background: #d9dee9;
-      border-radius: 999px;
+      left: 40px;
     }
-  `,
+  }
+`;
 
-  LessonItem: styled.article`
-    position: relative;
-    display: grid;
-    grid-template-columns: 42px 1fr;
-    gap: 16px;
-    align-items: center;
-  `,
+export const RoadmapItem = styled.article`
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  gap: 18px;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+`;
 
-  LessonCircle: styled.div`
-    position: relative;
-    z-index: 1;
-    width: 42px;
-    height: 42px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    background: ${({ $status }) => statusStyle[$status]?.circle};
-    color: ${({ $status }) => ($status === "done" || $status === "active" ? "#fff" : BLACK)};
-    font-size: ${({ $status }) => ($status === "active" ? "18px" : "16px")};
+export const StepBadge = styled.span`
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: ${({ $status }) => statusColor[$status] || "#edf0f5"};
+  color: ${({ $status }) => ($status === "locked" ? "#aaa" : "#fff")};
+  font-size: ${({ $status }) => ($status === "active" ? "20px" : "17px")};
+  font-weight: 900;
+  box-shadow: ${({ $status }) => ($status === "active" ? "0 8px 18px rgba(67, 89, 252, 0.2)" : "none")};
+`;
+
+export const LessonCard = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  min-height: ${({ $status }) => ($status === "active" ? "84px" : "72px")};
+  padding: 15px 20px;
+  border: 1px solid
+    ${({ $status }) =>
+      $status === "done" ? "#bbf7d0" : $status === "reward" ? "#fde68a" : $status === "locked" ? "#ebedf2" : "#4359fc"};
+  border-radius: 8px;
+  background: ${({ $status }) =>
+    $status === "done" ? "#f0fdf4" : $status === "reward" ? "#fffbeb" : $status === "locked" ? "#f7f7f8" : "#4359fc"};
+  color: ${({ $status }) => ($status === "active" ? "#fff" : "#2c2c2a")};
+  box-shadow: ${({ $status }) => ($status === "active" ? "0 10px 22px rgba(67, 89, 252, 0.2)" : "none")};
+
+  @media (max-width: 760px) {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+`;
+
+export const LessonText = styled.div`
+  min-width: 0;
+`;
+
+export const LessonTitle = styled.h2`
+  margin: 0;
+  color: inherit;
+  font-size: ${({ $status }) => ($status === "active" ? "18px" : "16px")};
+  font-weight: 900;
+`;
+
+export const LessonDesc = styled.p`
+  margin: 8px 0 0;
+  color: inherit;
+  opacity: 0.74;
+  font-size: 14px;
+  line-height: 1.45;
+`;
+
+export const LessonButton = styled.button`
+  flex: 0 0 auto;
+  min-width: 82px;
+  height: 34px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 999px;
+  background: ${({ $status }) => ($status === "active" ? "#fff" : $status === "locked" || $status === "reward" ? "#f2f2f2" : "#dcfce7")};
+  color: ${({ $status }) => ($status === "active" ? "#4359fc" : $status === "locked" || $status === "reward" ? "#aaa" : "#15803d")};
+  font-size: 13px;
+  font-weight: 900;
+  cursor: pointer;
+`;
+
+export const NextChapter = styled.button`
+  display: grid;
+  align-content: center;
+  gap: 7px;
+  width: min(520px, calc(100% - 120px));
+  min-height: 74px;
+  margin: 0 auto 32px;
+  padding: 15px 24px;
+  border: 1px dashed #cfd6ff;
+  border-radius: 8px;
+  background: #f8f9ff;
+  color: #89c;
+  cursor: pointer;
+
+  strong {
+    font-size: 15px;
+    font-weight: 900;
+    line-height: 1.35;
+    white-space: nowrap;
+  }
+
+  span {
+    color: #aaa;
+    font-size: 13px;
     font-weight: 700;
-    box-shadow: ${({ $status }) => ($status === "active" ? "0 0 0 8px rgba(67, 89, 252, 0.12)" : "none")};
-  `,
+    line-height: 1.35;
+    white-space: nowrap;
+  }
 
-  LessonCard: styled.div`
-    width: 330px;
-    min-height: 62px;
-    display: grid;
-    grid-template-columns: 1fr 70px;
-    gap: 14px;
-    align-items: center;
-    padding: 13px 16px;
-    border: 1px solid ${({ $status }) => statusStyle[$status]?.border};
-    border-radius: 12px;
-    background: ${({ $status }) => statusStyle[$status]?.cardBg};
-    box-sizing: border-box;
-  `,
+  @media (max-width: 760px) {
+    width: calc(100% - 40px);
+  }
+`;
 
-  LessonTitle: styled.h3`
-    margin: 0;
-    color: ${({ $status }) => statusStyle[$status]?.title};
-    font-size: ${({ $status }) => ($status === "active" ? "16px" : "14px")};
-    font-weight: 700;
-    line-height: 1;
-    letter-spacing: -0.28px;
-  `,
+export const QuestPanel = styled.aside`
+  align-self: start;
+  margin-top: 0;
+  padding: 18px;
+  border: 1px solid #e5e8f2;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 8px 22px rgba(44, 52, 92, 0.05);
 
-  LessonDesc: styled.p`
-    margin: 8px 0 0;
-    color: ${({ $status }) => statusStyle[$status]?.desc};
+  @media (max-width: 1100px) {
+    grid-column: 2;
+  }
+
+  @media (max-width: 760px) {
+    grid-column: auto;
+  }
+`;
+
+export const QuestTitle = styled.h2`
+  margin: 0 0 14px;
+  color: #2c2c2a;
+  font-size: 15px;
+  font-weight: 900;
+`;
+
+export const QuestItem = styled.div`
+  display: grid;
+  grid-template-columns: 34px 1fr 32px;
+  gap: 10px;
+  align-items: center;
+  min-height: 52px;
+  border-top: 1px solid #eef1f5;
+
+  &:first-of-type {
+    border-top: 0;
+  }
+`;
+
+export const QuestIcon = styled.span`
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #eef1ff;
+  font-size: 14px;
+`;
+
+export const QuestInfo = styled.div`
+  min-width: 0;
+`;
+
+export const QuestName = styled.strong`
+  display: block;
+  color: #2c2c2a;
+  font-size: 12px;
+  font-weight: 900;
+  line-height: 1.35;
+`;
+
+export const QuestReward = styled.span`
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 7px;
+  background: #fff7ed;
+  font-size: 12px;
+`;
+
+export const QuestMeta = styled.div`
+  display: grid;
+  gap: 7px;
+  justify-items: end;
+`;
+
+export const QuestBar = styled.div`
+  overflow: hidden;
+  height: 5px;
+  margin-top: 7px;
+  border-radius: 999px;
+  background: #edf0f5;
+
+  span {
+    display: block;
+    width: ${({ $progress }) => $progress || 0}%;
+    height: 100%;
+    border-radius: inherit;
+    background: #4359fc;
+  }
+`;
+
+export const QuestCount = styled.p`
+  margin: 0;
+  color: #aaa;
+  font-size: 11px;
+  font-weight: 800;
+  text-align: right;
+`;
+
+export const ProgressArea = styled.div`
+  display: grid;
+  grid-template-columns: 170px minmax(360px, 1fr) 52px 112px;
+  align-items: center;
+  gap: 24px;
+  width: min(1268px, 100%);
+  margin: 46px auto 0;
+  padding-left: 156px;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+    padding-left: 0;
+  }
+`;
+
+export const ProgressText = styled.div`
+  min-width: 0;
+  align-self: center;
+`;
+
+export const ProgressTitle = styled.strong`
+  display: block;
+  color: #2c2c2a;
+  font-size: 14px;
+  font-weight: 900;
+`;
+
+export const ProgressDesc = styled.p`
+  margin: 8px 0 0;
+  color: #888;
+  font-size: 13px;
+  line-height: 1.45;
+`;
+
+export const ProgressBar = styled.div`
+  overflow: hidden;
+  height: 9px;
+  border-radius: 999px;
+  background: #e9edff;
+
+  span {
+    display: block;
+    width: ${({ $progress }) => $progress || 0}%;
+    height: 100%;
+    border-radius: inherit;
+    background: #4359fc;
+  }
+`;
+
+export const Percent = styled.strong`
+  align-self: center;
+  color: #4359fc;
+  font-size: 14px;
+  font-weight: 900;
+`;
+
+export const ExpBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  width: 104px;
+  min-height: 74px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: #f2f4ff;
+
+  span {
+    color: #888;
     font-size: 12px;
-    font-weight: 400;
-    line-height: 1;
-    letter-spacing: -0.24px;
-  `,
+    font-weight: 800;
+  }
 
-  LessonButton: styled.button`
-    width: 62px;
-    height: 25px;
-    border: 0;
-    border-radius: 999px;
-    background: ${({ $status }) => statusStyle[$status]?.buttonBg};
-    color: ${({ $status }) => statusStyle[$status]?.button};
-    font-size: 11px;
-    font-weight: 700;
-    cursor: pointer;
-  `,
-
-  LessonStartButton: styled.button`
-    width: 62px;
-    height: 25px;
+  strong {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border: 0;
-    border-radius: 999px;
-    background: #fff;
-    color: ${PRIMARY};
-    font-size: 12px;
-    font-weight: 700;
-    cursor: pointer;
-  `,
+    gap: 5px;
+    white-space: nowrap;
+    color: #4359fc;
+    font-size: 25px;
+    line-height: 1;
+    font-weight: 900;
+  }
+`;
 
-  NextChapter: styled.button`
-    width: 360px;
-    height: 52px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 6px;
-    margin: 82px auto 0;
-    border: 1px dashed #bbc8ff;
-    border-radius: 12px;
-    background: #f3f5ff;
-    cursor: pointer;
+export const ExpIcon = styled.span`
+  color: #ff8a00 !important;
+  font-size: 22px !important;
+  line-height: 1 !important;
+  font-weight: 900 !important;
+`;
+
+export const AlphaWrap = styled.section`
+  width: 100%;
+  min-height: 100vh;
+  padding: 142px 24px 120px;
+  background: #fff;
+  color: #2c2c2a;
+  font-family: Pretendard, sans-serif;
+
+  @media (max-width: 768px) {
+    padding: 104px 16px 72px;
+  }
+`;
+
+export const AlphaLayout = styled.div`
+  display: grid;
+  grid-template-columns: 156px minmax(0, 760px) 310px;
+  gap: 42px;
+  align-items: start;
+  width: min(1268px, 100%);
+  margin: 0 auto;
+
+  ${SideButton} {
+    width: 122px;
+    height: 38px;
+    font-size: 15px;
+
+    span {
+      font-size: 14px;
+    }
+  }
+
+  @media (max-width: 1100px) {
+    grid-template-columns: 130px minmax(0, 1fr);
+  }
+
+  @media (max-width: 760px) {
+    grid-template-columns: 1fr;
+  }
+`;
+
+export const AlphaMain = styled.main`
+  min-width: 0;
+  padding: 56px 44px 68px;
+  border: 1px solid #edf0f7;
+  border-radius: 8px;
+  background: #fff;
+  text-align: center;
+`;
+
+export const AlphaHeader = styled.header`
+  margin-bottom: 48px;
+`;
+
+export const AlphaTitle = styled.h1`
+  margin: 0 0 14px;
+  color: #1f2430;
+  font-size: 32px;
+  font-weight: 900;
+  line-height: 1.35;
+`;
+
+export const AlphaDesc = styled.p`
+  width: min(540px, 100%);
+  margin: 0 auto 28px;
+  color: #777f8e;
+  font-size: 16px;
+  line-height: 1.65;
+`;
+
+export const AlphaStartButton = styled.button`
+  width: min(430px, 100%);
+  height: 50px;
+  border: 0;
+  border-radius: 8px;
+  background: #4359fc;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 900;
+  cursor: pointer;
+
+  &:hover {
+    background: #3545f5;
+  }
+`;
+
+export const AlphaSection = styled.section`
+  margin-top: 46px;
+`;
+
+export const AlphaSectionTitle = styled.h2`
+  margin: 0 0 24px;
+  color: #1f2430;
+  font-size: 22px;
+  font-weight: 900;
+`;
+
+export const AlphaLetterGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(4, 86px);
+  justify-content: center;
+  gap: 18px 24px;
+
+  @media (max-width: 520px) {
+    grid-template-columns: repeat(3, 86px);
+  }
+`;
+
+export const AlphaLetterCard = styled.button`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 11px;
+  width: 86px;
+  height: 86px;
+  border: 1px solid #dedede;
+  border-radius: 8px;
+  background: #fff;
+  cursor: pointer;
+
+  strong {
+    color: #1f2430;
+    font-size: 36px;
+    font-weight: 900;
+    line-height: 1;
+  }
+
+  span {
+    width: 40px;
+    height: 2px;
+    border-radius: 999px;
+    background: #d9d9d9;
+  }
+
+  &:hover {
+    border-color: #4359fc;
+    background: #f8f9ff;
+    box-shadow: 0 10px 22px rgba(67, 89, 252, 0.12);
 
     strong {
-      color: #89c;
-      font-size: 13px;
-      font-weight: 700;
+      color: #4359fc;
     }
 
     span {
-      color: #aaa;
-      font-size: 11px;
+      background: #4359fc;
     }
-  `,
+  }
+`;
 
-  QuestPanel: styled.aside`
-    width: 292px;
-    height: fit-content;
-    margin-top: 102px;
-    padding: 20px 18px 18px;
-    border: 1px solid ${LINE};
-    border-radius: 12px;
-    background: #fff;
-    box-sizing: border-box;
-  `,
+export const AlphaQuestPanel = styled(QuestPanel)`
+  margin-top: 0;
+  width: 310px;
 
-  QuestTitle: styled.h2`
-    margin: 0 0 18px;
-    color: ${BLACK};
-    font-size: 16px;
-    font-weight: 700;
-  `,
+  ${QuestTitle} {
+    font-size: 17px;
+    margin-bottom: 18px;
+  }
 
-  QuestItem: styled.div`
-    display: grid;
-    grid-template-columns: 34px 1fr 42px 32px;
-    gap: 10px;
-    align-items: center;
-    min-height: 54px;
-    padding: 8px 0;
-    border-top: 1px solid ${LINE};
+  ${QuestItem} {
+    min-height: 60px;
+  }
 
-    &:first-of-type {
-      border-top: 0;
-    }
-  `,
-
-  QuestIcon: styled.div`
+  ${QuestIcon} {
     width: 34px;
     height: 34px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    font-size: 16px;
+  }
+
+  ${QuestName} {
+    font-size: 13px;
+  }
+`;
+
+export const AlphaPopupDim = styled.div`
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(37, 38, 61, 0.56);
+`;
+
+export const AlphaPopupCard = styled.aside`
+  position: relative;
+  width: 360px;
+  min-height: 560px;
+  padding: 40px 28px 30px;
+  border-radius: 18px;
+  background: #fff;
+  text-align: center;
+  box-shadow: 0 24px 54px rgba(23, 31, 77, 0.22);
+`;
+
+export const AlphaPopupClose = styled.button`
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  border: 0;
+  background: transparent;
+  color: #c3c7d0;
+  font-size: 24px;
+  cursor: pointer;
+`;
+
+export const AlphaPopupLetter = styled.div`
+  color: #4359fc;
+  font-size: 96px;
+  font-weight: 900;
+  line-height: 1;
+`;
+
+export const AlphaPopupName = styled.h2`
+  margin: 10px 0 7px;
+  color: #1f2430;
+  font-size: 21px;
+  font-weight: 900;
+`;
+
+export const AlphaPopupSound = styled.p`
+  margin: 0 0 14px;
+  color: #999;
+  font-size: 16px;
+  font-weight: 700;
+`;
+
+export const AlphaPopupDots = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 20px;
+
+  span {
+    width: 7px;
+    height: 7px;
     border-radius: 50%;
-    background: #fff3cc;
-    font-size: 16px;
-  `,
+    background: #d8defe;
+  }
 
-  QuestName: styled.p`
-    margin: 0 0 8px;
-    color: ${BLACK};
-    font-size: 14px;
-    font-weight: 700;
-    line-height: 1;
-  `,
-
-  QuestBar: styled.div`
-    height: 5px;
-    overflow: hidden;
-    border-radius: 999px;
-    background: #f0f0f0;
-
-    span {
-      display: block;
-      height: 100%;
-      border-radius: inherit;
-      background: ${ORANGE};
-    }
-  `,
-
-  QuestCount: styled.span`
-    color: #aaa;
-    font-size: 11px;
-    text-align: right;
-  `,
-
-  RewardIcon: styled.div`
-    width: 28px;
-    height: 28px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 8px;
-    background: #fff5de;
-    font-size: 15px;
-  `,
-
-  ProgressArea: styled.div`
-    width: 1040px;
-    display: grid;
-    grid-template-columns: 180px 1fr 48px 95px;
-    gap: 22px;
-    align-items: center;
-    margin: 72px auto 0;
-  `,
-
-  ProgressTitle: styled.p`
-    margin: 0 0 7px;
-    color: ${BLACK};
-    font-size: 13px;
-    font-weight: 700;
-  `,
-
-  ProgressDesc: styled.p`
-    margin: 0;
-    color: ${GREY};
-    font-size: 12px;
-  `,
-
-  ProgressBar: styled.div`
-    height: 8px;
-    overflow: hidden;
-    border-radius: 999px;
-    background: #e9ecff;
-
-    span {
-      display: block;
-      height: 100%;
-      border-radius: inherit;
-      background: ${PRIMARY};
-    }
-  `,
-
-  Percent: styled.p`
-    margin: 0;
-    color: ${PRIMARY};
-    font-size: 13px;
-    font-weight: 700;
-  `,
-
-  ExpBox: styled.div`
-    width: 95px;
-    height: 58px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    border-radius: 12px;
-    background: #eef1ff;
-
-    span {
-      color: ${GREY};
-      font-size: 11px;
-      margin-bottom: 5px;
-    }
-
-    strong {
-      color: ${PRIMARY};
-      font-size: 22px;
-      font-weight: 700;
-      line-height: 1;
-    }
-  `,
-  WordPanel: styled.section`
-    width: 430px;
-    margin: 24px auto 0;
-    display: grid;
-    gap: 10px;
-  `,
-  WordCard: styled.button`
-    width: 100%;
-    min-height: 64px;
-    padding: 14px 16px;
-    border: 1px solid #e5e7eb;
-    border-radius: 12px;
-    background: #fff;
-    text-align: left;
-    cursor: pointer;
-  `,
-  WordTitle: styled.strong`
-    display: block;
-    color: #222;
-    font-size: 15px;
-    font-weight: 700;
-  `,
-  WordDesc: styled.p`
-    margin: 6px 0 0;
-    color: #777;
-    font-size: 12px;
-    line-height: 1.4;
-  `,
-  VideoPanel: styled.section`
-    width: 430px;
-    margin: 18px auto 0;
-    padding: 16px;
-    border: 1px solid #e5e7eb;
-    border-radius: 12px;
-    background: #fff;
-    box-sizing: border-box;
-  `,
-  VideoTitle: styled.h3`
-    margin: 0 0 6px;
-    color: #222;
-    font-size: 16px;
-    font-weight: 700;
-  `,
-  VideoDesc: styled.p`
-    margin: 0 0 12px;
-    color: #777;
-    font-size: 12px;
-    line-height: 1.4;
-  `,
-  Video: styled.video`
-    width: 100%;
-    border-radius: 10px;
-    background: #111;
-  `,
-  FinishButton: styled.button`
-    width: 430px;
-    height: 44px;
-    margin: 14px auto 0;
-    display: block;
-    border: 0;
-    border-radius: 12px;
+  span:first-child {
     background: #4359fc;
-    color: #fff;
+  }
+`;
+
+export const AlphaHandBox = styled.div`
+  display: grid;
+  place-items: center;
+  width: 284px;
+  height: 148px;
+  margin: 0 auto 16px;
+  border-radius: 10px;
+  background: #eef1ff;
+
+  img {
+    width: 156px;
+    height: 146px;
+    object-fit: contain;
+  }
+`;
+
+export const AlphaPopupCaption = styled.p`
+  margin: 0 0 12px;
+  color: #888;
+  font-size: 15px;
+`;
+
+export const AlphaPopupInfo = styled.div`
+  width: 284px;
+  margin: 0 auto 26px;
+  padding: 13px 14px;
+  border: 1px solid #4359fc;
+  border-radius: 6px;
+  text-align: center;
+
+  p {
+    margin: 0 0 6px;
+    color: #555b68;
     font-size: 14px;
-    font-weight: 700;
+    line-height: 1.4;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+`;
+
+export const AlphaPopupActions = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 284px;
+  margin: 0 auto;
+
+  button {
+    border: 0;
+    background: transparent;
+    color: #1f2430;
+    font-size: 16px;
+    font-weight: 900;
     cursor: pointer;
-  `,
-};
+  }
+`;
 
-const quizColor = {
-  blue: PRIMARY,
-  green: "#58cc02",
-  red: "#f14141",
-  purple: "#ce82ff",
-};
+export const LearnQuizWrap = styled.section`
+  width: 100%;
+  min-height: 100vh;
+  padding: 160px 24px 96px;
+  background: #fff;
+  color: #2c2c2a;
+  font-family: Pretendard, sans-serif;
 
-const optionStyle = {
+  @media (max-width: 768px) {
+    padding: 92px 16px 72px;
+  }
+`;
+
+export const LearnQuizShell = styled.div`
+  width: min(1320px, 100%);
+  margin: 0 auto;
+`;
+
+export const LearnQuizTop = styled.div`
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr) 60px;
+  gap: 24px;
+  align-items: center;
+  width: min(1120px, 100%);
+  margin: 0 auto;
+`;
+
+export const LearnQuizClose = styled.button`
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: #aaa;
+  font-size: 22px;
+  font-weight: 900;
+  cursor: pointer;
+`;
+
+export const LearnQuizProgress = styled.div`
+  overflow: hidden;
+  height: 14px;
+  border-radius: 999px;
+  background: #eeeeee;
+
+  span {
+    display: block;
+    width: ${({ $progress }) => $progress || 0}%;
+    height: 100%;
+    border-radius: inherit;
+    background: ${({ $status }) =>
+      $status === "correct" ? "#58cc02" : $status === "incorrect" ? "#f14141" : $status === "review" ? "#ce82ff" : "#4359fc"};
+    transition: width 0.2s ease, background 0.2s ease;
+  }
+`;
+
+export const LearnQuizCount = styled.strong`
+  color: #4359fc;
+  font-size: 15px;
+  font-weight: 900;
+  text-align: right;
+`;
+
+export const LearnSessionIntro = styled.section`
+  width: min(880px, 100%);
+  margin: 46px auto 0;
+`;
+
+export const SessionStatus = styled.p`
+  margin: 0 0 18px;
+  padding: 13px 16px;
+  border-radius: 8px;
+  background: #f8f9ff;
+  color: #4359fc;
+  font-size: 14px;
+  font-weight: 800;
+`;
+
+export const SessionVideoCard = styled.article`
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  gap: 20px;
+  align-items: center;
+  padding: 18px;
+  border: 1px solid #e1e5ef;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 10px 26px rgba(44, 52, 92, 0.06);
+
+  span {
+    display: block;
+    margin-bottom: 8px;
+    color: #4359fc;
+    font-size: 13px;
+    font-weight: 900;
+  }
+
+  strong {
+    display: block;
+    color: #1f2430;
+    font-size: 20px;
+    font-weight: 900;
+    line-height: 1.35;
+  }
+
+  p {
+    margin: 10px 0 0;
+    color: #777f8e;
+    font-size: 14px;
+    line-height: 1.55;
+  }
+
+  video {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    border-radius: 10px;
+    background: #eef1ff;
+    object-fit: cover;
+  }
+
+  @media (max-width: 760px) {
+    grid-template-columns: 1fr;
+  }
+`;
+
+export const LearnQuizHeader = styled.header`
+  width: min(1120px, 100%);
+  margin: 46px auto 38px;
+  text-align: left;
+`;
+
+export const LearnQuizKicker = styled.p`
+  margin: 0 0 14px;
+  color: #4359fc;
+  font-size: 15px;
+  font-weight: 900;
+`;
+
+export const LearnQuizTitle = styled.h1`
+  margin: 0;
+  color: #3c3c3c;
+  font-size: 30px;
+  font-weight: 900;
+  line-height: 40px;
+`;
+
+export const LearnQuizHint = styled.p`
+  margin: 17px auto 0;
+  color: #777f8e;
+  font-size: 16px;
+  line-height: 1.6;
+`;
+
+export const LearnQuizTarget = styled.div`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 180px;
+  min-height: 54px;
+  margin-top: 28px;
+  padding: 0 34px;
+  border-radius: 999px;
+  background: #eef1ff;
+  color: #4359fc;
+  font-size: 23px;
+  font-weight: 900;
+`;
+
+export const LearnQuizOptionGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 240px);
+  justify-content: space-between;
+  gap: 60px;
+  width: min(880px, 100%);
+  margin: 0 auto 56px;
+
+  @media (max-width: 860px) {
+    grid-template-columns: 1fr;
+  }
+`;
+
+const optionTone = {
   default: {
-    border: "#e1e1e8",
+    border: "#e1e5ef",
     bg: "#fff",
-    imageBg: "#f1f3ff",
-    imageBorder: "#cbd5ff",
-    text: "#3c3c3c",
+    iconBg: "#f1f3ff",
+    text: "#2c2c2a",
+    meta: "#888",
     numberBg: "#f2f2f2",
-    numberText: "#888",
+    number: "#888",
   },
   selected: {
-    border: PRIMARY,
+    border: "#4359fc",
     bg: "#dff5ff",
-    imageBg: "#c8ddff",
-    imageBorder: "#6684ff",
-    text: PRIMARY,
-    numberBg: PRIMARY,
-    numberText: "#fff",
+    iconBg: "#c8ddff",
+    text: "#4359fc",
+    meta: "#5b6cff",
+    numberBg: "#4359fc",
+    number: "#fff",
   },
   correct: {
     border: "#58cc02",
     bg: "#d9ffc6",
-    imageBg: "#b9f47e",
-    imageBorder: "#58cc02",
+    iconBg: "#b9f47e",
     text: "#58cc02",
+    meta: "#58cc02",
     numberBg: "#58cc02",
-    numberText: "#fff",
+    number: "#fff",
   },
   wrong: {
     border: "#f14141",
     bg: "#ffe8e8",
-    imageBg: "#ffc7c7",
-    imageBorder: "#f14141",
+    iconBg: "#ffc7c7",
     text: "#f14141",
+    meta: "#f14141",
     numberBg: "#f14141",
-    numberText: "#fff",
+    number: "#fff",
   },
 };
 
-export const LearnQuizPage = {
-  Page: styled.div`
-    width: 100%;
-    min-height: calc(100vh - 80px);
-    padding: 210px 0 220px;
-    background: #fff;
-    color: #3c3c3c;
-    font-family: Pretendard, sans-serif;
-  `,
+export const LearnQuizOptionIcon = styled.div`
+  display: grid;
+  place-items: center;
+  height: 116px;
+  margin-bottom: 24px;
+  border: 1px dashed #cbd5ff;
+  border-radius: 10px;
+  background: #f1f3ff;
+  font-size: 48px;
+`;
 
-  Shell: styled.div`
-    width: 1320px;
-    margin: 0 auto;
-  `,
+export const LearnQuizOptionText = styled.div`
+  display: grid;
+  gap: 8px;
 
-  Message: styled.p`
-    margin: 0;
-    padding: 120px 0;
-    color: ${GREY};
-    font-size: 18px;
-    text-align: center;
-  `,
+  strong {
+    color: inherit;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1;
+  }
 
-  Top: styled.div`
-    display: grid;
-    grid-template-columns: 40px 1fr;
-    gap: 24px;
-    align-items: center;
-    width: 1120px;
-    margin: 0 auto;
-  `,
+  span {
+    display: none;
+  }
+`;
 
-  CloseButton: styled.button`
-    width: 40px;
-    height: 40px;
-    border: 0;
-    background: transparent;
-    color: #aaa;
-    font-size: 22px;
-    cursor: pointer;
-  `,
+export const LearnQuizOptionNumber = styled.span`
+  position: absolute;
+  right: 12px;
+  bottom: 14px;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 7px;
+  background: #f2f2f2;
+  color: #888;
+  font-size: 13px;
+  font-weight: 900;
+`;
 
-  Progress: styled.div`
-    height: 14px;
-    overflow: hidden;
-    border-radius: 999px;
-    background: #eeeeee;
+export const LearnQuizOption = styled.button`
+  position: relative;
+  width: 240px;
+  height: 210px;
+  overflow: hidden;
+  padding: 20px 24px 22px;
+  border: 2px solid ${({ $state }) => optionTone[$state]?.border};
+  border-radius: 14px;
+  background: ${({ $state }) => optionTone[$state]?.bg};
+  text-align: left;
+  cursor: pointer;
+  box-shadow: none;
+  transition: border-color 0.18s ease, background 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+
+  &:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 22px rgba(67, 89, 252, 0.12);
+  }
+
+  &:disabled {
+    cursor: default;
+  }
+
+  .optionIcon {
+    background: ${({ $state }) => optionTone[$state]?.iconBg};
+  }
+
+  .optionText {
+    strong {
+      color: ${({ $state }) => optionTone[$state]?.text};
+      font-weight: ${({ $state }) => ($state === "default" ? 400 : 900)};
+    }
 
     span {
-      display: block;
-      width: ${({ $value }) => `${$value}%`};
-      height: 100%;
-      border-radius: inherit;
-      background: ${({ $color }) => quizColor[$color] || PRIMARY};
+      color: ${({ $state }) => optionTone[$state]?.meta};
     }
-  `,
+  }
 
-  Divider: styled.div`
-    width: 1320px;
-    height: 1px;
-    margin: 32px auto 0;
-    background: #e6e6e6;
-  `,
+  .optionNumber {
+    background: ${({ $state }) => optionTone[$state]?.numberBg};
+    color: ${({ $state }) => optionTone[$state]?.number};
+  }
+`;
 
-  Question: styled.h1`
-    width: 1120px;
-    margin: 64px auto 38px;
-    color: #3c3c3c;
-    font-size: 30px;
-    font-weight: 700;
-    line-height: 40px;
-    letter-spacing: 0;
-  `,
+export const LearnQuizBottom = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: min(1320px, 100%);
+  margin: 0 auto;
+  padding: 34px 120px 0;
+  border-top: 1px solid #e6e6e6;
+`;
 
-  OptionGrid: styled.div`
-    width: 880px;
-    display: grid;
-    grid-template-columns: repeat(3, 240px);
-    justify-content: space-between;
-    gap: 60px;
-    margin: 0 auto 56px;
-  `,
+export const LearnQuizSkip = styled.button`
+  border: 0;
+  background: transparent;
+  color: #c0c0c0;
+  font-size: 16px;
+  font-weight: 900;
+  cursor: pointer;
+`;
 
-  OptionButton: styled.button`
-    position: relative;
-    width: 240px;
-    height: 210px;
-    overflow: hidden;
-    padding: 20px 24px 22px;
-    border: 2px solid ${({ $status }) => optionStyle[$status]?.border};
-    border-radius: 14px;
-    background: ${({ $status }) => optionStyle[$status]?.bg};
-    cursor: pointer;
-    text-align: left;
-    box-sizing: border-box;
-  `,
+export const LearnQuizCheck = styled.button`
+  min-width: auto;
+  height: auto;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: #4359fc;
+  font-size: 16px;
+  font-weight: 900;
+  cursor: pointer;
 
-  OptionImage: styled.div`
-    width: 184px;
-    height: 116px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 24px;
-    border: 1px dashed ${({ $status }) => optionStyle[$status]?.imageBorder};
-    border-radius: 8px;
-    background: ${({ $status }) => optionStyle[$status]?.imageBg};
-    font-size: 48px;
-  `,
-
-  OptionText: styled.p`
-    margin: 0;
-    color: ${({ $status }) => optionStyle[$status]?.text};
-    font-size: 16px;
-    font-weight: ${({ $status }) => ($status === "default" ? 400 : 700)};
-    line-height: 1;
-  `,
-
-  OptionNumber: styled.span`
-    position: absolute;
-    right: 12px;
-    bottom: 14px;
-    width: 24px;
-    height: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 7px;
-    background: ${({ $status }) => optionStyle[$status]?.numberBg};
-    color: ${({ $status }) => optionStyle[$status]?.numberText};
-    font-size: 13px;
-    font-weight: 700;
-  `,
-
-  Bottom: styled.div`
-    width: 1120px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 34px auto 0;
-  `,
-
-  SkipButton: styled.button`
-    border: 0;
+  &:disabled {
     background: transparent;
-    color: #c0c0c0;
-    font-size: 16px;
-    font-weight: 700;
-    cursor: pointer;
-  `,
+    color: #aaa;
+    cursor: default;
+  }
+`;
 
-  CheckButton: styled.button`
-    border: 0;
-    background: transparent;
-    color: ${PRIMARY};
-    font-size: 16px;
-    font-weight: 700;
-    cursor: pointer;
+export const LearnQuizFeedback = styled.div`
+  display: grid;
+  grid-template-columns: 44px 1fr 180px;
+  gap: 20px;
+  align-items: center;
+  width: min(1320px, 100%);
+  min-height: 160px;
+  margin: 72px auto 0;
+  padding: 34px 56px;
+  border-radius: 0;
+  background: ${({ $status }) => ($status === "correct" ? "#d9ffc6" : "#ffe8e8")};
 
-    &:disabled {
-      color: #c0c0c0;
-      cursor: default;
-    }
-  `,
+  @media (max-width: 760px) {
+    grid-template-columns: 1fr;
+  }
+`;
 
-  Feedback: styled.div`
-    width: 1320px;
-    min-height: 160px;
-    display: grid;
-    grid-template-columns: 44px 1fr 180px;
-    gap: 20px;
-    align-items: center;
-    margin: 72px auto 0;
-    padding: 34px 56px;
-    background: ${({ $status }) => ($status === "correct" ? "#d9ffc6" : "#ffe8e8")};
-    box-sizing: border-box;
-  `,
+export const LearnQuizFeedbackIcon = styled.div`
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  background: transparent;
+  color: #1a1a1a;
+  font-size: 28px;
+  font-weight: 900;
+`;
 
-  FeedbackIcon: styled.div`
-    font-size: 28px;
-  `,
-
-  FeedbackTitle: styled.h2`
-    margin: 0 0 14px;
+export const LearnQuizFeedbackText = styled.div`
+  strong {
+    display: block;
+    margin-bottom: 14px;
     color: ${({ $status }) => ($status === "correct" ? "#58cc02" : "#f14141")};
     font-size: 22px;
-    font-weight: 700;
-  `,
+    font-weight: 900;
+  }
 
-  FeedbackDesc: styled.p`
+  p {
     margin: 0 0 14px;
-    color: ${({ $status }) => ($status === "correct" ? "#3c8800" : "#f25050")};
+    color: #555b68;
     font-size: 15px;
-    font-weight: ${({ $status }) => ($status === "correct" ? 400 : 600)};
-  `,
+    line-height: 1.55;
+  }
 
-  FeedbackReward: styled.p`
-    margin: 0;
-    color: #1a1a1a;
+  span {
+    color: #1f2430;
     font-size: 13px;
-    font-weight: 700;
-  `,
+    font-weight: 900;
+  }
+`;
 
-  FeedbackButton: styled.button`
+export const LearnQuizFeedbackActions = styled.div`
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+
+  button {
     width: ${({ $status }) => ($status === "correct" ? "120px" : "170px")};
     height: 58px;
-    justify-self: end;
     border: 0;
     border-radius: ${({ $status }) => ($status === "correct" ? "0" : "12px")};
     background: ${({ $status }) => ($status === "correct" ? "transparent" : "#f14141")};
     color: ${({ $status }) => ($status === "correct" ? "#1a1a1a" : "#fff")};
     font-size: 16px;
-    font-weight: 700;
+    font-weight: 900;
     cursor: pointer;
-  `,
+  }
 
-  ReviewIntro: styled.div`
-    width: 1120px;
-    margin: 34px auto 28px;
-  `,
-
-  ReviewLabel: styled.p`
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin: 0 0 10px;
-    color: #ce82ff;
-    font-size: 15px;
-    font-weight: 700;
-
-    span {
-      width: 30px;
-      height: 30px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 50%;
-      background: #ce82ff;
-      font-size: 15px;
-    }
-  `,
-
-  ReviewTitle: styled.h1`
-    margin: 0 0 14px;
-    color: #3c3c3c;
-    font-size: 30px;
-    font-weight: 700;
-  `,
-
-  ReviewDesc: styled.p`
-    margin: 0;
-    color: #888;
-    font-size: 16px;
-  `,
-
-  ReviewCard: styled.div`
-    position: relative;
-    width: 800px;
-    min-height: 430px;
-    display: grid;
-    grid-template-columns: 430px 1fr;
-    gap: 46px;
-    margin: 0 auto 24px;
-    padding: 26px 40px 76px;
-    border: 1px solid #d8d8d8;
-    border-radius: 18px;
+  .review {
     background: #fff;
-    box-sizing: border-box;
-  `,
+    color: #4359fc;
+  }
+`;
 
-  ReviewMedia: styled.div`
-    height: 300px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px dashed #aebdff;
-    border-radius: 12px;
-    background: #eef1ff;
-    color: #aaa;
-    font-size: 13px;
-  `,
+export const LearnReviewCard = styled.article`
+  width: min(1320px, 100%);
+  margin: 0 auto;
+  padding-top: 20px;
+`;
 
-  ReviewInfo: styled.div`
-    padding-top: 22px;
-  `,
+export const LearnReviewLabel = styled.p`
+  margin: 0 0 12px;
+  color: #ce82ff;
+  font-size: 15px;
+  font-weight: 900;
+`;
 
-  ReviewSmallTitle: styled.p`
-    margin: 0 0 10px;
+export const LearnReviewIntro = styled.header`
+  width: min(900px, 100%);
+  margin: 44px auto 22px;
+  text-align: left;
+`;
+
+export const LearnReviewTitle = styled.h1`
+  margin: 0 0 14px;
+  color: #3c3c3c;
+  font-size: 30px;
+  font-weight: 900;
+  line-height: 1.35;
+`;
+
+export const LearnReviewDesc = styled.p`
+  margin: 0;
+  color: #888;
+  font-size: 16px;
+  line-height: 1.55;
+`;
+
+export const LearnReviewContent = styled.section`
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(320px, 430px) minmax(220px, 1fr);
+  gap: 46px;
+  width: min(800px, 100%);
+  min-height: 430px;
+  margin: 0 auto 24px;
+  padding: 26px 40px 76px;
+  border: 1px solid #d8d8d8;
+  border-radius: 18px;
+  background: #fff;
+
+  @media (max-width: 760px) {
+    grid-template-columns: 1fr;
+  }
+`;
+
+export const LearnReviewMedia = styled.div`
+  display: grid;
+  place-items: center;
+  height: 300px;
+  border: 1px dashed #aebdff;
+  border-radius: 12px;
+  background: #eef1ff;
+  color: #aaa;
+  font-size: 13px;
+`;
+
+export const LearnReviewInfo = styled.div`
+  padding-top: 22px;
+  white-space: pre-line;
+
+  span {
+    display: block;
+    margin-bottom: 10px;
     color: #888;
     font-size: 14px;
-  `,
+    line-height: 1;
+  }
 
-  ReviewWord: styled.h2`
-    margin: 0 0 34px;
-    color: ${PRIMARY};
-    font-size: 36px;
-    font-weight: 700;
-  `,
-
-  ReviewLine: styled.div`
-    width: 1px;
-    height: 28px;
-    margin: -18px 0 18px;
-    background: #d9d9d9;
-  `,
-
-  ReviewText: styled.p`
-    margin: 0 0 9px;
+  p {
+    margin: 0 0 20px;
     color: #3c3c3c;
     font-size: 14px;
-  `,
+    line-height: 1.45;
+  }
+`;
 
-  ReviewControls: styled.div`
-    position: absolute;
-    left: 40px;
-    bottom: 32px;
-    display: flex;
-    gap: 12px;
-  `,
+export const LearnReviewWord = styled.h2`
+  margin: 0 0 34px;
+  color: #4359fc;
+  font-size: 36px;
+  font-weight: 900;
+`;
 
-  PlayButton: styled.button`
-    width: 130px;
-    height: 34px;
-    border: 0;
-    border-radius: 999px;
-    background: ${PRIMARY};
-    color: #fff;
-    font-size: 13px;
-    font-weight: 700;
-    cursor: pointer;
-  `,
+export const LearnReviewControls = styled.div`
+  position: absolute;
+  left: 40px;
+  bottom: 32px;
+  display: flex;
+  gap: 12px;
 
-  ControlButton: styled.button`
-    width: 130px;
+  button {
+    min-width: 130px;
     height: 34px;
     border: 1px solid #c9d1ff;
     border-radius: 999px;
     background: #f6f8ff;
-    color: ${PRIMARY};
+    color: #4359fc;
     font-size: 12px;
-    font-weight: 700;
-    cursor: pointer;
-  `,
-
-  SkipOutlineButton: styled.button`
-    width: 220px;
-    height: 56px;
-    border: 1px solid #d8d8d8;
-    border-radius: 12px;
-    background: #fff;
-    color: #aaa;
-    font-size: 16px;
-    font-weight: 700;
-    cursor: pointer;
-  `,
-
-  RememberButton: styled.button`
-    width: 220px;
-    height: 56px;
-    border: 0;
-    border-radius: 12px;
-    background: ${PRIMARY};
-    color: #fff;
-    font-size: 16px;
-    font-weight: 700;
-    cursor: pointer;
-  `,
-};
-
-export const LearnAlphabetPage = {
-  Page: styled.div`
-    width: 100%;
-    min-height: calc(100vh - 80px);
-    padding: 140px 0 220px;
-    background: #fff;
-    color: #1a1a1a;
-    font-family: Pretendard, sans-serif;
-  `,
-
-  Layout: styled.div`
-    width: 1320px;
-    min-height: 1760px;
-    display: grid;
-    grid-template-columns: 180px 680px 310px;
-    gap: 60px;
-    margin: 0 auto;
-  `,
-
-  SideMenu: styled.aside`
-    padding-top: 72px;
-    border-right: 1px solid #e6e6e6;
-  `,
-
-  SideButton: styled.button`
-    width: 135px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    margin-bottom: 13px;
-    padding: 0 18px;
-    border: 0;
-    border-radius: 8px;
-    background: ${({ $active }) => ($active ? "#eef1ff" : "transparent")};
-    color: ${({ $active }) => ($active ? PRIMARY : "#777")};
-    font-size: 15px;
-    font-weight: ${({ $active }) => ($active ? 700 : 400)};
+    font-weight: 900;
     cursor: pointer;
 
-    span {
-      width: 18px;
-      font-size: 13px;
-      text-align: center;
-    }
-  `,
-
-  Main: styled.main`
-    padding-top: 46px;
-    border-right: 1px solid #e6e6e6;
-    text-align: center;
-  `,
-
-  Title: styled.h1`
-    margin: 0 0 12px;
-    color: #1a1a1a;
-    font-size: 28px;
-    font-weight: 700;
-    letter-spacing: -0.56px;
-  `,
-
-  Desc: styled.p`
-    margin: 0 0 20px;
-    color: #888;
-    font-size: 15px;
-  `,
-
-  StartButton: styled.button`
-    width: 410px;
-    height: 42px;
-    margin-bottom: 42px;
-    border: 0;
-    border-radius: 8px;
-    background: ${PRIMARY};
-    color: #fff;
-    font-size: 15px;
-    font-weight: 700;
-    cursor: pointer;
-  `,
-
-  Section: styled.section`
-    margin-bottom: 42px;
-  `,
-
-  SectionTitle: styled.h2`
-    margin: 0 0 20px;
-    color: #1a1a1a;
-    font-size: 20px;
-    font-weight: 700;
-  `,
-
-  LetterGrid: styled.div`
-    width: 360px;
-    display: grid;
-    grid-template-columns: repeat(4, 72px);
-    gap: 12px 18px;
-    justify-content: center;
-    margin: 0 auto;
-  `,
-
-  LetterCard: styled.button`
-    width: 72px;
-    height: 72px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 9px;
-    border: 1px solid #dedede;
-    border-radius: 8px;
-    background: #fff;
-    cursor: pointer;
-
-    strong {
-      color: #1a1a1a;
-      font-size: 30px;
-      font-weight: 700;
-      line-height: 1;
-    }
-
-    span {
-      width: 34px;
-      height: 2px;
-      border-radius: 999px;
-      background: #d9d9d9;
-    }
-  `,
-
-  QuestPanel: styled.aside`
-    width: 300px;
-    height: fit-content;
-    margin-top: 70px;
-    padding: 20px 18px;
-    border: 1px solid #dedede;
-    border-radius: 12px;
-    background: #fff;
-    box-sizing: border-box;
-  `,
-
-  QuestHead: styled.div`
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 18px;
-
-    strong {
-      color: #2c2c2a;
-      font-size: 16px;
-      font-weight: 700;
-    }
-  `,
-
-  QuestItem: styled.div`
-    display: grid;
-    grid-template-columns: 34px 1fr 42px 28px;
-    gap: 10px;
-    align-items: center;
-    min-height: 58px;
-    border-top: 1px solid #f0f0f0;
-
-    &:first-of-type {
-      border-top: 0;
-    }
-  `,
-
-  QuestIcon: styled.div`
-    width: 34px;
-    height: 34px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    background: #fff3cc;
-    font-size: 16px;
-  `,
-
-  QuestName: styled.p`
-    margin: 0 0 7px;
-    color: #2c2c2a;
-    font-size: 14px;
-    font-weight: 700;
-    text-align: left;
-  `,
-
-  QuestBar: styled.div`
-    height: 5px;
-    overflow: hidden;
-    border-radius: 999px;
-    background: #f0f0f0;
-
-    span {
-      display: block;
-      height: 100%;
-      background: ${ORANGE};
-    }
-  `,
-
-  QuestCount: styled.span`
-    color: #999;
-    font-size: 11px;
-    text-align: right;
-  `,
-
-  QuestReward: styled.div`
-    width: 28px;
-    height: 28px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 8px;
-    background: #fff5de;
-    font-size: 15px;
-  `,
-
-  PopupDim: styled.div`
-    position: fixed;
-    inset: 0;
-    z-index: 20;
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-    padding-top: 220px;
-    background: rgba(37, 38, 61, 0.56);
-  `,
-
-  PopupCard: styled.div`
-    position: relative;
-    width: 248px;
-    min-height: 405px;
-    padding: 28px 20px 22px;
-    border-radius: 16px;
-    background: #fff;
-    text-align: center;
-    box-sizing: border-box;
-  `,
-
-  PopupClose: styled.button`
-    position: absolute;
-    top: 14px;
-    right: 14px;
-    border: 0;
-    background: transparent;
-    color: #ccc;
-    font-size: 20px;
-    cursor: pointer;
-  `,
-
-  PopupLetter: styled.div`
-    color: ${PRIMARY};
-    font-size: 72px;
-    font-weight: 700;
-    line-height: 1;
-  `,
-
-  PopupName: styled.h2`
-    margin: 8px 0 6px;
-    color: #1a1a1a;
-    font-size: 16px;
-    font-weight: 700;
-  `,
-
-  PopupSound: styled.p`
-    margin: 0 0 12px;
-    color: #999;
-    font-size: 13px;
-  `,
-
-  PopupDots: styled.div`
-    display: flex;
-    justify-content: center;
-    gap: 5px;
-    margin-bottom: 16px;
-
-    span {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: ${PRIMARY};
-    }
-
-    span:not(:first-child) {
-      background: #d8defe;
-    }
-  `,
-
-  HandBox: styled.div`
-    width: 204px;
-    height: 104px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 14px;
-    border-radius: 8px;
-    background: #eef1ff;
-
-    img {
-      max-width: 115px;
-      max-height: 108px;
-      object-fit: contain;
-    }
-  `,
-
-  PopupCaption: styled.p`
-    margin: 0 0 8px;
-    color: #888;
-    font-size: 13px;
-  `,
-
-  PopupInfo: styled.div`
-    width: 204px;
-    margin: 0 auto 22px;
-    padding: 8px 10px;
-    border: 1px solid ${PRIMARY};
-    border-radius: 4px;
-    box-sizing: border-box;
-
-    p {
-      margin: 0 0 4px;
-      color: #555;
-      font-size: 12px;
-      line-height: 1.35;
-
-      &:last-child {
-        margin-bottom: 0;
-      }
-    }
-  `,
-
-  PopupActions: styled.div`
-    display: flex;
-    justify-content: space-between;
-
-    button {
+    &:first-child {
       border: 0;
-      background: transparent;
-      color: #1a1a1a;
-      font-size: 14px;
-      font-weight: 700;
-      cursor: pointer;
+      background: #4359fc;
+      color: #fff;
+      font-size: 13px;
     }
-  `,
-};
+  }
+`;
+
+export const LearnReviewButton = styled.button`
+  width: 220px;
+  height: 56px;
+  border: 0;
+  border-radius: 12px;
+  background: #4359fc;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 900;
+  cursor: pointer;
+`;
+
+export const LearnReviewActions = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: min(1320px, 100%);
+  margin: 0 auto;
+  padding-top: 24px;
+  border-top: 1px solid #e6e6e6;
+`;
+
+export const LearnReviewSkip = styled.button`
+  width: 220px;
+  height: 56px;
+  border: 1px solid #d8d8d8;
+  border-radius: 12px;
+  background: #fff;
+  color: #aaa;
+  font-size: 16px;
+  font-weight: 900;
+  cursor: pointer;
+`;

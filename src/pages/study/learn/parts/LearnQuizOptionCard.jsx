@@ -1,23 +1,19 @@
-import React from "react";
-import { LearnQuizPage as S } from "../style";
+// 학습퀴즈보기카드: 선택지 하나의 선택/정답/오답 상태
+import * as S from "../style";
 
-const getOptionStatus = ({ status, selected, correct }) => {
-  if (status === "solving") return selected ? "selected" : "default";
-  if (correct) return "correct";
-  if (selected) return "wrong";
-  return "default";
-};
+const LearnQuizOptionCard = ({ option, index, selected, revealed, correct, onClick }) => {
 
-const LearnQuizOptionCard = ({ answer, index, selected, correct, status, onClick }) => {
-  const optionStatus = getOptionStatus({ status, selected, correct });
-  const showNumber = status !== "solving";
+  const state = revealed && correct ? "correct" : revealed && selected && !correct ? "wrong" : selected ? "selected" : "default";
 
   return (
-    <S.OptionButton type="button" $status={optionStatus} onClick={onClick}>
-      <S.OptionImage $status={optionStatus}>{answer.emoji}</S.OptionImage>
-      <S.OptionText $status={optionStatus}>{answer.example}</S.OptionText>
-      {showNumber && <S.OptionNumber $status={optionStatus}>{index + 1}</S.OptionNumber>}
-    </S.OptionButton>
+    <S.LearnQuizOption type="button" $state={state} aria-pressed={selected} onClick={onClick} disabled={revealed}>
+      <S.LearnQuizOptionIcon className="optionIcon">{option.icon}</S.LearnQuizOptionIcon>
+      <S.LearnQuizOptionText className="optionText">
+        <strong>{option.label}</strong>
+        <span>{option.desc}</span>
+      </S.LearnQuizOptionText>
+      <S.LearnQuizOptionNumber className="optionNumber">{index + 1}</S.LearnQuizOptionNumber>
+    </S.LearnQuizOption>
   );
 };
 

@@ -1,489 +1,661 @@
+// 검색스타일: 수어 검색 화면의 검색창, 필터, 목록, 상세 카드 스타일을 담당합니다.
 import styled from "styled-components";
-import { Link } from "react-router-dom";
 
-const PRIMARY = "#4359fc";
-const BLACK = "#1a1a1a";
-const TEXT_GREY = "#666";
-const LIGHT_GREY = "#f7f7fb";
-const LINE = "#d9d9d9";
+export const SearchWrap = styled.section`
+  width: 100%;
+  min-height: 100vh;
+  padding: 118px 24px 96px;
+  background: #f8f9ff;
+  color: #222;
+  font-family: Pretendard, sans-serif;
 
-export const SearchPage = {
-  Wrapper: styled.div`
+  @media (max-width: 768px) {
+    padding: 96px 16px 64px;
+  }
+`;
+
+export const SearchHero = styled.div`
+  width: min(880px, 100%);
+  margin: 0 auto;
+  text-align: center;
+`;
+
+export const Kicker = styled.p`
+  margin: 0 0 12px;
+  color: #4d5cff;
+  font-size: 15px;
+  font-weight: 800;
+`;
+
+export const Title = styled.h1`
+  margin: 0;
+  font-size: 34px;
+  font-weight: 900;
+  line-height: 1.32;
+
+  @media (max-width: 768px) {
+    font-size: 28px;
+  }
+`;
+
+export const Desc = styled.p`
+  width: min(560px, 100%);
+  margin: 16px auto 0;
+  color: #6e7280;
+  font-size: 16px;
+  line-height: 1.65;
+`;
+
+export const SearchForm = styled.form`
+  display: grid;
+  grid-template-columns: 1fr 112px;
+  gap: 10px;
+  width: min(760px, 100%);
+  margin: 32px auto 0;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+`;
+
+export const SearchInput = styled.input`
+  height: 58px;
+  padding: 0 20px;
+  border: 1px solid #dde1ef;
+  border-radius: 8px;
+  background: #fff;
+  color: #222;
+  font-size: 16px;
+  outline: none;
+
+  &:focus {
+    border-color: #4d5cff;
+    box-shadow: 0 0 0 4px rgba(77, 92, 255, 0.12);
+  }
+
+  &::placeholder {
+    color: #a3a7b3;
+  }
+`;
+
+export const SearchButton = styled.button`
+  height: 58px;
+  border: 0;
+  border-radius: 8px;
+  background: #4d5cff;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 800;
+  cursor: pointer;
+
+  &:hover {
+    background: #3545f5;
+  }
+
+  @media (max-width: 768px) {
     width: 100%;
-    min-height: calc(100vh - 80px);
-    background: #fff;
-    color: ${BLACK};
-    font-family: Pretendard, sans-serif;
-  `,
+  }
+`;
 
-  SearchSection: styled.section`
-    width: 1200px;
-    margin: 0 auto;
-    padding: 312px 0 190px;
-  `,
+export const CategoryList = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  width: min(920px, 100%);
+  margin: 26px auto 0;
+`;
 
-  CardSection: styled.section`
-    width: 1200px;
-    margin: 0 auto;
-    padding: 312px 0 190px;
-  `,
+export const CategoryButton = styled.button`
+  min-height: 42px;
+  padding: 0 18px;
+  border: 1px solid ${({ $active }) => ($active ? "#4d5cff" : "#dde1ef")};
+  border-radius: 999px;
+  background: ${({ $active }) => ($active ? "#4d5cff" : "#fff")};
+  color: ${({ $active }) => ($active ? "#fff" : "#5d6270")};
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
 
-  SearchForm: styled.form`
-    width: 680px;
-    height: 43px;
-    display: flex;
-    align-items: center;
-    margin: 0 auto 13px;
-    padding: 0 7px 0 23px;
-    border: 1px solid ${LINE};
-    border-radius: 10px;
-    background: #fff;
-    box-sizing: border-box;
-  `,
+  &:hover {
+    border-color: #4d5cff;
+    color: ${({ $active }) => ($active ? "#fff" : "#4d5cff")};
+  }
+`;
 
-  SearchInput: styled.input`
-    flex: 1;
-    min-width: 0;
-    border: 0;
-    outline: 0;
-    background: transparent;
-    color: ${BLACK};
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 1;
-    letter-spacing: -0.32px;
-  `,
+export const SearchContent = styled.div`
+  width: min(1120px, 100%);
+  margin: 42px auto 0;
+`;
 
-  SearchButton: styled.button`
-    width: 50px;
-    height: 30px;
-    border: 0;
-    border-radius: 8px;
-    background: ${PRIMARY};
-    color: #fff;
-    font-size: 14px;
-    font-weight: 700;
-    letter-spacing: -0.28px;
-    cursor: pointer;
-  `,
+export const ContentHead = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
 
-  ResultCount: styled.p`
-    width: 680px;
-    margin: 0 auto;
-    color: #999;
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 22px;
-    letter-spacing: -0.28px;
+  @media (max-width: 768px) {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+`;
 
-    strong {
-      color: ${PRIMARY};
-      font-weight: 700;
-    }
-  `,
+export const ContentTitle = styled.h2`
+  margin: 0;
+  font-size: 22px;
+  font-weight: 900;
+`;
 
-  StatusText: styled.p`
-    width: 920px;
-    margin: 24px auto 0;
-    color: ${TEXT_GREY};
-    font-size: 14px;
-    text-align: center;
-  `,
+export const ResultCount = styled.span`
+  color: #4d5cff;
+  font-size: 15px;
+  font-weight: 900;
+`;
 
-  ResultList: styled.div`
-    width: 1200px;
-    display: grid;
-    gap: 16px;
-    margin-top: 180px;
-  `,
+export const SearchNotice = styled.p`
+  margin: 0 0 16px;
+  padding: 12px 16px;
+  border: 1px solid #dfe3ff;
+  border-radius: 8px;
+  background: #f1f3ff;
+  color: #4d5cff;
+  font-size: 14px;
+  font-weight: 800;
+`;
 
-  ResultItem: styled.article`
-    position: relative;
-    height: ${({ $featured }) => ($featured ? "146px" : "90px")};
-    display: grid;
-    grid-template-columns: ${({ $featured }) => ($featured ? "120px 1fr 240px" : "80px 1fr 240px")};
-    gap: ${({ $featured }) => ($featured ? "32px" : "24px")};
-    align-items: center;
-    padding: ${({ $featured }) => ($featured ? "21px 32px" : "14px 24px")};
-    border: 1px solid ${LINE};
-    border-left: ${({ $featured }) => ($featured ? `5px solid ${PRIMARY}` : `5px solid #bdbdbd`)};
-    border-radius: 0 12px 12px 0;
-    background: #fff;
-    box-sizing: border-box;
-  `,
+export const ResultList = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
 
-  ImageSlot: styled.div`
-    width: ${({ $featured }) => ($featured ? "100px" : "64px")};
-    height: ${({ $featured }) => ($featured ? "100px" : "64px")};
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: ${({ $featured }) => ($featured ? "10px" : "8px")};
-    background: ${({ $featured }) => ($featured ? "#eef1ff" : LIGHT_GREY)};
-    color: #aaa;
-    font-size: 10px;
-    text-align: center;
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+`;
 
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: inherit;
-    }
-  `,
+export const ResultItemButton = styled.button`
+  position: relative;
+  display: grid;
+  grid-template-columns: 118px 1fr;
+  gap: 18px;
+  width: 100%;
+  min-height: 154px;
+  padding: 18px 18px 44px;
+  border: 1px solid #e5e8f2;
+  border-radius: 14px;
+  background: #fff;
+  text-align: left;
+  cursor: pointer;
+  box-shadow: 0 14px 34px rgba(41, 48, 88, 0.05);
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
 
-  ResultText: styled.div`
-    min-width: 0;
-  `,
+  &:hover {
+    border-color: #4d5cff;
+    box-shadow: 0 16px 34px rgba(77, 92, 255, 0.12);
+    transform: translateY(-4px);
+  }
 
-  ResultTitle: styled.h2`
-    margin: 0 0 ${({ $featured }) => ($featured ? "14px" : "6px")};
-    color: ${BLACK};
-    font-size: ${({ $featured }) => ($featured ? "20px" : "16px")};
-    font-weight: 700;
-    line-height: ${({ $featured }) => ($featured ? "1" : "24px")};
-    letter-spacing: ${({ $featured }) => ($featured ? "-0.4px" : "-0.32px")};
-  `,
+  &:focus-visible {
+    outline: 3px solid rgba(77, 92, 255, 0.24);
+    outline-offset: 4px;
+  }
 
-  ResultDesc: styled.p`
-    max-width: ${({ $featured }) => ($featured ? "520px" : "420px")};
-    margin: 0;
-    color: ${TEXT_GREY};
-    font-size: 12px;
-    font-weight: 400;
-    line-height: 20px;
-    letter-spacing: -0.24px;
-  `,
-
-  ResultActions: styled.div`
-    display: grid;
-    justify-items: end;
+  @media (max-width: 768px) {
+    grid-template-columns: 76px 1fr;
     gap: 14px;
+    min-height: 112px;
+    padding: 14px;
+  }
+`;
 
-    button,
-    a {
-      border: 0;
-      background: transparent;
-      color: ${PRIMARY};
-      font-size: 12px;
-      font-weight: 400;
-      line-height: 20px;
-      letter-spacing: -0.24px;
-      text-decoration: none;
-      cursor: pointer;
-    }
+export const ResultThumbWrap = styled.div`
+  width: 118px;
+  height: 118px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #eef1ff;
+  color: #a3a7b3;
+  font-size: 11px;
+  text-align: center;
 
-    .cardButton {
-      color: ${TEXT_GREY};
-    }
+  @media (max-width: 768px) {
+    width: 76px;
+    height: 76px;
+  }
+`;
 
-    a {
-      justify-self: end;
-    }
-  `,
+export const ResultThumb = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+`;
 
-  CardArea: styled.div`
-    position: relative;
-    display: grid;
-    grid-template-columns: 440px 680px;
-    gap: 46px;
-    align-items: start;
-    margin: 170px auto 0;
-  `,
+export const ResultText = styled.div`
+  min-width: 0;
+  align-self: start;
+`;
 
-  CardPager: styled.div`
-    position: absolute;
-    top: -44px;
-    right: 46px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+export const ResultCategory = styled.span`
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 0 10px;
+  border-radius: 999px;
+  background: #eef1ff;
+  color: #4d5cff;
+  font-size: 12px;
+  font-weight: 900;
+`;
 
-    span {
-      margin-right: 8px;
-      color: ${TEXT_GREY};
-      font-size: 14px;
-      font-weight: 700;
-      letter-spacing: -0.28px;
-    }
+export const ResultWord = styled.strong`
+  display: block;
+  margin-top: 10px;
+  color: #222;
+  font-size: 21px;
+  font-weight: 900;
+  line-height: 1.3;
+`;
 
-    button {
-      width: 30px;
-      height: 26px;
-      border: 0;
-      border-radius: 7px;
-      background: ${({ disabled }) => (disabled ? "#ededf2" : PRIMARY)};
-      color: ${({ disabled }) => (disabled ? TEXT_GREY : "#fff")};
-      font-size: 18px;
-      line-height: 1;
-      cursor: ${({ disabled }) => (disabled ? "default" : "pointer")};
-    }
-  `,
+export const ResultDesc = styled.p`
+  margin: 8px 0 0;
+  color: #707684;
+  font-size: 14px;
+  line-height: 1.55;
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+`;
 
-  CardVisual: styled.div`
-    position: relative;
-    width: 440px;
-    height: 611px;
-    overflow: hidden;
-    border-radius: 0 0 20px 20px;
-    background: #ffe417;
-    box-shadow: 0 16px 30px rgba(0, 0, 0, 0.08);
+export const ResultActionText = styled.span`
+  position: absolute;
+  right: 18px;
+  bottom: 16px;
+  color: #4d5cff;
+  font-size: 13px;
+  font-weight: 900;
+`;
+
+export const DetailCard = styled.article`
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+`;
+
+export const DetailHeader = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 14px;
+
+  @media (max-width: 768px) {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+`;
+
+export const BackButton = styled.button`
+  height: 40px;
+  padding: 0 16px;
+  border: 1px solid #dde1ef;
+  border-radius: 8px;
+  background: #fff;
+  color: #424756;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+
+  &:hover {
+    border-color: #4d5cff;
+    color: #4d5cff;
+  }
+`;
+
+export const DetailPager = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+`;
+
+export const PagerButton = styled.button`
+  height: 36px;
+  padding: 0 14px;
+  border: 1px solid #dde1ef;
+  border-radius: 8px;
+  background: #fff;
+  color: #424756;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+
+  &:disabled {
+    color: #b9bdc8;
+    cursor: not-allowed;
+  }
+
+  &:not(:disabled):hover {
+    border-color: #4d5cff;
+    color: #4d5cff;
+  }
+`;
+
+export const PagerCount = styled.span`
+  color: #7a7f8e;
+  font-size: 13px;
+  font-weight: 800;
+`;
+
+export const DetailBody = styled.div`
+  display: grid;
+  grid-template-columns: minmax(420px, 560px) minmax(460px, 1fr);
+  gap: 40px;
+  align-items: center;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+`;
+
+export const DetailMediaWrap = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  min-height: 520px;
+  padding: 0;
+  border: 1px solid #e5e8f2;
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 18px 42px rgba(41, 48, 88, 0.08);
+
+  @media (max-width: 768px) {
     min-height: 320px;
-    overflow: hidden;
+    padding: 20px;
+  }
+`;
 
-    &::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      border: 2px dashed #ff4b4b;
-      border-bottom: 0;
-      border-radius: 0;
-      pointer-events: none;
-    }
+export const DetailImage = styled.img`
+  width: 100%;
+  height: 100%;
+  min-height: 520px;
+  border-radius: 18px;
+  object-fit: cover;
+  background: #f7f8ff;
+`;
 
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
+export const DetailVideo = styled.video`
+  width: 100%;
+  height: 100%;
+  min-height: 520px;
+  border-radius: 18px;
+  background: #f7f8ff;
+  object-fit: contain;
+`;
 
-    video,
-    img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        border-radius: inherit;
-    }
-  `,
+export const MediaPlaceholder = styled.div`
+  width: 100%;
+  min-height: 520px;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 8px;
+  border-radius: 18px;
+  background: #f7f8ff;
+  color: rgba(255, 255, 255, 0.82);
+  text-align: center;
+  font-size: 14px;
 
-  CardNumber: styled.span`
-    position: absolute;
-    top: -9px;
-    left: -12px;
-    z-index: 1;
-    width: 32px;
-    height: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    background: #ff4b4b;
-    color: #fff;
-    font-size: 14px;
-    font-weight: 700;
-  `,
+  span {
+    font-size: 18px;
+  }
 
-  EmptyVisual: styled.div`
+  p {
+    width: 170px;
+    margin: 0;
+    line-height: 1.5;
+  }
+`;
+
+export const DetailInfo = styled.div`
+  min-width: 0;
+  padding: 22px;
+  border: 1px solid #d7dae8;
+  border-radius: 18px;
+  background: #fff;
+`;
+
+export const DetailTitle = styled.h2`
+  display: inline;
+  margin: 0;
+  color: #4359fc;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 24px;
+
+  @media (max-width: 768px) {
+    font-size: 16px;
+  }
+`;
+
+export const DetailMeaning = styled.p`
+  display: inline;
+  margin: 0;
+  color: #666;
+  font-size: 14px;
+  font-weight: 400;
+`;
+
+export const DetailDesc = styled.p`
+  margin: 8px 0 18px;
+  padding: 16px 18px;
+  border-radius: 8px;
+  background: #f7f8ff;
+  color: #666;
+  font-size: 12px;
+  line-height: 20px;
+`;
+
+export const ExampleBox = styled.div`
+  display: grid;
+  grid-template-columns: 58px 1fr auto;
+  align-items: center;
+  gap: 14px;
+  margin: 8px 0 18px;
+  padding: 14px;
+  border-radius: 8px;
+  background: #f7f8ff;
+  color: #555b68;
+  font-size: 12px;
+  line-height: 20px;
+
+  p {
+    margin: 2px 0 0;
+  }
+
+  @media (max-width: 768px) {
+    grid-template-columns: 52px 1fr;
+  }
+`;
+
+export const ExampleLabel = styled.strong`
+  display: block;
+  color: #222;
+  font-size: 14px;
+  font-weight: 900;
+`;
+
+export const SourceThumb = styled.div`
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #fff;
+  color: #aaa;
+  font-size: 8px;
+  text-align: center;
+
+  img {
     width: 100%;
     height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    color: rgba(255, 255, 255, 0.85);
-    font-size: 14px;
-    line-height: 22px;
-    text-align: center;
+    object-fit: cover;
+  }
+`;
 
-    span {
-      margin-bottom: 10px;
-      font-size: 28px;
-    }
+export const SourceButton = styled.a`
+  min-width: 82px;
+  height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: #4359fc;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
 
-    p {
-      margin: 0;
-    }
-  `,
+  @media (max-width: 768px) {
+    grid-column: 1 / -1;
+  }
+`;
 
-  CardDetail: styled.div`
-    width: 680px;
-    min-height: 565px;
-    padding: 31px 27px 28px;
-    border: 1px solid ${LINE};
-    border-radius: 15px;
-    background: #fff;
-    box-sizing: border-box;
-  `,
+export const StepTitle = styled.h3`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 10px;
+  color: #1a1a1a;
+  font-size: 14px;
+  font-weight: 800;
 
-  DetailBlock: styled.div`
-    position: relative;
-    margin-bottom: 18px;
-    padding-left: 38px;
-  `,
-
-  StepBadge: styled.span`
-    position: absolute;
-    left: 0;
-    top: -2px;
-    width: 26px;
-    height: 26px;
+  span {
+    width: 24px;
+    height: 24px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    background: ${PRIMARY};
+    background: #4359fc;
     color: #fff;
     font-size: 12px;
     font-weight: 700;
-    line-height: 20px;
-  `,
+  }
+`;
 
-  DetailTitle: styled.h2`
-    margin: 0 0 14px;
-    color: ${BLACK};
-    font-size: 14px;
-    font-weight: 700;
+export const MotionList = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 12px;
+`;
+
+export const MotionItem = styled.div`
+  min-height: 82px;
+  display: grid;
+  place-items: center;
+  gap: 5px;
+  padding: 10px;
+  border: 1px dashed #d7dae8;
+  border-radius: 8px;
+  background: #fff;
+
+  strong {
+    font-size: 32px;
     line-height: 1;
-    letter-spacing: -0.28px;
-  `,
+  }
 
-  MotionGrid: styled.div`
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-  `,
-
-  MotionCard: styled.div`
-    height: 84px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid ${LINE};
-    border-radius: 8px;
-    background: #fff;
-
-    span {
-      font-size: 28px;
-      line-height: 1;
-    }
-
-    p {
-      margin: 8px 0 0;
-      color: ${BLACK};
-      font-size: 12px;
-      font-weight: 100;
-      line-height: 1;
-    }
-  `,
-
-  VideoButton: styled.button`
-    width: 100%;
-    height: 30px;
-    margin-top: 12px;
-    border: 0;
-    border-radius: 10px;
-    background: ${PRIMARY};
-    color: #fff;
+  span {
+    color: #1a1a1a;
     font-size: 12px;
-    font-weight: 400;
-    line-height: 20px;
-    letter-spacing: -0.24px;
-    cursor: pointer;
-  `,
+    font-weight: 300;
+  }
+`;
 
-  InfoBox: styled.div`
-    width: 100%;
-    min-height: 48px;
-    padding: 12px 17px;
-    border-radius: 8px;
-    background: ${LIGHT_GREY};
-    box-sizing: border-box;
+export const VideoSourceLink = styled.a`
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 18px;
+  border-radius: 999px;
+  background: #4359fc;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+`;
 
-    strong {
-      color: ${PRIMARY};
-      font-size: 16px;
-      font-weight: 700;
-      line-height: 24px;
-      letter-spacing: -0.32px;
-    }
+export const MeaningBox = styled.div`
+  margin-bottom: 18px;
+  padding: 12px 18px;
+  border-radius: 8px;
+  background: #f7f8ff;
+`;
 
-    span {
-      color: ${TEXT_GREY};
-      font-size: 14px;
-      font-weight: 400;
-    }
+export const DetailCategoryText = styled.p`
+  margin: 4px 0 0;
+  color: #666;
+  font-size: 12px;
+  line-height: 20px;
+`;
 
-    p {
-      margin: 4px 0 0;
-      color: ${TEXT_GREY};
-      font-size: 12px;
-      font-weight: 400;
-      line-height: 20px;
-      letter-spacing: -0.24px;
-    }
-  `,
+export const TagList = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+`;
 
-  SourceBox: styled.div`
-    width: 100%;
-    display: grid;
-    grid-template-columns: 48px 1fr 82px;
-    gap: 16px;
-    align-items: center;
-    padding: 12px 15px;
-    border-radius: 8px;
-    background: ${LIGHT_GREY};
-    box-sizing: border-box;
+export const TagItem = styled.span`
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  padding: 0 12px;
+  border-radius: 999px;
+  background: #f1f3f8;
+  color: #626876;
+  font-size: 13px;
+  font-weight: 800;
+`;
 
-    strong {
-      color: ${BLACK};
-      font-size: 14px;
-      font-weight: 700;
-      letter-spacing: -0.28px;
-    }
+export const DetailStartButton = styled.button`
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 34px auto 0;
+  border: 0;
+  background: transparent;
+  color: #1a1a1a;
+  font-size: 20px;
+  font-weight: 800;
+  cursor: pointer;
+`;
 
-    p {
-      margin: 5px 0 0;
-      color: ${BLACK};
-      font-size: 12px;
-      font-weight: 400;
-      line-height: 20px;
-      letter-spacing: -0.24px;
-    }
+export const EmptyBox = styled.div`
+  display: grid;
+  place-items: center;
+  gap: 8px;
+  min-height: 220px;
+  border: 1px dashed #cdd2e3;
+  border-radius: 8px;
+  background: #fff;
+  color: #7a7f8e;
+  text-align: center;
 
-    button,
-    a {
-      width: 76px;
-      height: 30px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: 0;
-      border-radius: 8px;
-      background: ${PRIMARY};
-      color: #fff;
-      font-size: 12px;
-      font-weight: 400;
-      line-height: 20px;
-      letter-spacing: -0.24px;
-      text-decoration: none;
-      cursor: pointer;
-    }
-  `,
-
-  QRSlot: styled.div`
-    width: 48px;
-    height: 48px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 6px;
-    background: #fff;
-    color: #aaa;
-    font-size: 8px;
-    text-align: center;
-  `,
-
-  StartLink: styled(Link)`
-    display: block;
-    width: fit-content;
-    margin: 42px auto 0;
-    color: ${BLACK};
-    font-size: 20px;
-    font-weight: 700;
-    line-height: 1;
-    letter-spacing: -0.4px;
-    text-decoration: none;
-  `,
-};
+  strong {
+    color: #222;
+    font-size: 18px;
+  }
+`;

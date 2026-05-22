@@ -1,20 +1,13 @@
-import React, { useContext } from 'react';
-import { Outlet, useParams } from 'react-router-dom';
-import StudyQuizProvider from '../../../context/StudyQuizContext';
+// 오!퀴즈 문제 컨테이너: 퀴즈 파라미터와 퀴즈 컨텍스트 연결
+import { Outlet } from "react-router-dom";
+import StudyQuizProvider from "../../../context/StudyQuizContext";
 
-
-// 퀴즈 상세
 const StudyChapterQuizContainer = () => {
-    const {quiz} = useParams()
-
-    return (
-        <div>
-            <StudyQuizProvider>
-                {quiz} 스터디 quiz 컨테이너
-                <Outlet />
-            </StudyQuizProvider>
-        </div>
-    );
+  return (
+    <StudyQuizProvider>
+      <Outlet />
+    </StudyQuizProvider>
+  );
 };
 
 export default StudyChapterQuizContainer;

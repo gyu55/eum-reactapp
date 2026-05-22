@@ -1,77 +1,27 @@
-import React from "react";
-import { SearchPage as S } from "../style";
+// 검색결과리스트: 검색된 수어 단어 목록을 카드 형태로 보여줍니다.
+import * as S from "../style";
 
-const SearchResultList = ({
-  keyword,
-  results,
-  loading,
-  error,
-  onChangeKeyword,
-  onSearch,
-  onSelectCard,
-}) => {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    onSearch();
-  };
-
+const SearchResultList = ({ results = [], onSelect }) => {
   return (
-    <S.SearchSection>
-      <S.SearchForm onSubmit={handleSubmit}>
-        <S.SearchInput
-          value={keyword}
-          placeholder="검색어를 입력하세요"
-          onChange={(event) => onChangeKeyword(event.target.value)}
-        />
-        <S.SearchButton type="submit">검색</S.SearchButton>
-      </S.SearchForm>
-
-      <S.ResultCount>
-        <span>"{keyword}" 검색 결과 </span>
-        <strong>{results.length}개</strong>
-      </S.ResultCount>
-
-      {loading && <S.StatusText>검색 중이에요.</S.StatusText>}
-      {error && <S.StatusText>{error}</S.StatusText>}
-
-      <S.ResultList>
-        {results.map((result, index) => (
-          <S.ResultItem key={result.id} $featured={index === 0}>
-            <S.ImageSlot $featured={index === 0}>
-              {result.cardImage ? (
-                <img
-                  src={result.cardImage}
-                  alt={result.word}
-                  onError={(event) => {
-                    event.currentTarget.style.display = "none";
-                  }}
-                />
-              ) : (
-                result.imageLabel
-              )}
-            </S.ImageSlot>
-            <S.ResultText>
-              <S.ResultTitle $featured={index === 0}>{result.word}</S.ResultTitle>
-              <S.ResultDesc $featured={index === 0}>{result.shortDesc}</S.ResultDesc>
-            </S.ResultText>
-
-            <S.ResultActions>
-              <button type="button" onClick={() => onSelectCard(index)}>
-                영상 보기
-              </button>
-              <button type="button" className="cardButton" onClick={() => onSelectCard(index)}>
-                카드 보기
-              </button>
-              {result.sourceUrl && (
-                <a href={result.sourceUrl} target="_blank" rel="noreferrer">
-                  한국수어사전 원문 보기
-                </a>
-              )}
-            </S.ResultActions>
-          </S.ResultItem>
-        ))}
-      </S.ResultList>
-    </S.SearchSection>
+    <S.ResultList>
+      {results.map((result, index) => (
+        <S.ResultItemButton type="button" key={result.id} onClick={() => onSelect?.(index)}>
+          <S.ResultThumbWrap>
+            {result.cardImage ? (
+              <S.ResultThumb src={result.cardImage} alt={`${result.word} 수어 이미지`} />
+            ) : (
+              <span>이미지 슬롯</span>
+            )}
+          </S.ResultThumbWrap>
+          <S.ResultText>
+            <S.ResultCategory>{result.category}</S.ResultCategory>
+            <S.ResultWord>{result.word}</S.ResultWord>
+            <S.ResultDesc>{result.shortDesc}</S.ResultDesc>
+          </S.ResultText>
+          <S.ResultActionText>자세히 보기</S.ResultActionText>
+        </S.ResultItemButton>
+      ))}
+    </S.ResultList>
   );
 };
 

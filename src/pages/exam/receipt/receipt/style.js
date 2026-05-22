@@ -1,4 +1,20 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+
+const scaleIn = keyframes`
+  0%   { transform: scale(0); opacity: 0; }
+  70%  { transform: scale(1.15); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+`;
+
+const drawCheck = keyframes`
+  from { stroke-dashoffset: 40; }
+  to   { stroke-dashoffset: 0; }
+`;
+
+const slideUp = keyframes`
+  from { transform: translateY(24px); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+`;
 
 const PRIMARY = "#4359fc";
 
@@ -85,6 +101,45 @@ export const GradeBtn = styled.button`
   cursor: pointer;
 `;
 
+export const FilePreviewRow = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #f0f2ff;
+  border: 1.5px solid #c5caff;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 13px;
+  color: #333;
+`;
+
+export const FilePreviewName = styled.span`
+  flex: 1;
+  font-weight: 600;
+  color: ${PRIMARY};
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+`;
+
+export const FileRemoveBtn = styled.button`
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #aaa;
+  padding: 2px 4px;
+  font-size: 16px;
+  line-height: 1;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+
+  &:hover {
+    color: #e74c3c;
+    background: #fff0f0;
+  }
+`;
+
 export const FileDropZone = styled.div`
   display: flex;
   flex-direction: column;
@@ -149,4 +204,74 @@ export const SubmitBtn = styled.button`
   font-weight: 700;
   cursor: pointer;
   margin-top: 8px;
+`;
+
+export const DoneWrap = styled.div`
+  text-align: center;
+  padding: 20px 0 8px;
+`;
+
+export const CheckCircle = styled.div`
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 24px;
+  animation: ${scaleIn} 0.55s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+
+  svg { width: 100%; height: 100%; }
+
+  path {
+    stroke-dasharray: 40;
+    stroke-dashoffset: 40;
+    animation: ${drawCheck} 0.4s ease 0.45s forwards;
+  }
+`;
+
+export const DoneTitle = styled.div`
+  font-size: 20px;
+  font-weight: 700;
+  color: #111;
+  margin-bottom: 20px;
+  opacity: 0;
+  animation: ${slideUp} 0.5s ease 0.35s forwards;
+`;
+
+export const DoneInfoBox = styled.div`
+  background: #f5f7ff;
+  border: 1px solid #dde3ff;
+  border-radius: 10px;
+  padding: 16px 20px;
+  margin-bottom: 24px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  opacity: 0;
+  animation: ${slideUp} 0.5s ease 0.5s forwards;
+`;
+
+export const DoneInfoRow = styled.div`
+  display: flex;
+  font-size: 13px;
+  color: #333;
+  gap: 12px;
+`;
+
+export const DoneInfoLabel = styled.span`
+  font-weight: 600;
+  color: #888;
+  min-width: 64px;
+`;
+
+export const ConfirmBtn = styled.button`
+  width: 100%;
+  background: ${PRIMARY};
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 13px 0;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  opacity: 0;
+  animation: ${slideUp} 0.5s ease 0.6s forwards;
 `;

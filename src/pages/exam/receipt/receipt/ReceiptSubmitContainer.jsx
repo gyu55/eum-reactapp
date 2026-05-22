@@ -1,10 +1,30 @@
 import { useState, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import * as S from "./style";
 
+const formatBirth = (value) => {
+  const digits = value.replace(/\D/g, "").slice(0, 8);
+  if (digits.length <= 4) return digits;
+  if (digits.length <= 6) return `${digits.slice(0, 4)}-${digits.slice(4)}`;
+  return `${digits.slice(0, 4)}-${digits.slice(4, 6)}-${digits.slice(6)}`;
+};
+
+const formatPhone = (value) => {
+  const digits = value.replace(/\D/g, "").slice(0, 11);
+  if (digits.length <= 3) return digits;
+  if (digits.length <= 7) return `${digits.slice(0, 3)}-${digits.slice(3)}`;
+  return `${digits.slice(0, 3)}-${digits.slice(3, 7)}-${digits.slice(7)}`;
+};
+
 const ReceiptSubmitContainer = () => {
+  const navigate = useNavigate();
   const [tests, setTests] = useState([]);
   const [selectedTestId, setSelectedTestId] = useState("");
-  const [fileName, setFileName] = useState("");
+  const [name, setName] = useState("");
+  const [birth, setBirth] = useState("");
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
+  const [fileNames, setFileNames] = useState([]);
   const [submitLoading, setSubmitLoading] = useState(false);
   const [submitMsg, setSubmitMsg] = useState("");
   const [submitOk, setSubmitOk] = useState(false);
@@ -58,6 +78,49 @@ const ReceiptSubmitContainer = () => {
 
   const selectedTest = tests.find(t => String(t.id) === String(selectedTestId));
 
+  if (submitOk && selectedTest) {
+    return (
+      <S.Wrapper>
+        <S.DoneWrap>
+          <S.CheckCircle>
+            <svg viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="26" cy="26" r="24" stroke="#4359fc" strokeWidth="2.5" />
+              <path
+                d="M14 26l9 9 15-15"
+                stroke="#4359fc"
+                strokeWidth="3"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </S.CheckCircle>
+          <S.DoneTitle>원서 접수가 완료되었습니다!</S.DoneTitle>
+          <S.DoneInfoBox>
+            <S.DoneInfoRow>
+              <S.DoneInfoLabel>시험 회차</S.DoneInfoLabel>
+              <span>{selectedTest.testTitle}</span>
+            </S.DoneInfoRow>
+            <S.DoneInfoRow>
+              <S.DoneInfoLabel>시험 일자</S.DoneInfoLabel>
+              <span>{new Date(selectedTest.testDate).toLocaleDateString("ko-KR")}</span>
+            </S.DoneInfoRow>
+            <S.DoneInfoRow>
+              <S.DoneInfoLabel>시험 장소</S.DoneInfoLabel>
+              <span>{selectedTest.testLocation}</span>
+            </S.DoneInfoRow>
+            <S.DoneInfoRow>
+              <S.DoneInfoLabel>응시료</S.DoneInfoLabel>
+              <span>{selectedTest.testPrice.toLocaleString()}원</span>
+            </S.DoneInfoRow>
+          </S.DoneInfoBox>
+          <S.ConfirmBtn onClick={() => navigate("/exam/receipt/info/confirm")}>
+            접수 내역 확인하기
+          </S.ConfirmBtn>
+        </S.DoneWrap>
+      </S.Wrapper>
+    );
+  }
+
   return (
     <S.Wrapper>
       <S.SectionTitle style={{ marginBottom: 6 }}>원서 작성</S.SectionTitle>
@@ -87,19 +150,37 @@ const ReceiptSubmitContainer = () => {
         <S.Grid>
           <div>
             <S.Label>이름 *</S.Label>
-            <S.Input placeholder="홍길동" />
+            <S.Input
+              placeholder="홍길동"
+              value={name}
+              onChange={e => setName(e.target.value)}
+            />
           </div>
           <div>
             <S.Label>생년월일 *</S.Label>
-            <S.Input placeholder="YYYY-MM-DD" />
+            <S.Input
+              placeholder="YYYY-MM-DD"
+              value={birth}
+              onChange={e => setBirth(formatBirth(e.target.value))}
+              style={{ letterSpacing: "1px" }}
+            />
           </div>
           <div>
             <S.Label>연락처 *</S.Label>
-            <S.Input placeholder="010-0000-0000" />
+            <S.Input
+              placeholder="010-0000-0000"
+              value={phone}
+              onChange={e => setPhone(formatPhone(e.target.value))}
+              style={{ letterSpacing: "1px" }}
+            />
           </div>
           <div>
             <S.Label>이메일 *</S.Label>
-            <S.Input placeholder="example@email.com" />
+            <S.Input
+              placeholder="example@email.com"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+            />
           </div>
         </S.Grid>
 
@@ -107,17 +188,34 @@ const ReceiptSubmitContainer = () => {
           <S.Label>증빙서류 첨부 *</S.Label>
           <input
             type="file"
+            multiple
             ref={fileRef}
             style={{ display: "none" }}
-            onChange={e => setFileName(e.target.files[0]?.name || "")}
+            onChange={e => {
+              if (e.target.files.length > 0) {
+                setFileNames(prev => [...prev, ...Array.from(e.target.files).map(f => f.name)]);
+              }
+            }}
           />
+          {fileNames.map((name, i) => (
+            <S.FilePreviewRow key={i} style={{ marginBottom: 8 }}>
+              <span>📄</span>
+              <S.FilePreviewName>{name}</S.FilePreviewName>
+              <S.FileRemoveBtn
+                onClick={() => {
+                  const updated = fileNames.filter((_, idx) => idx !== i);
+                  setFileNames(updated);
+                  if (updated.length === 0 && fileRef.current) fileRef.current.value = "";
+                }}
+                title="파일 제거"
+              >
+                ✕
+              </S.FileRemoveBtn>
+            </S.FilePreviewRow>
+          ))}
           <S.FileDropZone onClick={() => fileRef.current.click()}>
-            <S.FileDropText>
-              {fileName ? fileName : "클릭하여 파일을 선택하세요"}
-            </S.FileDropText>
-            <S.FileDropSub>
-              {fileName ? "다른 파일을 선택하려면 클릭하세요" : "PDF, JPG, PNG 등 지원"}
-            </S.FileDropSub>
+            <S.FileDropText>클릭하여 파일을 선택하세요</S.FileDropText>
+            <S.FileDropSub>PDF, JPG, PNG 등 지원</S.FileDropSub>
           </S.FileDropZone>
         </div>
 

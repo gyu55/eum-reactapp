@@ -1,41 +1,48 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 const PRIMARY = "#4359fc";
 
+const scaleIn = keyframes`
+  0%   { transform: scale(0); opacity: 0; }
+  70%  { transform: scale(1.15); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+`;
+
+const drawCheck = keyframes`
+  from { stroke-dashoffset: 40; }
+  to   { stroke-dashoffset: 0; }
+`;
+
+const slideUp = keyframes`
+  from { transform: translateY(28px); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+`;
+
 export const PageWrap = styled.div`
   min-height: 100vh;
-  background: #f5f5f7;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
 `;
 
-export const Hero = styled.div`
-  background: #fff;
-  border-bottom: 1px solid #eee;
-  padding: 48px 0 40px;
-  text-align: center;
-`;
-
-export const HeroTitle = styled.h1`
-  font-size: 26px;
-  font-weight: 700;
-  color: #111;
-  margin: 0 0 8px;
-  letter-spacing: -0.5px;
-`;
-
-export const HeroSub = styled.p`
-  font-size: 13px;
-  color: #888;
-  margin: 0;
-`;
-
-export const ContentArea = styled.div`
+export const FormBox = styled.div`
+  width: 100%;
   max-width: 480px;
-  margin: 40px auto 80px;
-  padding: 0 20px;
+  padding: 48px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+export const Logo = styled.img`
+  width: 140px;
+  margin-bottom: 36px;
 `;
 
 export const Card = styled.div`
+  width: 100%;
   background: #fff;
   border: 1px solid #eee;
   border-radius: 16px;
@@ -148,10 +155,10 @@ export const StatusMsg = styled.div`
 export const SubmitBtn = styled.button`
   width: 100%;
   padding: 13px;
-  background: ${PRIMARY};
+  background: #111;
   color: #fff;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   font-size: 15px;
   font-weight: 700;
   cursor: pointer;
@@ -169,4 +176,41 @@ export const ErrorMsg = styled.div`
   color: #e74c3c;
   text-align: center;
   margin-bottom: 12px;
+`;
+
+export const DoneWrap = styled.div`
+  text-align: center;
+  padding: 20px 0;
+`;
+
+export const CheckCircle = styled.div`
+  width: 88px;
+  height: 88px;
+  margin: 0 auto 28px;
+  animation: ${scaleIn} 0.55s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+
+  svg { width: 100%; height: 100%; }
+
+  path {
+    stroke-dasharray: 40;
+    stroke-dashoffset: 40;
+    animation: ${drawCheck} 0.4s ease 0.45s forwards;
+  }
+`;
+
+export const DoneTitle = styled.div`
+  font-size: 22px;
+  font-weight: 700;
+  color: #111;
+  margin-bottom: 8px;
+  opacity: 0;
+  animation: ${slideUp} 0.5s ease 0.35s forwards;
+`;
+
+export const DoneSub = styled.div`
+  font-size: 14px;
+  color: #888;
+  margin-bottom: 36px;
+  opacity: 0;
+  animation: ${slideUp} 0.5s ease 0.5s forwards;
 `;

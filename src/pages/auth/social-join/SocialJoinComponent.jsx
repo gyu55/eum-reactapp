@@ -108,36 +108,38 @@ export default function SocialJoinComponent() {
   if (done) {
     return (
       <S.PageWrap>
-        <S.Hero>
-          <S.HeroTitle>이음과 함께<br />새로운 소통을 시작해보세요</S.HeroTitle>
-          <S.HeroSub>SNS 계정으로 이음에 가입합니다</S.HeroSub>
-        </S.Hero>
-        <S.ContentArea>
-          <S.Card style={{ textAlign: "center", padding: "60px 32px" }}>
-            <div style={{ fontSize: 52, marginBottom: 16 }}>🎉</div>
-            <div style={{ fontSize: 22, fontWeight: 700, color: "#111", marginBottom: 8 }}>
-              회원가입이 완료되었습니다!
-            </div>
-            <div style={{ fontSize: 14, color: "#888", marginBottom: 32 }}>
-              이음과 함께 새로운 소통을 시작해보세요.
-            </div>
-            <S.SubmitBtn onClick={() => { window.location.href = "/"; }}>
-              시작하기
-            </S.SubmitBtn>
+        <S.FormBox>
+          <S.Logo src="/assets/image/layout/logo.svg" alt="이음" />
+          <S.Card>
+            <S.DoneWrap>
+              <S.CheckCircle>
+                <svg viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="26" cy="26" r="24" stroke="#4359fc" strokeWidth="2.5" />
+                  <path
+                    d="M14 26l9 9 15-15"
+                    stroke="#4359fc"
+                    strokeWidth="3"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </S.CheckCircle>
+              <S.DoneTitle>회원가입이 완료되었습니다!</S.DoneTitle>
+              <S.DoneSub>이음과 함께 새로운 소통을 시작해보세요.</S.DoneSub>
+              <S.SubmitBtn onClick={() => { window.location.href = "/"; }}>
+                시작하기
+              </S.SubmitBtn>
+            </S.DoneWrap>
           </S.Card>
-        </S.ContentArea>
+        </S.FormBox>
       </S.PageWrap>
     );
   }
 
   return (
     <S.PageWrap>
-      <S.Hero>
-        <S.HeroTitle>이음과 함께<br />새로운 소통을 시작해보세요</S.HeroTitle>
-        <S.HeroSub>SNS 계정으로 이음에 가입합니다</S.HeroSub>
-      </S.Hero>
-
-      <S.ContentArea>
+      <S.FormBox>
+        <S.Logo src="/assets/image/layout/logo.svg" alt="이음" />
         <S.Card>
           <S.SectionTitle>추가 정보 입력</S.SectionTitle>
 
@@ -191,7 +193,7 @@ export default function SocialJoinComponent() {
             {submitLoading ? "처리 중..." : "이음 시작하기"}
           </S.SubmitBtn>
         </S.Card>
-      </S.ContentArea>
+      </S.FormBox>
     </S.PageWrap>
   );
 }

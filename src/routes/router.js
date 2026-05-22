@@ -69,6 +69,7 @@ import StudyRefactorLearnComponent from "../pages/studyRefactor/learn/LearnCompo
 import StudyRefactorLearnAlphabetContainer from "../pages/studyRefactor/learn/LearnAlphabetContainer";
 import StudyRefactorLearnQuizContainer from "../pages/studyRefactor/learn/LearnQuizContainer";
 import StudyRefactorLearnQuizComponent from "../pages/studyRefactor/learn/LearnQuizComponent";
+import FindAccountContainer from "../pages/auth/find-account/FindAccountContainer";
 
 const router = createBrowserRouter([
   {
@@ -470,19 +471,23 @@ const router = createBrowserRouter([
           }
         ]
       },
-      {
-        path: "login",
-        element: <LoginContainer />
-      },
-      {
-        path: "join",
-        element: <JoinContainer />
-      },
-      {
-        path: "social-join",
-        element: <SocialJoinContainer />
-      }
     ]
+  },
+  {
+    path: "/login",
+    element: <LoginContainer />
+  },
+  {
+    path: "/join",
+    element: <JoinContainer />
+  },
+  {
+    path: "/social-join",
+    element: <SocialJoinContainer />
+  },
+  {
+    path: "/find-account",
+    element: <FindAccountContainer />
   },
 ])
 

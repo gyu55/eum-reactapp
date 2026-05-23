@@ -1,5 +1,6 @@
 import theme from "../../../../../styles/theme";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { getPostById } from "../../../communityApi/postApi";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import {
@@ -50,44 +51,72 @@ const S = {
   TagRow,
 };
 
-const PostContent = ({
-  category = "학습 인증",
-  breadcrumb = "이음 커뮤니티 › 학습 인증 게시판",
-  title = "수어 알파벳 완전 마스터! 1달 열공 후기 남깁니다 🙌",
-  authorName = "수어러버김지민",
-  authorLevel = "Lv.7",
-  authorAvatar = DEFAULT_IMAGES.authorProfile,
-  postDate = "2025.03.08 (오늘)",
-  views = 324,
-  likes = 42,
-  tags = ["# 수어기초", "# 알파벳", "# 태그1", "# 태그2"],
-}) => {
+const PostContent = ({ postId }) => {
+  const [post, setPost] = useState(null);
   const [liked, setLiked] = useState(false);
-  const [likeCount, setLikeCount] = useState(likes);
+  const [likeCount, setLikeCount] = useState(0);
+
+  useEffect(() => {
+    if (!postId) return;
+
+    console.log("postId:", postId);
+
+    getPostById(postId)
+      .then(({ data }) => {
+        console.log("게시글 데이터:", data);
+        setPost(data);
+        setLikeCount(data.likeCount ?? 0);
+      })
+      .catch((err) => console.error("게시글 조회 실패:", err));
+  }, [postId]);
 
   const handleLike = () => {
     setLiked((prev) => !prev);
     setLikeCount((prev) => (liked ? prev - 1 : prev + 1));
   };
 
+  const authorLevel = post?.userLevel ?? "Lv.1";
+
+  // const tags = ["dd"];
+
+  // 아직 post 데이터가 없을 때
+  if (!post) return <div>로딩 중...</div>;
+
+  // 게시글 데이터 분리 (post 데이터 생기고 난 뒤)
+  const {
+    id,
+    postTitle,
+    postContent,
+    postReadCount,
+    postCreateAt,
+    postTag,
+    userNickname,
+    userProfile,
+    commentCount,
+    isLiked,
+    isOwner,
+  } = post;
+
   return (
     <div>
       <S.PostContentWrapper>
-        <S.PostTitle>{title}</S.PostTitle>
+        <S.PostTitle>{postTitle}</S.PostTitle>
 
         {/* 게시글 작성자 정보 */}
         <S.AuthorRow>
           <S.AuthorAvatar
-            src={authorAvatar}
-            alt={authorName}
-            onError={(e) => { e.currentTarget.src = DEFAULT_IMAGES.authorProfile; }}
+            src={userProfile}
+            alt={userNickname}
+            onError={(e) => {
+              e.currentTarget.src = DEFAULT_IMAGES.authorProfile;
+            }}
           />
           <S.AuthorMeta>
-            <S.AuthorName>{authorName}</S.AuthorName>
+            <S.AuthorName>{userNickname}</S.AuthorName>
             <S.AuthorSubRow>
               <S.LevelBadge>{authorLevel}</S.LevelBadge>
               <S.MetaText>
-                · {postDate} · 조회 {views}
+                · {postCreateAt} · 조회 {postReadCount}
               </S.MetaText>
             </S.AuthorSubRow>
           </S.AuthorMeta>
@@ -98,11 +127,11 @@ const PostContent = ({
 
         {/* 게시글 몸체 */}
         <DummyContent />
-        <S.TagRow>
+        {/* <S.TagRow>
           {tags.map((tag) => (
             <S.Tag key={tag}>{tag}</S.Tag>
           ))}
-        </S.TagRow>
+        </S.TagRow> */}
 
         {/* 접근성 도구 */}
         <S.AccessibilityBox>
@@ -117,8 +146,9 @@ const PostContent = ({
           </S.AccessBtn>
         </S.AccessibilityBox>
 
-        {/* 게시글 관련 액션 버튼 */}
+        {/* 게시글 관련 액션 버튼 // 추후 컴포넌트로 분리 생각 */}
         <S.ActionRow>
+          {/* 좋아요 버튼 */}
           <S.LikeButton liked={liked} onClick={handleLike}>
             <FontAwesomeIcon icon={faHeart} />
             <span>{likeCount}</span>
@@ -128,14 +158,18 @@ const PostContent = ({
               <img
                 src={DEFAULT_IMAGES.linkIcon}
                 alt="링크"
-                onError={(e) => { e.currentTarget.src = DEFAULT_IMAGES.linkIcon; }}
+                onError={(e) => {
+                  e.currentTarget.src = DEFAULT_IMAGES.linkIcon;
+                }}
               />
             </S.IconButton>
             <S.IconButton danger aria-label="게시글 신고">
               <img
                 src={DEFAULT_IMAGES.reportIcon}
                 alt="신고"
-                onError={(e) => { e.currentTarget.src = DEFAULT_IMAGES.reportIcon; }}
+                onError={(e) => {
+                  e.currentTarget.src = DEFAULT_IMAGES.reportIcon;
+                }}
               />
             </S.IconButton>
           </S.ActionButtons>

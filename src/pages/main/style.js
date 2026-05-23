@@ -171,7 +171,6 @@ export const styles = {
     fontWeight: theme.FONT_WEIGHT.bold,
     fontLine: theme.FONT_LINE.h8,
     textAlign:'center',
-    padding: '20px 50px',
     borderRadius : '50px',
     height:'60px',
     width: 'clamp(140px, 13.02vw, 220px)',

@@ -1,10 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as S from "./style.js";
 import theme from "../../../styles/theme";
 
 const BannerSection = React.memo(() => {
   const navigate = useNavigate();
+  const [isActive, setIsActive] = useState(false);
+
+  const handleMouseDown = () => {
+    setIsActive(true);
+    setTimeout(() => {
+      setIsActive(false);
+      navigate("/community");
+    }, 400); // $speed와 동일
+  };
 
   return (
     <S.BannerWrap>
@@ -23,17 +32,26 @@ const BannerSection = React.memo(() => {
         </S.SubtitleText>
       </S.SubtitleWrapper>
 
-      <S.BlobGreen />
-      <S.BlobBlue />
-      <S.BlobOrange />
-      <S.BlobYellow />
-      <S.BlobPurple />
-      <S.BlobPink />
+      <S.BlobLayer>
+        <S.BlobGreen />
+        <S.BlobBlue />
+        <S.BlobOrange />
+        <S.BlobYellow />
+        <S.BlobPurple />
+        <S.BlobPink />
+      </S.BlobLayer>
 
       <S.BtnChapter>
-        <S.StartBtn onClick={() => navigate("/community")}>
-          지금 시작하기 →
-        </S.StartBtn>
+        <div
+          className={isActive ? "active" : ""}
+          style={{ position: "relative", display: "inline-block" }}
+          >
+          <S.LeftFrills />
+          <S.StartBtn onMouseDown={handleMouseDown}>
+            지금 시작하기 →
+          </S.StartBtn>
+          <S.RightFrills />
+        </div>
       </S.BtnChapter>
     </S.BannerWrap>
   );

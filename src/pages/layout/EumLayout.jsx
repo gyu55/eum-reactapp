@@ -26,8 +26,8 @@ const EumLayout = () => {
       .then((data) => { 
         if (data?.success) {
         setUser(data.data);
-        setAuthUser(data.data);      // 추가
-        setIsAuthenticated(true);    // 추가
+        setAuthUser(data.data);
+        setIsAuthenticated(true);
       }
     })
       .catch(() => {});

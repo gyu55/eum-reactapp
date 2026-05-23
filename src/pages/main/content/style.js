@@ -18,7 +18,6 @@ export const ContentSection = styled.div`
   flex-direction: column;
   align-items: center;
   background-color: ${theme.GRAYSCALE[10]};
-  margin-top: 80px;
 `;
 
 export const ContentTitle = styled.div`
@@ -60,7 +59,6 @@ export const LargeCardTitle = styled.div`
   display: flex;
   font-size: ${theme.FONT_SIZE.h7};
   font-weight: ${theme.FONT_WEIGHT.bold};
-
   gap: 9px;
 `;
 
@@ -73,7 +71,7 @@ export const SmallCardTitle = styled.div`
 
 /* ── Card Desc ── */
 
-export const CardDesc = styled.div`
+export const CardDesc = styled.p`
   display: flex;
   font-size: ${theme.FONT_SIZE.h10};
   font-weight: ${theme.FONT_WEIGHT.regular};
@@ -162,6 +160,7 @@ export const CategoryCard = styled.button`
   text-align: left;
   cursor: pointer;
   transition: transform 0.25s ease, box-shadow 0.25s ease;
+  white-space: pre-line;
 
   .badge {
     display: inline-flex;
@@ -201,12 +200,12 @@ export const CategoryCard = styled.button`
   img {
     position: absolute;
     right: ${({ $large }) => ($large ? "60px" : "52px")};
-    top: ${({ $large }) => ($large ? "50px" : "51px")};
+    top: 50%;                          /* ✅ 고정값 제거 */
+    transform: translateY(-50%);
     width: ${({ $large }) => ($large ? "160px" : "105px")};
     height: ${({ $large }) => ($large ? "160px" : "110px")};
     padding: ${({ $large }) => ($large ? "10px" : "13px")};
     border-radius: ${({ $large }) => ($large ? "30px" : "45px")};
-    background: #f7f7fb;
     object-fit: contain;
     box-sizing: border-box;
     transition: transform 0.25s ease, background-color 0.25s ease;
@@ -219,8 +218,7 @@ export const CategoryCard = styled.button`
   }
 
   &:hover img, &:focus-visible img {
-    transform: translateY(-5px) scale(1.06);
-    background: ${({ $tone }) => `${toneColor[$tone] || "#4359fc"}14`};
+    transform: translateY(calc(-50% - 5px)) scale(1.06);
   }
 
   &:focus-visible {

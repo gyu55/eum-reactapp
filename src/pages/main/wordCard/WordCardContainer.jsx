@@ -1,5 +1,5 @@
 import React from "react";
-import WordCard from "./WordCardComponent";
+import WordCardComponent from "./WordCardComponent.jsx";
 import * as S from "./style.js";
 
 const WORD_CARDS = [
@@ -19,7 +19,7 @@ const WordCardSection = () => {
 
       <S.CardRow>
         {WORD_CARDS.map((card, i) => (
-          <WordCard key={i} card={card} />
+          <WordCardComponent key={i} card={card} />
         ))}
       </S.CardRow>
     </S.SectionWrap>

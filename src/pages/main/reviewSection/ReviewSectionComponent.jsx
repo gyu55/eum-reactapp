@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import ReviewCardComponent from "./ReviewCardComponent";
 import * as S from "./style.js";
 
-const REVIEWS = [
+const REVIEWS = [ 
   {
     text: '"농인 친구가 생겼을 때\n 정말 소통하고 싶었는데,\n 이음 덕분에 이제 제법 대화할 수 있게 됐어요."',
     name: "김지연",
@@ -20,9 +21,19 @@ const REVIEWS = [
     sub: "입문 수료 · 주부",
     img: "/assets/image/main/dummyUserProfileImg3.svg",
   },
-];
+ ];
 
 const ReviewSection = () => {
+  // 나중에 이렇게 교체하면 됨
+  // const [reviews, setReviews] = useState([]);
+  // useEffect(() => {
+  //   fetch("http://localhost:10000/api/reviews")
+  //     .then(res => res.json())
+  //     .then(data => setReviews(data.reviews));
+  // }, []);
+
+  const reviews = REVIEWS; // 현재는 로컬 데이터
+
   return (
     <S.SectionWrap>
       <S.TitleWrap>
@@ -31,22 +42,8 @@ const ReviewSection = () => {
       </S.TitleWrap>
 
       <S.CardRow>
-        {REVIEWS.map((review, i) => (
-          <S.ReviewCard key={i}>
-            <S.StarRow>
-              {[...Array(5)].map((_, j) => (
-                <img key={j} src="/assets/image/main/starIcon.svg" alt="star" />
-              ))}
-            </S.StarRow>
-            <S.ReviewText>{review.text}</S.ReviewText>
-            <S.ProfileRow>
-              <S.ProfileImg src={review.img} alt={review.name} />
-              <S.ProfileInfo>
-                <S.ProfileName>{review.name}</S.ProfileName>
-                <S.ProfileSub>{review.sub}</S.ProfileSub>
-              </S.ProfileInfo>
-            </S.ProfileRow>
-          </S.ReviewCard>
+        {reviews.map((review, i) => (
+          <ReviewCardComponent key={i} review={review} />
         ))}
       </S.CardRow>
     </S.SectionWrap>

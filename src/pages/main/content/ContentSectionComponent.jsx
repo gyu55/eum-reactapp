@@ -1,9 +1,8 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import * as S from "./style.js";
-import theme from "../../../styles/theme";
+import CategoryCard from "./CategoryCard";
 
-const TOP_CARDS = [
+const TOP_CARDS = [ 
   {
     large: true,
     tone: "blue",
@@ -21,10 +20,10 @@ const TOP_CARDS = [
     desc: "다양한 사람들과 소통하고 공유해보세요",
     img: "/assets/image/main/communityIcon.svg",
     path: "/community",
-  },
+  }, 
 ];
 
-const BOTTOM_CARDS = [
+const BOTTOM_CARDS = [ 
   {
     tone: "yellow",
     label: "수어학습",
@@ -37,7 +36,7 @@ const BOTTOM_CARDS = [
     tone: "red",
     label: "응급수신호",
     title: "긴급 신호, 지금 익히기!",
-    desc: "위험한 순간, 당신의 신호가 생명을 지킵니다",
+    desc: "위험한 순간, 당신의 신호가\n 생명을 지킵니다",
     img: "/assets/image/main/emergencyIcon.svg",
     path: "/study/chapter/sos",
   },
@@ -45,15 +44,13 @@ const BOTTOM_CARDS = [
     tone: "purple",
     label: "모스부호",
     title: "모스부호 해독 도전!",
-    desc: "빛과 점으로 전하는 신호 함께 풀어봐요",
+    desc: "빛과 점으로 전하는 신호\n 함께 풀어봐요",
     img: "/assets/image/main/morsIcon.svg",
     path: "/study/chapter/mors",
   },
-];
+]; 
 
 const ContentSection = () => {
-  const navigate = useNavigate();
-
   return (
     <S.ContentSection>
       <S.ContentTitle>
@@ -64,19 +61,7 @@ const ContentSection = () => {
       <S.CategoryBand>
         <S.CategoryGrid>
           {[...TOP_CARDS, ...BOTTOM_CARDS].map((card, i) => (
-            <S.CategoryCard
-              key={i}
-              type="button"
-              $large={card.large}
-              $tone={card.tone}
-              onClick={() => { navigate(card.path); window.scrollTo(0, 0); }}
-            >
-              <span className="badge">{card.label}</span>
-              <strong>{card.title}</strong>
-              <p>{card.desc}</p>
-              <span className="go">바로가기 →</span>
-              <img src={card.img} alt={`${card.label} 아이콘`} />
-            </S.CategoryCard>
+            <CategoryCard key={i} card={card} />
           ))}
         </S.CategoryGrid>
       </S.CategoryBand>

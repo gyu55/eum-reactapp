@@ -14,7 +14,7 @@ export const Header = styled.header`
   height: 80px;
   border-bottom: 1px solid ${theme.GRAYSCALE[8]};
   background-color: ${theme.GRAYSCALE[10]};
-  z-index: 1;
+  z-index: 999999999999999;
   min-width: 320px; 
 `;
 

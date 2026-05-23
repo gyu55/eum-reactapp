@@ -6,7 +6,7 @@ import FloatingProfiles from './bannerSection/FloatingProfileComponent';
 import BannerSection from './bannerSection/BannerSectionComponent';
 import ContentSection from './content/ContentSectionComponent';
 import ReviewSection from './reviewSection/ReviewSectionComponent';
-import WordCardSection from './wordCard/WordCardSection.jsx';
+import WordCardContainer from './wordCard/WordCardContainer.jsx';
 import NoticeSection from './notice/NoticeSectionComponent';
 import CurriculumSection from './curriculum/CurriculumSection';
 
@@ -20,7 +20,7 @@ const EumMainContainer = () => {
         <ContentSection />
         <CurriculumSection />
         <ReviewSection />
-        <WordCardSection />
+        <WordCardContainer />
         <S.BottomSpacer>
           <NoticeSection />
         </S.BottomSpacer>

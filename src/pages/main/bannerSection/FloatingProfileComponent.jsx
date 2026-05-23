@@ -44,17 +44,21 @@ const FloatingProfiles = () => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-    const count = Math.floor(Math.random() * 5) + 1; 
-    const newProfiles = Array.from({ length: count }, () => ({
-      id: Date.now() + Math.random(),
-      src: TEMP_PROFILES[Math.floor(Math.random() * TEMP_PROFILES.length)],
-      x: getRandomX(),
-      y: Math.random() * 50,
-      size: 40,
-      duration: Math.random() * 1 + 3,
-    }));
-    setProfiles((prev) => [...prev, ...newProfiles]);
-  }, 3000);
+      const count = Math.floor(Math.random() * 2) + 1;
+
+      setProfiles((prev) => {
+        if (prev.length >= 6) return prev; 
+        const newProfiles = Array.from({ length: count }, () => ({
+          id: Date.now() + Math.random(),
+          src: TEMP_PROFILES[Math.floor(Math.random() * TEMP_PROFILES.length)],
+          x: getRandomX(),
+          y: Math.random() * 50,
+          size: 40,
+          duration: Math.random() * 1 + 3,
+        }));
+        return [...prev, ...newProfiles];
+      });
+    }, 3000); 
     return () => clearInterval(interval);
   }, []);
 

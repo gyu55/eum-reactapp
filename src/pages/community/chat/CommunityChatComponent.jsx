@@ -57,13 +57,11 @@ const CommunityChatComponent = () => {
         </HeaderBlock>
 
         <RowBlock flexWrap="wrap">
-          {rooms.map((room) => (
+          {rooms.map(({ id, ...roomData }) => (
             <LiveChatCardCandidate1
-              key={room.id}
-              chatRoomName={room.chatRoomName}
-              chatRoomDetail={room.chatRoomDetail}
-              chatRoomUsers={room.chatRoomUsers}
-              onJoin={() => openChatRoom(room)}
+              key={id}
+              {...roomData}
+              onJoin={() => openChatRoom({ id, ...roomData })}
             />
           ))}
         </RowBlock>

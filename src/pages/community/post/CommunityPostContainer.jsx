@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ColumnBlock, ActionBtn, CategoryPill } from "../communityStyle";
 import T from "../communityTextStyle";
@@ -14,6 +14,8 @@ import {
   AllChatButton,
 } from "./communityPostContainerStyle";
 import LiveChatCardCandidate1 from "../chat/chatComponents/chatCardCandidate/LiveChatCardCandidate1.jsx";
+import { getChatRooms } from "../communityApi/chatApi.js";
+
 
 const S = {
   ColumnBlock,
@@ -27,32 +29,30 @@ const S = {
   AllChatButton,
 };
 
-// TODO: API 연결 시 서버에서 받아온 데이터로 교체 (메인 노출용 추천 채팅방 3개)
-const MOCK_FEATURED_ROOMS = [
-  {
-    id: 1,
-    title: "수어 학습 질문방",
-    description: "수어 학습 중 궁금한 점을 함께 해결해요. 초보자도 편하게!",
-    participantCount: 24,
-  },
-  {
-    id: 2,
-    title: "일상 수어 대화방",
-    description: "일상적인 수어 표현을 자유롭게 연습하는 공간이에요.",
-    participantCount: 15,
-  },
-  {
-    id: 3,
-    title: "수어 기초반",
-    description: "수어를 처음 배우는 분들을 위한 입문 대화방입니다.",
-    participantCount: 8,
-  },
-];
-
 // 컴포넌트
 const CommunityPostContainer = () => {
   const { openChatRoom, openCreateChatRoom } = useChatContext();
   const [selectedTag, setSelectedTag] = useState("");
+
+  // 채팅방 관련
+  const [rooms, setRooms] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  // 최초 3개의 채팅방만 불러오기
+  useEffect(() => {
+    const load = async () => {
+      setIsLoading(true);
+      try {
+        const data = await getChatRooms(1, 3);
+        setRooms(data.rooms);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    load();
+  }, []);
 
   console.log("메인 영역 그려지기");
   return (
@@ -70,28 +70,27 @@ const CommunityPostContainer = () => {
           </S.ActionBtn>
         </S.HeaderBlock>
         {/* 채팅방 */}
-        <S.LiveChatRow>
-          {MOCK_FEATURED_ROOMS.map((room) => (
-            <LiveChatCardCandidate1
-              key={room.id}
-              title={room.title}
-              description={room.description}
-              participantCount={room.participantCount}
-              onJoin={() => openChatRoom(room)}
-            />
-          ))}
-        </S.LiveChatRow>
-
+        {isLoading ? (
+          <div>로딩중</div>
+        ) : (
+          <S.LiveChatRow>
+            {rooms.map(({ id, ...roomData }) => (
+              <LiveChatCardCandidate1
+                key={id}
+                {...roomData}
+                onJoin={() => openChatRoom(...roomData)}
+              />
+            ))}
+          </S.LiveChatRow>
+        )}
         {/* 채팅방 모두 보기 버튼 */}
         <S.AllChatButton>
           <Link to={"/community/chat"}>전체 보기 →</Link>
         </S.AllChatButton>
-
         {/* 포스트 영역 헤더 */}
         <S.PostHeader>
           <T.H7Bold>게시글</T.H7Bold>
         </S.PostHeader>
-
         {/* 카테고리 및 글쓰기 버튼 */}
         <S.PostCategoryHeader>
           {/* 카테고리 */}
@@ -112,7 +111,6 @@ const CommunityPostContainer = () => {
 
           {/* 글쓰기 */}
         </S.PostCategoryHeader>
-
         {/* 포스트 카드 목록 + 페이지네이션 */}
         <PostListSection postTag={selectedTag} />
       </S.ColumnBlock>

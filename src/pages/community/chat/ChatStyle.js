@@ -946,6 +946,7 @@ const SelectRightPanel = styled.div`
 const OngoingRoomList = styled.div`
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
 `;
 
 const OngoingRoomItem = styled.div`

@@ -87,7 +87,7 @@ const BlobPink = styled.div`
   height: 320px;
   background-color: #fbc8ff;
   filter: blur(100px);
-  opacity: 0.30;
+  opacity: 0.3;
   z-index: 0;
   pointer-events: none;
 `;
@@ -190,7 +190,7 @@ const RightSection = styled.div`
 `;
 
 const EventItem = styled.div`
-  background: rgba(255, 255, 255, 0.70);
+  background: rgba(255, 255, 255, 0.7);
   border: 1px solid ${theme.PALETTE.primary.light};
   border-radius: 14px;
   padding: 20px 24px;
@@ -214,6 +214,7 @@ const EventText = styled.p`
 `;
 
 const CommunityHeaderA = () => {
+  console.log("헤더 빌드");
   return (
     <Container>
       <BlobGreen />

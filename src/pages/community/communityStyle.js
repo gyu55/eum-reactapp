@@ -119,6 +119,12 @@ export const ContentArea = styled.main`
   padding-bottom: 160px;
 `;
 
+// 검색창
+export const SearchBoxRow = styled(ContentArea)`
+  padding-bottom: 0px;
+  /* justify-content: center; */
+`;
+
 export const LeftBlock = styled.div`
   width: 984px;
   display: flex;
@@ -129,6 +135,10 @@ export const LeftBlock = styled.div`
   justify-content: ${({ spaceBetween }) =>
     spaceBetween ? "space-between" : "flex-start"};
   margin-top: ${({ marginTop }) => marginTop || 0}px;
+`;
+
+export const LeftSearchBlock = styled(LeftBlock)`
+  align-items: center;
 `;
 
 export const ColumnBlock = styled.div`

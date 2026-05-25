@@ -127,6 +127,7 @@ const SearchRow = styled.div`
   justify-content: center;
 `;
 
+// 검색창 관련
 const SearchBox = styled.div`
   width: 536px;
   background: ${theme.PALETTE.white};

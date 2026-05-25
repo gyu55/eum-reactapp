@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import { LAYOUT } from "../../constants";
 import UserCommentCard from "../UserProfile/UserCommentCard";
 import PageCount from "../../post/postComponents/PageCount";
@@ -16,16 +16,24 @@ const Wrapper = styled.div`
 
 const UserWriteComment = () => {
   const { userId } = useParams();
+  const [searchParams] = useSearchParams();
+  const order = searchParams.get("order") ?? "latest";
+  const keyword = searchParams.get("keyword") ?? "";
+
   const [comments, setComments] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    setCurrentPage(1);
+  }, [keyword]);
+
+  useEffect(() => {
     const load = async () => {
       setIsLoading(true);
       try {
-        const data = await getUserComments(userId, currentPage);
+        const data = await getUserComments({ userId, page: currentPage, order, keyword });
         setComments(data.comments);
         setTotalPages(data.totalPages);
       } catch (e) {
@@ -35,7 +43,7 @@ const UserWriteComment = () => {
       }
     };
     load();
-  }, [userId, currentPage]);
+  }, [userId, currentPage, order, keyword]);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);

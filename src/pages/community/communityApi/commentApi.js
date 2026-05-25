@@ -9,9 +9,15 @@ export const getComments = async (postId) => {
 };
 
 // 유저가 작성한 댓글 목록 페이지네이션 조회
-export const getUserComments = async (userId, page = 1) => {
+export const getUserComments = async ({
+  userId,
+  page = 1,
+  order = "latest",
+  keyword = "",
+}) => {
+  const params = new URLSearchParams({ page, order, keyword });
   const response = await fetch(
-    `${ROOT_URL}/comments/users/${userId}?page=${page}`
+    `${ROOT_URL}/comments/users/${userId}?${params}`
   );
   if (!response.ok) throw new Error("유저 댓글을 불러오는 데 실패했습니다.");
   const result = await response.json();

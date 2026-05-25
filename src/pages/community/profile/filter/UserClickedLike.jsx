@@ -4,6 +4,7 @@ import { fetchUserLikedPosts } from "../../communityApi/postApi";
 import { ColumnBlock } from "../../communityStyle";
 import PostListCard from "../../post/postComponents/PostListCard.jsx";
 import PageCount from "../../post/postComponents/PageCount";
+import PostListCardSkeleton from "../../post/skeleton/PostListCardSkeleton.jsx";
 
 const UserClickedLike = () => {
   const [posts, setPosts] = useState([]);
@@ -40,7 +41,17 @@ const UserClickedLike = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  if (isLoading) return <div>로딩 중...</div>;
+  if (isLoading)
+    return (
+      <div>
+        <ColumnBlock>
+          <PostListCardSkeleton />
+          <PostListCardSkeleton />
+          <PostListCardSkeleton />
+          <PostListCardSkeleton />
+        </ColumnBlock>
+      </div>
+    );
 
   return (
     <div>

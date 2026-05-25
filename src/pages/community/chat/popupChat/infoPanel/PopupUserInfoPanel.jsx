@@ -1,6 +1,6 @@
 import React from "react";
-import { colors } from "../../constants";
-import OutlineButton from "../../common/OutlineButton";
+import { colors } from "../../../constants";
+import OutlineButton from "../../../common/OutlineButton";
 import {
   RightPanelScroll,
   UserInfoTopSection,
@@ -17,7 +17,7 @@ import {
   ReportCardTitle,
   ReportCardDesc,
   ORANGE,
-} from "../ChatStyle";
+} from "../../ChatStyle";
 
 const S = {
   RightPanelScroll,

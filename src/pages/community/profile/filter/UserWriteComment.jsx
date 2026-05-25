@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import { LAYOUT } from "../../constants";
 import UserCommentCard from "../UserProfile/UserCommentCard";
 import PageCount from "../../post/postComponents/PageCount";
 import { getUserComments } from "../../communityApi/commentApi";
+import UserCommentCardSkeleton from "../UserProfile/UserCommentCardSkeleton";
 
 const Wrapper = styled.div`
   width: ${LAYOUT.cardMaxWidth};
@@ -15,16 +16,24 @@ const Wrapper = styled.div`
 
 const UserWriteComment = () => {
   const { userId } = useParams();
+  const [searchParams] = useSearchParams();
+  const order = searchParams.get("order") ?? "latest";
+  const keyword = searchParams.get("keyword") ?? "";
+
   const [comments, setComments] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    setCurrentPage(1);
+  }, [keyword]);
+
+  useEffect(() => {
     const load = async () => {
       setIsLoading(true);
       try {
-        const data = await getUserComments(userId, currentPage);
+        const data = await getUserComments({ userId, page: currentPage, order, keyword });
         setComments(data.comments);
         setTotalPages(data.totalPages);
       } catch (e) {
@@ -34,25 +43,24 @@ const UserWriteComment = () => {
       }
     };
     load();
-  }, [userId, currentPage]);
+  }, [userId, currentPage, order, keyword]);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  if (isLoading) return <div>로딩 중...</div>;
-
-  //  "id": 11,
-  //       "commentContent": "정말 유익한 정보 감사해요. 통역사 준비 파이팅!",
-  //       "commentCreateAt": "2026-03-18T15:00:00",
-  //       "commentLikeCount": 4,
-  //       "commentReplyCount": 1,
-  //       "userNickname": "minjun_k",
-  //       "userProfile": "https://gi.esmplus.com/cjfals1015/eum/userProfile/thumbnail/default1.png",
-  //       "postId": 7,
-  //       "userId": 1,
-  //       "commentId": null
+  if (isLoading)
+    return (
+      <div>
+        <Wrapper>
+          <UserCommentCardSkeleton />
+          <UserCommentCardSkeleton />
+          <UserCommentCardSkeleton />
+          <UserCommentCardSkeleton />
+        </Wrapper>
+      </div>
+    );
 
   return (
     <div>

@@ -15,9 +15,9 @@ import {
   OngoingRoomCount,
   OngoingLastTime,
   OngoingLastMsg,
-} from "../ChatStyle";
-import useJoinedChatRoomList from "../hooks/useJoinedChatRoomList";
-import { useChatContext } from "../../context/ChatContext";
+} from "../../ChatStyle";
+import useJoinedChatRoomList from "../../hooks/useJoinedChatRoomList";
+import { useChatContext } from "../../../context/ChatContext";
 
 const S = {
   SelectRightPanel,
@@ -50,11 +50,15 @@ const SelectOngoingPanel = () => {
       <S.Divider />
       <S.OngoingRoomList>
         {isLoading && rooms.length === 0 ? (
-          <div style={{ padding: "12px", textAlign: "center", fontSize: "12px" }}>
+          <div
+            style={{ padding: "12px", textAlign: "center", fontSize: "12px" }}
+          >
             불러오는 중...
           </div>
         ) : !isLoading && rooms.length === 0 ? (
-          <div style={{ padding: "12px", textAlign: "center", fontSize: "12px" }}>
+          <div
+            style={{ padding: "12px", textAlign: "center", fontSize: "12px" }}
+          >
             진행중인 채팅방이 없습니다.
           </div>
         ) : (
@@ -66,7 +70,9 @@ const SelectOngoingPanel = () => {
                   <S.OngoingRoomTopRow>
                     <S.OngoingRoomNameRow>
                       <S.OngoingRoomName>{room.chatRoomName}</S.OngoingRoomName>
-                      <S.OngoingRoomCount>{room.chatRoomUsers}명</S.OngoingRoomCount>
+                      <S.OngoingRoomCount>
+                        {room.chatRoomUsers}명
+                      </S.OngoingRoomCount>
                     </S.OngoingRoomNameRow>
                     <S.OngoingLastTime>{room.time}</S.OngoingLastTime>
                   </S.OngoingRoomTopRow>
@@ -77,7 +83,11 @@ const SelectOngoingPanel = () => {
             {hasMore && (
               <div
                 ref={loaderRef}
-                style={{ padding: "8px", textAlign: "center", fontSize: "12px" }}
+                style={{
+                  padding: "8px",
+                  textAlign: "center",
+                  fontSize: "12px",
+                }}
               >
                 {isLoading ? "불러오는 중..." : ""}
               </div>

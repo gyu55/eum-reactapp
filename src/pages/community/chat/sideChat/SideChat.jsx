@@ -2,11 +2,11 @@ import React from "react";
 import styled from "styled-components";
 import { LAYOUT, radius, shadows } from "../../constants";
 import { useChatContext, SCREEN, LIST_FILTER } from "../../context/ChatContext";
-import SideChatHeader from "../chatComponents/SideChatHeader";
-import SideChatListComponent from "../chatComponents/SideChatListComponent";
-import SideChatRequestComponent from "../chatComponents/SideChatRequestComponent";
-import SideChatComponent from "../chatComponents/SideChatComponent";
-import SideChatOngoingComponent from "../chatComponents/SideChatOngoingComponent";
+import SideChatHeader from "./sideChatComponents/SideChatHeader";
+import SideChatListComponent from "./sideChatComponents/SideChatListComponent";
+import SideChatRequestComponent from "./sideChatComponents/SideChatRequestComponent";
+import SideChatComponent from "./sideChatComponents/SideChatComponent";
+import SideChatOngoingComponent from "./sideChatComponents/SideChatOngoingComponent";
 
 // ─── Panel ───────────────────────────────────────────────────────────────────
 

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import styled from "styled-components";
 import theme from "../../../../styles/theme";
 
@@ -11,8 +11,18 @@ import iconLike from "../../assets/icon/heart.svg";
 import iconSearch from "../../assets/icon/search.svg";
 
 const TYPE_LIST = [
-  { key: "post", label: "작성 게시글", icon: iconPost, iconActive: iconPostActive },
-  { key: "comment", label: "작성 댓글", icon: iconComment, iconActive: iconCommentActive },
+  {
+    key: "post",
+    label: "작성 게시글",
+    icon: iconPost,
+    iconActive: iconPostActive,
+  },
+  {
+    key: "comment",
+    label: "작성 댓글",
+    icon: iconComment,
+    iconActive: iconCommentActive,
+  },
   { key: "like", label: "좋아요한 글", icon: iconLike, iconActive: iconLike },
 ];
 
@@ -27,6 +37,12 @@ const TYPE_PATH = {
   like: "liked-post",
 };
 
+const TYPE_PLACEHOLDER = {
+  post: "게시글 검색",
+  comment: "댓글 검색",
+  like: "좋아요 한 게시글 검색",
+};
+
 const PostFilterBar = ({
   counts = { post: 42, comment: 42, like: 42 },
   onSortChange,
@@ -34,10 +50,12 @@ const PostFilterBar = ({
 }) => {
   const navigate = useNavigate();
   const { userId } = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const [activeType, setActiveType] = useState("post");
-  const [activeSort, setActiveSort] = useState("latest");
   const [searchValue, setSearchValue] = useState("");
+
+  const activeSort = searchParams.get("order") ?? "latest";
 
   const handleTypeClick = (key) => {
     setActiveType(key);
@@ -45,13 +63,33 @@ const PostFilterBar = ({
   };
 
   const handleSortClick = (key) => {
-    setActiveSort(key);
-    onSortChange?.(key);
+    // setSearchParams({ order: key });
+    setSearchParams((prev) => {
+      const next = new URLSearchParams(prev);
+      next.set("order", key);
+      return next;
+    });
   };
 
   const handleSearchChange = (e) => {
     setSearchValue(e.target.value);
     onSearch?.(e.target.value);
+  };
+
+  const handleSearch = () => {
+    if (!searchValue.trim()) {
+      alert("검색어를 입력해 주세요.");
+      return;
+    }
+    setSearchParams((prev) => {
+      const next = new URLSearchParams(prev);
+      next.set("keyword", searchValue.trim());
+      return next;
+    });
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") handleSearch();
   };
 
   return (
@@ -60,11 +98,12 @@ const PostFilterBar = ({
         <SearchBox>
           <SearchInput
             type="text"
-            placeholder="게시글 검색"
+            placeholder={TYPE_PLACEHOLDER[activeType]}
             value={searchValue}
             onChange={handleSearchChange}
+            onKeyDown={handleKeyDown}
           />
-          <SearchIcon src={iconSearch} alt="검색" />
+          <SearchIcon src={iconSearch} alt="검색" onClick={handleSearch} />
         </SearchBox>
       </SearchRow>
       <FilterRow>
@@ -75,13 +114,17 @@ const PostFilterBar = ({
             onClick={() => handleTypeClick(key)}
           >
             <TabIconLabel>
-              <TabIcon src={activeType === key ? iconActive : icon} alt={label} />
+              <TabIcon
+                src={activeType === key ? iconActive : icon}
+                alt={label}
+              />
               <TabLabel $active={activeType === key}>{label}</TabLabel>
             </TabIconLabel>
             <CountBadge $active={activeType === key}>{counts[key]}</CountBadge>
           </TypeTab>
         ))}
         <Spacer />
+        {/* 인기순 최신순 고려 */}
         <SortGroup>
           {SORT_LIST.map(({ key, label }) => (
             <SortButton
@@ -112,6 +155,7 @@ const SearchRow = styled.div`
   justify-content: center;
 `;
 
+// 검색창 관련
 const SearchBox = styled.div`
   width: 536px;
   background: ${theme.PALETTE.white};
@@ -144,6 +188,7 @@ const SearchIcon = styled.img`
   width: 16px;
   height: 16px;
   flex-shrink: 0;
+  cursor: pointer;
 `;
 
 const FilterRow = styled.div`

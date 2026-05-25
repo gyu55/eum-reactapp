@@ -7,7 +7,6 @@ import { useChatContext } from "../context/ChatContext";
 import { getChatRooms } from "../communityApi/chatApi";
 import PageCount from "../post/postComponents/PageCount";
 
-import LiveChatCardCandidate2 from "../chat/chatComponents/chatCardCandidate/LiveChatCardCandidate2.jsx";
 import LiveChatCardCandidate1 from "./chatComponents/chatCardCandidate/LiveChatCardCandidate1.jsx";
 
 const HeaderBlock = styled.div`
@@ -57,13 +56,11 @@ const CommunityChatComponent = () => {
         </HeaderBlock>
 
         <RowBlock flexWrap="wrap">
-          {rooms.map((room) => (
+          {rooms.map(({ id, ...roomData }) => (
             <LiveChatCardCandidate1
-              key={room.id}
-              chatRoomName={room.chatRoomName}
-              chatRoomDetail={room.chatRoomDetail}
-              chatRoomUsers={room.chatRoomUsers}
-              onJoin={() => openChatRoom(room)}
+              key={id}
+              {...roomData}
+              onJoin={() => openChatRoom({ id, ...roomData })}
             />
           ))}
         </RowBlock>

@@ -83,10 +83,16 @@ S.ProfileImageBox = styled.div`
   background: ${GRAYSCALE[2]};
   overflow: hidden;
 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   img {
     width: 100%;
     height: 100%;
+
     object-fit: cover;
+    display: block;
   }
 `;
 
@@ -707,10 +713,16 @@ S.PreviewProfileImage = styled.div`
   background: ${GRAYSCALE[2]};
   overflow: hidden;
 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   img {
     width: 100%;
     height: 100%;
+
     object-fit: cover;
+    display: block;
   }
 `;
 

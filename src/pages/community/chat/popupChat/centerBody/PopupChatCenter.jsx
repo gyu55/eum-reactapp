@@ -22,12 +22,12 @@ import {
   InputRow,
   TextInputBox,
   SendBtn,
-} from "../ChatStyle";
-import chatImozi from "../../assets/chat/chat_imozi.svg";
-import chatImageUpload from "../../assets/chat/chat_image_upload.svg";
-import chatShare from "../../assets/chat/chat_share.svg";
-import chatSueo from "../../assets/chat/chat_sueo.svg";
-import useChatRoom from "../hooks/useChatRoom";
+} from "../../ChatStyle";
+import chatImozi from "../../../assets/chat/chat_imozi.svg";
+import chatImageUpload from "../../../assets/chat/chat_image_upload.svg";
+import chatShare from "../../../assets/chat/chat_share.svg";
+import chatSueo from "../../../assets/chat/chat_sueo.svg";
+import useChatRoom from "../../hooks/useChatRoom";
 
 const S = {
   CenterPanel,

@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { colors } from "../constants";
-import { PageBg, Popup, Body, RightPanel } from "./ChatStyle";
-import PopupChatHeader from "./popupChat/PopupChatHeader";
-import PopupParticipantList from "./popupChat/PopupParticipantList";
-import PopupChatCenter from "./popupChat/PopupChatCenter";
-import PopupRoomInfoPanel from "./popupChat/PopupRoomInfoPanel";
-import PopupUserInfoPanel from "./popupChat/PopupUserInfoPanel";
-import { useChatContext } from "../context/ChatContext";
-import { getChatRoomUsers, getChatRoomInfo } from "../communityApi/chatApi";
+import { colors } from "../../constants";
+import { PageBg, Popup, Body, RightPanel } from "../ChatStyle";
+import PopupChatHeader from "./header/PopupChatHeader";
+import PopupParticipantList from "./listPanel/PopupParticipantList";
+import PopupChatCenter from "./centerBody/PopupChatCenter";
+import PopupRoomInfoPanel from "./infoPanel/PopupRoomInfoPanel";
+import PopupUserInfoPanel from "./infoPanel/PopupUserInfoPanel";
+import { useChatContext } from "../../context/ChatContext";
+import { getChatRoomUsers, getChatRoomInfo } from "../../communityApi/chatApi";
 
 const S = {
   PageBg,

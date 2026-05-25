@@ -56,9 +56,9 @@ export const CommentItemWrapper = styled.div`
 
 export const LeftArea = styled.div`
   display: flex;
-  gap: 19px;
+  gap: 20px;
   align-items: flex-start;
-  flex: 1;
+  /* flex: 1; */
   min-width: 0;
 `;
 
@@ -156,8 +156,9 @@ export const RightArea = styled.div`
   align-items: flex-end;
   justify-content: space-between;
   align-self: stretch;
-  flex-shrink: 0;
-  width: ${COMMENT.rightAreaWidth};
+  /* flex-shrink: 0; */
+  width: 88px;
+  /* width: ${COMMENT.rightAreaWidth}; */
 `;
 
 export const TimeText = styled.p`

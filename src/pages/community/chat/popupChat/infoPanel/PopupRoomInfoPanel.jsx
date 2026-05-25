@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { colors } from "../../constants";
-import { useChatContext } from "../../context/ChatContext";
-import OutlineButton from "../../common/OutlineButton";
-import ToggleSwitch from "../../common/ToggleSwitch";
-import T from "../../communityTextStyle";
+import { colors } from "../../../constants";
+import { useChatContext } from "../../../context/ChatContext";
+import OutlineButton from "../../../common/OutlineButton";
+import ToggleSwitch from "../../../common/ToggleSwitch";
+import T from "../../../communityTextStyle";
 import {
   RightPanelScroll,
   PanelSection,
@@ -20,9 +20,9 @@ import {
   Tag,
   AccessRow,
   AccessLabel,
-} from "../ChatStyle";
-import { PopupChatRoomInfoThumbnail } from "../chatComponents/chatComponentStyle";
-import defaultProfileImg from "../../assets/chat/chat_default_profile.svg";
+} from "../../ChatStyle";
+import { PopupChatRoomInfoThumbnail } from "../../chatComponents/chatComponentStyle";
+import defaultProfileImg from "../../../assets/chat/chat_default_profile.svg";
 
 const S = {
   RightPanelScroll,
@@ -61,13 +61,17 @@ const PopupRoomInfoPanel = ({ chatRoomInfo, tags }) => {
           }}
         />
         <S.RoomTitleCenter>
-          <S.RoomTitleText>{chatRoomInfo?.chatRoomName ?? "채팅방"}</S.RoomTitleText>
+          <S.RoomTitleText>
+            {chatRoomInfo?.chatRoomName ?? "채팅방"}
+          </S.RoomTitleText>
           <S.StatusRow>
             <S.LiveStatusRow>
               <S.LiveDot src={liveVectorUrl} alt="" />
               <S.LiveLabel>라이브</S.LiveLabel>
             </S.LiveStatusRow>
-            <S.ParticipantCount>{chatRoomInfo?.chatRoomUsers ?? 0}명</S.ParticipantCount>
+            <S.ParticipantCount>
+              {chatRoomInfo?.chatRoomUsers ?? 0}명
+            </S.ParticipantCount>
           </S.StatusRow>
         </S.RoomTitleCenter>
       </S.PanelSection>

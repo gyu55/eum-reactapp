@@ -1,10 +1,10 @@
 import React from "react";
 import styled from "styled-components";
-import { colors, fonts, radius } from "../../constants";
-import chatDefaultProfile from "../../assets/chat/chat_default_profile.svg";
-import { ThumbnailBox } from "./chatComponentStyle";
-import { useChatContext } from "../../context/ChatContext";
-import { SIDE_TABS } from "./sideChatTabs";
+import { colors, fonts, radius } from "../../../constants";
+import chatDefaultProfile from "../../../assets/chat/chat_default_profile.svg";
+import { ThumbnailBox } from "../../chatComponents/chatComponentStyle";
+import { useChatContext } from "../../../context/ChatContext";
+import { SIDE_TABS } from "../../chatComponents/sideChatTabs";
 
 // ─── Body ────────────────────────────────────────────────────────────────────
 
@@ -15,7 +15,8 @@ const Body = styled.div`
   flex-direction: column;
   justify-content: space-between;
   padding: 12px;
-  height: 346px;
+  gap: 16px;
+  /* height: 400px; */
   flex-shrink: 0;
 `;
 
@@ -25,7 +26,8 @@ const RequestList = styled.div`
   display: flex;
   flex-direction: column;
   overflow-y: auto;
-  flex: 1;
+  height: 380px;
+  /* flex: 1; */
 `;
 
 const RequestItem = styled.div`

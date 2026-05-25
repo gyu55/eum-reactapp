@@ -15,50 +15,20 @@ import {
 } from "./style";
 
 /*
-  나의 게시글 목록은 커뮤니티 API 연동 필요
+  나의 게시글 목록은 마이페이지 메인 API 연동
 */
-const posts = [
-  {
-    category: "학습 인증",
-    type: "cert",
-    title: "수어 알파벳 완전 마스터! 1달 열공 후기 남깁니다 🙌",
-    like: 42,
-    view: 324,
-    date: "03.08",
-  },
-  {
-    category: "학습 인증",
-    type: "cert",
-    title: "20일차 학습 인증 — 수어 숫자 1~100 완주!",
-    like: 31,
-    view: 201,
-    date: "03.05",
-  },
-  {
-    category: "수어 영상",
-    type: "video",
-    title: "처음으로 수어 영상 찍어봤어요 📹 (많이 어색해요ㅎㅎ)",
-    like: 74,
-    view: 487,
-    date: "03.01",
-  },
-  {
-    category: "학습 질문",
-    type: "question",
-    title: "수어에서 문장 순서가 한국어랑 다른가요?",
-    like: 19,
-    view: 162,
-    date: "02.24",
-  },
-];
-
-const getBadgeStyle = (type) => {
-  if (type === "video") return { color: "#DB2777", bg: "#FCE7F3" };
-  if (type === "question") return { color: "#7C3AED", bg: "#EDE9FE" };
+const getBadgeStyle = (postTag) => {
+  if (postTag === "수어 영상") return { color: "#DB2777", bg: "#FCE7F3" };
+  if (postTag === "질문게시판") return { color: "#7C3AED", bg: "#EDE9FE" };
   return { color: "#4359FC", bg: "#EEF2FF" };
 };
 
-const MypostList = () => {
+const getDateText = (date) => {
+  if (!date) return "-";
+  return date.split("T")[0].slice(5).replace("-", ".");
+};
+
+const MypostList = ({ posts = [] }) => {
   return (
     <Section>
       <SectionTitle>나의 게시글</SectionTitle>
@@ -71,21 +41,23 @@ const MypostList = () => {
           <TableHeaderText $center>날짜</TableHeaderText>
         </MyPostHeader>
 
-        {posts.map((post, index) => {
-          const badge = getBadgeStyle(post.type);
+        {/* 내가 작성한 게시글 목록 */}
+        {posts.map((post) => {
+          const badge = getBadgeStyle(post.postTag);
 
           return (
-            <MyPostRow key={index}>
+            <MyPostRow key={post.id}>
               <PostTitleBox>
                 <PostBadge $color={badge.color} $bg={badge.bg}>
-                  {post.category}
+                  {post.postTag}
                 </PostBadge>
-                <PostTitleText>{post.title}</PostTitleText>
+
+                <PostTitleText>{post.postTitle}</PostTitleText>
               </PostTitleBox>
 
-              <NumberText>{post.like}</NumberText>
-              <NumberText>{post.view}</NumberText>
-              <NumberText>{post.date}</NumberText>
+              <NumberText>{post.likeCount}</NumberText>
+              <NumberText>{post.postReadCount}</NumberText>
+              <NumberText>{getDateText(post.postCreateAt)}</NumberText>
             </MyPostRow>
           );
         })}

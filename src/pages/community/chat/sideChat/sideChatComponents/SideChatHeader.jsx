@@ -1,11 +1,11 @@
 import React from "react";
 import styled from "styled-components";
-import { colors } from "../../constants";
-import { h11Bold } from "../../../../styles/common";
-import { SCREEN, LIST_FILTER } from "../../context/ChatContext";
-import minusIcon from "../../assets/chat/minus_icon.svg";
-import expandIcon from "../../assets/chat/expand.svg";
-import closeIcon from "../../assets/chat/close_icon.svg";
+import { colors } from "../../../constants";
+import { h11Bold } from "../../../../../styles/common";
+import { SCREEN, LIST_FILTER } from "../../../context/ChatContext";
+import minusIcon from "../../../assets/chat/minus_icon.svg";
+import expandIcon from "../../../assets/chat/expand.svg";
+import closeIcon from "../../../assets/chat/close_icon.svg";
 
 const Header = styled.div`
   background: ${colors.gradientMain};

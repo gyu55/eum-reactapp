@@ -664,6 +664,7 @@ const SelectPageBg = styled.div`
 
 const SelectPopup = styled.div`
   width: 872px;
+  height: 644px;
   display: flex;
   flex-direction: column;
 `;
@@ -725,6 +726,7 @@ const SelectBody = styled.div`
 
 const SelectLeftPanel = styled.div`
   width: 312px;
+  /* height: 100%; */
   flex-shrink: 0;
   background: ${colors.bgSection};
   border-left: 1px solid ${colors.border};
@@ -741,6 +743,8 @@ const PanelTop = styled.div`
   display: flex;
   flex-direction: column;
   gap: 6px;
+  flex: 1;
+  min-height: 0;
 `;
 
 const PanelHeader = styled.div`
@@ -771,7 +775,8 @@ const SelectCountBadge = styled.div`
 const RoomList = styled.div`
   display: flex;
   flex-direction: column;
-  height: 100%;
+  flex: 1;
+  min-height: 0;
   overflow-y: auto;
 `;
 
@@ -941,6 +946,7 @@ const SelectRightPanel = styled.div`
 const OngoingRoomList = styled.div`
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
 `;
 
 const OngoingRoomItem = styled.div`

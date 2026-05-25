@@ -1,14 +1,14 @@
 import React from "react";
 import styled from "styled-components";
-import { colors, radius } from "../../constants";
-import { h10Bold, h11Bold, h11Regular } from "../../../../styles/common";
-import chatDefaultProfile from "../../assets/chat/chat_default_profile.svg";
-import { ThumbnailBox } from "./chatComponentStyle";
-import useChatRoomList from "../hooks/useChatRoomList";
-import { useChatContext } from "../../context/ChatContext";
-import { SIDE_TABS } from "./sideChatTabs";
+import { colors, radius } from "../../../constants";
+import { h10Bold, h11Bold, h11Regular } from "../../../../../styles/common";
+import chatDefaultProfile from "../../../assets/chat/chat_default_profile.svg";
+import { ThumbnailBox } from "../../chatComponents/chatComponentStyle";
+import useChatRoomList from "../../hooks/useChatRoomList";
+import { useChatContext } from "../../../context/ChatContext";
+import { SIDE_TABS } from "../../chatComponents/sideChatTabs";
 
-import defaultProfileImg from "../../assets/chat/chat_default_profile.svg";
+import defaultProfileImg from "../../../assets/chat/chat_default_profile.svg";
 
 // ─── List Body ───────────────────────────────────────────────────────────────
 
@@ -25,7 +25,7 @@ const ListBody = styled.div`
 const RoomList = styled.div`
   display: flex;
   flex-direction: column;
-  height: 280px;
+  height: 380px;
   overflow-y: auto;
 `;
 

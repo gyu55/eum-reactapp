@@ -16,13 +16,13 @@ import {
   LeaveBtn,
   MinimizeBtn,
   CloseBtn,
-} from "../ChatStyle";
-import { ThumbnailBox } from "../chatComponents/chatComponentStyle";
-import defaultProfileImg from "../../assets/chat/chat_default_profile.svg";
-import { useChatContext } from "../../context/ChatContext";
-import chatIcon from "../../assets/chat/chat_icon.svg";
-import minusIcon from "../../assets/chat/minus_icon.svg";
-import closeIcon from "../../assets/chat/close_icon.svg";
+} from "../../ChatStyle";
+import { ThumbnailBox } from "../../chatComponents/chatComponentStyle";
+import defaultProfileImg from "../../../assets/chat/chat_default_profile.svg";
+import { useChatContext } from "../../../context/ChatContext";
+import chatIcon from "../../../assets/chat/chat_icon.svg";
+import minusIcon from "../../../assets/chat/minus_icon.svg";
+import closeIcon from "../../../assets/chat/close_icon.svg";
 
 const S = {
   CloseBtn,

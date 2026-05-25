@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faComment, faEye, faHeart } from "@fortawesome/free-solid-svg-icons";
+import formatRelativeTime from "../../functions/formatRelativeTime";
 import {
   Avatar,
   AvatarAndAuthorRow,
@@ -18,6 +17,9 @@ import {
   TimeText,
   Title,
 } from "./postListCardStyle";
+import heartIcon from "../../assets/icon/heart.svg";
+import commentIcon from "../../assets/icon/comment.svg";
+import viewCountIcon from "../../assets/icon/view-count.svg";
 import postDefaultProfile from "../../assets/post_default_profile.png";
 import defaultProfile1 from "../../assets/userProfile/default1.png";
 import defaultProfile2 from "../../assets/userProfile/default2.png";
@@ -55,6 +57,7 @@ const PostListCard = ({
   postCreateAt = "",
   postTitle = "",
   postContent = "",
+  postProfile = "",
   userNickname = "",
   userProfile = "",
   likeCount = 0,
@@ -70,7 +73,7 @@ const PostListCard = ({
       {/* 태그 및 작성 시각 */}
       <S.TagAndTimeRow>
         <S.Tag>{postTag}</S.Tag>
-        <S.TimeText>{postCreateAt}</S.TimeText>
+        <S.TimeText>{formatRelativeTime(postCreateAt)}</S.TimeText>
       </S.TagAndTimeRow>
 
       {/* 게시글 컨텐츠 (제목, 내용) 및 썸네일 row */}
@@ -80,9 +83,15 @@ const PostListCard = ({
           <S.Title>{postTitle}</S.Title>
           <S.Description>{postContent}</S.Description>
         </S.ContentArea>
-        {/* 게시글 썸네일 — 추후 API 연동 시 실제 이미지로 교체 */}
         <S.Thumbnail>
-          <img src={postDefaultProfile} alt="게시글 썸네일" />
+          <img
+            src={postProfile || postDefaultProfile}
+            alt="게시글 썸네일"
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = postDefaultProfile;
+            }}
+          />
         </S.Thumbnail>
       </S.ContentAndTitleRow>
 
@@ -105,17 +114,17 @@ const PostListCard = ({
         <S.PostStateRow>
           {/* 좋아요 */}
           <S.StatItem>
-            <FontAwesomeIcon icon={faHeart} />
+            <img src={heartIcon} alt="heart" height={"12px"} />
             <span>{likeCount}</span>
           </S.StatItem>
           {/* 댓글수 */}
           <S.StatItem>
-            <FontAwesomeIcon icon={faComment} />
+            <img src={commentIcon} alt="comment" height={"12px"} />
             <span>{commentCount}</span>
           </S.StatItem>
           {/* 조회수 */}
           <S.StatItem>
-            <FontAwesomeIcon icon={faEye} />
+            <img src={viewCountIcon} alt="viewCount" width={"12px"} />
             <span>{postReadCount}</span>
           </S.StatItem>
         </S.PostStateRow>

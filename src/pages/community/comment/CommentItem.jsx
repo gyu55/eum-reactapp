@@ -18,6 +18,7 @@ import {
 } from "./commentStyle";
 
 import { AuthorAvatar } from "../post/detail/postDetailStyle";
+import formatRelativeTime from "../functions/formatRelativeTime";
 
 const S = {
   CommentItemWrapper,
@@ -87,7 +88,7 @@ const CommentItem = ({
         </S.Body>
       </S.LeftArea>
       <S.RightArea>
-        <S.TimeText>{commentCreateAt}</S.TimeText>
+        <S.TimeText>{formatRelativeTime(commentCreateAt)}</S.TimeText>
         <S.ReportButton aria-label="댓글 신고">
           <img
             src={DEFAULT_IMAGES.reportIcon}

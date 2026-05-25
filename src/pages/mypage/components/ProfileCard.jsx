@@ -23,73 +23,127 @@ import {
 } from "./style";
 
 /*
-  프로필 정보는 유저 API 연동 필요
+  프로필 정보는 마이페이지 메인 API 연동
 */
-const ProfileCard = ({ onLevelClick }) => {
+const ProfileCard = ({ profile, onLevelClick }) => {
   const navigate = useNavigate();
 
+  // 프로필 이미지 경로 처리
+  const getProfileImageSrc = (profileImage) => {
+    if (!profileImage || profileImage === "default.jpg") {
+      return "/assets/images/default-profile.png";
+    }
+
+    if (profileImage.startsWith("http")) {
+      return profileImage;
+    }
+
+    return `http://localhost:10000/private/api/file/display?fileName=${encodeURIComponent(profileImage)}`;
+  };
+
+  // 정보수정 페이지 이동
   const handleEditClick = () => {
     navigate("/mypage/edit");
   };
 
+  // 경험치 퍼센트 계산
+  const currentExp = profile?.userExp || 0;
+
+  // 레벨 계산
+  const currentLevel = Math.floor(currentExp / 100) + 1;
+  const maxExp = currentLevel * 100;
+  const expPercent = Math.min((currentExp / maxExp) * 100, 100);
+
+  // 날짜 표시
+  const getCreateDate = (date) => {
+    if (!date) {
+      return "-";
+    }
+
+    return date.includes("T") ? date.split("T")[0] : date.split(" ")[0];
+  };
+
   return (
     <ProfileWrapper>
-      <ProfileImage />
+      {/* 프로필 이미지 */}
+      <ProfileImage>
+        <img
+          src={getProfileImageSrc(profile?.userProfile)}
+          alt="프로필 이미지"
+          onError={(e) => {
+            e.currentTarget.src = "/assets/images/default-profile.png";
+          }}
+        />
+      </ProfileImage>
 
       <ProfileContent>
+        {/* 이름 / 레벨 */}
         <ProfileNameRow>
-          <ProfileUserName>홍길동</ProfileUserName>
+          <ProfileUserName>
+            {profile?.userName || "사용자"}
+          </ProfileUserName>
 
           <LevelButton type="button" onClick={onLevelClick}>
-            <LevelBadge>Lv.7</LevelBadge>
+            <LevelBadge>
+              Lv.{currentLevel}
+            </LevelBadge>
           </LevelButton>
         </ProfileNameRow>
 
+        {/* 경험치 */}
         <ExpRow>
           <ExpButton type="button" onClick={onLevelClick}>
             <ExpBar>
-              <ExpFill />
+              <ExpFill $percent={expPercent} />
             </ExpBar>
           </ExpButton>
 
           <ExpButton type="button" onClick={onLevelClick}>
-            <ExpText>40 / 240 EXP</ExpText>
+            <ExpText>
+              {currentExp} / {maxExp} EXP
+            </ExpText>
           </ExpButton>
         </ExpRow>
 
+        {/* 회원 정보 */}
         <DetailArea>
           <ProfileColumn>
             <ProfileRow>
               <ProfileLabel>이메일</ProfileLabel>
-              <ProfileValue>user123@gmail.com</ProfileValue>
+              <ProfileValue>{profile?.userEmail || "-"}</ProfileValue>
             </ProfileRow>
+
             <ProfileRow>
               <ProfileLabel>닉네임</ProfileLabel>
-              <ProfileValue>수어마스터홍길동</ProfileValue>
+              <ProfileValue>{profile?.userNickname || "-"}</ProfileValue>
             </ProfileRow>
+
             <ProfileRow>
               <ProfileLabel>직업</ProfileLabel>
-              <ProfileValue>학생</ProfileValue>
+              <ProfileValue>{profile?.userJob || "-"}</ProfileValue>
             </ProfileRow>
           </ProfileColumn>
 
           <ProfileColumn>
             <ProfileRow>
               <ProfileLabel>가입일</ProfileLabel>
-              <ProfileValue>2025-01-15</ProfileValue>
+              <ProfileValue>{getCreateDate(profile?.userCreateAt)}</ProfileValue>
             </ProfileRow>
+
             <ProfileRow>
               <ProfileLabel>지역</ProfileLabel>
-              <ProfileValue>서울</ProfileValue>
+              <ProfileValue>{profile?.userAddress || "-"}</ProfileValue>
             </ProfileRow>
+
             <ProfileRow>
-              <ProfileLabel>최근 접속</ProfileLabel>
-              <ProfileValue>2025-03-08</ProfileValue>
+              <ProfileLabel>전화번호</ProfileLabel>
+              <ProfileValue>{profile?.userPhoneNum || "-"}</ProfileValue>
             </ProfileRow>
           </ProfileColumn>
         </DetailArea>
       </ProfileContent>
 
+      {/* 정보수정 버튼 */}
       <EditButton type="button" onClick={handleEditClick}>
         정보수정하기
       </EditButton>

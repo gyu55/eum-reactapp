@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
-import { colors, fonts, radius } from "../../constants";
-import ChatMessage from "./ChatMessage";
-import useChatRoom from "../hooks/useChatRoom";
+import { colors, fonts, radius } from "../../../constants";
+import ChatMessage from "../../chatComponents/ChatMessage";
+import useChatRoom from "../../hooks/useChatRoom";
 
 // ─── Body ────────────────────────────────────────────────────────────────────
 
@@ -15,7 +15,8 @@ const MessageList = styled.div`
   gap: 16px;
   padding: 12px;
   overflow-y: auto;
-  max-height: 380px;
+  /* max-height: 380px; */
+  height: 380px;
   flex-shrink: 0;
 `;
 

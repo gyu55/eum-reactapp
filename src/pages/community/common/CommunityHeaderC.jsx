@@ -87,7 +87,7 @@ const BlobPink = styled.div`
   height: 320px;
   background-color: #fbc8ff;
   filter: blur(100px);
-  opacity: 0.30;
+  opacity: 0.3;
   z-index: 0;
   pointer-events: none;
 `;
@@ -107,7 +107,7 @@ const MainSection = styled.div`
   height: 100%;
   position: relative;
   gap: 60px;
-  z-index: 1;
+  /* z-index: 1; */
 `;
 
 const LeftSection = styled.div`
@@ -190,7 +190,7 @@ const RightSection = styled.div`
 `;
 
 const EventItem = styled.div`
-  background: rgba(255, 255, 255, 0.70);
+  background: rgba(255, 255, 255, 0.7);
   border: 1px solid ${theme.PALETTE.primary.light};
   border-radius: 14px;
   padding: 20px 24px;
@@ -214,6 +214,7 @@ const EventText = styled.p`
 `;
 
 const CommunityHeaderA = () => {
+  console.log("헤더 빌드");
   return (
     <Container>
       <BlobGreen />
@@ -233,15 +234,15 @@ const CommunityHeaderA = () => {
             </Description>
             <StatisticsSection>
               <StatItem>
-                <StatNumber>0000</StatNumber>
+                <StatNumber>78</StatNumber>
                 <StatLabel>전체 회원</StatLabel>
               </StatItem>
               <StatItem>
-                <StatNumber>000</StatNumber>
+                <StatNumber>18</StatNumber>
                 <StatLabel>오늘 게시글</StatLabel>
               </StatItem>
               <StatItem>
-                <StatNumber>00</StatNumber>
+                <StatNumber>21</StatNumber>
                 <StatLabel>지금 접속중</StatLabel>
               </StatItem>
             </StatisticsSection>

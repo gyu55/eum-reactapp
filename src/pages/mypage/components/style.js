@@ -375,17 +375,24 @@ export const ProfileWrapper = styled(CardBox)`
 
 /* 프로필 이미지 */
 export const ProfileImage = styled.div`
-  width: 68px;
-  height: 68px;
+  width: 96px;
+  height: 96px;
 
-  border-radius: 16px;
-  background: ${GRAYSCALE[2]};
+  border-radius: 20px;
   overflow: hidden;
+  background: #d9d9d9;
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   img {
     width: 100%;
     height: 100%;
+
     object-fit: cover;
+    display: block;
   }
 `;
 

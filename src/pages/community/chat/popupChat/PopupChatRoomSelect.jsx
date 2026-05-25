@@ -10,12 +10,12 @@ import {
   MinimizeBtn,
   CloseBtn,
   Header,
-} from "./ChatStyle";
-import SelectRoomListPanel from "./popupChat/SelectRoomListPanel";
-import SelectOngoingPanel from "./popupChat/SelectOngoingPanel";
-import { useChatContext } from "../context/ChatContext";
-import minusIcon from "../assets/chat/minus_icon.svg";
-import closeIcon from "../assets/chat/close_icon.svg";
+} from "../ChatStyle";
+import SelectRoomListPanel from "./listPanel/SelectRoomListPanel";
+import SelectOngoingPanel from "./centerBody/SelectOngoingPanel";
+import { useChatContext } from "../../context/ChatContext";
+import minusIcon from "../../assets/chat/minus_icon.svg";
+import closeIcon from "../../assets/chat/close_icon.svg";
 
 const S = {
   SelectPageBg,

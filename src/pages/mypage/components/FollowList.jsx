@@ -17,67 +17,55 @@ import {
 } from "./style";
 
 /*
-  팔로잉, 팔로워 목록은 유저 API 연동 필요
+  팔로잉, 팔로워 목록은 마이페이지 메인 API 연동
 */
-const followingUsers = [
-  "이음선생",
-  "수어마스터",
-  "영상마이스",
-  "취준생최고",
-  "별빛나리",
-  "독서왕김민",
-  "모두보살펴",
-  "수어꿈나무",
-  "입문자박지",
-  "아이디어맨",
-  "음악수어러",
-  "불날학습자",
-];
-
-const followerUsers = [
-  "새싹학습자",
-  "알림이",
-  "드림보기",
-  "나비처럼",
-  "달빛학습",
-  "햇살가득",
-  "파도타기",
-  "여우수어",
-];
-
-const FollowList = () => {
+const FollowList = ({ followingList = [], followerList = [] }) => {
   return (
     <Section>
       <SectionTitle>팔로우</SectionTitle>
 
       <FollowWrapper>
+        {/* 팔로잉 */}
         <FollowHeader>
           <FollowTitle>팔로잉</FollowTitle>
-          <CountBadge>{followingUsers.length}</CountBadge>
+          <CountBadge>{followingList.length}</CountBadge>
         </FollowHeader>
 
         <UserList>
-          {followingUsers.map((name) => (
-            <UserItem key={name}>
-              <Avatar />
-              <FollowUserName>{name}</FollowUserName>
+          {followingList.map((user) => (
+            <UserItem key={user.id}>
+              <Avatar
+                src={user.userProfile}
+                alt="팔로잉 프로필"
+              />
+
+              <FollowUserName>
+                {user.userNickname || "이름 없음"}
+              </FollowUserName>
             </UserItem>
           ))}
         </UserList>
 
         <FollowDivider />
 
+        {/* 팔로워 */}
         <FollowerBlock>
           <FollowHeader>
             <FollowTitle>팔로워</FollowTitle>
-            <CountBadge>{followerUsers.length}</CountBadge>
+            <CountBadge>{followerList.length}</CountBadge>
           </FollowHeader>
 
           <UserList>
-            {followerUsers.map((name) => (
-              <UserItem key={name}>
-                <Avatar />
-                <FollowUserName>{name}</FollowUserName>
+            {followerList.map((user) => (
+              <UserItem key={user.id}>
+                <Avatar
+                  src={user.userProfile}
+                  alt="팔로워 프로필"
+                />
+
+                <FollowUserName>
+                  {user.userNickname || "이름 없음"}
+                </FollowUserName>
               </UserItem>
             ))}
           </UserList>

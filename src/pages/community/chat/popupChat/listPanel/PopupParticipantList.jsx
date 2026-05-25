@@ -14,9 +14,9 @@ import {
   UserNameText,
   UserRoleText,
   LevelBadge,
-} from "../ChatStyle";
-import { PopupThumbnailBox } from "../chatComponents/chatComponentStyle";
-import defaultProfile from "../../assets/chat/chat_default_profile.svg";
+} from "../../ChatStyle";
+import { PopupThumbnailBox } from "../../chatComponents/chatComponentStyle";
+import defaultProfile from "../../../assets/chat/chat_default_profile.svg";
 
 const S = {
   LeftPanel,

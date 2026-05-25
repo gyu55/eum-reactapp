@@ -9,17 +9,35 @@ import {
 } from "./style";
 
 /*
-  출석일, 시작일, 최고 기록은 출석 API 연동 필요
+  출석 정보는 마이페이지 메인 API 연동
 */
-const AttendanceCard = () => {
+const AttendanceCard = ({ attendance }) => {
+  // 날짜 포맷 변환
+  const formatDate = (date) => {
+    if (!date) return "-";
+
+    return date.replaceAll("-", ".");
+  };
+
   return (
     <AttendanceWrapper>
-      <AttendanceDayText>1003일🔥</AttendanceDayText>
+      {/* 현재 연속 출석 */}
+      <AttendanceDayText>
+        {attendance?.attendanceCount || 0}일🔥
+      </AttendanceDayText>
 
       <AttendanceInfoBox>
-        <AttendanceStrongText>연속 학습 중!</AttendanceStrongText>
-        <AttendanceSubText>2025.02.07 부터 시작</AttendanceSubText>
-        <AttendanceSubText>역대 최고: 30일</AttendanceSubText>
+        <AttendanceStrongText>
+          연속 학습 중!
+        </AttendanceStrongText>
+
+        <AttendanceSubText>
+          {formatDate(attendance?.attendanceStartDate)} 부터 시작
+        </AttendanceSubText>
+
+        <AttendanceSubText>
+          역대 최고: {attendance?.maxAttendanceCount || 0}일
+        </AttendanceSubText>
       </AttendanceInfoBox>
     </AttendanceWrapper>
   );

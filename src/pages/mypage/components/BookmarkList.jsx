@@ -15,42 +15,15 @@ import {
 } from "./style";
 
 /*
-  즐겨찾기 목록은 커뮤니티 API 연동 필요
+  즐겨찾기 목록은 마이페이지 메인 API 연동
 */
-const bookmarks = [
-  {
-    category: "학습 인증",
-    type: "study",
-    title: "이음 앱 학습 100일 달성 후기! 정말 변화가 느껴져요",
-    author: "이음선생님",
-    like: 134,
-    view: 892,
-  },
-  {
-    category: "취업·진로",
-    type: "career",
-    title: "수어 통역사가 되는 방법 — 현직자가 알려드려요",
-    author: "수어마스터",
-    like: 97,
-    view: "1.2k",
-  },
-  {
-    category: "자유게시판",
-    type: "free",
-    title: "이음 앱 꿀팁 모음 — 이렇게 쓰면 훨씬 효율적이에요",
-    author: "열공함",
-    like: 56,
-    view: 330,
-  },
-];
-
-const getBadgeStyle = (type) => {
-  if (type === "career") return { bg: "#FFF7ED", color: "#F97316" };
-  if (type === "free") return { bg: "#EEF2FF", color: "#4359FC" };
+const getBadgeStyle = (postTag) => {
+  if (postTag === "취업·진로") return { bg: "#FFF7ED", color: "#F97316" };
+  if (postTag === "자유게시판") return { bg: "#EEF2FF", color: "#4359FC" };
   return { bg: "#DCFCE7", color: "#22C55E" };
 };
 
-const BookmarkList = () => {
+const BookmarkList = ({ bookmarks = [] }) => {
   return (
     <Section>
       <SectionTitle>즐겨찾기</SectionTitle>
@@ -63,21 +36,23 @@ const BookmarkList = () => {
           <TableHeaderText $center>조회수</TableHeaderText>
         </BookmarkHeader>
 
-        {bookmarks.map((bookmark, index) => {
-          const badge = getBadgeStyle(bookmark.type);
+        {/* 좋아요한 게시글 목록 */}
+        {bookmarks.map((bookmark) => {
+          const badge = getBadgeStyle(bookmark.postTag);
 
           return (
-            <BookmarkRow key={index}>
+            <BookmarkRow key={bookmark.id}>
               <PostTitleBox>
                 <PostBadge $bg={badge.bg} $color={badge.color}>
-                  {bookmark.category}
+                  {bookmark.postTag}
                 </PostBadge>
-                <PostTitleText>{bookmark.title}</PostTitleText>
+
+                <PostTitleText>{bookmark.postTitle}</PostTitleText>
               </PostTitleBox>
 
-              <NumberText>{bookmark.author}</NumberText>
-              <NumberText>{bookmark.like}</NumberText>
-              <NumberText>{bookmark.view}</NumberText>
+              <NumberText>{bookmark.userNickname || "-"}</NumberText>
+              <NumberText>{bookmark.likeCount}</NumberText>
+              <NumberText>{bookmark.postReadCount}</NumberText>
             </BookmarkRow>
           );
         })}

@@ -1,14 +1,14 @@
 import React from "react";
 import styled from "styled-components";
-import { colors, radius } from "../../constants";
-import { h10Bold, h11Bold, h11Regular } from "../../../../styles/common";
-import chatDefaultProfile from "../../assets/chat/chat_default_profile.svg";
-import { ThumbnailBox } from "./chatComponentStyle";
-import useJoinedChatRoomList from "../hooks/useJoinedChatRoomList";
-import { useChatContext } from "../../context/ChatContext";
-import { SIDE_TABS } from "./sideChatTabs";
+import { colors, radius } from "../../../constants";
+import { h10Bold, h11Bold, h11Regular } from "../../../../../styles/common";
+import chatDefaultProfile from "../../../assets/chat/chat_default_profile.svg";
+import { ThumbnailBox } from "../../chatComponents/chatComponentStyle";
+import useJoinedChatRoomList from "../../hooks/useJoinedChatRoomList";
+import { useChatContext } from "../../../context/ChatContext";
+import { SIDE_TABS } from "../../chatComponents/sideChatTabs";
 
-// ─── Styles ───────────────────────────────────────────────────────────────────
+// ─── Styles───────────────────────────────────────────────────────────────────
 
 const ListBody = styled.div`
   background: ${colors.bgCard};
@@ -23,7 +23,7 @@ const ListBody = styled.div`
 const RoomList = styled.div`
   display: flex;
   flex-direction: column;
-  height: 280px;
+  height: 380px;
   overflow-y: auto;
 `;
 
@@ -145,7 +145,9 @@ const SideChatOngoingComponent = () => {
                     <RoomName>{room.chatRoomName}</RoomName>
                     <RoomTime>{room.time}</RoomTime>
                   </RoomTopRow>
-                  <RoomLastMsg>{room.chatRoomDetail || `${room.chatRoomUsers}명`}</RoomLastMsg>
+                  <RoomLastMsg>
+                    {room.chatRoomDetail || `${room.chatRoomUsers}명`}
+                  </RoomLastMsg>
                 </RoomInfo>
               </RoomItem>
             ))}

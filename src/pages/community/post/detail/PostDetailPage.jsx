@@ -76,7 +76,7 @@ const PostDetailPage = () => {
 
           {/* 감싸는 카드 */}
           <S.PostBodyWrapper>
-            <PostContent />
+            <PostContent postId={postId} />
             <CommentSection postId={postId} />
           </S.PostBodyWrapper>
           {/* <PostContent /> */}

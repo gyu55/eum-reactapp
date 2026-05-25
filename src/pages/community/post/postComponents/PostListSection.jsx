@@ -88,34 +88,9 @@ const PostListSection = () => {
         </S.ColumnBlock>
       ) : (
         <S.ColumnBlock marginBottom="42px">
-          {posts.map(
-            ({
-              id,
-              postTag,
-              postCreateAt,
-              postTitle,
-              postContent,
-              userNickname,
-              userProfile,
-              likeCount,
-              commentCount,
-              postReadCount,
-            }) => (
-              <PostListCard
-                key={id}
-                id={id}
-                postTag={postTag}
-                postCreateAt={postCreateAt}
-                postTitle={postTitle}
-                postContent={postContent}
-                userNickname={userNickname}
-                userProfile={userProfile}
-                likeCount={likeCount}
-                commentCount={commentCount}
-                postReadCount={postReadCount}
-              />
-            ),
-          )}
+          {posts.map(({ id, ...posts }) => (
+            <PostListCard key={id} id={id} {...posts} />
+          ))}
           {totalPages > 1 && (
             <PageCount
               totalPages={totalPages}

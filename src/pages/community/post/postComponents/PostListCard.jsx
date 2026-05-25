@@ -57,6 +57,7 @@ const PostListCard = ({
   postCreateAt = "",
   postTitle = "",
   postContent = "",
+  postProfile = "",
   userNickname = "",
   userProfile = "",
   likeCount = 0,
@@ -82,9 +83,15 @@ const PostListCard = ({
           <S.Title>{postTitle}</S.Title>
           <S.Description>{postContent}</S.Description>
         </S.ContentArea>
-        {/* 게시글 썸네일 — 추후 API 연동 시 실제 이미지로 교체 */}
         <S.Thumbnail>
-          <img src={postDefaultProfile} alt="게시글 썸네일" />
+          <img
+            src={postProfile || postDefaultProfile}
+            alt="게시글 썸네일"
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = postDefaultProfile;
+            }}
+          />
         </S.Thumbnail>
       </S.ContentAndTitleRow>
 

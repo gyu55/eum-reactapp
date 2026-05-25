@@ -15,7 +15,8 @@ const MessageList = styled.div`
   gap: 16px;
   padding: 12px;
   overflow-y: auto;
-  max-height: 380px;
+  /* max-height: 380px; */
+  height: 380px;
   flex-shrink: 0;
 `;
 

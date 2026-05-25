@@ -14,7 +14,7 @@ import {
 import SelectRoomListPanel from "./listPanel/SelectRoomListPanel";
 import SelectOngoingPanel from "./centerBody/SelectOngoingPanel";
 import { useChatContext } from "../../context/ChatContext";
-import minusIcon from "../../assets/chat/chat_image_upload.svg";
+import minusIcon from "../../assets/chat/minus_icon.svg";
 import closeIcon from "../../assets/chat/close_icon.svg";
 
 const S = {

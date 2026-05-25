@@ -25,7 +25,7 @@ const ListBody = styled.div`
 const RoomList = styled.div`
   display: flex;
   flex-direction: column;
-  height: 280px;
+  height: 380px;
   overflow-y: auto;
 `;
 

@@ -15,7 +15,8 @@ const Body = styled.div`
   flex-direction: column;
   justify-content: space-between;
   padding: 12px;
-  height: 346px;
+  gap: 16px;
+  /* height: 400px; */
   flex-shrink: 0;
 `;
 
@@ -25,7 +26,8 @@ const RequestList = styled.div`
   display: flex;
   flex-direction: column;
   overflow-y: auto;
-  flex: 1;
+  height: 380px;
+  /* flex: 1; */
 `;
 
 const RequestItem = styled.div`

@@ -107,7 +107,7 @@ const MainSection = styled.div`
   height: 100%;
   position: relative;
   gap: 60px;
-  z-index: 1;
+  /* z-index: 1; */
 `;
 
 const LeftSection = styled.div`
@@ -234,15 +234,15 @@ const CommunityHeaderA = () => {
             </Description>
             <StatisticsSection>
               <StatItem>
-                <StatNumber>0000</StatNumber>
+                <StatNumber>78</StatNumber>
                 <StatLabel>전체 회원</StatLabel>
               </StatItem>
               <StatItem>
-                <StatNumber>000</StatNumber>
+                <StatNumber>18</StatNumber>
                 <StatLabel>오늘 게시글</StatLabel>
               </StatItem>
               <StatItem>
-                <StatNumber>00</StatNumber>
+                <StatNumber>21</StatNumber>
                 <StatLabel>지금 접속중</StatLabel>
               </StatItem>
             </StatisticsSection>

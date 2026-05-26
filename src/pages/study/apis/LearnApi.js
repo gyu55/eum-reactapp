@@ -61,6 +61,46 @@ export const fetchEduVideoById = async (eduVideoId) => {
   }
 };
 
+// 학습 전체 단어 개수 조회
+export const fetchLearnTotalWordCount = async (learnId) => {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 4000);
+
+  try {
+    const response = await fetch(`${BASE_URL}/api/word-studies/edus/${learnId}/total-count`, { signal: controller.signal });
+    if (!response.ok)
+      throw new Error("학습 전체 단어 개수 조회 실패");
+
+    const result = await response.json();
+    if (!result.success)
+      throw new Error(result.message);
+
+    return result.data;
+  } finally {
+    clearTimeout(timeoutId);
+  }
+};
+
+// 학습 완료 단어 개수 조회
+export const fetchLearnCompletedWordCount = async ({ userId, learnId }) => {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 4000);
+
+  try {
+    const response = await fetch(`${BASE_URL}/api/word-studies/users/${userId}/edus/${learnId}/completed-count`, { signal: controller.signal });
+    if (!response.ok)
+      throw new Error("학습 완료 단어 개수 조회 실패");
+
+    const result = await response.json();
+    if (!result.success)
+      throw new Error(result.message);
+
+    return result.data;
+  } finally {
+    clearTimeout(timeoutId);
+  }
+};
+
 // 학습 완료
 export const finishLearnWord = async ({ userId, eduWordMapId }) => {
   const response = await fetch(`${BASE_URL}/api/word-studies`, {

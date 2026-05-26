@@ -319,7 +319,6 @@ export const ExperienceJoinGuide = styled.aside`
 export const AuthPromptOverlay = styled.div`
   position: fixed;
   inset: 0;
-  z-index: 900;
   display: flex;
   align-items: center;
   justify-content: center;

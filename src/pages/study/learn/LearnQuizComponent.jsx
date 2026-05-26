@@ -12,6 +12,49 @@ import LearnQuizOptionCard from "./parts/LearnQuizOptionCard";
 import LearnQuizReview from "./parts/LearnQuizReview";
 import * as S from "./style";
 
+const optionIcons = ["👋", "✋", "🤟", "👌", "👍"];
+
+// 단어보기생성: 백엔드 단어를 퀴즈 보기 카드 형식으로 변환합니다.
+const createWordOption = (word, index, correct = false) => ({
+  id: `${correct ? "correct" : "word"}-${word.id}`,
+  label: word.wordsTitle,
+  desc: word.wordsDetail || "같은 학습에 포함된 수어 표현이에요.",
+  icon: optionIcons[index % optionIcons.length],
+  correct,
+});
+
+// 오답보기생성: 같은 학습 단어를 우선 사용하고 부족하면 임시 보기로 채웁니다.
+const createWrongOptions = ({ word, words, baseQuiz, correctLabel }) => {
+  const wordOptions = words
+    .filter((item) => item.id !== word.id && item.wordsTitle && item.wordsTitle !== correctLabel)
+    .slice(0, 2)
+    .map((item, index) => createWordOption(item, index, false));
+
+  if (wordOptions.length >= 2)
+    return wordOptions;
+
+  const fallbackOptions = baseQuiz.questions
+    .flatMap((item) => item.options)
+    .filter((option) => option.label && option.label !== correctLabel)
+    .filter((option, index, options) => options.findIndex((item) => item.label === option.label) === index)
+    .slice(0, 2 - wordOptions.length)
+    .map((option, index) => ({
+      ...option,
+      id: `fallback-${word.id}-${index}`,
+      correct: false,
+    }));
+
+  return [...wordOptions, ...fallbackOptions];
+};
+
+// 보기순서생성: 정답 위치가 항상 끝에만 가지 않도록 중간에 섞어줍니다.
+const createQuestionOptions = ({ word, words, baseQuiz, correctLabel }) => {
+  const wrongOptions = createWrongOptions({ word, words, baseQuiz, correctLabel });
+  const correctOption = createWordOption(word, wrongOptions.length, true);
+
+  return [wrongOptions[0], correctOption, ...wrongOptions.slice(1)].filter(Boolean);
+};
+
 const LearnQuizComponent = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -43,15 +86,12 @@ const LearnQuizComponent = () => {
       questions: sessionWords.map((word, index) => {
         const fallback = baseQuiz.questions[index % baseQuiz.questions.length];
         const correctLabel = word.wordsTitle || fallback.targetWord || fallback.options.find((option) => option.correct)?.label;
-        const wrongOptions = baseQuiz.questions
-          .flatMap((item) => item.options)
-          .filter((option) => option.label !== correctLabel)
-          .slice(0, 2)
-          .map((option, optionIndex) => ({
-            ...option,
-            id: `wrong-${word.id}-${optionIndex}`,
-            correct: false,
-          }));
+        const options = createQuestionOptions({
+          word: { ...word, wordsTitle: correctLabel },
+          words: sessionWords,
+          baseQuiz,
+          correctLabel,
+        });
 
         return {
           ...fallback,
@@ -61,16 +101,7 @@ const LearnQuizComponent = () => {
           hint: word.wordsDetail || fallback.hint,
           word,
           video: sessionVideos[word.id],
-          options: [
-            ...wrongOptions,
-            {
-              id: word.id,
-              label: correctLabel,
-              desc: word.wordsDetail || "학습한 수어 표현이에요.",
-              icon: "👋",
-              correct: true,
-            },
-          ],
+          options,
           feedback: {
             ...fallback.feedback,
             correct: `"${correctLabel}" 표현을 잘 골랐어요.`,

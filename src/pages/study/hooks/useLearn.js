@@ -1,10 +1,12 @@
 // 학습 상태 훅: 로드맵과 퀘스트 화면 데이터 관리
 import { useEffect, useState } from "react";
-import { fetchLearnList } from "../apis/LearnApi";
+import { fetchLearnCompletedWordCount, fetchLearnList, fetchLearnTotalWordCount } from "../apis/LearnApi";
 import { learnHomeMock } from "../learn/data/learnMock";
 import { mergeLearnListToHome } from "../mappers/learnMapper";
+import { useStudyUser } from "./useStudyUser";
 
 export const useLearn = () => {
+  const { userId, isGuest } = useStudyUser();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [data, setData] = useState(learnHomeMock);
@@ -19,11 +21,25 @@ export const useLearn = () => {
 
       try {
         const learnList = await fetchLearnList();
+        const progressList = await Promise.all(
+          learnList.map(async (learn) => {
+            const totalCount = await fetchLearnTotalWordCount(learn.id);
+            const completedCount = isGuest || !userId
+              ? 0
+              : await fetchLearnCompletedWordCount({ userId, learnId: learn.id });
+
+            return {
+              learnId: learn.id,
+              totalCount,
+              completedCount,
+            };
+          })
+        );
 
         if (ignore)
           return;
 
-        setData(mergeLearnListToHome(learnHomeMock, learnList));
+        setData(mergeLearnListToHome(learnHomeMock, learnList, progressList));
       } catch {
         if (ignore)
           return;
@@ -42,7 +58,7 @@ export const useLearn = () => {
     return () => {
       ignore = true;
     };
-  }, []);
+  }, [isGuest, userId]);
 
   return {
     loading,

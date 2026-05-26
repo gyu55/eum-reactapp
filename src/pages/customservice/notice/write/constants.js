@@ -1,0 +1,1 @@
+export const CATEGORIES = ["공지", "업데이트", "이벤트"];

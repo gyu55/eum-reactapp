@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react";
 import * as S from "./style";
 import CustomServiceResultComponent from "./CustomServiceResultComponent";
+import PageHeroCard from "../common/pageHeroCard";
 import useAuthCheck from "../useAuthCheck";
+import { STATS_LABELS } from "./constants";
 
 const CustomServiceResultContainer = () => {
-  const isAuth = useAuthCheck();
-  const [results, setResults]   = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError]       = useState(null);
-  const [isAdmin, setIsAdmin]   = useState(false);
+  const isAuth                      = useAuthCheck();
+  const [results, setResults]       = useState([]);
+  const [isLoading, setIsLoading]   = useState(false);
+  const [error, setError]           = useState(null);
+  const [isAdmin, setIsAdmin]       = useState(false);
 
   useEffect(() => {
     const fetchMe = async () => {
@@ -64,28 +66,24 @@ const CustomServiceResultContainer = () => {
 
   const totalCount   = results.length;
   const doneCount    = results.filter((r) => r.inquireStatus === "답변완료").length;
-  const pendingCount = results.filter((r) => r.inquireStatus === "대기").length;
+  const pendingCount = results.filter((r) => r.inquireStatus === "답변대기").length;
+
+  const STATS = [
+    { label: STATS_LABELS[0], count: totalCount },
+    { label: STATS_LABELS[1], count: doneCount },
+    { label: STATS_LABELS[2], count: pendingCount },
+  ];
 
   if (!isAuth) return null;
 
-  const STATS = [
-    { label: "전체 문의", count: totalCount },
-    { label: "답변 완료", count: doneCount },
-    { label: "처리 중",   count: pendingCount },
-  ];
-
   return (
     <>
-      <S.HeroCard>
-        <div>
-          <S.HeroBadge>고객지원</S.HeroBadge>
-          <S.HeroTitle>문의 결과</S.HeroTitle>
-          <S.HeroSub>접수하신 문의 내역과 답변을 확인하세요.</S.HeroSub>
-        </div>
-        <S.HeroIllust>
-          <img src="/assets/image/customService/resultIcon.svg" alt="" style={{ width: "80px" }} />
-        </S.HeroIllust>
-      </S.HeroCard>
+      <PageHeroCard
+        badge="고객지원"
+        title="문의 결과"
+        sub="접수하신 문의 내역과 답변을 확인하세요."
+        iconSrc="/assets/image/customService/resultIcon.svg"
+      />
 
       <S.StatRow>
         {STATS.map((stat) => (

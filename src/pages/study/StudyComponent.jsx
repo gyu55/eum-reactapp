@@ -1,9 +1,10 @@
 // 학습 홈 화면 컴포넌트: 메인 카드, 검색 진입, 로그인 필요 기능 분기담당
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import StudyAttendancePopup from "./attendance/StudyAttendancePopup";
 import { useStudyUser } from "./hooks/useStudyUser";
 import * as S from "./style";
+
 
 // 배너 주변 장식 아이콘 목록
 const floatingIcons = [
@@ -127,6 +128,15 @@ const StudyComponent = () => {
   const [isAttendanceOpen, setIsAttendanceOpen] = useState(false);
   const [keyword, setKeyword] = useState("");
 
+
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.state?.scrollTo) {
+      document.getElementById(location.state.scrollTo)
+        ?.scrollIntoView();
+    }
+  }, [location.state]);
   // 로그인 해야하는 서비스들 alert
   const requireLogin = (callback) => {
     if (isGuest) {
@@ -256,7 +266,7 @@ const StudyComponent = () => {
         <S.ActionLink to="/study/search">더 많은 단어 보기 →</S.ActionLink>
       </S.SearchArea>
 
-      <S.VideoArea>
+      <S.VideoArea id="video-section">
         <h2>
           바로 배우는 <span>오늘의 단어</span> 영상
         </h2>

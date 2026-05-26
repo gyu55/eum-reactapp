@@ -1,23 +1,21 @@
 import React, { useState } from "react";
 import * as S from "./style";
-
-const CATEGORIES = ["공지", "업데이트", "이벤트"];
+import { CATEGORIES } from "./constants";
 
 const CustomServiceNoticeWriteComponent = ({ onSubmit, onCancel, initialData }) => {
   const [category, setCategory] = useState(initialData?.category || "공지");
-  const [pinned, setPinned]     = useState(initialData?.pinned || false);
-  const [title, setTitle]       = useState(initialData?.title || "");
-  const [content, setContent]   = useState(initialData?.content || "");
+  const [pinned, setPinned]     = useState(initialData?.pinned   || false);
+  const [title, setTitle]       = useState(initialData?.title    || "");
+  const [content, setContent]   = useState(initialData?.content  || "");
 
   const handleSubmit = () => {
-    if (!title.trim()) return alert("제목을 입력해주세요.");
+    if (!title.trim())   return alert("제목을 입력해주세요.");
     if (!content.trim()) return alert("내용을 입력해주세요.");
     onSubmit({ category, pinned, title, content });
   };
 
   return (
     <S.WriteWrap>
-      {/* 분류 */}
       <div>
         <S.WriteLabel as="span">
           분류 <S.WriteRequired>*</S.WriteRequired>
@@ -35,7 +33,6 @@ const CustomServiceNoticeWriteComponent = ({ onSubmit, onCancel, initialData }) 
         </S.WriteCategoryRow>
       </div>
 
-      {/* 고정글 여부 */}
       <S.PinnedRow>
         <S.PinnedCheckbox
           type="checkbox"
@@ -46,7 +43,6 @@ const CustomServiceNoticeWriteComponent = ({ onSubmit, onCancel, initialData }) 
         <S.PinnedLabel htmlFor="pinned">상단 고정글로 설정</S.PinnedLabel>
       </S.PinnedRow>
 
-      {/* 제목 */}
       <div>
         <S.WriteLabel>
           제목 <S.WriteRequired>*</S.WriteRequired>
@@ -59,7 +55,6 @@ const CustomServiceNoticeWriteComponent = ({ onSubmit, onCancel, initialData }) 
         />
       </div>
 
-      {/* 내용 */}
       <div>
         <S.WriteLabel>
           내용 <S.WriteRequired>*</S.WriteRequired>
@@ -71,7 +66,6 @@ const CustomServiceNoticeWriteComponent = ({ onSubmit, onCancel, initialData }) 
         />
       </div>
 
-      {/* 버튼 */}
       <S.WriteBtnRow>
         <S.CancelBtn onClick={onCancel}>취소</S.CancelBtn>
         <S.ConfirmBtn onClick={handleSubmit}>등록하기</S.ConfirmBtn>

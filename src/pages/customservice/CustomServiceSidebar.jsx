@@ -1,6 +1,6 @@
 import React from "react";
-import * as S from "./customServiceContainerStyles";
 import CustomServiceTabMenu from "./CustomServiceTabMenu";
+import * as S from "./customServiceContainerStyles";
 
 const CustomServiceSidebar = () => {
   return (

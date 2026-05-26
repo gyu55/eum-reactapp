@@ -1,0 +1,1 @@
+export const STATS_LABELS = ["전체 문의", "답변 완료", "처리 중"];

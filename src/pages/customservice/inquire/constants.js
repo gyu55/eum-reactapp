@@ -1,0 +1,1 @@
+export const CATEGORIES = ["학습 문의", "결제 / 환불", "계정 / 로그인", "기타"];

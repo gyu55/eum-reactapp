@@ -23,7 +23,7 @@ const GlobalStyle = createGlobalStyle`
 
   @font-face {
     font-family: 'pretendard';
-    src: url(${process.env.PUBLIC_URL}/assets/fonts/pretendard/Pretendard-Thin.woff2) format('woff2');
+    src: url(${process.env.PUBLIC_URL}/assets/font/pretendard/Pretendard-Thin.woff2) format('woff2');
     font-weight: 100;
     font-style: normal;
     font-display: swap;
@@ -31,7 +31,7 @@ const GlobalStyle = createGlobalStyle`
 
   @font-face {
     font-family: 'pretendard';
-    src: url(${process.env.PUBLIC_URL}/assets/fonts/pretendard/Pretendard-ExtraLight.woff2) format('woff2');
+    src: url(${process.env.PUBLIC_URL}/assets/font/pretendard/Pretendard-ExtraLight.woff2) format('woff2');
     font-weight: 200;
     font-style: normal;
     font-display: swap;
@@ -39,7 +39,7 @@ const GlobalStyle = createGlobalStyle`
 
   @font-face {
     font-family: 'pretendard';
-    src: url(${process.env.PUBLIC_URL}/assets/fonts/pretendard/Pretendard-Light.woff2) format('woff2');
+    src: url(${process.env.PUBLIC_URL}/assets/font/pretendard/Pretendard-Light.woff2) format('woff2');
     font-weight: 300;
     font-style: normal;
     font-display: swap;
@@ -47,7 +47,7 @@ const GlobalStyle = createGlobalStyle`
 
   @font-face {
     font-family: 'pretendard';
-    src: url(${process.env.PUBLIC_URL}/assets/fonts/pretendard/Pretendard-Regular.woff2) format('woff2');
+    src: url(${process.env.PUBLIC_URL}/assets/font/pretendard/Pretendard-Regular.woff2) format('woff2');
     font-weight: 400;
     font-style: normal;
     font-display: swap;
@@ -55,7 +55,7 @@ const GlobalStyle = createGlobalStyle`
 
   @font-face {
     font-family: 'pretendard';
-    src: url(${process.env.PUBLIC_URL}/assets/fonts/pretendard/Pretendard-Medium.woff2) format('woff2');
+    src: url(${process.env.PUBLIC_URL}/assets/font/pretendard/Pretendard-Medium.woff2) format('woff2');
     font-weight: 500;
     font-style: normal;
     font-display: swap;
@@ -63,7 +63,7 @@ const GlobalStyle = createGlobalStyle`
 
   @font-face {
     font-family: 'pretendard';
-    src: url(${process.env.PUBLIC_URL}/assets/fonts/pretendard/Pretendard-SemiBold.woff2) format('woff2');
+    src: url(${process.env.PUBLIC_URL}/assets/font/pretendard/Pretendard-SemiBold.woff2) format('woff2');
     font-weight: 600;
     font-style: normal;
     font-display: swap;
@@ -71,7 +71,7 @@ const GlobalStyle = createGlobalStyle`
 
   @font-face {
     font-family: 'pretendard';
-    src: url(${process.env.PUBLIC_URL}/assets/fonts/pretendard/Pretendard-Bold.woff2) format('woff2');
+    src: url(${process.env.PUBLIC_URL}/assets/font/pretendard/Pretendard-Bold.woff2) format('woff2');
     font-weight: 700;
     font-style: normal;
     font-display: swap;
@@ -79,7 +79,7 @@ const GlobalStyle = createGlobalStyle`
 
   @font-face {
     font-family: 'pretendard';
-    src: url(${process.env.PUBLIC_URL}/assets/fonts/pretendard/Pretendard-ExtraBold.woff2) format('woff2');
+    src: url(${process.env.PUBLIC_URL}/assets/font/pretendard/Pretendard-ExtraBold.woff2) format('woff2');
     font-weight: 800;
     font-style: normal;
     font-display: swap;
@@ -87,7 +87,7 @@ const GlobalStyle = createGlobalStyle`
 
   @font-face {
     font-family: 'pretendard';
-    src: url(${process.env.PUBLIC_URL}/assets/fonts/pretendard/Pretendard-Black.woff2) format('woff2');
+    src: url(${process.env.PUBLIC_URL}/assets/font/pretendard/Pretendard-Black.woff2) format('woff2');
     font-weight: 900;
     font-style: normal;
     font-display: swap;

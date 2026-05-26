@@ -1,21 +1,11 @@
 import React from "react";
 import * as S from "./style";
 import theme from "../../../styles/theme";
-
-const SECTIONS = [
-  { id: 1, title: "수집하는 개인정보" },
-  { id: 2, title: "수집 및 이용목적" },
-  { id: 3, title: "보유 및 이용기간" },
-  { id: 4, title: "제 3자 제공" },
-  { id: 5, title: "이용자의 권리" },
-  { id: 6, title: "개인정보보호 책임자" },
-];
+import { SECTIONS } from "./constants";
 
 const CustomServicePrivacyComponent = () => {
   return (
     <S.PrivacyWrap>
-
-      {/* 목차 */}
       <div>
         <S.TocTitle>목차</S.TocTitle>
         <S.TocGrid>
@@ -28,7 +18,6 @@ const CustomServicePrivacyComponent = () => {
         </S.TocGrid>
       </div>
 
-      {/* 1. 수집하는 개인정보 항목 */}
       <S.Section id="privacy-section-1">
         <S.SectionTitle>1. 수집하는 개인정보 항목</S.SectionTitle>
         <S.SectionSub>이음은 서비스 제공을 위해 최소한의 개인정보를 수집합니다.</S.SectionSub>
@@ -60,37 +49,31 @@ const CustomServicePrivacyComponent = () => {
         </S.StyledTable>
       </S.Section>
 
-      {/* 2. 개인정보 수집 및 이용목적 */}
       <S.Section id="privacy-section-2">
         <S.SectionTitle>2. 개인정보 수집 및 이용목적</S.SectionTitle>
         <S.SectionSub>수어 학습 서비스 제공, 맞춤형 커리큘럼 추천, 고객 지원, 마케팅(동의 시)에 한해 이용합니다.</S.SectionSub>
       </S.Section>
 
-      {/* 3. 보유 및 이용 기간 */}
       <S.Section id="privacy-section-3">
         <S.SectionTitle>3. 보유 및 이용 기간</S.SectionTitle>
         <S.SectionSub>탈퇴 시 즉시 파기 완료. 전자상거래법에 따라 결제 기록 5년, 분쟁 기록 3년 접속 로그 3개월 보관합니다.</S.SectionSub>
       </S.Section>
 
-      {/* 4. 제 3자 제공 */}
       <S.Section id="privacy-section-4">
         <S.SectionTitle>4. 제 3자 제공</S.SectionTitle>
         <S.SectionSub>별도 동의 없이 제 3자에게 제공하지 않습니다. 결제 대행, 서비스 분석에 한해 최소 항목만 제공합니다.</S.SectionSub>
       </S.Section>
 
-      {/* 5. 이용자의 권리 */}
       <S.Section id="privacy-section-5">
         <S.SectionTitle>5. 이용자의 권리</S.SectionTitle>
         <S.SectionSub>열람 · 정정 · 삭제 · 처리 정지 · 동의 철회 권리를 언제든 행사할 수 있습니다. 요청 후 10일 이내 처리됩니다.</S.SectionSub>
       </S.Section>
 
-      {/* 6. 개인정보보호 책임자 */}
       <S.Section id="privacy-section-6">
         <S.SectionTitle>6. 개인정보보호 책임자</S.SectionTitle>
         <S.SectionSub>홍길동 (CPO) · ium999@gmail.com · 02-1234-1234</S.SectionSub>
         <S.SectionSub>신고 · 상담 : 개인정보보호위원회 privacy.go.kr | KISA 118</S.SectionSub>
       </S.Section>
-
     </S.PrivacyWrap>
   );
 };

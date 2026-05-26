@@ -1,6 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 
-import EumLayout from "../pages/layout/EumLayout";
+import EumLayout from "../pages/layout/eumLayout";
 import EumMainContainer from "../pages/main/EumMainContainer";
 import ExamContainer from "../pages/exam/ExamContainer";
 import LicenseNoticeContainer from "../pages/exam/info/notice/LicenseNoticeContainer";
@@ -49,7 +49,7 @@ import CustomServiceResultContainer from "../pages/customservice/result/CustomSe
 import MyPageEditContainer from "../pages/mypage/edit/MyPageEditContainer";
 import MyPageWithdrawContainer from "../pages/mypage/withdraw/MyPageWithdrawContainer";
 import CustomServiceNoticeListContainer from '../pages/customservice/notice/list/CustomServiceNoticeListContainer';
-import CustomServiceNoticeWriteContainer from '../pages/customservice/notice/write/CustomServiceNoticeWriteContainer';
+import CustomServiceNoticeWriteContainer from '../pages/customservice/notice/write';
 import CustomServiceNoticeEditContainer from "../pages/customservice/notice/edit/CustomServiceNoticeEditContainer";
 import StudyContainer from "../pages/study/StudyContainer";
 import StudyComponent from "../pages/study/StudyComponent";

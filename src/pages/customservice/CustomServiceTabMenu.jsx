@@ -1,22 +1,15 @@
 import React, { useState, useEffect, useRef } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import * as S from "./customServiceContainerStyles";
+import { TAB_MENU_ITEMS } from "./constants";
 
-const tabMenuItems = [
-  { label: "고객지원",          isCategory: true },
-  { label: "공지사항",          path: "/customservice/notice" },
-  { label: "1:1 문의",         path: "/customservice/inquire" },
-  { label: "문의 결과",         path: "/customservice/result" },
-  { label: "개인정보 처리방침",  path: "/customservice/privacy" },
-];
-
-const menuLinks = tabMenuItems.filter((item) => !item.isCategory);
+const menuLinks = TAB_MENU_ITEMS.filter((item) => !item.isCategory);
 
 const CustomServiceTabMenu = () => {
-  const location = useLocation();
+  const location                              = useLocation();
   const [indicatorTop, setIndicatorTop]       = useState(0);
   const [indicatorHeight, setIndicatorHeight] = useState(0);
-  const itemRefs = useRef([]);
+  const itemRefs                              = useRef([]);
 
   useEffect(() => {
     const activeIndex = menuLinks.findIndex((item) =>
@@ -33,7 +26,7 @@ const CustomServiceTabMenu = () => {
     <S.TabMenuWrap>
       <S.SlidingBar $top={indicatorTop} $height={indicatorHeight} />
 
-      {tabMenuItems.map((item, i) =>
+      {TAB_MENU_ITEMS.map((item, i) =>
         item.isCategory ? (
           <S.SidebarCategory key={i}>{item.label}</S.SidebarCategory>
         ) : (

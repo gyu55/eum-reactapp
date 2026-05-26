@@ -35,6 +35,7 @@ export const StepItem = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 8px;
+  cursor: pointer;
 `;
 
 export const StepCircle = styled.div`
@@ -62,12 +63,6 @@ export const StepCount = styled.span`
   color: ${textGray};
 `;
 
-export const StepLine = styled.div`
-  flex: 1;
-  height: 5px;
-  background-color: ${curriculumGray};
-  margin-top: 28px;
-`;
 
 /* ── Info Box ── */
 
@@ -77,8 +72,9 @@ export const InfoBox = styled.div`
   border-radius: 50px;
   border: solid 1px ${theme.PALETTE.primary.main};
   margin-bottom: 150px;
-  padding-top: 35px;
+  padding-top: 30px;
   padding-left: 66px;
+  padding-right: 66px;
   padding-bottom: 40px;
   display: flex;
   flex-direction: column;
@@ -89,10 +85,29 @@ export const InfoSubTitle = styled.span`
   font-weight: ${theme.FONT_WEIGHT.medium};
   margin-bottom: 14px;
 `;
+export const InfoSub = styled.span`
+  font-size: ${theme.FONT_SIZE.h10};
+  font-weight: ${theme.FONT_WEIGHT.medium};
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap : 6px;
+`;
+
+export const ClickIcon = styled.img`
+  width: 26px;
+  height: 26px;
+`;
 
 export const InfoTitle = styled.span`
   margin-bottom: 10px;
   font-size: ${theme.FONT_SIZE.h4};
+  font-weight: ${theme.FONT_WEIGHT.bold};
+  color: ${theme.TEXT_COLOR.primary};
+`;
+
+export const InfoTitleCurriculum = styled.span`
+  font-size: ${theme.FONT_SIZE.h5};
   font-weight: ${theme.FONT_WEIGHT.bold};
   color: ${theme.TEXT_COLOR.primary};
 `;
@@ -111,10 +126,15 @@ export const TagRow = styled.div`
   color: ${theme.GRAYSCALE[7]};
 `;
 
+export const InfoHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
 export const BtnRow = styled.div`
   display: flex;
   gap: 20px;
-  align-self: center;
+  justify-content: center;
   margin-top: auto;
 `;
 
@@ -123,97 +143,52 @@ export const PrimaryBtn = styled.div`
   height: 60px;
   border-radius: 40px;
   background-color: ${theme.PALETTE.primary.main};
-  border: 2px solid ${theme.PALETTE.primary.main};  /* 추가 */
+  border: 2px solid ${theme.PALETTE.primary.main}; 
+  color : ${theme.PALETTE.white};
+  font-weight: ${theme.FONT_WEIGHT.bold};
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  overflow: hidden;  /* 추가 */
-  transition: background-color 0.3s ease;  /* 추가 */
+  overflow: hidden;
+  transition: background-color 0.3s ease;  
 
   &:hover {
     background-color: ${theme.PALETTE.white};
+    color : ${theme.PALETTE.primary.main};
   }
 
-  &::before {
+  &::after {
     content: '→';
     font-size: 16px;
     max-width: 0;
     font-weight: ${theme.FONT_WEIGHT.bold};
     overflow: hidden;
     white-space: nowrap;
-    transition: max-width 0.3s ease;
+    transition: max-width 0.5s ease;
     color: transparent;
+    margin-left: 5px;
   }
 
-  &:hover::before {
+  &:hover::after {
     max-width: 30px;
     color: ${theme.PALETTE.primary.main};
   }
 `;
 
 export const PrimaryBtnLabel = styled.button`
-  color: ${theme.PALETTE.white};  /* 기본 흰색 */
+  color: ${theme.PALETTE.white};
   font-size: ${theme.FONT_SIZE.h8};
   font-weight: ${theme.FONT_WEIGHT.bold};
   background: none;
   border: none;
   cursor: pointer;
-  transition: color 0.3s ease;  /* 추가 */
-  pointer-events: none;  /* 추가 - 부모 hover가 정확히 동작하게 */
+  transition: color 0.5s ease;  
+  pointer-events: none; 
 
   ${PrimaryBtn}:hover & {
-    color: ${theme.PALETTE.primary.main};  /* 부모 hover 시 파란색 */
+    color: ${theme.PALETTE.primary.main};
   }
-`;
-
-export const OutlineBtn = styled.div`
-  width: 200px;
-  height: 60px;
-  border-radius: 40px;
-  border: solid 2px ${theme.PALETTE.primary.main};
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  overflow: hidden;
-  position: relative;
-
-  &:hover {
-    background-color: ${theme.PALETTE.primary.main};
-  }
-
-  &:hover button {
-    color: ${theme.PALETTE.white};
-  }
-
-  /* 화살표 */
-  &::before {
-    content: '→';
-    color: ${theme.PALETTE.white};
-    font-weight: ${theme.FONT_WEIGHT.bold};
-    font-size: 16px;
-    max-width: 0;
-    overflow: hidden;
-    white-space: nowrap;
-    transition: max-width 0.3s ease;
-    margin-right: 0;
-  }
-
-  &:hover::before {
-    max-width: 30px;   /* 펼쳐지면서 나옴 */
-    margin-right: 8px;
-  }
-`;
-
-export const OutlineBtnLabel = styled.button`
-  color: ${theme.PALETTE.primary.main};
-  font-size: ${theme.FONT_SIZE.h8};
-  font-weight: ${theme.FONT_WEIGHT.bold};
-  background: none;
-  border: none;
-  cursor: pointer;
 `;
 
 /* ── Modal ── */
@@ -315,7 +290,6 @@ export const ModalStepCircle = styled.span`
 export const ModalStepLabel = styled.span`
   font-size: 16px;
   font-weight: 700;
-  color: #1a1a2e;
 `;
 
 export const ModalStepCount = styled.span`
@@ -354,7 +328,6 @@ export const ModalItem = styled.div`
   background: #fff;
   border-radius: 10px;
   font-size: 14px;
-  color: #333;
 `;
 
 export const ModalItemNum = styled.span`
@@ -362,4 +335,56 @@ export const ModalItemNum = styled.span`
   font-weight: 700;
   font-size: 13px;
   min-width: 28px;
+`;
+
+export const StepLineWrap = styled.div`
+  flex: 1;
+  height: 5px;
+  background: ${({ theme }) => theme.GRAYSCALE[2]};
+  border-radius: 99px;
+  overflow: hidden;
+  margin-top: 30px;
+`;
+
+export const StepLineFill = styled.div`
+  height: 100%;
+  width: ${({ $fill }) => ($fill ? "100%" : "0%")};
+  background: ${({ theme }) => theme.PALETTE.primary.main};
+  border-radius: 99px;
+  transition: width 0.4s cubic-bezier(.4, 0, .2, 1);
+`;
+
+export const ItemList = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 6px;
+  margin-bottom: 10px;
+  max-height: 300px;
+  overflow-y: auto;
+`;
+
+export const ItemRow = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: ${({ theme }) => theme.GRAYSCALE[1]};
+  font-size: ${({ theme }) => theme.FONT_SIZE.h10};
+  color: ${({ theme }) => theme.GRAYSCALE[9]};
+  opacity: 0;
+  animation: fadeUp 0.3s ease forwards;
+  animation-delay: ${({ $delay }) => $delay}ms;
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+`;
+
+export const ItemNum = styled.span`
+  font-size: 11px;
+  font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
+  color: ${({ theme }) => theme.PALETTE.primary.main};
+  min-width: 20px;
 `;

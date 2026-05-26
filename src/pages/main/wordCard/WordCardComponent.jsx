@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import * as S from "./style.js";
+import { useNavigate } from "react-router-dom";
 
 const WordCardComponent = ({ card }) => {
   const [hovered, setHovered] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <S.CardWrap
@@ -21,7 +23,9 @@ const WordCardComponent = ({ card }) => {
       {hovered && card.desc && (
         <>
           <S.CardDesc>{card.desc}</S.CardDesc>
-          <S.VideoBtn>▶ 영상으로 보기</S.VideoBtn>
+          <S.VideoBtn onClick={() => navigate("/study", { state: { scrollTo: "video-section" } })}>
+            ▶ 영상으로 보기
+          </S.VideoBtn>
         </>
       )}
     </S.CardWrap>

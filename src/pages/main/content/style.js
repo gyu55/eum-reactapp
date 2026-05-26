@@ -4,16 +4,20 @@ import theme from "../../../styles/theme";
 const backGroundGray = "#F7F7FB";
 const textGray = "#888888";
 
+const toneColor = {
+  green: "#129d1b",
+  blue: "#4359fc",
+  yellow: "#ffcb38",
+  red: "#f14141",
+  purple: "#b63fde",
+};
 /* ── Section ── */
 
 export const ContentSection = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-height: 1000px;
-  min-height: 1100px;
   background-color: ${theme.GRAYSCALE[10]};
-  margin-top: 80px;
 `;
 
 export const ContentTitle = styled.div`
@@ -28,60 +32,7 @@ export const ContentTitle = styled.div`
   font-weight: ${theme.FONT_WEIGHT.bold};
 `;
 
-/* ── Card Rows ── */
 
-export const TopCardRow = styled.div`
-  display: flex;
-  flex-direction: row;
-  margin-top: 80px;
-  gap: 24px;
-  
-`;
-
-export const BottomCardRow = styled.div`
-  display: flex;
-  flex-direction: row;
-  margin-top: 24px;
-  gap: 24px;
-`;
-
-/* ── Large Card (상단 2개) ── */
-
-export const LargeCard = styled.div`
-  position: relative;
-  width: 648px;
-  height: 342px;
-  background-color: ${theme.PALETTE.white};
-  border-radius: 30px;
-  padding-top: 61px;
-  padding-left: 60px;
-  display: flex;
-  flex-direction: column;
-  gap: 13px;
-  &:hover {
-    border-color: ${theme.PALETTE.primary.main};
-    box-shadow: 0 12px 30px ${theme.PALETTE.primary.main}40;
-  }
-`;
-
-/* ── Small Card (하단 3개) ── */
-
-export const SmallCard = styled.div`
-  position: relative;
-  width: 424px;
-  height: 241px;
-  background-color: ${theme.PALETTE.white};
-  border-radius: 30px;
-  padding-top: 30px;
-  padding-left: 40px;
-  display: flex;
-  flex-direction: column;
-  gap: 7px;
-  &:hover {
-    border-color: ${theme.PALETTE.primary.main};
-    box-shadow: 0 0 0 3px ${theme.PALETTE.primary.main};
-  }
-`;
 
 /* ── Card Badge ── */
 
@@ -108,7 +59,6 @@ export const LargeCardTitle = styled.div`
   display: flex;
   font-size: ${theme.FONT_SIZE.h7};
   font-weight: ${theme.FONT_WEIGHT.bold};
-
   gap: 9px;
 `;
 
@@ -121,7 +71,7 @@ export const SmallCardTitle = styled.div`
 
 /* ── Card Desc ── */
 
-export const CardDesc = styled.div`
+export const CardDesc = styled.p`
   display: flex;
   font-size: ${theme.FONT_SIZE.h10};
   font-weight: ${theme.FONT_WEIGHT.regular};
@@ -131,12 +81,6 @@ export const CardDesc = styled.div`
 `;
 
 /* ── Info Tag ── */
-
-export const InfoTagRow = styled.div`
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-`;
 
 export const InfoTag = styled.div`
   display: flex;
@@ -189,48 +133,96 @@ export const InfoTagBold2 = styled.span`
   padding-left: 6px;
 `;
 
-/* ── Go Button ── */
+export const CategoryBand = styled.section`
+  width: 100%;
+  padding: 0 0 115px 0;
+  background: transparent;  
+`;
 
-export const GoBtn = styled.button`
+export const CategoryGrid = styled.div`
+  width: min(1320px, calc(100% - 48px));
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 24px;
+`;
+
+export const CategoryCard = styled.button`
+  position: relative;
+  min-height: ${({ $large }) => ($large ? "280px" : "241px")};
+  grid-column: span ${({ $large }) => ($large ? 3 : 2)};
+  padding: ${({ $large }) => ($large ? "50px 60px" : "52px 50px")};
+  overflow: hidden;
+  border: 0;
+  border-radius: 24px;
+  background: ${({ theme }) => theme.PALETTE.white};
+  box-shadow: 0 18px 45px rgba(32, 44, 98, 0.06);
   text-align: left;
-  background: none;
-  border: none;
-  padding: 0;
-  margin-top: ${({ $pt }) => $pt || "0px"};
-  color: ${theme.PALETTE.black};
-  font-size: ${theme.FONT_SIZE.h10};
-  font-weight: ${theme.FONT_WEIGHT.bold};
   cursor: pointer;
-`;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  white-space: pre-line;
 
-export const GoBtn2 = styled.button`
-  text-align: left;
-  background: none;
-  border: none;
-  padding: 0;
-  margin-top: ${({ $pt }) => $pt || "0px"};
-  color: ${theme.PALETTE.black};
-  font-size: ${theme.FONT_SIZE.h10};
-  font-weight: ${theme.FONT_WEIGHT.bold};
-  cursor: pointer;
-`;
+  .badge {
+    display: inline-flex;
+    margin-bottom: ${({ $large }) => ($large ? "28px" : "20px")};
+    padding: ${({ $large }) => ($large ? "7px 19px" : "6px 16px")};
+    border-radius: 999px;
+    background: ${({ $tone }) => toneColor[$tone] || "#4359fc"};
+    color: white;
+    font-size: ${theme.FONT_SIZE.h11};
+    font-weight: ${theme.FONT_WEIGHT.bold};
+  }
 
-/* ── Card Image ── */
+  strong {
+    display: block;
+    max-width: 60%;
+    margin-bottom: ${({ $large }) => ($large ? "22px" : "14px")};
+    color: #1a1a1a;
+    font-size: ${({ $large }) => ($large ? theme.FONT_SIZE.h5 : theme.FONT_SIZE.h8)};
+    line-height: ${({ $large }) => ($large ? theme.FONT_LINE.h5 : theme.FONT_LINE.h8)};
+    font-weight: ${theme.FONT_WEIGHT.bold};
+  }
 
-export const LargeCardImg = styled.img`
-  position: absolute;
-  right: 50px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 130px;
-  height: 130px;
-`;
+  p {
+    max-width: 60%;
+    margin: 0 0 ${({ $large }) => ($large ? "50px" : "32px")};
+    color: #666;
+    font-size: ${theme.FONT_SIZE.h10};
+    font-weight: ${theme.FONT_WEIGHT.regular};
+  }
 
-export const SmallCardImg = styled.img`
-  position: absolute;
-  right: 50px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 90px;
-  height: 90px;
+  .go {
+    color: #1a1a1a;
+    font-size: ${theme.FONT_SIZE.h10};
+    font-weight: ${theme.FONT_WEIGHT.bold};
+  }
+
+  img {
+    position: absolute;
+    right: ${({ $large }) => ($large ? "60px" : "52px")};
+    top: 50%;                          /* ✅ 고정값 제거 */
+    transform: translateY(-50%);
+    width: ${({ $large }) => ($large ? "160px" : "105px")};
+    height: ${({ $large }) => ($large ? "160px" : "110px")};
+    padding: ${({ $large }) => ($large ? "10px" : "13px")};
+    border-radius: ${({ $large }) => ($large ? "30px" : "45px")};
+    object-fit: contain;
+    box-sizing: border-box;
+    transition: transform 0.25s ease, background-color 0.25s ease;
+  }
+
+  &:hover, &:focus-visible {
+    transform: translateY(-8px);
+    box-shadow: 0 28px 60px rgba(32, 44, 98, 0.12),
+                0 12px 30px ${({ $tone }) => `${toneColor[$tone] || "#4359fc"}50`};
+  }
+
+  &:hover img, &:focus-visible img {
+    transform: translateY(calc(-50% - 5px)) scale(1.06);
+  }
+
+  &:focus-visible {
+    outline: 3px solid ${theme.PALETTE.primary.main};
+    outline-offset: 4px;
+  }
 `;

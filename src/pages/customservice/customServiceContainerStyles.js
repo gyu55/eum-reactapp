@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import { PRIMARY, GRAY, TEXT_BLACK, LIGHT_GRAY } from "./style";
+import theme from "../../styles/theme";
 
 /* ── Layout ── */
-
 export const Page = styled.div`
   font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
   min-height: 100vh;
@@ -52,7 +52,6 @@ export const ContentArea = styled.div`
 `;
 
 /* ── Sidebar ── */
-
 export const Sidebar = styled.aside`
   width: 200px;
   flex-shrink: 0;
@@ -65,7 +64,6 @@ export const Sidebar = styled.aside`
 `;
 
 /* ── TabMenu ── */
-
 export const TabMenuWrap = styled.div`
   position: relative;
 `;
@@ -82,7 +80,7 @@ export const SlidingBar = styled.div`
 `;
 
 export const SidebarCategory = styled.div`
-  font-size: 12px;
+  font-size: ${theme.FONT_SIZE.h11};
   font-weight: 700;
   color: #aaa;
   padding: 12px 20px 6px;
@@ -98,7 +96,7 @@ export const SidebarNavLink = styled.div`
     border: none;
     border-left: 3px solid transparent;
     padding: 9px 20px;
-    font-size: 13px;
+    font-size: ${theme.FONT_SIZE.h10};
     font-weight: ${({ $active }) => ($active ? 700 : 400)};
     color: ${({ $active }) => ($active ? PRIMARY : TEXT_BLACK)};
     cursor: pointer;

@@ -1,23 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import NoticeCard from "./NoticeCardComponent";
 import * as S from "./style.js";
 
-const NoticeSection = () => {
-  const [notices, setNotices] = useState([]);
-
-  useEffect(() => {
-    const fetchNotices = async () => {
-      try {
-        const res = await fetch("http://localhost:10000/api/notice?offset=0&size=4", {
-          credentials: "include",
-        });
-        const data = await res.json();
-        setNotices(data.notices || []);
-      } catch {}
-    };
-    fetchNotices();
-  }, []);
-
+const NoticeSectionComponent = ({ notices = [] }) => {
   if (notices.length === 0) return null;
 
   return (
@@ -44,4 +29,4 @@ const NoticeSection = () => {
   );
 };
 
-export default NoticeSection;
+export default NoticeSectionComponent;

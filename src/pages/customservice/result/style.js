@@ -114,7 +114,7 @@ export const AnswerTextarea = styled.textarea`
   border: 1.5px solid #e0e0ea;
   font-size: 13px;
   outline: none;
-  resize: vertical;
+  resize: none;
   height: 100px;
   box-sizing: border-box;
   font-family: inherit;
@@ -202,57 +202,6 @@ export const ResultList = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
-`;
-
-/* ── Hero ── */
-
-export const HeroCard = styled.div`
-  background: #fff;
-  border: 1px solid #eee;
-  border-radius: 16px;
-  padding: 28px 36px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  position: relative;
-  overflow: hidden;
-`;
-
-export const HeroBadge = styled.span`
-  display: inline-block;
-  font-size: 11px;
-  font-weight: 700;
-  color: #4359fc;
-  background: #eef0ff;
-  border: 1px solid #c5caff;
-  border-radius: 20px;
-  padding: 3px 12px;
-  margin-bottom: 12px;
-`;
-
-export const HeroTitle = styled.h1`
-  font-size: 24px;
-  font-weight: 700;
-  color: #1a1a2e;
-  margin: 0 0 8px;
-  letter-spacing: -0.5px;
-`;
-
-export const HeroSub = styled.p`
-  font-size: 12px;
-  color: #999;
-  margin: 0;
-`;
-
-export const HeroIllust = styled.div`
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #eef0ff 0%, #dde1ff 100%);
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 `;
 
 /* ── Stat Cards ── */

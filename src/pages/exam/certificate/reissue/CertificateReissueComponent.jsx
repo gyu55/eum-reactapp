@@ -9,25 +9,25 @@ const CertificateReissueComponent = () => {
       <S.FormWrap>
         <S.Grid>
           <div>
-            <S.Label>수료번호 *</S.Label>
+            <S.Label>수료번호 <span>*</span></S.Label>
             <S.Input placeholder="예: CL-2025-00456" />
           </div>
           <div>
-            <S.Label>이름 *</S.Label>
+            <S.Label>이름 <span>*</span></S.Label>
             <S.Input placeholder="홍길동" />
           </div>
           <div>
-            <S.Label>생년월일 *</S.Label>
+            <S.Label>생년월일 <span>*</span></S.Label>
             <S.Input placeholder="YYYY-MM-DD" />
           </div>
           <div>
-            <S.Label>연락처 *</S.Label>
+            <S.Label>연락처 <span>*</span></S.Label>
             <S.Input placeholder="010-0000-0000" />
           </div>
         </S.Grid>
 
         <div>
-          <S.Label>재발급 사유 *</S.Label>
+          <S.Label>재발급 사유 <span>*</span></S.Label>
           <S.Textarea placeholder="사유를 입력하세요 (예: 출력 기간 만료, 분실 등)" />
         </div>
 

@@ -41,6 +41,12 @@ export const Label = styled.label`
   color: #555;
   margin-bottom: 6px;
   display: block;
+
+  span {
+    color: ${PRIMARY};
+    font-weight: 700;
+    margin-left: 2px;
+  }
 `;
 
 export const Input = styled.input`

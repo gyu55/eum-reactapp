@@ -108,3 +108,54 @@ export const PassNote = styled.div`
   color: #555;
   margin-top: 8px;
 `;
+
+export const MyResultList = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+`;
+
+export const MyResultCard = styled.div`
+  border: 1.5px solid ${({ $passed, $pending }) =>
+    $pending ? "#e0e0e0" : $passed ? "#27ae60" : "#e74c3c"};
+  border-radius: 12px;
+  padding: 20px 24px;
+  background: ${({ $passed, $pending }) =>
+    $pending ? "#fafafa" : $passed ? "#f0faf5" : "#fff5f5"};
+`;
+
+export const MyResultHeader = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+`;
+
+export const MyResultTitle = styled.div`
+  font-size: 15px;
+  font-weight: 700;
+  color: #111;
+`;
+
+export const MyResultBadge = styled.span`
+  font-size: 12px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 20px;
+  background: ${({ $passed, $pending }) =>
+    $pending ? "#eee" : $passed ? "#27ae60" : "#e74c3c"};
+  color: ${({ $pending }) => ($pending ? "#888" : "#fff")};
+`;
+
+export const MyResultDate = styled.div`
+  font-size: 12px;
+  color: #888;
+  margin-bottom: 12px;
+`;
+
+export const EmptyMsg = styled.div`
+  font-size: 13px;
+  color: #aaa;
+  text-align: center;
+  padding: 32px 0;
+`;

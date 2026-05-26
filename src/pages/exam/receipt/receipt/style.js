@@ -59,7 +59,7 @@ export const Label = styled.label`
   display: block;
 
   span {
-    color: #e74c3c;
+    color: ${PRIMARY};
     font-weight: 700;
     margin-left: 2px;
   }

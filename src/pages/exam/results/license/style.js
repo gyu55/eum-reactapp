@@ -134,3 +134,30 @@ export const PrintBtn = styled.button`
   font-weight: 700;
   cursor: pointer;
 `;
+
+export const SelectRow = styled.div`
+  display: flex;
+  gap: 10px;
+  margin-bottom: 24px;
+  align-items: center;
+`;
+
+export const CertSelect = styled.select`
+  flex: 1;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 13px;
+  color: #333;
+  outline: none;
+  background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") no-repeat right 14px center;
+  appearance: none;
+  cursor: pointer;
+`;
+
+export const EmptyMsg = styled.div`
+  font-size: 13px;
+  color: #aaa;
+  text-align: center;
+  padding: 32px 0;
+`;

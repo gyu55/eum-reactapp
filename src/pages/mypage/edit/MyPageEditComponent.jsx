@@ -17,9 +17,9 @@ const MyPageEditComponent = () => {
 
   const [userInfo, setUserInfo] = useState(null);
   const [previewImage, setPreviewImage] = useState("");
+  const [previewInfo, setPreviewInfo] = useState(null);
   const [isLevelModalOpen, setIsLevelModalOpen] = useState(false);
 
-  // 정보수정 화면 회원 정보 조회
   useEffect(() => {
     const getUserInfo = async () => {
       try {
@@ -36,6 +36,7 @@ const MyPageEditComponent = () => {
         }
 
         setUserInfo(result.data);
+        setPreviewInfo(result.data);
       } catch (error) {
         console.error(error);
         alert("회원 정보를 불러오지 못했습니다.");
@@ -44,38 +45,40 @@ const MyPageEditComponent = () => {
 
     getUserInfo();
   }, []);
+  const socialProvider = String(userInfo?.socialMemberProvider || "").toLowerCase();
+
+  const isSocialUser =
+    socialProvider === "google" ||
+    socialProvider === "kakao" ||
+    socialProvider === "naver";
 
   const handleWithdrawClick = () => {
     navigate("/mypage/withdraw");
   };
 
-  const openLevelModal = () => {
-    setIsLevelModalOpen(true);
-  };
-
-  const closeLevelModal = () => {
-    setIsLevelModalOpen(false);
-  };
-
-  if (!userInfo) {
+  if (!userInfo || !previewInfo) {
     return null;
   }
 
   return (
     <>
       <S.EditLayout>
-        {/* 왼쪽 영역 */}
         <S.EditMainArea>
           <ProfileCard
             userInfo={userInfo}
             setUserInfo={setUserInfo}
             previewImage={previewImage}
             setPreviewImage={setPreviewImage}
+            setPreviewInfo={setPreviewInfo}
           />
 
-          <AccountInfoCard userInfo={userInfo} />
+          <AccountInfoCard
+            userInfo={userInfo}
+            setUserInfo={setUserInfo}
+            isSocialUser={isSocialUser}
+          />
 
-          <PasswordChangeCard userInfo={userInfo} />
+          <PasswordChangeCard isSocialUser={isSocialUser} />
 
           <S.EditWithdrawArea>
             <MyPageStyle.WithdrawButton type="button" onClick={handleWithdrawClick}>
@@ -84,21 +87,21 @@ const MyPageEditComponent = () => {
           </S.EditWithdrawArea>
         </S.EditMainArea>
 
-        {/* 오른쪽 영역 */}
         <S.EditSideArea>
           <ProfilePreviewCard
-            userInfo={userInfo}
+            userInfo={previewInfo}
             previewImage={previewImage}
-            onLevelClick={openLevelModal}
+            onLevelClick={() => setIsLevelModalOpen(true)}
           />
 
           <ProfileGuideCard />
-
-          <SecurityGuideCard userInfo={userInfo} />
+          <SecurityGuideCard />
         </S.EditSideArea>
       </S.EditLayout>
 
-      {isLevelModalOpen && <LevelGuideModal onClose={closeLevelModal} />}
+      {isLevelModalOpen && (
+        <LevelGuideModal onClose={() => setIsLevelModalOpen(false)} />
+      )}
     </>
   );
 };

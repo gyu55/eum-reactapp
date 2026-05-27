@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import {
   Section,
@@ -14,16 +15,31 @@ import {
   MoreButton,
 } from "./style";
 
-/*
-  즐겨찾기 목록은 마이페이지 메인 API 연동
-*/
 const getBadgeStyle = (postTag) => {
-  if (postTag === "취업·진로") return { bg: "#FFF7ED", color: "#F97316" };
-  if (postTag === "자유게시판") return { bg: "#EEF2FF", color: "#4359FC" };
-  return { bg: "#DCFCE7", color: "#22C55E" };
+  if (postTag === "수어학습") return { color: "#22C55E", bg: "#DCFCE7" };
+  if (postTag === "질문게시판") return { color: "#7C3AED", bg: "#EDE9FE" };
+  if (postTag === "학습후기") return { color: "#F97316", bg: "#FFF7ED" };
+  if (postTag === "정보공유") return { color: "#4359FC", bg: "#EEF2FF" };
+  if (postTag === "학습 인증") return { color: "#4359FC", bg: "#EEF2FF" };
+  if (postTag === "자유게시판") return { color: "#4359FC", bg: "#EEF2FF" };
+
+  return { color: "#4359FC", bg: "#EEF2FF" };
 };
 
-const BookmarkList = ({ bookmarks = [] }) => {
+const BookmarkList = ({ bookmarkList = [] }) => {
+  const navigate = useNavigate();
+  const [visibleCount, setVisibleCount] = useState(4);
+
+  const visibleBookmarks = bookmarkList.slice(0, visibleCount);
+
+  const handleMovePost = (postId) => {
+    navigate(`/community/post/${postId}`);
+  };
+
+  const handleMoreClick = () => {
+    setVisibleCount((prev) => prev + 4);
+  };
+
   return (
     <Section>
       <SectionTitle>즐겨찾기</SectionTitle>
@@ -36,30 +52,36 @@ const BookmarkList = ({ bookmarks = [] }) => {
           <TableHeaderText $center>조회수</TableHeaderText>
         </BookmarkHeader>
 
-        {/* 좋아요한 게시글 목록 */}
-        {bookmarks.map((bookmark) => {
+        {visibleBookmarks.map((bookmark) => {
           const badge = getBadgeStyle(bookmark.postTag);
 
           return (
             <BookmarkRow key={bookmark.id}>
               <PostTitleBox>
-                <PostBadge $bg={badge.bg} $color={badge.color}>
-                  {bookmark.postTag}
+                <PostBadge $color={badge.color} $bg={badge.bg}>
+                  {bookmark.postTag || "-"}
                 </PostBadge>
 
-                <PostTitleText>{bookmark.postTitle}</PostTitleText>
+                <PostTitleText
+                  style={{ cursor: "pointer" }}
+                  onClick={() => handleMovePost(bookmark.id)}
+                >
+                  {bookmark.postTitle}
+                </PostTitleText>
               </PostTitleBox>
 
-              <NumberText>{bookmark.userNickname || "-"}</NumberText>
-              <NumberText>{bookmark.likeCount}</NumberText>
-              <NumberText>{bookmark.postReadCount}</NumberText>
+              <NumberText>{bookmark.userNickname || bookmark.userName || "-"}</NumberText>
+              <NumberText>{bookmark.likeCount ?? 0}</NumberText>
+              <NumberText>{bookmark.postReadCount ?? 0}</NumberText>
             </BookmarkRow>
           );
         })}
 
-        <MoreButton>
-          더 보기 <span>→</span>
-        </MoreButton>
+        {visibleCount < bookmarkList.length && (
+          <MoreButton type="button" onClick={handleMoreClick}>
+            더 보기 <span>→</span>
+          </MoreButton>
+        )}
       </BookmarkWrapper>
     </Section>
   );

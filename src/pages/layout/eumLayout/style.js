@@ -15,7 +15,7 @@ export const Header = styled.header`
   height: 80px;
   border-bottom: 1px solid ${theme.GRAYSCALE[8]};
   background-color: ${theme.GRAYSCALE[10]};
-  z-index: 999999999999999;
+  z-index: 2;
   min-width: 320px; 
 `;
 
@@ -109,12 +109,21 @@ export const UserChip = styled.div`
   cursor: pointer;
 `;
 
-export const UserAvatar = styled.img`
+export const UserAvatar = styled.div`
   width: 32px;
   height: 32px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid ${theme.PALETTE.primary.main};
+
+  border-radius: 999px;
+  overflow: hidden;
+  background: #d9d9d9;
+  flex-shrink: 0;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
 `;
 
 export const UserName = styled.span`

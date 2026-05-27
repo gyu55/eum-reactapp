@@ -3,31 +3,116 @@ import { useNavigate } from "react-router-dom";
 
 import S from "../style";
 
-const ProfileCard = ({ userInfo, setUserInfo, previewImage, setPreviewImage }) => {
+const isDefaultProfile = (profileImage) => {
+  return (
+    !profileImage ||
+    profileImage === "default.jpg" ||
+    profileImage === "null"
+  );
+};
+
+const getProfileImageSrc = (profileImage) => {
+  if (isDefaultProfile(profileImage)) {
+    return null;
+  }
+
+  if (profileImage.startsWith("http") || profileImage.startsWith("blob:")) {
+    return profileImage;
+  }
+
+  return `http://localhost:10000/private/api/file/display?fileName=${encodeURIComponent(profileImage)}`;
+};
+
+const ProfileCard = ({
+  userInfo,
+  setUserInfo,
+  previewImage,
+  setPreviewImage,
+  setPreviewInfo,
+}) => {
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
 
   const [uploadFile, setUploadFile] = useState(null);
+  const [isProfileDeleted, setIsProfileDeleted] = useState(false);
+
   const [userNickname, setUserNickname] = useState(userInfo.userNickname || "");
   const [userIntro, setUserIntro] = useState(userInfo.userIntro || "");
-  const [userJob, setUserJob] = useState(userInfo.userJob || "학생");
-  const [userAddress, setUserAddress] = useState(userInfo.userAddress || "서울 · 수도권");
+  const [userJob, setUserJob] = useState(userInfo.userJob || "직장인");
+  const [customJob, setCustomJob] = useState("");
+  const [userAddress, setUserAddress] = useState(userInfo.userAddress || "수도권");
+  const [customAddress, setCustomAddress] = useState("");
   const [isNicknameChecked, setIsNicknameChecked] = useState(false);
 
-  // 프로필 이미지 경로 처리
-  const getProfileImageSrc = (profileImage) => {
-    if (!profileImage || profileImage === "default.jpg") {
-      return "/assets/images/default-profile.png";
-    }
+  const syncPreview = (next = {}) => {
+    const nextInfo = {
+      ...userInfo,
+      userNickname,
+      userIntro,
+      userJob: userJob === "직접입력" ? customJob : userJob,
+      userAddress: userAddress === "직접입력" ? customAddress : userAddress,
+      ...next,
+    };
 
-    if (profileImage.startsWith("http")) {
-      return profileImage;
-    }
-
-    return `http://localhost:10000/private/api/file/display?fileName=${encodeURIComponent(profileImage)}`;
+    setPreviewInfo(nextInfo);
   };
 
-  // 닉네임 중복 확인
+  const handleImageChangeClick = () => {
+    fileInputRef.current.click();
+  };
+
+  const handleProfileImageChange = (e) => {
+    const selectedFile = e.target.files[0];
+
+    if (!selectedFile) {
+      return;
+    }
+
+    if (selectedFile.size > 5 * 1024 * 1024) {
+      alert("프로필 사진은 5MB 이하만 가능합니다.");
+      return;
+    }
+
+    const objectUrl = URL.createObjectURL(selectedFile);
+
+    setUploadFile(selectedFile);
+    setIsProfileDeleted(false);
+    setPreviewImage(objectUrl);
+    syncPreview({ userProfile: objectUrl });
+
+    window.dispatchEvent(
+      new CustomEvent("userProfileUpdated", {
+        detail: {
+          userNickname,
+          userProfile: objectUrl,
+        },
+      })
+    );
+  };
+
+  const handleDeleteProfileImage = () => {
+    setUploadFile(null);
+    setPreviewImage("");
+    setIsProfileDeleted(true);
+
+    const updatedUser = {
+      ...userInfo,
+      userProfile: "default.jpg",
+    };
+
+    setUserInfo(updatedUser);
+    setPreviewInfo(updatedUser);
+
+    window.dispatchEvent(
+      new CustomEvent("userProfileUpdated", {
+        detail: {
+          userNickname: updatedUser.userNickname,
+          userProfile: "default.jpg",
+        },
+      })
+    );
+  };
+
   const handleNicknameCheck = async () => {
     if (!userNickname.trim()) {
       alert("닉네임을 입력해 주세요.");
@@ -64,41 +149,11 @@ const ProfileCard = ({ userInfo, setUserInfo, previewImage, setPreviewImage }) =
     }
   };
 
-  // 프로필 사진 선택창 열기
-  const handleImageChangeClick = () => {
-    fileInputRef.current.click();
-  };
-
-  // 프로필 사진은 바로 업로드하지 않고 프리뷰만 변경
-  const handleProfileImageChange = (e) => {
-    const selectedFile = e.target.files[0];
-
-    if (!selectedFile) {
-      return;
-    }
-
-    if (selectedFile.size > 5 * 1024 * 1024) {
-      alert("프로필 사진은 5MB 이하만 가능합니다.");
-      return;
-    }
-
-    setUploadFile(selectedFile);
-    setPreviewImage(URL.createObjectURL(selectedFile));
-  };
-
-  // 프로필 사진 삭제도 저장 전에는 프리뷰만 기본값 처리
-  const handleDeleteProfileImage = () => {
-    setUploadFile(null);
-    setPreviewImage("");
-    setUserInfo({
-      ...userInfo,
-      userProfile: "default.jpg",
-    });
-  };
-
-  // 기본 프로필 저장
   const handleSaveBasicInfo = async () => {
-    if (!userNickname.trim() || !userJob || !userAddress) {
+    const finalJob = userJob === "직접입력" ? customJob : userJob;
+    const finalAddress = userAddress === "직접입력" ? customAddress : userAddress;
+
+    if (!userNickname.trim() || !finalJob.trim() || !finalAddress.trim()) {
       alert("필수 항목을 입력해 주세요.");
       return;
     }
@@ -118,8 +173,8 @@ const ProfileCard = ({ userInfo, setUserInfo, previewImage, setPreviewImage }) =
         body: JSON.stringify({
           userNickname,
           userIntro,
-          userJob,
-          userAddress,
+          userJob: finalJob,
+          userAddress: finalAddress,
         }),
       });
 
@@ -130,7 +185,24 @@ const ProfileCard = ({ userInfo, setUserInfo, previewImage, setPreviewImage }) =
         return;
       }
 
-      // 선택한 이미지가 있을 때만 저장 시점에 업로드
+      let nextProfileImage = userInfo.userProfile;
+
+      if (isProfileDeleted) {
+        const deleteResponse = await fetch("http://localhost:10000/private/api/mypage/edit/profile", {
+          method: "DELETE",
+          credentials: "include",
+        });
+
+        const deleteResult = await deleteResponse.json();
+
+        if (!deleteResult.success) {
+          alert(deleteResult.message);
+          return;
+        }
+
+        nextProfileImage = "default.jpg";
+      }
+
       if (uploadFile) {
         const formData = new FormData();
         formData.append("uploadFile", uploadFile);
@@ -147,7 +219,33 @@ const ProfileCard = ({ userInfo, setUserInfo, previewImage, setPreviewImage }) =
           alert(profileResult.message);
           return;
         }
+
+        nextProfileImage =
+          profileResult.data?.userProfile ||
+          profileResult.data?.uploadedUrl ||
+          previewImage;
       }
+
+      const updatedUser = {
+        ...userInfo,
+        userNickname,
+        userIntro,
+        userJob: finalJob,
+        userAddress: finalAddress,
+        userProfile: nextProfileImage,
+      };
+
+      setUserInfo(updatedUser);
+      setPreviewInfo(updatedUser);
+
+      window.dispatchEvent(
+        new CustomEvent("userProfileUpdated", {
+          detail: {
+            userNickname,
+            userProfile: nextProfileImage,
+          },
+        })
+      );
 
       alert("프로필 정보가 저장되었습니다.");
       navigate("/mypage", { replace: true });
@@ -157,40 +255,32 @@ const ProfileCard = ({ userInfo, setUserInfo, previewImage, setPreviewImage }) =
     }
   };
 
-  // 입력값 초기화
   const handleCancel = () => {
-    setUploadFile(null);
-    setPreviewImage("");
-    setUserNickname(userInfo.userNickname || "");
-    setUserIntro(userInfo.userIntro || "");
-    setUserJob(userInfo.userJob || "학생");
-    setUserAddress(userInfo.userAddress || "서울 · 수도권");
-    setIsNicknameChecked(false);
+    navigate("/mypage", { replace: true });
   };
+
+  const imageSrc = previewImage || getProfileImageSrc(userInfo.userProfile);
 
   return (
     <>
       <S.ProfileSection>
-        {/* 섹션 제목 */}
         <S.SectionTitle>기본 프로필</S.SectionTitle>
-
-        {/* 섹션 설명 */}
-        <S.SectionDesc>
-          프로필 사진, 이름, 닉네임 등 기본 정보를 수정합니다
-        </S.SectionDesc>
+        <S.SectionDesc>프로필 사진, 이름, 닉네임 등 기본 정보를 수정합니다</S.SectionDesc>
       </S.ProfileSection>
 
       <S.ProfileEditCard>
         <S.ProfileTop>
-          {/* 프로필 이미지 */}
           <S.ProfileImageBox>
-            <img
-              src={previewImage || getProfileImageSrc(userInfo.userProfile)}
-              alt="프로필 이미지"
-              onError={(e) => {
-                e.currentTarget.src = "/assets/images/default-profile.png";
-              }}
-            />
+            {imageSrc && (
+              <img
+                src={imageSrc}
+                alt=""
+                draggable={false}
+                onError={(e) => {
+                  e.currentTarget.remove();
+                }}
+              />
+            )}
           </S.ProfileImageBox>
 
           <S.ProfileImageInfo>
@@ -230,10 +320,7 @@ const ProfileCard = ({ userInfo, setUserInfo, previewImage, setPreviewImage }) =
                 <S.Required>*</S.Required>
               </S.Label>
 
-              {/* 이름은 변경 불가 */}
-              <S.ReadOnlyField>
-                {userInfo.userName}
-              </S.ReadOnlyField>
+              <S.ReadOnlyField>{userInfo.userName}</S.ReadOnlyField>
             </S.Field>
 
             <S.NicknameField>
@@ -248,6 +335,16 @@ const ProfileCard = ({ userInfo, setUserInfo, previewImage, setPreviewImage }) =
                   onChange={(e) => {
                     setUserNickname(e.target.value);
                     setIsNicknameChecked(false);
+                    syncPreview({ userNickname: e.target.value });
+
+                    window.dispatchEvent(
+                      new CustomEvent("userProfileUpdated", {
+                        detail: {
+                          userNickname: e.target.value,
+                          userProfile: previewImage || userInfo.userProfile,
+                        },
+                      })
+                    );
                   }}
                   placeholder="닉네임을 입력해 주세요"
                 />
@@ -268,7 +365,10 @@ const ProfileCard = ({ userInfo, setUserInfo, previewImage, setPreviewImage }) =
             <S.IntroTextarea
               maxLength={150}
               value={userIntro}
-              onChange={(e) => setUserIntro(e.target.value)}
+              onChange={(e) => {
+                setUserIntro(e.target.value);
+                syncPreview({ userIntro: e.target.value });
+              }}
               placeholder="자기소개를 입력해 주세요"
             />
 
@@ -288,13 +388,35 @@ const ProfileCard = ({ userInfo, setUserInfo, previewImage, setPreviewImage }) =
                 </S.Label>
 
                 <S.SelectWrapper>
-                  <S.Select value={userJob} onChange={(e) => setUserJob(e.target.value)}>
-                    <option value="학생">학생</option>
+                  <S.Select
+                    value={userJob}
+                    onChange={(e) => {
+                      setUserJob(e.target.value);
+                      syncPreview({ userJob: e.target.value });
+                    }}
+                  >
                     <option value="직장인">직장인</option>
+                    <option value="사업자">사업자</option>
+                    <option value="자영업자">자영업자</option>
+                    <option value="학생">학생</option>
                     <option value="프리랜서">프리랜서</option>
-                    <option value="기타">기타</option>
+                    <option value="주부">주부</option>
+                    <option value="직접입력">직접입력</option>
                   </S.Select>
                 </S.SelectWrapper>
+
+                {userJob === "직접입력" && (
+                  <S.DirectInputRow>
+                    <S.DirectInput
+                      value={customJob}
+                      onChange={(e) => {
+                        setCustomJob(e.target.value);
+                        syncPreview({ userJob: e.target.value });
+                      }}
+                      placeholder="직업을 직접 입력해 주세요"
+                    />
+                  </S.DirectInputRow>
+                )}
               </S.Field>
 
               <S.Field>
@@ -304,15 +426,35 @@ const ProfileCard = ({ userInfo, setUserInfo, previewImage, setPreviewImage }) =
                 </S.Label>
 
                 <S.SelectWrapper>
-                  <S.Select value={userAddress} onChange={(e) => setUserAddress(e.target.value)}>
-                    <option value="서울 · 수도권">서울 · 수도권</option>
-                    <option value="강원권">강원권</option>
+                  <S.Select
+                    value={userAddress}
+                    onChange={(e) => {
+                      setUserAddress(e.target.value);
+                      syncPreview({ userAddress: e.target.value });
+                    }}
+                  >
+                    <option value="수도권">수도권</option>
+                    <option value="경상권">경상권</option>
                     <option value="충청권">충청권</option>
                     <option value="전라권">전라권</option>
-                    <option value="경상권">경상권</option>
+                    <option value="강원권">강원권</option>
                     <option value="제주권">제주권</option>
+                    <option value="직접입력">직접입력</option>
                   </S.Select>
                 </S.SelectWrapper>
+
+                {userAddress === "직접입력" && (
+                  <S.DirectInputRow>
+                    <S.DirectInput
+                      value={customAddress}
+                      onChange={(e) => {
+                        setCustomAddress(e.target.value);
+                        syncPreview({ userAddress: e.target.value });
+                      }}
+                      placeholder="지역을 직접 입력해 주세요"
+                    />
+                  </S.DirectInputRow>
+                )}
               </S.Field>
             </S.FieldGroup>
           </S.ExtraFormArea>
@@ -320,9 +462,7 @@ const ProfileCard = ({ userInfo, setUserInfo, previewImage, setPreviewImage }) =
           <S.BottomDivider />
 
           <S.BottomArea>
-            <S.RequiredGuide>
-              * 표시는 필수 입력 항목입니다
-            </S.RequiredGuide>
+            <S.RequiredGuide>* 표시는 필수 입력 항목입니다</S.RequiredGuide>
 
             <S.ButtonArea>
               <S.CancelButton type="button" onClick={handleCancel}>

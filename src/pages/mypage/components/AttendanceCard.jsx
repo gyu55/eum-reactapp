@@ -8,31 +8,26 @@ import {
   AttendanceSubText,
 } from "./style";
 
-/*
-  출석 정보는 마이페이지 메인 API 연동
-*/
 const AttendanceCard = ({ attendance }) => {
-  // 날짜 포맷 변환
-  const formatDate = (date) => {
-    if (!date) return "-";
+  const attendanceCount = attendance?.attendanceCount || 0;
 
-    return date.replaceAll("-", ".");
+  const getDigitType = (count) => {
+    if (count >= 1000) return "large";
+    if (count >= 10) return "medium";
+    return "small";
   };
 
   return (
     <AttendanceWrapper>
-      {/* 현재 연속 출석 */}
-      <AttendanceDayText>
-        {attendance?.attendanceCount || 0}일🔥
+      <AttendanceDayText $digitType={getDigitType(attendanceCount)}>
+        {attendanceCount}일🔥
       </AttendanceDayText>
 
       <AttendanceInfoBox>
-        <AttendanceStrongText>
-          연속 학습 중!
-        </AttendanceStrongText>
+        <AttendanceStrongText>연속 학습 중!</AttendanceStrongText>
 
         <AttendanceSubText>
-          {formatDate(attendance?.attendanceStartDate)} 부터 시작
+          {attendance?.attendanceStartDate || "-"} 부터 시작
         </AttendanceSubText>
 
         <AttendanceSubText>

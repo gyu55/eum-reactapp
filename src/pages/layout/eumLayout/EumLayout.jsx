@@ -1,14 +1,34 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Outlet, ScrollRestoration } from "react-router-dom";
 import * as S from "./style.js";
 import NotificationDropdown from "../notificationDropDown";
 
 const navLinks = [
   { label: "커뮤니티", to: "/community" },
-  { label: "학습",    to: "/study" },
-  { label: "시험",    to: "/exam/info" },
+  { label: "학습", to: "/study" },
+  { label: "시험", to: "/exam/info" },
   { label: "고객지원", to: "/customservice/notice" },
 ];
+
+const isDefaultProfile = (profileImage) => {
+  return (
+    !profileImage ||
+    profileImage === "default.jpg" ||
+    profileImage === "null"
+  );
+};
+
+const getProfileImageSrc = (profileImage) => {
+  if (isDefaultProfile(profileImage)) {
+    return null;
+  }
+
+  if (profileImage.startsWith("http") || profileImage.startsWith("blob:")) {
+    return profileImage;
+  }
+
+  return `http://localhost:10000/private/api/file/display?fileName=${encodeURIComponent(profileImage)}`;
+};
 
 const EumLayout = ({
   user,
@@ -19,6 +39,34 @@ const EumLayout = ({
   onLogout,
 }) => {
   const [hoveredNav, setHoveredNav] = useState(null);
+
+  // 헤더에 표시할 유저 정보
+  const [layoutUser, setLayoutUser] = useState(user);
+
+  // 부모 user 변경 시 헤더 유저 정보 동기화
+  useEffect(() => {
+    setLayoutUser(user);
+  }, [user]);
+
+  // 정보수정 저장/프로필 삭제 후 헤더 즉시 반영
+  useEffect(() => {
+    const handleUserProfileUpdated = (event) => {
+      setLayoutUser((prev) => ({
+        ...prev,
+        userNickname: event.detail.userNickname,
+        userProfile: event.detail.userProfile,
+      }));
+    };
+
+    window.addEventListener("userProfileUpdated", handleUserProfileUpdated);
+
+    return () => {
+      window.removeEventListener("userProfileUpdated", handleUserProfileUpdated);
+    };
+  }, []);
+
+  // 헤더 프로필 이미지
+  const layoutProfileImageSrc = getProfileImageSrc(layoutUser?.userProfile);
 
   return (
     <div>
@@ -48,16 +96,19 @@ const EumLayout = ({
         </S.LogoNav>
 
         <S.RightNav>
-          {user ? (
+          {layoutUser ? (
             <S.UserMenuWrap>
               <S.BellWrap>
                 <S.BellBtn onClick={onNotifToggle}>
                   <S.BellIcon
-                    src={notifCount > 0
-                      ? "/assets/image/layout/bellIconActive.svg"
-                      : "/assets/image/layout/bellIcon.svg"}
+                    src={
+                      notifCount > 0
+                        ? "/assets/image/layout/bellIconActive.svg"
+                        : "/assets/image/layout/bellIcon.svg"
+                    }
                   />
                 </S.BellBtn>
+
                 {showNotification && (
                   <NotificationDropdown
                     onClose={onNotifToggle}
@@ -68,8 +119,22 @@ const EumLayout = ({
 
               <S.StyledLink to="/mypage">
                 <S.UserChip>
-                  <S.UserAvatar src={user.userProfile} alt="프로필" />
-                  <S.UserName>{user.userNickname || user.userName}</S.UserName>
+                  <S.UserAvatar>
+                    {layoutProfileImageSrc && (
+                      <img
+                        src={layoutProfileImageSrc}
+                        alt=""
+                        draggable={false}
+                        onError={(e) => {
+                          e.currentTarget.remove();
+                        }}
+                      />
+                    )}
+                  </S.UserAvatar>
+
+                  <S.UserName>
+                    {layoutUser.userNickname || layoutUser.userName}
+                  </S.UserName>
                 </S.UserChip>
               </S.StyledLink>
 
@@ -84,6 +149,7 @@ const EumLayout = ({
                   <S.RightBorderBtnLabel>로그인</S.RightBorderBtnLabel>
                 </S.RightBorderBtn>
               </S.StyledLink>
+
               <S.StyledLink to="/join">
                 <S.RightBgBtn>
                   <S.RightBgBtnLabel>회원가입</S.RightBgBtnLabel>
@@ -95,6 +161,7 @@ const EumLayout = ({
       </S.Header>
 
       <ScrollRestoration />
+
       <S.Main>
         <Outlet />
       </S.Main>
@@ -104,18 +171,22 @@ const EumLayout = ({
           <S.FooterContent>
             <S.FooterTop>
               <S.FooterPolicy>개인정보처리방침 | 서비스 이용약관</S.FooterPolicy>
+
               <S.FooterSocial>
                 <S.FooterSocialIcon src="/assets/image/layout/youtube.svg" alt="youtube" />
                 <S.FooterSocialIcon src="/assets/image/layout/naver.svg" alt="naver" />
                 <S.FooterSocialIcon src="/assets/image/layout/instagram.svg" alt="instagram" />
               </S.FooterSocial>
             </S.FooterTop>
+
             <S.FooterInfoTitle>INFO.</S.FooterInfoTitle>
+
             <S.FooterInfoRow>
               <span>주식회사 이음</span>
               <span>대표 : 노규호 외 4명</span>
               <span>사업자등록번호 : 123-45-67890</span>
             </S.FooterInfoRow>
+
             <S.FooterInfoRow $mt="4px">
               <span>주소 : 서울특별시 마포구 백범로 130</span>
               <span>광고·제휴문의 : code-kine@gmail.com</span>

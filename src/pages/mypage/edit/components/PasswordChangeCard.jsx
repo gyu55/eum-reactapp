@@ -3,15 +3,12 @@ import { useNavigate } from "react-router-dom";
 
 import S from "../style";
 
-const PasswordChangeCard = ({ userInfo }) => {
+const PasswordChangeCard = ({ isSocialUser }) => {
   const navigate = useNavigate();
 
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-
-  // 소셜 로그인 회원은 비밀번호가 없어서 변경 불가
-  const isSocialUser = !userInfo?.userPassword && userInfo?.userEmail;
 
   const strengthCount =
     newPassword.length >= 8 ? 3 : newPassword.length >= 6 ? 2 : newPassword.length >= 3 ? 1 : 0;
@@ -19,7 +16,6 @@ const PasswordChangeCard = ({ userInfo }) => {
   const isPasswordMismatch =
     confirmPassword.length > 0 && newPassword !== confirmPassword;
 
-  // 비밀번호 변경
   const handleChangePassword = async () => {
     if (isSocialUser) {
       alert("소셜 로그인 회원은 비밀번호를 변경할 수 없습니다.");
@@ -63,29 +59,21 @@ const PasswordChangeCard = ({ userInfo }) => {
       }
 
       alert("비밀번호가 변경되었습니다.");
-      navigate("/mypage");
+      navigate("/mypage", { replace: true });
     } catch (error) {
       console.error(error);
       alert("비밀번호 변경에 실패했습니다.");
     }
   };
 
-  // 입력값 초기화
   const handleCancel = () => {
-    setCurrentPassword("");
-    setNewPassword("");
-    setConfirmPassword("");
+    navigate("/mypage", { replace: true });
   };
 
   return (
     <S.PasswordSection>
-      {/* 섹션 제목 */}
       <S.SectionTitle>비밀번호 변경</S.SectionTitle>
-
-      {/* 섹션 설명 */}
-      <S.SectionDesc>
-        계정 보안을 위해 주기적으로 비밀번호를 변경해 주세요
-      </S.SectionDesc>
+      <S.SectionDesc>계정 보안을 위해 주기적으로 비밀번호를 변경해 주세요</S.SectionDesc>
 
       <S.PasswordCardBox>
         <S.PasswordFullField>
@@ -98,7 +86,11 @@ const PasswordChangeCard = ({ userInfo }) => {
             type="password"
             value={currentPassword}
             onChange={(e) => setCurrentPassword(e.target.value)}
-            placeholder="현재 비밀번호를 입력해 주세요"
+            placeholder={
+              isSocialUser
+                ? "소셜 로그인 회원은 비밀번호를 변경할 수 없습니다"
+                : "현재 비밀번호를 입력해 주세요"
+            }
             disabled={isSocialUser}
           />
         </S.PasswordFullField>
@@ -124,7 +116,7 @@ const PasswordChangeCard = ({ userInfo }) => {
               <S.PasswordStrengthItem $active={!isSocialUser && strengthCount >= 3} />
             </S.PasswordStrengthBar>
 
-            {newPassword.length === 0 && !isSocialUser && (
+            {!isSocialUser && newPassword.length === 0 && (
               <S.PasswordDesc>비밀번호를 입력해 주세요</S.PasswordDesc>
             )}
           </S.PasswordField>
@@ -143,10 +135,8 @@ const PasswordChangeCard = ({ userInfo }) => {
               disabled={isSocialUser}
             />
 
-            {isPasswordMismatch && !isSocialUser && (
-              <S.PasswordErrorText>
-                비밀번호가 틀립니다.
-              </S.PasswordErrorText>
+            {!isSocialUser && isPasswordMismatch && (
+              <S.PasswordErrorText>비밀번호가 틀립니다.</S.PasswordErrorText>
             )}
           </S.PasswordField>
         </S.PasswordFieldGroup>

@@ -2,22 +2,32 @@ import React from "react";
 
 import S from "../style";
 
+const isDefaultProfile = (profileImage) => {
+  return (
+    !profileImage ||
+    profileImage === "default.jpg" ||
+    profileImage === "null"
+  );
+};
+
+const getProfileImageSrc = (profileImage) => {
+  if (isDefaultProfile(profileImage)) {
+    return null;
+  }
+
+  if (profileImage.startsWith("http") || profileImage.startsWith("blob:")) {
+    return profileImage;
+  }
+
+  return `http://localhost:10000/private/api/file/display?fileName=${encodeURIComponent(profileImage)}`;
+};
+
 const ProfilePreviewCard = ({ userInfo, previewImage, onLevelClick }) => {
   const userExp = userInfo?.userExp || 0;
   const level = Math.floor(userExp / 100) + 1;
 
   // 프로필 이미지 경로 처리
-  const getProfileImageSrc = (profileImage) => {
-    if (!profileImage || profileImage === "default.jpg") {
-      return "/assets/images/default-profile.png";
-    }
-
-    if (profileImage.startsWith("http")) {
-      return profileImage;
-    }
-
-    return `http://localhost:10000/private/api/file/display?fileName=${encodeURIComponent(profileImage)}`;
-  };
+  const imageSrc = previewImage || getProfileImageSrc(userInfo?.userProfile);
 
   return (
     <S.PreviewCardBox>
@@ -27,13 +37,16 @@ const ProfilePreviewCard = ({ userInfo, previewImage, onLevelClick }) => {
       <S.PreviewInnerBox>
         {/* 프로필 이미지 미리보기 */}
         <S.PreviewProfileImage>
-          <img
-            src={previewImage || getProfileImageSrc(userInfo?.userProfile)}
-            alt="프로필 이미지"
-            onError={(e) => {
-              e.currentTarget.src = "/assets/images/default-profile.png";
-            }}
-          />
+          {imageSrc && (
+            <img
+              src={imageSrc}
+              alt=""
+              draggable={false}
+              onError={(e) => {
+                e.currentTarget.remove();
+              }}
+            />
+          )}
         </S.PreviewProfileImage>
 
         {/* 사용자 정보 */}

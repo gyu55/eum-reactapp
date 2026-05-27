@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useMemo } from "react";
 
 import S from "../style";
 
-const SecurityGuideCard = ({ userInfo }) => {
-  // 브라우저 정보 확인
+const SecurityGuideCard = () => {
+  const loginTime = useMemo(() => {
+    return new Date().toLocaleString("ko-KR");
+  }, []);
+
   const getBrowserInfo = () => {
     const userAgent = navigator.userAgent;
 
@@ -22,7 +25,6 @@ const SecurityGuideCard = ({ userInfo }) => {
     return "브라우저";
   };
 
-  // 운영체제 정보 확인
   const getOsInfo = () => {
     const userAgent = navigator.userAgent;
 
@@ -41,21 +43,12 @@ const SecurityGuideCard = ({ userInfo }) => {
     return "OS";
   };
 
-  // 최근 접속 시간 표시
-  const formattedDate = userInfo?.userCreateAt
-    ? new Date(userInfo.userCreateAt).toLocaleString()
-    : "-";
-
   return (
     <S.SecurityCardBox>
-      {/* 보안 안내 제목 */}
       <S.SecurityTitle>🔐 보안 안내</S.SecurityTitle>
 
-      {/* 개인정보 보호 안내 */}
       <S.SecurityNoticeBox>
-        <S.SecurityNoticeTitle>
-          ⚠️ 개인정보 보호
-        </S.SecurityNoticeTitle>
+        <S.SecurityNoticeTitle>⚠️ 개인정보 보호</S.SecurityNoticeTitle>
 
         <S.SecurityNoticeText>
           입력한 정보는 암호화되어 안전하게 보관됩니다.
@@ -64,13 +57,9 @@ const SecurityGuideCard = ({ userInfo }) => {
         </S.SecurityNoticeText>
       </S.SecurityNoticeBox>
 
-      {/* 접속 정보 */}
       <S.SecurityAccessInfo>
         <S.SecurityAccessRow>
-          최근 접속:{" "}
-          <S.SecurityAccessValue>
-            {formattedDate}
-          </S.SecurityAccessValue>
+          최근 접속: <S.SecurityAccessValue>{loginTime}</S.SecurityAccessValue>
         </S.SecurityAccessRow>
 
         <S.SecurityAccessRow>

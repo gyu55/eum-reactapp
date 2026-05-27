@@ -169,21 +169,26 @@ export const ActivityCount = styled.span`
 
 /* 카드 전체 */
 export const AttendanceWrapper = styled.div`
+  position: relative;
+
   width: 312px;
-  height: 90px;
-  padding: 0 22px;
+  height: 80px;
 
-  display: flex;
-  align-items: center;
-
-  border-radius: 16px;
-  background: ${PALETTE.primary.main};
+  border-radius: 14px;
+  background: #4359fc;
+  overflow: hidden;
 `;
 
 /* 출석일 */
 export const AttendanceDayText = styled.div`
-  width: 170px;
-  flex-shrink: 0;
+  position: absolute;
+  top: 23px;
+
+  left: ${({ $digitType }) => {
+    if ($digitType === "small") return "52px";
+    if ($digitType === "medium") return "30px";
+    return "8px";
+  }};
 
   font-size: 34px;
   font-weight: ${FONT_WEIGHT.bold};
@@ -195,9 +200,12 @@ export const AttendanceDayText = styled.div`
 
 /* 오른쪽 텍스트 영역 */
 export const AttendanceInfoBox = styled.div`
+  position: absolute;
+  top: 17px;
+  left: 185px;
+
   display: flex;
   flex-direction: column;
-  gap: 6px;
 `;
 
 /* 강조 텍스트 */
@@ -221,7 +229,8 @@ export const AttendanceSubText = styled.span`
 /* 카드 */
 export const BookmarkWrapper = styled(CardBox)`
   width: 984px;
-  height: 201px;
+  min-height: 201px;
+  height: auto;
   padding: 20px 28px 16px;
 `;
 
@@ -274,6 +283,7 @@ export const MyPostRow = styled.div`
 export const FollowWrapper = styled(CardBox)`
   width: 984px;
   min-height: 266px;
+  height: auto;
   padding: 21px 28px 24px;
 `;
 
@@ -312,6 +322,7 @@ export const CountBadge = styled.span`
 export const UserList = styled.div`
   margin-top: 9px;
   display: flex;
+  flex-wrap: wrap;
   gap: 12px;
 `;
 

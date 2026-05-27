@@ -1,25 +1,31 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 
 import ProfileCard from "./components/ProfileCard";
+import ActivityCard from "./components/ActivityCard";
+import AttendanceCard from "./components/AttendanceCard";
+import StudyStatusCard from "./components/StudyStatusCard";
+import MypostList from "./components/MypostList";
 import BookmarkList from "./components/BookmarkList";
 import FollowList from "./components/FollowList";
-import ActivityCard from "./components/ActivityCard";
-import StudyStatusCard from "./components/StudyStatusCard";
-import AttendanceCard from "./components/AttendanceCard";
-import MypostList from "./components/MypostList";
 import QuickMenuCard from "./components/QuickMenuCard";
 import LevelGuideModal from "./components/LevelGuideModal";
 
 import S from "./style";
 
+/*
+  마이페이지 메인 컴포넌트
+  - 프로필
+  - 내 활동
+  - 내 게시글
+  - 즐겨찾기
+  - 팔로우 / 팔로워
+  - 출석 / 학습 / 퀵메뉴
+*/
 const MyPageComponent = () => {
-  const navigate = useNavigate();
-
   const [myPageData, setMyPageData] = useState(null);
   const [isLevelModalOpen, setIsLevelModalOpen] = useState(false);
 
-  // 마이페이지 메인 정보 불러오기
+  // 마이페이지 메인 데이터 조회
   useEffect(() => {
     const getMyPageMain = async () => {
       try {
@@ -29,7 +35,6 @@ const MyPageComponent = () => {
         });
 
         const result = await response.json();
-        console.log(result.data.studyStatusList);
 
         if (!result.success) {
           alert(result.message);
@@ -45,64 +50,60 @@ const MyPageComponent = () => {
 
     getMyPageMain();
   }, []);
-  
-  // 레벨업 가이드
-  const openLevelModal = () => {
-    setIsLevelModalOpen(true);
-  };
 
-  const closeLevelModal = () => {
-    setIsLevelModalOpen(false);
-  };
-
-  // 회원탈퇴
-  const handleWithdrawClick = () => {
-    navigate("/mypage/withdraw");
-  };
-
+  // 데이터 로딩 전 화면
   if (!myPageData) {
     return null;
   }
+
   return (
     <>
-      <S.Layout>
-        {/* 왼쪽 영역 */}
-        <S.LeftArea>
-          <ProfileCard
-            profile={myPageData.profile}
-            onLevelClick={openLevelModal}
-          />
+      <S.Page>
+        <S.Inner>
+          <S.Layout>
+            {/* 왼쪽 메인 영역 */}
+            <S.LeftArea>
+              {/* 프로필 카드 */}
+              <ProfileCard
+                profile={myPageData.profile}
+                onLevelClick={() => setIsLevelModalOpen(true)}
+              />
 
-          <MypostList posts={myPageData.posts} />
+              {/* 나의 게시글 */}
+              <MypostList myPostList={myPageData.myPostList || []} />
 
-          <BookmarkList bookmarks={myPageData.bookmarks} />
+              {/* 즐겨찾기 */}
+              <BookmarkList bookmarkList={myPageData.bookmarkList || []} />
 
-          <FollowList
-            followingList={myPageData.followingList}
-            followerList={myPageData.followerList}
-          />
+              {/* 팔로우 / 팔로워 */}
+              <FollowList
+                followingList={myPageData.followingList || []}
+                followerList={myPageData.followerList || []}
+              />
+            </S.LeftArea>
 
-          <S.WithdrawButton type="button" onClick={handleWithdrawClick}>
-            회원탈퇴
-          </S.WithdrawButton>
-        </S.LeftArea>
+            {/* 오른쪽 사이드 영역 */}
+            <S.RightArea>
+              {/* 내 활동 */}
+              <ActivityCard activity={myPageData.activity} />
 
-        {/* 오른쪽 영역 */}
-        <S.RightArea>
-          <ActivityCard activity={myPageData.activity} />
+              {/* 학습 현황 */}
+              <StudyStatusCard studyStatusList={myPageData.studyStatusList || []} />
 
-          <StudyStatusCard
-            studyStatusList={myPageData.studyStatusList}
-            onLevelClick={openLevelModal}
-          />
+              {/* 연속 학습 */}
+              <AttendanceCard attendance={myPageData.attendance} />
 
-          <AttendanceCard attendance={myPageData.attendance} />
+              {/* 퀵 메뉴 */}
+              <QuickMenuCard />
+            </S.RightArea>
+          </S.Layout>
+        </S.Inner>
+      </S.Page>
 
-          <QuickMenuCard />
-        </S.RightArea>
-      </S.Layout>
-      
-      {isLevelModalOpen && <LevelGuideModal onClose={closeLevelModal} />}
+      {/* 레벨 안내 모달 */}
+      {isLevelModalOpen && (
+        <LevelGuideModal onClose={() => setIsLevelModalOpen(false)} />
+      )}
     </>
   );
 };

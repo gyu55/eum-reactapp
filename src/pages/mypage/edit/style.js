@@ -456,7 +456,11 @@ S.RequiredGuide = styled.p`
 /* 버튼 묶음 */
 S.ButtonArea = styled.div`
   display: flex;
-  gap: 8px;
+  align-items: center;
+  gap: 12px;
+
+  margin-left: auto;
+  flex-shrink: 0;
 `;
 
 /* 취소 버튼 */
@@ -548,10 +552,12 @@ S.AccountDivider = styled.div`
 
 /* 계정 정보 버튼 영역 */
 S.AccountBottomArea = styled.div`
-  margin-top: 18px;
-
+  width: 100%;
   display: flex;
   justify-content: flex-end;
+
+  margin-top: 48px;
+  padding-bottom: 12px;
 `;
 
 /* PasswordChangeCard CSS */
@@ -641,11 +647,12 @@ S.PasswordDivider = styled.div`
 
 /* 비밀번호 하단 */
 S.PasswordBottomArea = styled.div`
-  height: 64px;
-
+  width: 100%;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
+
+  margin-top: 56px;
+  padding-bottom: 12px;
 `;
 
 /* 비밀번호 권장 문구 */
@@ -898,5 +905,70 @@ S.SecurityAccessValue = styled.span`
   font-weight: ${FONT_WEIGHT.bold};
   color: #333333;
 `;
+
+/* 직접 입력 줄 */
+S.DirectInputRow = styled.div`
+  margin-top: 8px;
+`;
+
+/* 직접 입력 인풋 */
+S.DirectInput = styled(S.Input)`
+  width: 456px;
+`;
+
+/* 인증번호 입력 영역 */
+S.VerifyInputRow = styled.div`
+  display: grid;
+  grid-template-columns: 363px 81px;
+  column-gap: 14px;
+
+  margin-top: 8px;
+`;
+
+/* 계정 정보 카드 */
+S.AccountInfoCardBox = styled.div`
+  width: 1001px;
+  min-height: 245px;
+  padding: 17px 27px 32px;
+  box-sizing: border-box;
+
+  border-radius: 14px;
+  background: ${PALETTE.white};
+`;
+
+/* 비밀번호 카드 */
+S.PasswordCardBox = styled.div`
+  width: 1001px;
+  min-height: 355px;
+  padding: 31px 27px 32px;
+  box-sizing: border-box;
+
+  border-radius: 14px;
+  background: ${PALETTE.white};
+`;
+
+/* 계정 정보 버튼 영역 */
+S.AccountBottomArea = styled.div`
+  width: 100%;
+
+  display: flex;
+  justify-content: flex-end;
+
+  margin-top: 42px;
+  padding-bottom: 8px;
+`;
+
+/* 비밀번호 하단 */
+S.PasswordBottomArea = styled.div`
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-top: 42px;
+  padding-bottom: 8px;
+`;
+
 
 export default S;

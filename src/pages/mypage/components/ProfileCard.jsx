@@ -28,13 +28,22 @@ import {
 const ProfileCard = ({ profile, onLevelClick }) => {
   const navigate = useNavigate();
 
+  // 기본 프로필 여부 확인
+  const isDefaultProfile = (profileImage) => {
+    return (
+      !profileImage ||
+      profileImage === "default.jpg" ||
+      profileImage === "null"
+    );
+  };
+
   // 프로필 이미지 경로 처리
   const getProfileImageSrc = (profileImage) => {
-    if (!profileImage || profileImage === "default.jpg") {
-      return "/assets/images/default-profile.png";
+    if (isDefaultProfile(profileImage)) {
+      return null;
     }
 
-    if (profileImage.startsWith("http")) {
+    if (profileImage.startsWith("http") || profileImage.startsWith("blob:")) {
       return profileImage;
     }
 
@@ -49,9 +58,10 @@ const ProfileCard = ({ profile, onLevelClick }) => {
   // 경험치 퍼센트 계산
   const currentExp = profile?.userExp || 0;
 
-  // 레벨 계산
+  // 레벨 계산 로직은 이후 레벨 시스템 API 연결 예정
   const currentLevel = Math.floor(currentExp / 100) + 1;
   const maxExp = currentLevel * 100;
+
   const expPercent = Math.min((currentExp / maxExp) * 100, 100);
 
   // 날짜 표시
@@ -63,17 +73,23 @@ const ProfileCard = ({ profile, onLevelClick }) => {
     return date.includes("T") ? date.split("T")[0] : date.split(" ")[0];
   };
 
+  // 프로필 이미지
+  const profileImageSrc = getProfileImageSrc(profile?.userProfile);
+
   return (
     <ProfileWrapper>
       {/* 프로필 이미지 */}
       <ProfileImage>
-        <img
-          src={getProfileImageSrc(profile?.userProfile)}
-          alt="프로필 이미지"
-          onError={(e) => {
-            e.currentTarget.src = "/assets/images/default-profile.png";
-          }}
-        />
+        {profileImageSrc && (
+          <img
+            src={profileImageSrc}
+            alt=""
+            draggable={false}
+            onError={(e) => {
+              e.currentTarget.remove();
+            }}
+          />
+        )}
       </ProfileImage>
 
       <ProfileContent>
@@ -110,34 +126,52 @@ const ProfileCard = ({ profile, onLevelClick }) => {
           <ProfileColumn>
             <ProfileRow>
               <ProfileLabel>이메일</ProfileLabel>
-              <ProfileValue>{profile?.userEmail || "-"}</ProfileValue>
+
+              <ProfileValue>
+                {profile?.userEmail || "-"}
+              </ProfileValue>
             </ProfileRow>
 
             <ProfileRow>
               <ProfileLabel>닉네임</ProfileLabel>
-              <ProfileValue>{profile?.userNickname || "-"}</ProfileValue>
+
+              <ProfileValue>
+                {profile?.userNickname || "-"}
+              </ProfileValue>
             </ProfileRow>
 
             <ProfileRow>
               <ProfileLabel>직업</ProfileLabel>
-              <ProfileValue>{profile?.userJob || "-"}</ProfileValue>
+
+              <ProfileValue>
+                {profile?.userJob || "-"}
+              </ProfileValue>
             </ProfileRow>
           </ProfileColumn>
 
           <ProfileColumn>
             <ProfileRow>
               <ProfileLabel>가입일</ProfileLabel>
-              <ProfileValue>{getCreateDate(profile?.userCreateAt)}</ProfileValue>
+
+              <ProfileValue>
+                {getCreateDate(profile?.userCreateAt)}
+              </ProfileValue>
             </ProfileRow>
 
             <ProfileRow>
               <ProfileLabel>지역</ProfileLabel>
-              <ProfileValue>{profile?.userAddress || "-"}</ProfileValue>
+
+              <ProfileValue>
+                {profile?.userAddress || "-"}
+              </ProfileValue>
             </ProfileRow>
 
             <ProfileRow>
               <ProfileLabel>전화번호</ProfileLabel>
-              <ProfileValue>{profile?.userPhoneNum || "-"}</ProfileValue>
+
+              <ProfileValue>
+                {profile?.userPhoneNum || "-"}
+              </ProfileValue>
             </ProfileRow>
           </ProfileColumn>
         </DetailArea>

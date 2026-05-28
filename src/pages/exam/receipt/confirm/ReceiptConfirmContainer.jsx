@@ -11,7 +11,7 @@ const ReceiptConfirmContainer = () => {
     if (!window.confirm("접수를 취소하시겠습니까?")) return;
     setCancelingId(id);
     try {
-      const res = await fetch(`http://localhost:10000/api/test-apply/${id}`, {
+      const res = await fetch(`http://localhost:10000/api/test-applications/${id}`, {
         method: "DELETE",
         credentials: "include",
       });
@@ -29,7 +29,7 @@ const ReceiptConfirmContainer = () => {
   };
 
   useEffect(() => {
-    fetch("http://localhost:10000/api/test-apply/my", { credentials: "include" })
+    fetch("http://localhost:10000/api/test-applications/my", { credentials: "include" })
       .then(res => {
         if (res.status === 401) throw new Error("login");
         return res.json();

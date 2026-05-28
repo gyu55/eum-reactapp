@@ -34,7 +34,7 @@ const AccountInfoCard = ({ userInfo, setUserInfo, isSocialUser }) => {
     }
 
     try {
-      const response = await fetch("http://localhost:10000/api/sms/email/verification-code", {
+      const response = await fetch("http://localhost:10000/api/verifications/email/verification-code", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -73,8 +73,8 @@ const AccountInfoCard = ({ userInfo, setUserInfo, isSocialUser }) => {
     }
 
     try {
-      const response = await fetch("http://localhost:10000/api/sms/email/verification-code/verify", {
-        method: "POST",
+      const response = await fetch("http://localhost:10000/api/verifications/email/verification-code", {
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
@@ -110,7 +110,7 @@ const AccountInfoCard = ({ userInfo, setUserInfo, isSocialUser }) => {
     }
 
     try {
-      const response = await fetch("http://localhost:10000/api/sms/phone/verification-code", {
+      const response = await fetch("http://localhost:10000/api/verifications/phone/verification-code", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -146,8 +146,8 @@ const AccountInfoCard = ({ userInfo, setUserInfo, isSocialUser }) => {
     }
 
     try {
-      const response = await fetch("http://localhost:10000/api/sms/phone/verification-code/verify", {
-        method: "POST",
+      const response = await fetch("http://localhost:10000/api/verifications/phone/verification-code", {
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },

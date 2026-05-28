@@ -62,7 +62,7 @@ const ReceiptSubmitContainer = () => {
       formData.append("testId", selectedTestId);
       files.forEach(file => formData.append("files", file));
 
-      const res = await fetch("http://localhost:10000/api/test-apply", {
+      const res = await fetch("http://localhost:10000/api/test-applications", {
         method: "POST",
         credentials: "include",
         body: formData,

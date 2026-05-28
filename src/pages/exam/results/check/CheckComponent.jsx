@@ -74,7 +74,7 @@ const MyResultView = () => {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    fetch("http://localhost:10000/api/test-apply/my-results", { credentials: "include" })
+    fetch("http://localhost:10000/api/test-applications/my-results", { credentials: "include" })
       .then(res => res.json())
       .then(data => {
         if (data.success) setResults(data.data);

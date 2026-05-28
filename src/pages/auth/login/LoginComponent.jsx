@@ -81,7 +81,7 @@ export default function LoginComponent() {
 
         <S.SubLinks>
           <span onClick={() => navigate("/join")}>회원가입</span>
-          <span onClick={() => navigate("/find-account")}>비밀번호를 잊으셨나요?</span>
+          <span onClick={() => navigate("/find-account")}>이메일/비밀번호 찾기</span>
         </S.SubLinks>
 
         <S.Divider>또는</S.Divider>

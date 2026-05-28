@@ -27,7 +27,7 @@ const sendVerificationCode = async (phone, setLoading, setMsg, setSent) => {
   // 테스트 시: 아래 주석 해제 → 인증 없이 바로 완료 처리
   setSent(true); setMsg("(테스트) 인증 생략"); setLoading(false); return;
   try {
-    const res = await fetch("http://localhost:10000/api/sms/phone/verification-code", {
+    const res = await fetch("http://localhost:10000/api/verifications/phone/verification-code", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ memberPhone }),
@@ -54,8 +54,8 @@ const verifyCode = async (phone, code, setLoading, setMsg, setVerified) => {
   // 테스트 시: 아래 주석 해제 → 인증 없이 바로 완료 처리
   setVerified(true); setMsg("(테스트) 인증 완료"); setLoading(false); return;
   try {
-    const res = await fetch("http://localhost:10000/api/sms/phone/verification-code/verify", {
-      method: "POST",
+    const res = await fetch("http://localhost:10000/api/verifications/phone/verification-code", {
+      method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ memberPhone, code }),
     });
@@ -106,10 +106,9 @@ export default function FindAccountComponent() {
     setEmailLoading(true);
     setEmailMsg("");
     try {
-      const res = await fetch("http://localhost:10000/api/users/find-email", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userName: emailName, userPhone: emailPhone.replace(/\D/g, "") }),
+      const res = await fetch(`http://localhost:10000/api/users/email?userName=${encodeURIComponent(emailName)}`, {
+        method: "GET",
+        credentials: "include",
       });
       const data = await res.json();
       if (data.success) {
@@ -137,8 +136,8 @@ export default function FindAccountComponent() {
     setPwLoading(true);
     setPwMsg("");
     try {
-      const res = await fetch("http://localhost:10000/api/users/reset-password", {
-        method: "POST",
+      const res = await fetch("http://localhost:10000/api/users/password", {
+        method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ userEmail: pwEmail, newPassword: newPw }),
       });

@@ -19,7 +19,7 @@ const getProfileImageSrc = (profileImage) => {
     return profileImage;
   }
 
-  return `http://localhost:10000/private/api/file/display?fileName=${encodeURIComponent(profileImage)}`;
+  return `http://localhost:10000/private/api/files/${encodeURIComponent(profileImage)}`;
 };
 
 const ProfilePreviewCard = ({ userInfo, previewImage, onLevelClick }) => {

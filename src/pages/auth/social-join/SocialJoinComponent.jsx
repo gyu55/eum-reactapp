@@ -29,7 +29,7 @@ export default function SocialJoinComponent() {
     setSmsLoading(true);
     setSmsMsg("");
     try {
-      const res = await fetch("http://localhost:10000/api/sms/phone/verification-code", {
+      const res = await fetch("http://localhost:10000/api/verifications/phone/verification-code", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ memberPhone }),
@@ -56,8 +56,8 @@ export default function SocialJoinComponent() {
     setSmsLoading(true);
     setSmsMsg("");
     try {
-      const res = await fetch("http://localhost:10000/api/sms/phone/verification-code/verify", {
-        method: "POST",
+      const res = await fetch("http://localhost:10000/api/verifications/phone/verification-code", {
+        method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ memberPhone, code: verifyCode }),
       });

@@ -27,7 +27,7 @@ const getProfileImageSrc = (profileImage) => {
     return profileImage;
   }
 
-  return `http://localhost:10000/private/api/file/display?fileName=${encodeURIComponent(profileImage)}`;
+  return `http://localhost:10000/private/api/files/${encodeURIComponent(profileImage)}`;
 };
 
 const EumLayout = ({
@@ -160,7 +160,11 @@ const EumLayout = ({
         </S.RightNav>
       </S.Header>
 
-      <ScrollRestoration />
+<ScrollRestoration
+        getKey={(location) =>
+          location.pathname.startsWith("/exam") ? location.pathname : location.key
+        }
+      />
 
       <S.Main>
         <Outlet />
@@ -171,22 +175,18 @@ const EumLayout = ({
           <S.FooterContent>
             <S.FooterTop>
               <S.FooterPolicy>개인정보처리방침 | 서비스 이용약관</S.FooterPolicy>
-
               <S.FooterSocial>
                 <S.FooterSocialIcon src="/assets/image/layout/youtube.svg" alt="youtube" />
                 <S.FooterSocialIcon src="/assets/image/layout/naver.svg" alt="naver" />
                 <S.FooterSocialIcon src="/assets/image/layout/instagram.svg" alt="instagram" />
               </S.FooterSocial>
             </S.FooterTop>
-
             <S.FooterInfoTitle>INFO.</S.FooterInfoTitle>
-
             <S.FooterInfoRow>
               <span>주식회사 이음</span>
               <span>대표 : 노규호 외 4명</span>
               <span>사업자등록번호 : 123-45-67890</span>
             </S.FooterInfoRow>
-
             <S.FooterInfoRow $mt="4px">
               <span>주소 : 서울특별시 마포구 백범로 130</span>
               <span>광고·제휴문의 : code-kine@gmail.com</span>

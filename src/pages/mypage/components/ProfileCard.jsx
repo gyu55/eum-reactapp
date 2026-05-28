@@ -47,7 +47,7 @@ const ProfileCard = ({ profile, onLevelClick }) => {
       return profileImage;
     }
 
-    return `http://localhost:10000/private/api/file/display?fileName=${encodeURIComponent(profileImage)}`;
+    return `http://localhost:10000/private/api/files/${encodeURIComponent(profileImage)}`;
   };
 
   // 정보수정 페이지 이동

@@ -138,6 +138,7 @@ export default function JoinComponent() {
           userName: form.userName,
           userEmail: form.userEmail,
           userPassword: form.userPassword,
+          userBirth: birth,
         }),
       });
       const data = await res.json();

@@ -75,14 +75,6 @@ export const NumberTd = styled(Td)`
   color: #111;
 `;
 
-export const StatusBadge = styled.span`
-  font-size: 11px;
-  font-weight: 700;
-  color: #e67e22;
-  background: #fff8f0;
-  border-radius: 20px;
-  padding: 4px 12px;
-`;
 
 export const DetailCell = styled.td`
   padding: 10px 14px;
@@ -99,4 +91,27 @@ export const DetailNote = styled.div`
   font-size: 11px;
   color: #999;
   margin-top: 4px;
+`;
+
+export const StatusBadge = styled.span`
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: 20px;
+  padding: 4px 12px;
+  color: ${({ $status }) => $status === "cancelled" ? "#888" : "#e67e22"};
+  background: ${({ $status }) => $status === "cancelled" ? "#f5f5f5" : "#fff8f0"};
+`;
+
+export const CancelBtn = styled.button`
+  background: #fff;
+  color: #e74c3c;
+  border: 1.5px solid #e74c3c;
+  border-radius: 6px;
+  padding: 5px 14px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  &:hover {
+    background: #fdf0ef;
+  }
 `;

@@ -14,6 +14,6 @@ export const TAB_MENU_ITEMS = [
 ];
 
 export const API = {
-  AUTH_CHECK: "http://localhost:10000/api/auth/check",
+  AUTH_CHECK: "http://localhost:10000/api/auth/status",
   AUTH_ME:    "http://localhost:10000/api/auth/me",
 };

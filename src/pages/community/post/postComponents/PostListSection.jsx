@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import PostListCard from "./PostListCard.jsx";
 import PageCount from "./PageCount";
 import { fetchPosts } from "../../communityApi/postApi";
@@ -30,10 +30,12 @@ const PostListSection = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const listTopRef = useRef(null);
+  const [searchParams] = useSearchParams();
+  const keyword = searchParams.get("keyword") ?? "";
 
   useEffect(() => {
     setCurrentPage(1);
-  }, [selectedTag]);
+  }, [selectedTag, keyword]);
 
   useEffect(() => {
     const load = async () => {
@@ -42,6 +44,7 @@ const PostListSection = () => {
         const res = await fetchPosts({
           page: currentPage,
           postTag: selectedTag,
+          keyword,
         });
         setPosts(res.data.posts);
         setTotalPages(res.data.totalPages);
@@ -52,7 +55,7 @@ const PostListSection = () => {
       }
     };
     load();
-  }, [currentPage, selectedTag]);
+  }, [currentPage, selectedTag, keyword]);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);

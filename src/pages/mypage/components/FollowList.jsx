@@ -15,9 +15,10 @@ import {
   FollowDivider,
   FollowerBlock,
   MoreButton,
+  FollowWithdrawArea,
 } from "./style";
+import MyPageStyle from "../style";
 
-const DEFAULT_PROFILE_IMAGE = "/assets/images/default-profile.png";
 const MAX_VISIBLE_USER_COUNT = 16;
 
 const isDefaultProfile = (profileImage) => {
@@ -75,6 +76,11 @@ const FollowList = ({ followingList = [], followerList = [] }) => {
     navigate(`/community/profile/${userId}`);
   };
 
+  // 회원탈퇴 페이지로 이동
+  const handleWithdrawClick = () => {
+    navigate("/mypage/withdraw");
+  };
+
   return (
     <Section>
       <SectionTitle>팔로우</SectionTitle>
@@ -126,6 +132,13 @@ const FollowList = ({ followingList = [], followerList = [] }) => {
           </MoreButton>
         )}
       </FollowWrapper>
+
+      {/* 카드 바깥 오른쪽 하단 회원탈퇴 버튼 */}
+      <FollowWithdrawArea>
+        <MyPageStyle.WithdrawButton type="button" onClick={handleWithdrawClick}>
+          회원 탈퇴
+        </MyPageStyle.WithdrawButton>
+      </FollowWithdrawArea>
     </Section>
   );
 };

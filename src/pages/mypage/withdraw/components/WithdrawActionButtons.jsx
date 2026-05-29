@@ -3,16 +3,11 @@ import { useNavigate } from "react-router-dom";
 
 import S from "../style";
 
-const WithdrawActionButtons = () => {
+const WithdrawActionButtons = ({ onWithdrawSubmit, isSubmitting }) => {
   const navigate = useNavigate();
 
   const handleCancelClick = () => {
     navigate("/mypage");
-  };
-
-  const handleWithdrawClick = () => {
-    // 회원 탈퇴 요청 연동
-    console.log("회원 탈퇴");
   };
 
   return (
@@ -21,8 +16,12 @@ const WithdrawActionButtons = () => {
         취소
       </S.WithdrawCancelButton>
 
-      <S.WithdrawSubmitButton type="button" onClick={handleWithdrawClick}>
-        회원 탈퇴
+      <S.WithdrawSubmitButton
+        type="button"
+        onClick={onWithdrawSubmit}
+        disabled={isSubmitting}
+      >
+        {isSubmitting ? "처리 중" : "회원 탈퇴"}
       </S.WithdrawSubmitButton>
     </S.WithdrawActionArea>
   );

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 import S from "../style";
 
@@ -16,26 +16,29 @@ const rightReasons = [
 
 const CheckIcon = () => {
   return (
-    <svg
-      width="12"
-      height="9"
-      viewBox="0 0 12 9"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M1 4.5L4.33333 8L11 1"
-        stroke="white"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
+    <svg width="12" height="9" viewBox="0 0 12 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M1 4.5L4.33333 8L11 1" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 };
 
-const WithdrawReasonCard = () => {
-  const [selectedReason, setSelectedReason] = useState("");
+const WithdrawReasonCard = ({
+  selectedReason,
+  setSelectedReason,
+  withdrawDetail,
+  setWithdrawDetail,
+}) => {
+  const handleReasonChange = (reason) => {
+    setSelectedReason((prev) => {
+      const nextReason = prev === reason ? "" : reason;
+
+      if (nextReason !== "기타") {
+        setWithdrawDetail("");
+      }
+
+      return nextReason;
+    });
+  };
 
   return (
     <S.WithdrawReasonSection>
@@ -43,7 +46,7 @@ const WithdrawReasonCard = () => {
       <S.WithdrawReasonDesc>어떤 이유로 탈퇴하시나요?</S.WithdrawReasonDesc>
 
       <S.WithdrawReasonCardBox>
-        {/* 탈퇴 사유 선택값은 회원 탈퇴 요청 시 함께 전달 */}
+        {/* 선택한 탈퇴 사유는 회원탈퇴 요청 시 함께 전달 */}
         <S.ReasonList>
           <S.ReasonColumn>
             {leftReasons.map((reason) => {
@@ -55,9 +58,7 @@ const WithdrawReasonCard = () => {
                     type="checkbox"
                     name="withdrawReason"
                     checked={checked}
-                    onChange={() =>
-                      setSelectedReason((prev) => (prev === reason ? "" : reason))
-                    }
+                    onChange={() => handleReasonChange(reason)}
                   />
                   <S.ReasonCircle $checked={checked}>
                     {checked && <CheckIcon />}
@@ -80,11 +81,7 @@ const WithdrawReasonCard = () => {
                         type="checkbox"
                         name="withdrawReason"
                         checked={checked}
-                        onChange={() =>
-                          setSelectedReason((prev) =>
-                            prev === reason ? "" : reason
-                          )
-                        }
+                        onChange={() => handleReasonChange(reason)}
                       />
                       <S.ReasonCircle $checked={checked}>
                         {checked && <CheckIcon />}
@@ -92,8 +89,13 @@ const WithdrawReasonCard = () => {
                       {reason}
                     </S.ReasonItem>
 
-                    {/* 기타 사유 입력 */}
-                    {checked && <S.OtherReasonInput placeholder="기타 사유 입력" />}
+                    {checked && (
+                      <S.OtherReasonInput
+                        value={withdrawDetail}
+                        onChange={(e) => setWithdrawDetail(e.target.value)}
+                        placeholder="기타 사유 입력"
+                      />
+                    )}
                   </S.OtherReasonRow>
                 );
               }
@@ -104,9 +106,7 @@ const WithdrawReasonCard = () => {
                     type="checkbox"
                     name="withdrawReason"
                     checked={checked}
-                    onChange={() =>
-                      setSelectedReason((prev) => (prev === reason ? "" : reason))
-                    }
+                    onChange={() => handleReasonChange(reason)}
                   />
                   <S.ReasonCircle $checked={checked}>
                     {checked && <CheckIcon />}

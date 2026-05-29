@@ -1,28 +1,26 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import LiveChatCardCandidate1 from "../../chat/chatComponents/chatCardCandidate/LiveChatCardCandidate1.jsx";
 import LiveChatCardCandidate1Skeleton from "../../chat/skeleton/LiveChatCardCandidate1Skeleton.jsx";
 import { getChatRooms } from "../../communityApi/chatApi.js";
 import { useChatContext } from "../../context/ChatContext";
-import { LiveChatRow } from "../communityPostContainerStyle";
+import { LiveChatRow, AllChatButton } from "../communityPostContainerStyle";
+import { RowBlock } from "../../communityStyle";
 import { useSearchParams } from "react-router-dom";
+import PageCount from "./PageCount";
 
 const LiveChatListSection = () => {
   const { openChatRoom } = useChatContext();
   const [rooms, setRooms] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [searchParams] = useSearchParams();
   const keyword = searchParams.get("keyword") ?? "";
 
-  let size = 3;
-  if (keyword !== "" && keyword != null) {
-    size = 6;
-  }
+  const isSearchMode = keyword !== "";
+  const size = isSearchMode ? 6 : 3;
 
-  // 테스트
-  console.log("입력 키워드: ", keyword);
-
-  // 페이지 조절
   useEffect(() => {
     setCurrentPage(1);
   }, [keyword]);
@@ -33,6 +31,7 @@ const LiveChatListSection = () => {
       try {
         const data = await getChatRooms(currentPage, size, keyword);
         setRooms(data.rooms);
+        setTotalPages(data.totalPages ?? 1);
       } catch (err) {
         console.error(err);
       } finally {
@@ -42,27 +41,65 @@ const LiveChatListSection = () => {
     load();
   }, [size, currentPage, keyword]);
 
-  if (isLoading)
-    return (
-      <LiveChatRow>
-        <LiveChatCardCandidate1Skeleton />
-        <LiveChatCardCandidate1Skeleton />
-        <LiveChatCardCandidate1Skeleton />
-      </LiveChatRow>
-    );
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
-  // 검색을 한 경우
+  if (isSearchMode) {
+    return (
+      <>
+        <RowBlock flexWrap="wrap">
+          {isLoading ? (
+            <>
+              <LiveChatCardCandidate1Skeleton />
+              <LiveChatCardCandidate1Skeleton />
+              <LiveChatCardCandidate1Skeleton />
+            </>
+          ) : (
+            rooms.map(({ id, ...roomData }) => (
+              <LiveChatCardCandidate1
+                key={id}
+                {...roomData}
+                onJoin={() => openChatRoom({ id, ...roomData })}
+              />
+            ))
+          )}
+        </RowBlock>
+        {!isLoading && totalPages > 1 && (
+          <PageCount
+            totalPages={totalPages}
+            currentPage={currentPage}
+            onPageChange={handlePageChange}
+          />
+        )}
+      </>
+    );
+  }
 
   return (
-    <LiveChatRow>
-      {rooms.map(({ id, ...roomData }) => (
-        <LiveChatCardCandidate1
-          key={id}
-          {...roomData}
-          onJoin={() => openChatRoom({ id, ...roomData })}
-        />
-      ))}
-    </LiveChatRow>
+    <>
+      <LiveChatRow>
+        {isLoading ? (
+          <>
+            <LiveChatCardCandidate1Skeleton />
+            <LiveChatCardCandidate1Skeleton />
+            <LiveChatCardCandidate1Skeleton />
+          </>
+        ) : (
+          rooms.map(({ id, ...roomData }) => (
+            <LiveChatCardCandidate1
+              key={id}
+              {...roomData}
+              onJoin={() => openChatRoom({ id, ...roomData })}
+            />
+          ))
+        )}
+      </LiveChatRow>
+      <AllChatButton>
+        <Link to={"/community/chat"}>전체 보기 →</Link>
+      </AllChatButton>
+    </>
   );
 };
 

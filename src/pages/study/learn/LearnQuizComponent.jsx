@@ -15,20 +15,21 @@ import * as S from "./style";
 const optionIcons = ["수어", "표현", "단어", "연습", "복습"];
 
 // 단어 보기 생성: 백엔드 단어를 퀴즈 보기 카드 형식으로 변환
-const createWordOption = (word, index, correct = false) => ({
+const createWordOption = (word, index, correct = false, videoMode = false) => ({
   id: `${correct ? "correct" : "word"}-${word.id}`,
   label: word.wordsTitle,
   desc: word.wordsDetail || "같은 학습에 포함된 수어 표현이에요.",
-  icon: optionIcons[index % optionIcons.length],
+  icon: videoMode ? word.wordsTitle : optionIcons[index % optionIcons.length],
+  hideText: videoMode,
   correct,
 });
 
 // 오답 보기 생성: 같은 학습 단어를 우선 사용하고 부족하면 임시 보기로 채움
-const createWrongOptions = ({ word, words, baseQuiz, correctLabel }) => {
+const createWrongOptions = ({ word, words, baseQuiz, correctLabel, videoMode = false }) => {
   const wordOptions = words
     .filter((item) => item.id !== word.id && item.wordsTitle && item.wordsTitle !== correctLabel)
     .slice(0, 2)
-    .map((item, index) => createWordOption(item, index, false));
+    .map((item, index) => createWordOption(item, index, false, videoMode));
 
   if (wordOptions.length >= 2) {
     return wordOptions;
@@ -49,9 +50,9 @@ const createWrongOptions = ({ word, words, baseQuiz, correctLabel }) => {
 };
 
 // 보기 순서 생성: 정답이 항상 같은 위치에만 나오지 않도록 가운데에 배치
-const createQuestionOptions = ({ word, words, baseQuiz, correctLabel }) => {
-  const wrongOptions = createWrongOptions({ word, words, baseQuiz, correctLabel });
-  const correctOption = createWordOption(word, wrongOptions.length, true);
+const createQuestionOptions = ({ word, words, baseQuiz, correctLabel, videoMode = false }) => {
+  const wrongOptions = createWrongOptions({ word, words, baseQuiz, correctLabel, videoMode });
+  const correctOption = createWordOption(word, wrongOptions.length, true, videoMode);
 
   return [wrongOptions[0], correctOption, ...wrongOptions.slice(1)].filter(Boolean);
 };
@@ -92,21 +93,23 @@ const LearnQuizComponent = () => {
       questions: sessionWords.map((word, index) => {
         const fallback = baseQuiz.questions[index % baseQuiz.questions.length];
         const correctLabel = word.wordsTitle || fallback.targetWord || fallback.options.find((option) => option.correct)?.label;
+        const video = sessionVideos[word.id];
         const options = createQuestionOptions({
           word: { ...word, wordsTitle: correctLabel },
           words: sessionWords,
           baseQuiz,
           correctLabel,
+          videoMode: Boolean(video),
         });
 
         return {
           ...fallback,
           id: word.id,
-          title: `다음 중 어느 수어가 "${correctLabel}"인가요?`,
+          title: video ? "이 수어는 어떤 뜻일까요?" : `다음 중 어느 수어가 "${correctLabel}"인가요?`,
           targetWord: correctLabel,
           hint: word.wordsDetail || fallback.hint,
           word,
-          video: sessionVideos[word.id],
+          video,
           options,
           feedback: {
             ...fallback.feedback,
@@ -348,6 +351,10 @@ const LearnQuizComponent = () => {
           </S.LearnQuizCount>
         </S.LearnQuizTop>
 
+        <S.LearnQuizHeader>
+          <S.LearnQuizTitle>{question.title}</S.LearnQuizTitle>
+        </S.LearnQuizHeader>
+
         {(sessionLoading || sessionError || question.video) && (
           <S.LearnSessionIntro>
             {sessionLoading && <S.SessionStatus>학습 자료를 불러오는 중이에요.</S.SessionStatus>}
@@ -366,10 +373,6 @@ const LearnQuizComponent = () => {
             )}
           </S.LearnSessionIntro>
         )}
-
-        <S.LearnQuizHeader>
-          <S.LearnQuizTitle>{question.title}</S.LearnQuizTitle>
-        </S.LearnQuizHeader>
 
         <S.LearnQuizOptionGrid>
           {question.options.map((option, index) => (

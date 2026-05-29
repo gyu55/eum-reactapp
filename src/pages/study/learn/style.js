@@ -1153,7 +1153,7 @@ export const LearnQuizCount = styled.strong`
 
 export const LearnSessionIntro = styled.section`
   width: min(880px, 100%);
-  margin: 46px auto 0;
+  margin: 0 auto 42px;
 `;
 
 export const SessionStatus = styled.p`
@@ -1215,7 +1215,7 @@ export const SessionVideoCard = styled.article`
 
 export const LearnQuizHeader = styled.header`
   width: min(1120px, 100%);
-  margin: 46px auto 38px;
+  margin: 46px auto 28px;
   text-align: left;
 `;
 

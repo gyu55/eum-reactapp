@@ -131,7 +131,7 @@ export default function JoinComponent() {
     setSubmitLoading(true);
     setSubmitMsg("");
     try {
-      const res = await fetch("http://localhost:10000/api/users/join", {
+      const res = await fetch("http://localhost:10000/api/users", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

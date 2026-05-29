@@ -160,11 +160,7 @@ const EumLayout = ({
         </S.RightNav>
       </S.Header>
 
-<ScrollRestoration
-        getKey={(location) =>
-          location.pathname.startsWith("/exam") ? location.pathname : location.key
-        }
-      />
+<ScrollRestoration />
 
       <S.Main>
         <Outlet />

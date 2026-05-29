@@ -37,7 +37,7 @@ export default function Update() {
                       ...styles.infoCard,
                       border: active ? `2px solid ${PRIMARY}` : "1.5px solid #eee",
                       background: active ? "#eef0ff" : "#fff",
-                    }} onClick={() => navigate(active ? "/exam/update" : card.path)}>
+                    }} onClick={() => navigate(active ? "/exam/update" : card.path, { preventScrollReset: true })}>
                       <div style={styles.infoCardInner}>
                         <div style={{ ...styles.infoCardIcon, background: active ? "#dde1ff" : "#eef0ff" }}>
                           <img src={card.icon} alt="" style={{ width: 30, height: 30, objectFit: "contain" }} />

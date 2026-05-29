@@ -8,7 +8,7 @@ const useAuthCheck = () => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const res = await fetch('http://localhost:10000/api/auth/check', {
+        const res = await fetch('http://localhost:10000/api/auth/status', {
           credentials: 'include',
           cache: 'no-store',
         });

@@ -5,6 +5,12 @@ const rounds = ["2025년 1회 정기시험", "2025년 2회 정기시험"];
 
 const PASS_SCORE = 60;
 
+export const DUMMY_RESULTS = [
+  { testApplyId: 1, testTitle: "2025년 1회 수어통역사 2급", testDate: "2025-03-15", testResultPoint: 78 },
+  { testApplyId: 2, testTitle: "2024년 2회 수어통역사 3급", testDate: "2024-09-20", testResultPoint: 45 },
+  { testApplyId: 3, testTitle: "2025년 2회 수어통역사 1급", testDate: "2025-06-10", testResultPoint: null },
+];
+
 // 비로그인: 수험번호 조회 뷰
 const GuestView = () => {
   const [round, setRound] = useState(rounds[0]);
@@ -67,69 +73,83 @@ const GuestView = () => {
   );
 };
 
+// 결과 팝업 모달
+const ResultModal = ({ r, onClose }) => {
+  const passed = r.testResultPoint >= PASS_SCORE;
+  return (
+    <S.ModalOverlay onClick={onClose}>
+      <S.ModalBox onClick={e => e.stopPropagation()}>
+        <S.ModalHeader $passed={passed}>
+          <S.ModalClose onClick={onClose}>✕</S.ModalClose>
+          <S.ModalIcon>{passed ? "🎉" : "😢"}</S.ModalIcon>
+          <S.ModalStatus>{passed ? "합격을 축하합니다!" : "불합격입니다"}</S.ModalStatus>
+          <S.ModalSubtitle>{r.testTitle}</S.ModalSubtitle>
+        </S.ModalHeader>
+
+        <S.ModalBody>
+          <S.ModalInfoRow>
+            <S.ModalInfoLabel>시행일</S.ModalInfoLabel>
+            <S.ModalInfoValue>{new Date(r.testDate).toLocaleDateString("ko-KR")}</S.ModalInfoValue>
+          </S.ModalInfoRow>
+          <S.ModalInfoRow>
+            <S.ModalInfoLabel>합격기준</S.ModalInfoLabel>
+            <S.ModalInfoValue>{PASS_SCORE}점 이상</S.ModalInfoValue>
+          </S.ModalInfoRow>
+
+          <S.ModalScoreBox>
+            <S.ModalScoreNum $passed={passed}>{r.testResultPoint}점</S.ModalScoreNum>
+            <S.ModalScoreSub>취득 점수</S.ModalScoreSub>
+          </S.ModalScoreBox>
+
+          {passed && (
+            <S.ModalNote>※ 합격증은 합격증 메뉴에서 출력 가능합니다.</S.ModalNote>
+          )}
+        </S.ModalBody>
+      </S.ModalBox>
+    </S.ModalOverlay>
+  );
+};
+
 // 로그인: 내 결과 목록 뷰
 const MyResultView = () => {
-  const [results, setResults] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-
-  useEffect(() => {
-    fetch("http://localhost:10000/api/test-applications/my-results", { credentials: "include" })
-      .then(res => res.json())
-      .then(data => {
-        if (data.success) setResults(data.data);
-        else setError("결과를 불러오지 못했습니다.");
-      })
-      .catch(() => setError("서버 오류가 발생했습니다."))
-      .finally(() => setLoading(false));
-  }, []);
-
-  if (loading) return (
-    <S.EmptyMsg>불러오는 중...</S.EmptyMsg>
-  );
-
-  if (error) return (
-    <S.EmptyMsg style={{ color: "#e74c3c" }}>{error}</S.EmptyMsg>
-  );
+  const results = DUMMY_RESULTS;
+  const [selected, setSelected] = useState(null);
 
   if (results.length === 0) return (
     <S.EmptyMsg>응시한 시험이 없습니다.</S.EmptyMsg>
   );
 
   return (
-    <S.MyResultList>
-      {results.map((r) => {
-        const pending = r.testResultPoint == null;
-        const passed = !pending && r.testResultPoint >= PASS_SCORE;
-        return (
-          <S.MyResultCard key={r.testApplyId} $passed={passed} $pending={pending}>
-            <S.MyResultHeader>
-              <S.MyResultTitle>{r.testTitle}</S.MyResultTitle>
-              <S.MyResultBadge $passed={passed} $pending={pending}>
-                {pending ? "결과 발표 전" : passed ? "합격" : "불합격"}
-              </S.MyResultBadge>
-            </S.MyResultHeader>
-            <S.MyResultDate>
-              {new Date(r.testDate).toLocaleDateString("ko-KR")} 시행
-            </S.MyResultDate>
-            {!pending && (
-              <>
-                <S.ScoreRow>
-                  <S.ScoreItem>
-                    <S.ScoreLabel>점수</S.ScoreLabel>
-                    <S.ScoreValue>{r.testResultPoint}점</S.ScoreValue>
-                  </S.ScoreItem>
-                </S.ScoreRow>
-                <S.PassCriteria>합격 기준: {PASS_SCORE}점 이상</S.PassCriteria>
-                {passed && (
-                  <S.PassNote>※ 합격증은 합격증 메뉴에서 출력 가능합니다.</S.PassNote>
-                )}
-              </>
-            )}
-          </S.MyResultCard>
-        );
-      })}
-    </S.MyResultList>
+    <>
+      <S.RoundTable>
+        <thead>
+          <S.RoundThead>
+            <S.RoundTh>시험명</S.RoundTh>
+            <S.RoundTh>시행일</S.RoundTh>
+            <S.RoundTh>발표 여부</S.RoundTh>
+          </S.RoundThead>
+        </thead>
+        <tbody>
+          {results.map((r) => {
+            const pending = r.testResultPoint == null;
+            return (
+              <tr key={r.testApplyId}>
+                <S.RoundTitle>{r.testTitle}</S.RoundTitle>
+                <S.RoundTd>{new Date(r.testDate).toLocaleDateString("ko-KR")}</S.RoundTd>
+                <S.RoundTd>
+                  {pending
+                    ? <S.MyResultBadge $pending>{" 발표 전 "}</S.MyResultBadge>
+                    : <S.ViewBtn onClick={() => setSelected(r)}>결과보기</S.ViewBtn>
+                  }
+                </S.RoundTd>
+              </tr>
+            );
+          })}
+        </tbody>
+      </S.RoundTable>
+
+      {selected && <ResultModal r={selected} onClose={() => setSelected(null)} />}
+    </>
   );
 };
 

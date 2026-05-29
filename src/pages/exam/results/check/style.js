@@ -159,3 +159,165 @@ export const EmptyMsg = styled.div`
   text-align: center;
   padding: 32px 0;
 `;
+
+export const RoundTable = styled.table`
+  width: 100%;
+  border-collapse: collapse;
+`;
+
+export const RoundThead = styled.tr`
+  background: #f5f7ff;
+`;
+
+export const RoundTh = styled.th`
+  padding: 11px 14px;
+  font-size: 12px;
+  font-weight: 700;
+  color: ${PRIMARY};
+  border: 1px solid #e8eaf0;
+  text-align: center;
+`;
+
+export const RoundTd = styled.td`
+  padding: 13px 14px;
+  font-size: 13px;
+  color: #555;
+  border: 1px solid #eee;
+  text-align: center;
+`;
+
+export const RoundTitle = styled(RoundTd)`
+  font-weight: 700;
+  color: #111;
+  text-align: left;
+`;
+
+export const ViewBtn = styled.button`
+  background: ${PRIMARY};
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 16px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+`;
+
+export const ModalOverlay = styled.div`
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+`;
+
+export const ModalBox = styled.div`
+  background: #fff;
+  border-radius: 20px;
+  width: 400px;
+  max-width: 92vw;
+  overflow: hidden;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.22);
+`;
+
+export const ModalHeader = styled.div`
+  background: ${({ $passed }) => $passed ? "#27ae60" : "#e74c3c"};
+  padding: 32px 28px 28px;
+  text-align: center;
+  position: relative;
+`;
+
+export const ModalClose = styled.button`
+  position: absolute;
+  top: 14px;
+  right: 18px;
+  background: rgba(255,255,255,0.25);
+  border: none;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  font-size: 14px;
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &:hover { background: rgba(255,255,255,0.4); }
+`;
+
+export const ModalIcon = styled.div`
+  font-size: 36px;
+  margin-bottom: 10px;
+`;
+
+export const ModalStatus = styled.div`
+  font-size: 20px;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -0.3px;
+`;
+
+export const ModalSubtitle = styled.div`
+  font-size: 13px;
+  color: rgba(255,255,255,0.85);
+  margin-top: 6px;
+`;
+
+export const ModalBody = styled.div`
+  padding: 24px 28px 28px;
+`;
+
+export const ModalInfoRow = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 0;
+  border-bottom: 1px solid #f0f0f0;
+  &:last-of-type { border-bottom: none; }
+`;
+
+export const ModalInfoLabel = styled.span`
+  font-size: 12px;
+  color: #aaa;
+  font-weight: 600;
+  min-width: 52px;
+`;
+
+export const ModalInfoValue = styled.span`
+  font-size: 13px;
+  color: #333;
+  font-weight: 600;
+`;
+
+export const ModalScoreBox = styled.div`
+  background: #f5f7ff;
+  border-radius: 12px;
+  padding: 18px;
+  text-align: center;
+  margin: 18px 0 14px;
+`;
+
+export const ModalScoreNum = styled.div`
+  font-size: 40px;
+  font-weight: 800;
+  color: ${({ $passed }) => $passed ? "#27ae60" : "#e74c3c"};
+  letter-spacing: -1px;
+`;
+
+export const ModalScoreSub = styled.div`
+  font-size: 12px;
+  color: #999;
+  margin-top: 4px;
+`;
+
+export const ModalNote = styled.div`
+  font-size: 12px;
+  color: #888;
+  background: #fffbf0;
+  border: 1px solid #ffe9a0;
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-top: 14px;
+`;

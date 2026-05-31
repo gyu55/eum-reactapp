@@ -128,6 +128,107 @@ export const MsgBox = styled.div`
   border: 1px solid ${({ $success }) => ($success ? "#b2dfb2" : "#f5c6c6")};
 `;
 
+export const Select = styled.select`
+  width: 100%;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 13px;
+  color: #333;
+  outline: none;
+  background: #fff;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+`;
+
+export const ReadonlyInput = styled.input`
+  width: 100%;
+  border: 1.5px solid #e8e8e8;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 13px;
+  color: #555;
+  background: #f7f7f7;
+  outline: none;
+  box-sizing: border-box;
+  cursor: default;
+`;
+
+export const StepDivider = styled.div`
+  border-top: 1px dashed #e0e0e0;
+  margin: 4px 0;
+`;
+
+export const LoginPrompt = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 48px 0 36px;
+  gap: 10px;
+`;
+
+export const LoginPromptIcon = styled.div`
+  font-size: 36px;
+  margin-bottom: 4px;
+`;
+
+export const LoginPromptText = styled.div`
+  font-size: 16px;
+  font-weight: 700;
+  color: #222;
+`;
+
+export const LoginPromptSub = styled.div`
+  font-size: 13px;
+  color: #999;
+  margin-bottom: 8px;
+`;
+
+export const LoginPromptBtn = styled.button`
+  background: ${PRIMARY};
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 32px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 4px;
+`;
+
+export const InlineRow = styled.div`
+  display: flex;
+  gap: 8px;
+  align-items: center;
+`;
+
+export const SmallBtn = styled.button`
+  flex-shrink: 0;
+  background: ${({ $green }) => ($green ? "#27ae60" : PRIMARY)};
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+`;
+
+export const FieldHint = styled.p`
+  font-size: 12px;
+  color: ${({ $ok }) => ($ok ? "#27ae60" : WARNING)};
+  margin: 5px 0 0;
+`;
+
 export const SubmitBtn = styled.button`
   background: ${PRIMARY};
   color: #fff;

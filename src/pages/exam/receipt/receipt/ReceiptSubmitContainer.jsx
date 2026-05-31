@@ -1,6 +1,8 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import * as S from "./style";
+import useLoginCheck from "../../../../hooks/useLoginCheck";
+import LoginGuard from "../../../../components/common/LoginGuard";
 
 const formatBirth = (value) => {
   const digits = value.replace(/\D/g, "").slice(0, 8);
@@ -18,6 +20,7 @@ const formatPhone = (value) => {
 
 const ReceiptSubmitContainer = () => {
   const navigate = useNavigate();
+  const { isLoggedIn } = useLoginCheck();
   const [tests, setTests] = useState([]);
   const [selectedTestId, setSelectedTestId] = useState("");
   const [name, setName] = useState("");
@@ -90,6 +93,15 @@ const ReceiptSubmitContainer = () => {
   };
 
   const selectedTest = tests.find(t => String(t.id) === String(selectedTestId));
+
+  if (isLoggedIn === null) return null;
+  if (!isLoggedIn) return (
+    <S.Wrapper>
+      <S.SectionTitle style={{ marginBottom: 6 }}>원서 작성</S.SectionTitle>
+      <S.Subtitle>원서를 작성하고 접수 및 결제하세요.</S.Subtitle>
+      <LoginGuard message="시험 접수는 로그인 후 이용 가능합니다." />
+    </S.Wrapper>
+  );
 
   if (submitOk && selectedTest) {
     return (

@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import * as S from "./style";
+import useLoginCheck from "../../../../hooks/useLoginCheck";
+import LoginGuard from "../../../../components/common/LoginGuard";
 
 const TYPE_MAP = { renew: "갱신", reissue: "재발급" };
 const RECEIVE_MAP = { online: "온라인", delivery: "배송" };
@@ -12,33 +14,18 @@ const formatDate = (dateStr) => {
 };
 
 const UpdateCheckComponent = () => {
+  const { isLoggedIn } = useLoginCheck();
   const [applications, setApplications] = useState([]);
-  const [filtered, setFiltered] = useState(null);
-  const [certNoInput, setCertNoInput] = useState("");
-  const [nameInput, setNameInput] = useState("");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch("http://localhost:10000/api/cert-renew", { credentials: "include" })
       .then((res) => res.json())
       .then((data) => {
-        if (data.success) {
-          const list = data.data || [];
-          setApplications(list);
-          setFiltered(list);
-        }
+        if (data.success) setApplications(data.data || []);
       })
       .finally(() => setLoading(false));
   }, []);
-
-  const handleSearch = () => {
-    const result = applications.filter((row) => {
-      const noMatch = certNoInput ? (row.certNo || "").includes(certNoInput) : true;
-      const nameMatch = nameInput ? (row.certName || "").includes(nameInput) : true;
-      return noMatch && nameMatch;
-    });
-    setFiltered(result);
-  };
 
   const handleCancel = (id) => {
     if (!window.confirm("신청을 취소하시겠습니까?")) return;
@@ -49,52 +36,43 @@ const UpdateCheckComponent = () => {
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
-          const updated = applications.map((row) =>
-            row.id === id ? { ...row, certRenewStatus: "cancelled" } : row
+          setApplications((prev) =>
+            prev.map((row) => row.id === id ? { ...row, certRenewStatus: "cancelled" } : row)
           );
-          setApplications(updated);
-          setFiltered(updated);
         }
       });
   };
 
+  if (isLoggedIn === null) return null;
+  if (!isLoggedIn) return (
+    <S.Wrapper>
+      <S.SectionTitle style={{ marginBottom: 16 }}>신청 현황 조회</S.SectionTitle>
+      <LoginGuard message="신청 현황 조회는 로그인 후 이용 가능합니다." />
+    </S.Wrapper>
+  );
+
   return (
     <S.Wrapper>
       <S.SectionTitle style={{ marginBottom: 16 }}>신청 현황 조회</S.SectionTitle>
-      <S.SearchRow>
-        <S.SearchInput
-          $flex={2}
-          placeholder="자격증 번호 예: SL-2023-001234"
-          value={certNoInput}
-          onChange={(e) => setCertNoInput(e.target.value)}
-        />
-        <S.SearchInput
-          $flex={1}
-          placeholder="성명"
-          value={nameInput}
-          onChange={(e) => setNameInput(e.target.value)}
-        />
-        <S.SearchBtn onClick={handleSearch}>조회하기</S.SearchBtn>
-      </S.SearchRow>
 
       {loading ? (
         <div>조회 중...</div>
-      ) : filtered !== null && (
+      ) : (
         <S.StyledTable>
           <thead>
             <S.TheadRow>
-              {["자격증 번호", "유형", "신청일", "신청인", "수령 방법", "상태", ""].map((col) => (
+              {["자격증 이름", "유형", "신청일", "신청인", "수령 방법", "상태", ""].map((col) => (
                 <S.Th key={col}>{col}</S.Th>
               ))}
             </S.TheadRow>
           </thead>
           <tbody>
-            {filtered.length === 0 ? (
+            {applications.length === 0 ? (
               <tr>
                 <S.Td colSpan={7} style={{ textAlign: "center" }}>신청 내역이 없습니다.</S.Td>
               </tr>
             ) : (
-              filtered.map((row) => (
+              applications.map((row) => (
                 <tr key={row.id}>
                   <S.NumberTd>{row.certNo || "-"}</S.NumberTd>
                   <S.Td>{TYPE_MAP[row.certRenewType] || row.certRenewType}</S.Td>

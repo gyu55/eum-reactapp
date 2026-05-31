@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import CommentItem from "./CommentItem";
+import CommentItemSkeleton from "./CommentItemSkeleton";
+import NoResult from "../common/NoResult";
 import { getComments, postComment } from "../communityApi/commentApi";
 import {
   CommentSectionWrapper,
@@ -40,14 +42,17 @@ const CommentSection = ({ postId }) => {
   const [comments, setComments] = useState([]);
   const [inputValue, setInputValue] = useState("");
   const [refreshKey, setRefreshKey] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (!postId) return;
+    setIsLoading(true);
     getComments(postId)
       .then((data) =>
         setComments(Array.isArray(data) ? data.map(mapComment) : []),
       )
-      .catch(() => setComments([]));
+      .catch(() => setComments([]))
+      .finally(() => setIsLoading(false));
   }, [postId, refreshKey]);
 
   const handleSubmit = async () => {
@@ -79,9 +84,20 @@ const CommentSection = ({ postId }) => {
       </S.SubmitRow>
 
       <S.CommentList>
-        {comments.map((comment) => (
-          <CommentItem key={comment.id} {...comment} />
-        ))}
+        {isLoading ? (
+          Array.from({ length: 3 }).map((_, i) => (
+            <CommentItemSkeleton key={i} />
+          ))
+        ) : comments.length === 0 ? (
+          <NoResult
+            message="아직 댓글이 없습니다"
+            subMessage="첫 번째 댓글을 남겨보세요"
+          />
+        ) : (
+          comments.map((comment) => (
+            <CommentItem key={comment.id} {...comment} />
+          ))
+        )}
       </S.CommentList>
     </S.CommentSectionWrapper>
   );

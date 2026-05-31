@@ -2,11 +2,16 @@ const ROOT_URL = "http://localhost:10000/api";
 
 // 추후 Error 부분은 res.data 부분으로 대처
 
-// 전체 게시글 페이지 네이션으로 조회
-export const fetchPosts = async ({ page = 1, postTag = "" } = {}) => {
+// 전체 게시글 페이지 네이션으로 조회 (검색 쿼리 추가)
+export const fetchPosts = async ({
+  page = 1,
+  postTag = "",
+  keyword = "",
+} = {}) => {
   const params = new URLSearchParams({ page });
+  const keywordParams = new URLSearchParams({ keyword });
   if (postTag) params.append("postTag", postTag);
-  const res = await fetch(`${ROOT_URL}/posts?${params}`);
+  const res = await fetch(`${ROOT_URL}/posts?${params}&${keywordParams}`);
   if (!res.ok) throw new Error("게시글 목록 조회 실패");
   return res.json();
 };
@@ -52,4 +57,12 @@ export const getPostById = async (id) => {
   const res = await fetch(`${ROOT_URL}/posts/${id}`);
   if (!res.ok) throw new Error("게시글 로딩 실패");
   return res.json();
+};
+
+// 게시글 삭제
+export const deletePost = async (postId) => {
+  const res = await fetch(`${ROOT_URL}/posts/${postId}`, {
+    method: "DELETE",
+  });
+  if (!res.ok) throw new Error("게시글 삭제 실패");
 };

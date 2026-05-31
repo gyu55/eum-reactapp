@@ -143,4 +143,4 @@ const PopupChatCenter = ({ chatRoomId }) => {
   );
 };
 
-export default PopupChatCenter;
+export default React.memo(PopupChatCenter);

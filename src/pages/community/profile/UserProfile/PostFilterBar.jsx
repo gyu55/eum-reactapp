@@ -44,7 +44,7 @@ const TYPE_PLACEHOLDER = {
 };
 
 const PostFilterBar = ({
-  counts = { post: 42, comment: 42, like: 42 },
+  counts = { post: 3, comment: 87, like: 63 },
   onSortChange,
   onSearch,
 }) => {

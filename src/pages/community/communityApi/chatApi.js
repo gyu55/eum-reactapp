@@ -12,9 +12,13 @@ export const insertChatRoom = async (chatRoomRequestDTO) => {
   return data;
 };
 
-export const getChatRooms = async (page = 1, size = 6) => {
+// 채팅방 목록 불러오기
+export const getChatRooms = async (page = 1, size = 6, keyword = "") => {
+  const pageParams = new URLSearchParams({ page });
+  const sizeParams = new URLSearchParams({ size });
+  const keywordParams = new URLSearchParams({ keyword });
   const response = await fetch(
-    `${ROOT_URL}/chats/rooms?page=${page}&size=${size}`,
+    `${ROOT_URL}/chats/rooms?${pageParams}&${sizeParams}&${keywordParams}`,
   );
   if (!response.ok) throw new Error("채팅방 목록을 불러오는 데 실패했습니다.");
   const { data } = await response.json();

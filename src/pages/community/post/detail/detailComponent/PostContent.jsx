@@ -1,60 +1,38 @@
 import theme from "../../../../../styles/theme";
 import { useState, useEffect } from "react";
-import { getPostById } from "../../../communityApi/postApi";
+import { useNavigate, useLocation } from "react-router-dom";
+import { getPostById, deletePost } from "../../../communityApi/postApi";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
-import {
-  AccessBtn,
-  AccessibilityBox,
-  AccessibilityLabel,
-  ActionButtons,
-  ActionRow,
-  AuthorAvatar,
-  AuthorMeta,
-  AuthorName,
-  AuthorRow,
-  AuthorSubRow,
-  Divider,
-  IconButton,
-  LevelBadge,
-  LikeButton,
-  MetaText,
-  PostContentWrapper,
-  PostTitle,
-  Tag,
-  TagRow,
-} from "../postDetailStyle";
+import * as S from "../postDetailStyle";
 import DummyContent from "./dummyContent/DummyContent";
 import { DEFAULT_IMAGES } from "../../../constants";
+import PostContentSkeleton from "./PostContentSkeleton";
+import modifyIcon from "../../../assets/icon/modify-grey.svg";
+import deleteIcon from "../../../assets/icon/trash-can-red.svg";
+import PostAlertPopup from "../../postComponents/PostAlertPopup";
 
 const { PALETTE } = theme;
 
-const S = {
-  AccessBtn,
-  AccessibilityBox,
-  AccessibilityLabel,
-  ActionButtons,
-  ActionRow,
-  AuthorAvatar,
-  AuthorMeta,
-  AuthorName,
-  AuthorRow,
-  AuthorSubRow,
-  Divider,
-  IconButton,
-  LevelBadge,
-  LikeButton,
-  MetaText,
-  PostContentWrapper,
-  PostTitle,
-  Tag,
-  TagRow,
-};
-
 const PostContent = ({ postId }) => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from ?? "/community";
+
   const [post, setPost] = useState(null);
   const [liked, setLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
+  const [deletePopupOpen, setDeletePopupOpen] = useState(false);
+
+  const handleDeleteConfirm = async () => {
+    try {
+      await deletePost(postId);
+      setDeletePopupOpen(false);
+      navigate(from, { replace: true });
+    } catch (err) {
+      console.error("게시글 삭제 실패:", err);
+    }
+  };
 
   useEffect(() => {
     if (!postId) return;
@@ -80,20 +58,25 @@ const PostContent = ({ postId }) => {
   // const tags = ["dd"];
 
   // 아직 post 데이터가 없을 때
-  if (!post) return <div>로딩 중...</div>;
+  if (!post)
+    return (
+      <div>
+        <PostContentSkeleton />
+      </div>
+    );
 
   // 게시글 데이터 분리 (post 데이터 생기고 난 뒤)
   const {
-    id,
+    // id,
     postTitle,
-    postContent,
+    // postContent,
     postReadCount,
     postCreateAt,
-    postTag,
+    // postTag,
     userNickname,
     userProfile,
-    commentCount,
-    isLiked,
+    // commentCount,
+    // isLiked,
     isOwner,
   } = post;
 
@@ -163,21 +146,43 @@ const PostContent = ({ postId }) => {
                 }}
               />
             </S.IconButton>
-            <S.IconButton danger aria-label="게시글 신고">
-              <img
-                src={DEFAULT_IMAGES.reportIcon}
-                alt="신고"
-                onError={(e) => {
-                  e.currentTarget.src = DEFAULT_IMAGES.reportIcon;
-                }}
-              />
-            </S.IconButton>
+
+            {isOwner ? (
+              <>
+                <S.IconButton aria-label="게시글 수정">
+                  <img src={modifyIcon} alt="수정" />
+                </S.IconButton>
+                <S.IconButton
+                  danger
+                  aria-label="게시글 삭제"
+                  onClick={() => setDeletePopupOpen(true)}
+                >
+                  <img src={deleteIcon} alt="삭제" />
+                </S.IconButton>
+              </>
+            ) : (
+              <S.IconButton danger aria-label="게시글 신고">
+                <img
+                  src={DEFAULT_IMAGES.reportIcon}
+                  alt="신고"
+                  onError={(e) => {
+                    e.currentTarget.src = DEFAULT_IMAGES.reportIcon;
+                  }}
+                />
+              </S.IconButton>
+            )}
           </S.ActionButtons>
         </S.ActionRow>
       </S.PostContentWrapper>
 
       {/* 댓글 섹션 */}
       {/* <CommentSection /> */}
+
+      <PostAlertPopup
+        isOpen={deletePopupOpen}
+        onClose={() => setDeletePopupOpen(false)}
+        onConfirm={handleDeleteConfirm}
+      />
     </div>
   );
 };

@@ -37,6 +37,7 @@ const TAGS = [
 ];
 
 // 메인 에서 채팅방 카드 클릭 시 뜨는 팝업 채팅창 (채팅방)
+// 가지고 오는 것: 해당 채팅방 아이디
 const PopupChatScreen = () => {
   const [selectedUser, setSelectedUser] = useState(null);
   const [users, setUsers] = useState([]);
@@ -61,6 +62,7 @@ const PopupChatScreen = () => {
       .catch((err) => console.error("유저 목록 불러오기 실패:", err));
   }, [chatRoomId]);
 
+  // 유저 선택, 선택 해제 로직
   const handleUserClick = (user) => {
     setSelectedUser((prev) => (prev?.email === user.email ? null : user));
   };
@@ -68,7 +70,8 @@ const PopupChatScreen = () => {
   return (
     <S.PageBg>
       <S.Popup>
-        <PopupChatHeader chatRoomInfo={chatRoomInfo} />
+        {/* 팝업 채팅방 헤더: 체팅방 정보 구조분해할당 전달 */}
+        <PopupChatHeader {...chatRoomInfo} />
         <S.Body>
           {/* 왼쪽 판넬 (참여 유저 목록) */}
           <PopupParticipantList
@@ -78,6 +81,8 @@ const PopupChatScreen = () => {
           />
           {/* 채팅 메세지 나열되는 곳 */}
           <PopupChatCenter chatRoomId={chatRoomId} key={chatRoomId} />
+
+          {/* 오른쪽 정보 판넬 */}
           <S.RightPanel>
             {selectedUser ? (
               <PopupUserInfoPanel
@@ -85,7 +90,7 @@ const PopupChatScreen = () => {
                 onClose={() => setSelectedUser(null)}
               />
             ) : (
-              <PopupRoomInfoPanel chatRoomInfo={chatRoomInfo} tags={TAGS} />
+              <PopupRoomInfoPanel tags={TAGS} {...chatRoomInfo} />
             )}
           </S.RightPanel>
         </S.Body>

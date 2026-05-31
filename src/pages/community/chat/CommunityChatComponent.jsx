@@ -6,8 +6,10 @@ import { flexCenterRow } from "../../../styles/common";
 import { useChatContext } from "../context/ChatContext";
 import { getChatRooms } from "../communityApi/chatApi";
 import PageCount from "../post/postComponents/PageCount";
+import LiveChatCardCandidate1Skeleton from "./skeleton/LiveChatCardCandidate1Skeleton.jsx";
 
 import LiveChatCardCandidate1 from "./chatComponents/chatCardCandidate/LiveChatCardCandidate1.jsx";
+import NoResult from "../common/NoResult.jsx";
 
 const HeaderBlock = styled.div`
   ${flexCenterRow}
@@ -43,7 +45,35 @@ const CommunityChatComponent = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  if (isLoading) return <div>로딩 중...</div>;
+  // 로딩 중 (스켈레톤)
+  if (isLoading)
+    return (
+      <div>
+        <ColumnBlock>
+          <RowBlock>
+            <LiveChatCardCandidate1Skeleton />
+            <LiveChatCardCandidate1Skeleton />
+            <LiveChatCardCandidate1Skeleton />
+          </RowBlock>
+          <RowBlock>
+            <LiveChatCardCandidate1Skeleton />
+            <LiveChatCardCandidate1Skeleton />
+            <LiveChatCardCandidate1Skeleton />
+          </RowBlock>
+        </ColumnBlock>
+      </div>
+    );
+
+  // 로딩 완료 후 결과가 없을 때 (결과 없다는 메세지 반환)
+  if (!rooms.length)
+    return (
+      <ColumnBlock>
+        <NoResult
+          message="실시간 채팅방이 없습니다"
+          subMessage="새로운 채팅방을 만들어서 유저들과 소통해 보세요"
+        />
+      </ColumnBlock>
+    );
 
   return (
     <div>

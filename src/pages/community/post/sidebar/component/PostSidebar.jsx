@@ -89,9 +89,9 @@ const MOCK_NOTICES = [
 ];
 
 const PostSidebar = ({
-  authorName = "수어러버김지민",
+  authorName = "minjun_k",
   authorAvatar = authorProfileImg,
-  authorLevel = "Lv.7 · 열공러",
+  authorLevel = "Lv.1",
   authorPosts = 42,
   authorLikes = 128,
   authorStreak = 30,

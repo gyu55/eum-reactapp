@@ -44,14 +44,17 @@ const SearchBoxComponent = () => {
   const [, setSearchParams] = useSearchParams();
 
   const handleSubmit = () => {
-    if (!searchValue.trim()) {
+    const keyword = searchValue.trim();
+    if (!keyword) {
       alert("검색어를 입력해 주세요.");
       return;
     }
-    setSearchParams(
-      { keyword: searchValue.trim() },
-      { preventScrollReset: true },
-    );
+    // 기존 쿼리스트링 유지되게 해야 함
+    setSearchParams((prev) => {
+      const next = new URLSearchParams(prev);
+      next.set("keyword", keyword);
+      return next;
+    });
   };
 
   const handleKeyDown = (e) => {

@@ -1,22 +1,6 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import formatRelativeTime from "../../functions/formatRelativeTime";
-import {
-  Avatar,
-  AvatarAndAuthorRow,
-  AuthorName,
-  Card,
-  ContentAndTitleRow,
-  ContentArea,
-  Description,
-  PostMetaRow,
-  PostStateRow,
-  StatItem,
-  Tag,
-  TagAndTimeRow,
-  Thumbnail,
-  TimeText,
-  Title,
-} from "./postListCardStyle";
+import * as S from "./postListCardStyle";
 import heartIcon from "../../assets/icon/heart.svg";
 import commentIcon from "../../assets/icon/comment.svg";
 import viewCountIcon from "../../assets/icon/view-count.svg";
@@ -33,24 +17,6 @@ const defaultProfiles = [
   defaultProfile4,
 ];
 
-const S = {
-  Avatar,
-  AvatarAndAuthorRow,
-  AuthorName,
-  Card,
-  ContentAndTitleRow,
-  ContentArea,
-  Description,
-  PostMetaRow,
-  PostStateRow,
-  StatItem,
-  Tag,
-  TagAndTimeRow,
-  Thumbnail,
-  TimeText,
-  Title,
-};
-
 const PostListCard = ({
   id = 0,
   postTag = "",
@@ -65,11 +31,18 @@ const PostListCard = ({
   postReadCount = 0,
 }) => {
   const navigate = useNavigate();
+  const location = useLocation();
   const fallbackProfile = defaultProfiles[id % defaultProfiles.length];
 
   return (
     // 포스트 카드 영역
-    <S.Card onClick={() => navigate(`/community/post/${id}`)}>
+    <S.Card
+      onClick={() =>
+        navigate(`/community/post/${id}`, {
+          state: { from: location.pathname },
+        })
+      }
+    >
       {/* 태그 및 작성 시각 */}
       <S.TagAndTimeRow>
         <S.Tag>{postTag}</S.Tag>

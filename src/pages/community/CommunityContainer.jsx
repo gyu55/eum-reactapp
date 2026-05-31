@@ -1,5 +1,5 @@
 import React from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, ScrollRestoration } from "react-router-dom";
 import * as S from "./communityStyle";
 import MainRightSide from "./common/MainRightSide";
 import { ChatProvider } from "./context/ChatContext";
@@ -16,6 +16,7 @@ const CommunityContainer = () => {
   return (
     <ChatProvider>
       <>
+        <ScrollRestoration getKey={(location) => location.pathname} />
         <div>
           {/* 헤더 */}
           <CommunityHeaderC />

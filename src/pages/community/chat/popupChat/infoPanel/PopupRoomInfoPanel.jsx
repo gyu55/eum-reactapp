@@ -45,7 +45,13 @@ const S = {
 const liveVectorUrl =
   "https://www.figma.com/api/mcp/asset/79378b34-81dd-4aef-bc8a-2e9814e941b7";
 
-const PopupRoomInfoPanel = ({ chatRoomInfo, tags }) => {
+const PopupRoomInfoPanel = ({
+  chatRoomProfile,
+  chatRoomName,
+  chatRoomUsers,
+  chatRoomDetail,
+  tags,
+}) => {
   const { leaveRoom } = useChatContext();
   const [signToggle, setSignToggle] = useState(false);
   const [readToggle, setReadToggle] = useState(false);
@@ -54,34 +60,30 @@ const PopupRoomInfoPanel = ({ chatRoomInfo, tags }) => {
     <S.RightPanelScroll>
       <S.PanelSection $center $gap="12px">
         <PopupChatRoomInfoThumbnail
-          src={chatRoomInfo?.chatRoomProfile || defaultProfileImg}
+          src={chatRoomProfile || defaultProfileImg}
           alt="채팅방"
           onError={(e) => {
             e.target.src = defaultProfileImg;
           }}
         />
         <S.RoomTitleCenter>
-          <S.RoomTitleText>
-            {chatRoomInfo?.chatRoomName ?? "채팅방"}
-          </S.RoomTitleText>
+          <S.RoomTitleText>{chatRoomName ?? "채팅방"}</S.RoomTitleText>
           <S.StatusRow>
             <S.LiveStatusRow>
               <S.LiveDot src={liveVectorUrl} alt="" />
               <S.LiveLabel>라이브</S.LiveLabel>
             </S.LiveStatusRow>
-            <S.ParticipantCount>
-              {chatRoomInfo?.chatRoomUsers ?? 0}명
-            </S.ParticipantCount>
+            <S.ParticipantCount>{chatRoomUsers ?? 0}명</S.ParticipantCount>
           </S.StatusRow>
         </S.RoomTitleCenter>
       </S.PanelSection>
 
-      {chatRoomInfo?.chatRoomDetail && (
+      {chatRoomDetail && (
         <S.PanelSection>
           <S.SectionLabel>채팅방 소개</S.SectionLabel>
           <S.IntroText>
             <T.H11Regular $color={colors.textMain}>
-              {chatRoomInfo.chatRoomDetail}
+              {chatRoomDetail}
             </T.H11Regular>
           </S.IntroText>
         </S.PanelSection>

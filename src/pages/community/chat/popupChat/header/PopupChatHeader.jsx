@@ -46,7 +46,12 @@ const S = {
 const liveVectorUrl =
   "https://www.figma.com/api/mcp/asset/79378b34-81dd-4aef-bc8a-2e9814e941b7";
 
-const PopupChatHeader = ({ chatRoomInfo }) => {
+const PopupChatHeader = ({
+  id,
+  chatRoomProfile,
+  chatRoomName,
+  chatRoomUsers,
+}) => {
   const { leaveRoom, minimizeView, closeView } = useChatContext();
 
   return (
@@ -54,17 +59,15 @@ const PopupChatHeader = ({ chatRoomInfo }) => {
       <S.HeaderLeft>
         <S.ProfileArea>
           <ThumbnailBox
-            src={chatRoomInfo?.chatRoomProfile || defaultProfileImg}
+            src={chatRoomProfile || defaultProfileImg}
             alt="채팅방 프로필"
             onError={(e) => {
               e.target.src = defaultProfileImg;
             }}
           />
           <S.RoomInfo>
-            <S.RoomTitle>{chatRoomInfo?.chatRoomName ?? "채팅방"}</S.RoomTitle>
-            <S.RoomSubText>
-              {chatRoomInfo?.chatRoomUsers ?? 0}명 참여 중
-            </S.RoomSubText>
+            <S.RoomTitle>{chatRoomName ?? "채팅방"}</S.RoomTitle>
+            <S.RoomSubText>{chatRoomUsers ?? 0}명 참여 중</S.RoomSubText>
           </S.RoomInfo>
         </S.ProfileArea>
         <S.MessageStatus>

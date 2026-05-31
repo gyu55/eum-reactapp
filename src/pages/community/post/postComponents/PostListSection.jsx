@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import PostListCard from "./PostListCard.jsx";
 import PageCount from "./PageCount";
 import { fetchPosts } from "../../communityApi/postApi";
@@ -7,6 +7,7 @@ import { ColumnBlock, CategoryPill, ActionBtn } from "../../communityStyle";
 import PostListCardSkeleton from "../skeleton/PostListCardSkeleton.jsx";
 import { POST_CATEGORIES } from "../../constants";
 import T from "../../communityTextStyle";
+import NoResult from "../../common/NoResult.jsx";
 import {
   PostHeader,
   PostCategoryHeader,
@@ -29,10 +30,12 @@ const PostListSection = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const listTopRef = useRef(null);
+  const [searchParams] = useSearchParams();
+  const keyword = searchParams.get("keyword") ?? "";
 
   useEffect(() => {
     setCurrentPage(1);
-  }, [selectedTag]);
+  }, [selectedTag, keyword]);
 
   useEffect(() => {
     const load = async () => {
@@ -41,6 +44,7 @@ const PostListSection = () => {
         const res = await fetchPosts({
           page: currentPage,
           postTag: selectedTag,
+          keyword,
         });
         setPosts(res.data.posts);
         setTotalPages(res.data.totalPages);
@@ -51,12 +55,41 @@ const PostListSection = () => {
       }
     };
     load();
-  }, [currentPage, selectedTag]);
+  }, [currentPage, selectedTag, keyword]);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
     listTopRef.current?.scrollIntoView({ behavior: "smooth" });
   };
+
+  let content;
+  if (isLoading) {
+    content = (
+      <S.ColumnBlock>
+        <PostListCardSkeleton />
+        <PostListCardSkeleton />
+        <PostListCardSkeleton />
+        <PostListCardSkeleton />
+      </S.ColumnBlock>
+    );
+  } else if (posts.length === 0) {
+    content = <NoResult />;
+  } else {
+    content = (
+      <S.ColumnBlock marginBottom="42px">
+        {posts.map(({ id, ...posts }) => (
+          <PostListCard key={id} id={id} {...posts} />
+        ))}
+        {totalPages > 1 && (
+          <PageCount
+            totalPages={totalPages}
+            currentPage={currentPage}
+            onPageChange={handlePageChange}
+          />
+        )}
+      </S.ColumnBlock>
+    );
+  }
 
   return (
     <>
@@ -79,27 +112,7 @@ const PostListSection = () => {
           <S.ActionBtn $type="submit">글쓰기</S.ActionBtn>
         </Link>
       </S.PostCategoryHeader>
-      {isLoading ? (
-        <S.ColumnBlock>
-          <PostListCardSkeleton />
-          <PostListCardSkeleton />
-          <PostListCardSkeleton />
-          <PostListCardSkeleton />
-        </S.ColumnBlock>
-      ) : (
-        <S.ColumnBlock marginBottom="42px">
-          {posts.map(({ id, ...posts }) => (
-            <PostListCard key={id} id={id} {...posts} />
-          ))}
-          {totalPages > 1 && (
-            <PageCount
-              totalPages={totalPages}
-              currentPage={currentPage}
-              onPageChange={handlePageChange}
-            />
-          )}
-        </S.ColumnBlock>
-      )}
+      {content}
     </>
   );
 };

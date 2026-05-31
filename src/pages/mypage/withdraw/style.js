@@ -205,7 +205,7 @@ S.ConfirmWithdrawTitle = styled.h3`
 /* 최종 확인 카드 */
 S.ConfirmWithdrawCardBox = styled.div`
   width: 780px;
-  height: 178px;
+  min-height: 178px;
   padding: 26px 22px 21px;
   box-sizing: border-box;
 
@@ -216,6 +216,8 @@ S.ConfirmWithdrawCardBox = styled.div`
 
 /* 확인 체크 영역 */
 S.ConfirmCheckRow = styled.label`
+  margin-top: 18px;
+
   display: flex;
   align-items: center;
   gap: 8px;
@@ -246,12 +248,12 @@ S.ConfirmCheckBox = styled.span`
   background: ${({ $checked }) => ($checked ? "#4359fc" : PALETTE.white)};
 `;
 
-/* 비밀번호 영역 */
+/* 비밀번호/이메일 인증 영역 */
 S.ConfirmPasswordArea = styled.div`
-  margin-top: 23px;
+  margin-top: 0;
 `;
 
-/* 비밀번호 라벨 */
+/* 비밀번호/이메일 인증 라벨 */
 S.ConfirmPasswordLabel = styled.label`
   display: block;
   margin-bottom: 16px;
@@ -261,7 +263,46 @@ S.ConfirmPasswordLabel = styled.label`
   color: #333333;
 `;
 
-/* 비밀번호 입력 */
+/* 이메일 인증 안내 */
+S.EmailAuthInfo = styled.p`
+  margin: 0 0 12px;
+
+  font-size: 12px;
+  font-weight: ${FONT_WEIGHT.regular};
+  color: #555555;
+`;
+
+/* 이메일 인증 입력 줄 */
+S.EmailAuthRow = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+`;
+
+/* 이메일 인증 버튼 */
+S.EmailAuthButton = styled.button`
+  width: 96px;
+  height: 44px;
+
+  border: none;
+  border-radius: 10px;
+  background: #4359fc;
+
+  font-size: 12px;
+  font-weight: ${FONT_WEIGHT.regular};
+  color: ${PALETTE.white};
+`;
+
+/* 이메일 인증 설명 */
+S.EmailAuthDesc = styled.p`
+  margin: 10px 0 0;
+
+  font-size: 10px;
+  font-weight: ${FONT_WEIGHT.regular};
+  color: #a6a6a6;
+`;
+
+/* 비밀번호/이메일 인증번호 입력 */
 S.ConfirmPasswordInput = styled.input`
   width: 720px;
   height: 44px;
@@ -285,6 +326,10 @@ S.ConfirmPasswordInput = styled.input`
 
   &:focus {
     border-color: #e6e2f2;
+  }
+
+  ${S.EmailAuthRow} & {
+    width: 614px;
   }
 `;
 
@@ -321,11 +366,13 @@ S.WithdrawSubmitButton = styled.button`
 
   border: none;
   border-radius: 10px;
-  background: #f04e45;
+  background: ${({ disabled }) => (disabled ? "#c7c7c7" : "#f04e45")};
 
   font-size: 12px;
   font-weight: ${FONT_WEIGHT.regular};
   color: ${PALETTE.white};
+
+  cursor: ${({ disabled }) => (disabled ? "default" : "pointer")};
 `;
 
 export default S;

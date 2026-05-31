@@ -1,58 +1,97 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import * as S from "./style";
+import useLoginCheck from "../../../../hooks/useLoginCheck";
+import LoginGuard from "../../../../components/common/LoginGuard";
 
-const mockData = [
-  {
-    no: "RN-2025-00012",
-    type: "갱신",
-    date: "2025.03.15",
-    status: "처리중",
-    expected: "2025.03.25 (예정)",
-    detail: "처리 진행: 서류검토 완료 → 갱신 등록 중 → 자격증 발송 (예정)",
-  },
-];
+const TYPE_MAP = { renew: "갱신", reissue: "재발급" };
+const RECEIVE_MAP = { online: "온라인", delivery: "배송" };
+const STATUS_LABEL = { processing: "처리중", cancelled: "취소됨" };
+
+const formatDate = (dateStr) => {
+  if (!dateStr) return "-";
+  const d = new Date(dateStr);
+  return `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, "0")}.${String(d.getDate()).padStart(2, "0")}`;
+};
 
 const UpdateCheckComponent = () => {
-  const [searched, setSearched] = useState(true);
+  const { isLoggedIn } = useLoginCheck();
+  const [applications, setApplications] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("http://localhost:10000/api/cert-renew", { credentials: "include" })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) setApplications(data.data || []);
+      })
+      .finally(() => setLoading(false));
+  }, []);
+
+  const handleCancel = (id) => {
+    if (!window.confirm("신청을 취소하시겠습니까?")) return;
+    fetch(`http://localhost:10000/api/cert-renew/${id}`, {
+      method: "DELETE",
+      credentials: "include",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          setApplications((prev) =>
+            prev.map((row) => row.id === id ? { ...row, certRenewStatus: "cancelled" } : row)
+          );
+        }
+      });
+  };
+
+  if (isLoggedIn === null) return null;
+  if (!isLoggedIn) return (
+    <S.Wrapper>
+      <S.SectionTitle style={{ marginBottom: 16 }}>신청 현황 조회</S.SectionTitle>
+      <LoginGuard message="신청 현황 조회는 로그인 후 이용 가능합니다." />
+    </S.Wrapper>
+  );
 
   return (
     <S.Wrapper>
       <S.SectionTitle style={{ marginBottom: 16 }}>신청 현황 조회</S.SectionTitle>
-      <S.SearchRow>
-        <S.SearchInput $flex={2} placeholder="자격증 번호 예: SL-2023-001234" />
-        <S.SearchInput $flex={1} placeholder="성명" />
-        <S.SearchBtn onClick={() => setSearched(true)}>조회하기</S.SearchBtn>
-      </S.SearchRow>
 
-      {searched && (
+      {loading ? (
+        <div>조회 중...</div>
+      ) : (
         <S.StyledTable>
           <thead>
             <S.TheadRow>
-              {["신청번호", "유형", "신청일", "상태", "예상 완료일"].map((col) => (
+              {["자격증 이름", "유형", "신청일", "신청인", "수령 방법", "상태", ""].map((col) => (
                 <S.Th key={col}>{col}</S.Th>
               ))}
             </S.TheadRow>
           </thead>
           <tbody>
-            {mockData.map((row, i) => (
-              <React.Fragment key={i}>
-                <tr>
-                  <S.NumberTd>{row.no}</S.NumberTd>
-                  <S.Td>{row.type}</S.Td>
-                  <S.Td>{row.date}</S.Td>
+            {applications.length === 0 ? (
+              <tr>
+                <S.Td colSpan={7} style={{ textAlign: "center" }}>신청 내역이 없습니다.</S.Td>
+              </tr>
+            ) : (
+              applications.map((row) => (
+                <tr key={row.id}>
+                  <S.NumberTd>{row.certNo || "-"}</S.NumberTd>
+                  <S.Td>{TYPE_MAP[row.certRenewType] || row.certRenewType}</S.Td>
+                  <S.Td>{formatDate(row.certRenewCreateAt)}</S.Td>
+                  <S.Td>{row.certName || "-"}</S.Td>
+                  <S.Td>{RECEIVE_MAP[row.certReceiveType] || row.certReceiveType || "-"}</S.Td>
                   <S.Td>
-                    <S.StatusBadge>{row.status}</S.StatusBadge>
+                    <S.StatusBadge $status={row.certRenewStatus}>
+                      {STATUS_LABEL[row.certRenewStatus] || row.certRenewStatus}
+                    </S.StatusBadge>
                   </S.Td>
-                  <S.Td>{row.expected}</S.Td>
+                  <S.Td>
+                    {row.certRenewStatus === "processing" && (
+                      <S.CancelBtn onClick={() => handleCancel(row.id)}>취소</S.CancelBtn>
+                    )}
+                  </S.Td>
                 </tr>
-                <tr>
-                  <S.DetailCell colSpan={5}>
-                    <S.DetailText>{row.detail}</S.DetailText>
-                    <S.DetailNote>배송조회는 발송 후 문자로 안내드립니다.</S.DetailNote>
-                  </S.DetailCell>
-                </tr>
-              </React.Fragment>
-            ))}
+              ))
+            )}
           </tbody>
         </S.StyledTable>
       )}

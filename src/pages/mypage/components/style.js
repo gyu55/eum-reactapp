@@ -287,6 +287,15 @@ export const FollowWrapper = styled(CardBox)`
   padding: 21px 28px 24px;
 `;
 
+/* 팔로우 카드 하단 회원탈퇴 영역 */
+export const FollowWithdrawArea = styled.div`
+  width: 984px;
+  margin-top: 6px;
+
+  display: flex;
+  justify-content: flex-end;
+`;
+
 /* 팔로우 제목 영역 */
 export const FollowHeader = styled.div`
   display: flex;

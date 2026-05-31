@@ -40,7 +40,7 @@ export default function Results() {
                       ...styles.infoCard,
                       border: active ? `2px solid ${PRIMARY}` : "1.5px solid #eee",
                       background: active ? "#eef0ff" : "#fff",
-                    }} onClick={() => navigate(active ? "/exam/results" : card.path)}>
+                    }} onClick={() => navigate(active ? "/exam/results" : card.path, { preventScrollReset: true })}>
                       <div style={styles.infoCardInner}>
                         <div style={{ ...styles.infoCardIcon, background: active ? "#dde1ff" : "#eef0ff" }}>
                           <svg width="20" height="20" viewBox="0 0 20 20" fill="none">

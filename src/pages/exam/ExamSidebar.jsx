@@ -48,7 +48,7 @@ export default function ExamSidebar() {
                 const linkIndex = menuLinks.findIndex(m => m.path === item.path);
                 itemRefs.current[linkIndex] = el;
               }}
-              onClick={() => navigate(item.path)}
+              onClick={() => { window.scrollTo(0, 0); navigate(item.path); }}
             >
               {item.label}
             </S.SidebarItem>

@@ -36,6 +36,12 @@ export const Hero = styled.div`
   text-align: center;
 `;
 
+export const Logo = styled.img`
+  width: 100px;
+  margin-bottom: 20px;
+  cursor: pointer;
+`;
+
 export const HeroTitle = styled.h1`
   font-size: 26px;
   font-weight: 700;

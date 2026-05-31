@@ -157,6 +157,7 @@ export default function JoinComponent() {
   return (
     <S.PageWrap>
       <S.Hero>
+        <S.Logo src="/assets/image/layout/logo.svg" alt="이음" onClick={() => navigate("/")} />
         <S.HeroTitle>이음과 함께<br />새로운 소통을 시작해보세요</S.HeroTitle>
         <S.StepBar>
           {steps.map((name, i) => (

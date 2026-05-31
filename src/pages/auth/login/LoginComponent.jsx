@@ -1,15 +1,21 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import * as S from "./style";
 
 export default function LoginComponent() {
   const navigate = useNavigate();
 
+  const [saveId, setSaveId] = useState(() => !!localStorage.getItem("savedEmail"));
   const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
   const [loginMsg, setLoginMsg] = useState("");
   const [loginLoading, setLoginLoading] = useState(false);
   const [autoLogin, setAutoLogin] = useState(false);
+
+  useEffect(() => {
+    const saved = localStorage.getItem("savedEmail");
+    if (saved) setUserEmail(saved);
+  }, []);
 
   const handleSocialLogin = (provider) => {
     window.location.href = `http://localhost:10000/oauth2/authorization/${provider}`;
@@ -31,6 +37,8 @@ export default function LoginComponent() {
       });
       const data = await res.json();
       if (data.success) {
+        if (saveId) localStorage.setItem("savedEmail", userEmail);
+        else localStorage.removeItem("savedEmail");
         window.location.href = "/";
       } else {
         setLoginMsg(data.message || "로그인에 실패했습니다.");
@@ -45,7 +53,7 @@ export default function LoginComponent() {
   return (
     <S.PageWrap>
       <S.FormBox>
-        <S.Logo src="/assets/image/layout/logo.svg" alt="이음" />
+        <S.Logo src="/assets/image/layout/logo.svg" alt="이음" onClick={() => navigate("/")} style={{ cursor: "pointer" }} />
 
         <S.InputGroup>
           <S.Input
@@ -64,6 +72,14 @@ export default function LoginComponent() {
         </S.InputGroup>
 
         <S.AutoLoginRow>
+          <S.AutoLoginCheckbox
+            id="save-id"
+            type="checkbox"
+            checked={saveId}
+            onChange={e => setSaveId(e.target.checked)}
+          />
+          <S.AutoLoginLabel htmlFor="save-id">아이디 저장</S.AutoLoginLabel>
+          <div style={{ flex: 1 }} />
           <S.AutoLoginCheckbox
             id="auto-login"
             type="checkbox"

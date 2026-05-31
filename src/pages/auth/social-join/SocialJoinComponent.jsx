@@ -83,7 +83,7 @@ export default function SocialJoinComponent() {
     setSubmitLoading(true);
     setSubmitMsg("");
     try {
-      const res = await fetch("http://localhost:10000/api/auth/social-signup", {
+      const res = await fetch("http://localhost:10000/api/auth/social", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

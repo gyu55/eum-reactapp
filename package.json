@@ -12,6 +12,7 @@
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.1.0",
     "@testing-library/user-event": "^13.2.1",
+    "@tosspayments/payment-widget-sdk": "^0.12.1",
     "moment": "^2.30.1",
     "react": "^19.1.1",
     "react-calendar": "^6.0.1",

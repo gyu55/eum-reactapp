@@ -1,4 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
+import PaymentSuccessPage from "../pages/payment/PaymentSuccessPage";
+import PaymentFailPage from "../pages/payment/PaymentFailPage";
 
 import EumLayout from "../pages/layout/eumLayout";
 import EumMainContainer from "../pages/main/EumMainContainer";
@@ -400,6 +402,14 @@ const router = createBrowserRouter([
   {
     path: "/find-account",
     element: <FindAccountContainer />
+  },
+  {
+    path: "/payment/success",
+    element: <PaymentSuccessPage />
+  },
+  {
+    path: "/payment/fail",
+    element: <PaymentFailPage />
   },
 ])
 

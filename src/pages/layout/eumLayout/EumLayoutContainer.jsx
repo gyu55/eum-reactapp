@@ -39,7 +39,7 @@ const EumLayoutContainer = () => {
 
   const handleLogout = async () => {
     try {
-      await fetch("http://localhost:10000/logout", { method: "POST", credentials: "include" });
+      await fetch("http://localhost:10000/api/auth/logout", { method: "POST", credentials: "include" });
     } catch {}
     setAuthUser(null);
     setIsAuthenticated(false);

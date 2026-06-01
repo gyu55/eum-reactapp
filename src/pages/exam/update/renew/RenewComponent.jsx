@@ -3,6 +3,7 @@ import * as S from "./style";
 import { DUMMY_RESULTS } from "../../results/check/CheckComponent";
 import useLoginCheck from "../../../../hooks/useLoginCheck";
 import LoginGuard from "../../../../components/common/LoginGuard";
+import useTossPayment from "../../../../hooks/useTossPayment";
 
 const PASS_SCORE = 60;
 
@@ -16,6 +17,7 @@ const CERT_OPTIONS = DUMMY_RESULTS
 
 const RenewComponent = () => {
   const { isLoggedIn, user } = useLoginCheck();
+  const { requestPayment } = useTossPayment();
 
   const [type, setType] = useState("renew");
   const [selectedCertNo, setSelectedCertNo] = useState("");
@@ -48,6 +50,8 @@ const RenewComponent = () => {
     setLoading(true);
     setApiMsg(null);
 
+    // 1단계: 갱신/재발급 신청
+    let referenceId;
     try {
       const res = await fetch("http://localhost:10000/api/cert-renew", {
         method: "POST",
@@ -62,23 +66,37 @@ const RenewComponent = () => {
           certAddress: receiveType === "delivery" ? address.trim() : null,
         }),
       });
-
       const data = await res.json();
-      if (res.ok && data.success) {
-        setApiSuccess(true);
-        setApiMsg("신청이 완료되었습니다.");
-        setSelectedCertNo("");
-        setAddress("");
-        setReceiveType("online");
-        setErrors({});
-      } else {
+      if (!data.success) {
         setApiSuccess(false);
         setApiMsg(data.message || "신청 중 오류가 발생했습니다.");
+        setLoading(false);
+        return;
       }
+      referenceId = data.data;
     } catch {
       setApiSuccess(false);
       setApiMsg("서버에 연결할 수 없습니다.");
-    } finally {
+      setLoading(false);
+      return;
+    }
+
+    // 2단계: 결제 요청
+    try {
+      const amount = type === "renew" ? 10000 : 20000;
+      const orderName = `${CERT_OPTIONS.find(o => o.certNo === selectedCertNo)?.title || ""} ${type === "renew" ? "갱신" : "재발급"}`;
+      await requestPayment({
+        amount,
+        orderName,
+        customerName: user?.userName || "",
+        paymentType: "CERT_RENEW",
+        referenceId,
+      });
+    } catch (e) {
+      if (e?.message && !e.message.includes("취소")) {
+        setApiSuccess(false);
+        setApiMsg(e.message || "결제 요청 중 오류가 발생했습니다.");
+      }
       setLoading(false);
     }
   };

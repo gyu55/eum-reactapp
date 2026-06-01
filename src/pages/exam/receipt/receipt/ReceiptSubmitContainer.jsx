@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import * as S from "./style";
 import useLoginCheck from "../../../../hooks/useLoginCheck";
 import LoginGuard from "../../../../components/common/LoginGuard";
+import useTossPayment from "../../../../hooks/useTossPayment";
 
 const formatBirth = (value) => {
   const digits = value.replace(/\D/g, "").slice(0, 8);
@@ -21,6 +22,7 @@ const formatPhone = (value) => {
 const ReceiptSubmitContainer = () => {
   const navigate = useNavigate();
   const { isLoggedIn } = useLoginCheck();
+  const { requestPayment } = useTossPayment();
   const [tests, setTests] = useState([]);
   const [selectedTestId, setSelectedTestId] = useState("");
   const [name, setName] = useState("");
@@ -55,11 +57,14 @@ const ReceiptSubmitContainer = () => {
   const handleSubmit = async () => {
     if (!selectedTestId) {
       setSubmitMsg("시험 회차를 선택해주세요.");
-      setSubmitOk(false);
       return;
     }
+
     setSubmitLoading(true);
     setSubmitMsg("");
+
+    // 1단계: 원서 접수
+    let referenceId;
     try {
       const formData = new FormData();
       formData.append("testId", selectedTestId);
@@ -71,23 +76,38 @@ const ReceiptSubmitContainer = () => {
         body: formData,
       });
       const data = await res.json();
-      if (res.status === 401) {
-        setSubmitMsg("로그인이 필요합니다.");
-        setSubmitOk(false);
-      } else if (res.status === 409 || (data.message && data.message.includes("정원"))) {
+
+      if (res.status === 409 || (data.message && data.message.includes("정원"))) {
         setSubmitMsg("정원이 초과되어 접수할 수 없습니다.");
-        setSubmitOk(false);
-      } else if (data.success) {
-        setSubmitMsg("원서 접수가 완료되었습니다.");
-        setSubmitOk(true);
-      } else {
-        setSubmitMsg(data.message || "접수에 실패했습니다.");
-        setSubmitOk(false);
+        setSubmitLoading(false);
+        return;
       }
+      if (!data.success) {
+        setSubmitMsg(data.message || "접수에 실패했습니다.");
+        setSubmitLoading(false);
+        return;
+      }
+      referenceId = data.data;
     } catch {
-      setSubmitMsg("서버 오류가 발생했습니다.");
-      setSubmitOk(false);
-    } finally {
+      setSubmitMsg("서버에 연결할 수 없습니다.");
+      setSubmitLoading(false);
+      return;
+    }
+
+    // 2단계: 결제 요청
+    try {
+      await requestPayment({
+        amount: selectedTest.testPrice,
+        orderName: selectedTest.testTitle,
+        customerName: name,
+        paymentType: "TEST_APPLY",
+        referenceId,
+      });
+    } catch (e) {
+      console.error("[결제 오류]", e);
+      if (e?.message && !e.message.includes("취소")) {
+        setSubmitMsg(e.message || "결제 요청 중 오류가 발생했습니다.");
+      }
       setSubmitLoading(false);
     }
   };

@@ -36,6 +36,11 @@ const PostWrite = () => {
     content: "",
   });
 
+  const handleSubmit = () => {
+    console.log("HTML:", editor?.getHTML());
+    console.log("JSON:", editor?.getJSON());
+  };
+
   return (
     <S.PostWritePage>
       {/* 콘텐츠 영역 */}
@@ -48,7 +53,9 @@ const PostWrite = () => {
               취소
             </S.ActionBtn>
             <S.ActionBtn $type="draft">임시저장</S.ActionBtn>
-            <S.ActionBtn $type="submit">등록하기</S.ActionBtn>
+            <S.ActionBtn $type="submit" onClick={handleSubmit}>
+              등록하기
+            </S.ActionBtn>
           </S.ActionButtons>
 
           {/* 작성 카드 */}
@@ -145,7 +152,9 @@ const PostWrite = () => {
               취소
             </S.ActionBtn>
             <S.ActionBtn $type="draft">임시저장</S.ActionBtn>
-            <S.ActionBtn $type="submit">등록하기</S.ActionBtn>
+            <S.ActionBtn $type="submit" onClick={handleSubmit}>
+              등록하기
+            </S.ActionBtn>
           </S.ActionButtons>
         </S.LeftBlock>
 

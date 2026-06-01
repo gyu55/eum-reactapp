@@ -24,18 +24,29 @@ const S = {
 };
 
 const PostListSection = () => {
-  const [selectedTag, setSelectedTag] = useState("");
   const [posts, setPosts] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const listTopRef = useRef(null);
-  const [searchParams] = useSearchParams();
-  const keyword = searchParams.get("keyword") ?? "";
+  const pendingScrollRef = useRef(null);
 
+  const [searchParams, setSearchParams] = useSearchParams();
+  const keyword = searchParams.get("keyword") ?? "";
+  const currentPage = parseInt(searchParams.get("page") ?? "1", 10);
+  const selectedTag = searchParams.get("tag") ?? "";
+
+  // keyword 가 외부(검색창)에서 바뀌면 page를 1로 리셋
+  const prevKeywordRef = useRef(keyword);
   useEffect(() => {
-    setCurrentPage(1);
-  }, [selectedTag, keyword]);
+    if (keyword !== prevKeywordRef.current) {
+      prevKeywordRef.current = keyword;
+      setSearchParams((prev) => {
+        const next = new URLSearchParams(prev);
+        next.set("page", "1");
+        return next;
+      });
+    }
+  }, [keyword, setSearchParams]);
 
   useEffect(() => {
     const load = async () => {
@@ -48,6 +59,13 @@ const PostListSection = () => {
         });
         setPosts(res.data.posts);
         setTotalPages(res.data.totalPages);
+
+        // 게시글 상세에서 돌아왔을 때 스크롤 복원값 예약
+        const savedScroll = sessionStorage.getItem("community-scroll");
+        if (savedScroll !== null) {
+          pendingScrollRef.current = parseInt(savedScroll, 10);
+          sessionStorage.removeItem("community-scroll");
+        }
       } catch (e) {
         console.error(e);
       } finally {
@@ -57,9 +75,30 @@ const PostListSection = () => {
     load();
   }, [currentPage, selectedTag, keyword]);
 
+  // 로딩 완료 후 DOM이 갱신된 뒤 스크롤 복원 실행
+  useEffect(() => {
+    if (!isLoading && pendingScrollRef.current !== null) {
+      window.scrollTo({ top: pendingScrollRef.current, behavior: "smooth" });
+      pendingScrollRef.current = null;
+    }
+  }, [isLoading]);
+
   const handlePageChange = (page) => {
-    setCurrentPage(page);
+    setSearchParams((prev) => {
+      const next = new URLSearchParams(prev);
+      next.set("page", String(page));
+      return next;
+    });
     listTopRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const handleTagChange = (tag) => {
+    setSearchParams((prev) => {
+      const next = new URLSearchParams(prev);
+      next.set("tag", tag);
+      next.set("page", "1");
+      return next;
+    });
   };
 
   let content;
@@ -102,7 +141,7 @@ const PostListSection = () => {
             <S.CategoryPill
               key={value}
               $active={selectedTag === value}
-              onClick={() => setSelectedTag(value)}
+              onClick={() => handleTagChange(value)}
             >
               {label}
             </S.CategoryPill>

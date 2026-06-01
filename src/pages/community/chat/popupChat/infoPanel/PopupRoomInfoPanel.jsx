@@ -50,6 +50,7 @@ const PopupRoomInfoPanel = ({
   chatRoomName,
   chatRoomUsers,
   chatRoomDetail,
+  isOwner,
   tags,
 }) => {
   const { leaveRoom } = useChatContext();
@@ -133,23 +134,35 @@ const PopupRoomInfoPanel = ({
         </OutlineButton>
       </S.PanelSection>
 
-      <S.PanelSection $gap="8px" $last>
-        <S.SectionLabel>채팅방 신고</S.SectionLabel>
-        <S.IntroText>
-          <T.H11Regular $color={colors.textMain}>
-            만약 해당 채팅방에서 부적절한 행위
-          </T.H11Regular>
-          <T.H11Regular $color={colors.textMain}>
-            혹은 대화가 발생한다면 아래의
-          </T.H11Regular>
-          <T.H11Regular $color={colors.textMain}>
-            신고하기 버튼으로 신고 가능합니다.
-          </T.H11Regular>
-        </S.IntroText>
-        <OutlineButton borderColor={colors.danger} textColor={colors.danger}>
-          채팅방신고
-        </OutlineButton>
-      </S.PanelSection>
+      {isOwner ? (
+        <S.PanelSection $gap="8px" $last>
+          <S.SectionLabel>채팅방 관리</S.SectionLabel>
+          <OutlineButton borderColor={colors.border} textColor={colors.textSub}>
+            채팅방 수정
+          </OutlineButton>
+          <OutlineButton borderColor={colors.danger} textColor={colors.danger}>
+            채팅방 삭제
+          </OutlineButton>
+        </S.PanelSection>
+      ) : (
+        <S.PanelSection $gap="8px" $last>
+          <S.SectionLabel>채팅방 신고</S.SectionLabel>
+          <S.IntroText>
+            <T.H11Regular $color={colors.textMain}>
+              만약 해당 채팅방에서 부적절한 행위
+            </T.H11Regular>
+            <T.H11Regular $color={colors.textMain}>
+              혹은 대화가 발생한다면 아래의
+            </T.H11Regular>
+            <T.H11Regular $color={colors.textMain}>
+              신고하기 버튼으로 신고 가능합니다.
+            </T.H11Regular>
+          </S.IntroText>
+          <OutlineButton borderColor={colors.danger} textColor={colors.danger}>
+            채팅방신고
+          </OutlineButton>
+        </S.PanelSection>
+      )}
     </S.RightPanelScroll>
   );
 };

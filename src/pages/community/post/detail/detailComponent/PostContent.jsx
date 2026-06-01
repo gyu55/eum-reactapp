@@ -1,9 +1,12 @@
 import theme from "../../../../../styles/theme";
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { getPostById, deletePost } from "../../../communityApi/postApi";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart } from "@fortawesome/free-solid-svg-icons";
+import {
+  getPostById,
+  deletePost,
+  requestPostLike,
+  cancelPostLike,
+} from "../../../communityApi/postApi";
 import * as S from "../postDetailStyle";
 import DummyContent from "./dummyContent/DummyContent";
 import { DEFAULT_IMAGES } from "../../../constants";
@@ -11,6 +14,8 @@ import PostContentSkeleton from "./PostContentSkeleton";
 import modifyIcon from "../../../assets/icon/modify-grey.svg";
 import deleteIcon from "../../../assets/icon/trash-can-red.svg";
 import PostAlertPopup from "../../postComponents/PostAlertPopup";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHeart } from "@fortawesome/free-solid-svg-icons";
 
 const { PALETTE } = theme;
 
@@ -44,18 +49,30 @@ const PostContent = ({ postId }) => {
         console.log("게시글 데이터:", data);
         setPost(data);
         setLikeCount(data.likeCount ?? 0);
+        setLiked(data.isLiked ?? false);
       })
       .catch((err) => console.error("게시글 조회 실패:", err));
   }, [postId]);
 
-  const handleLike = () => {
-    setLiked((prev) => !prev);
-    setLikeCount((prev) => (liked ? prev - 1 : prev + 1));
-  };
-
   const authorLevel = post?.userLevel ?? "Lv.1";
 
-  // const tags = ["dd"];
+  // 게시글 좋아요 버튼 누르는 함수
+  const clickPostLike = async () => {
+    const prevLiked = liked;
+    const prevCount = likeCount;
+
+    setLiked(!prevLiked);
+    setLikeCount(prevLiked ? prevCount - 1 : prevCount + 1);
+
+    try {
+      prevLiked
+        ? await cancelPostLike(post.id)
+        : await requestPostLike(post.id);
+    } catch (e) {
+      setLiked(prevLiked);
+      setLikeCount(prevCount);
+    }
+  };
 
   // 아직 post 데이터가 없을 때
   if (!post)
@@ -132,7 +149,7 @@ const PostContent = ({ postId }) => {
         {/* 게시글 관련 액션 버튼 // 추후 컴포넌트로 분리 생각 */}
         <S.ActionRow>
           {/* 좋아요 버튼 */}
-          <S.LikeButton liked={liked} onClick={handleLike}>
+          <S.LikeButton liked={liked} onClick={clickPostLike}>
             <FontAwesomeIcon icon={faHeart} />
             <span>{likeCount}</span>
           </S.LikeButton>

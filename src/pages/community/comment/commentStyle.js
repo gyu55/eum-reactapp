@@ -262,3 +262,110 @@ export const CommentList = styled.div`
   flex-direction: column;
   width: 100%;
 `;
+
+// ── Reply Input ──
+
+export const ReplyInputWrapper = styled.div`
+  padding: 12px 0 12px ${COMMENT.replyIndent};
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: ${SURFACE.card};
+`;
+
+export const ReplyTextArea = styled.textarea`
+  ${bodyTextBase}
+  width: 100%;
+  height: 72px;
+  border: 1px solid ${PALETTE.primary.main};
+  border-radius: ${RADIUS.input};
+  padding: 12px 16px;
+  resize: none;
+  outline: none;
+  box-sizing: border-box;
+
+  &::placeholder {
+    color: ${GRAYSCALE[9]};
+  }
+
+  &:focus {
+    border-color: ${PALETTE.primary.dark};
+  }
+`;
+
+export const ReplySubmitRow = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+`;
+
+export const ReplyCancelButton = styled.button`
+  ${commentBtnBase}
+  background: ${SURFACE.section};
+  color: ${TEXT_COLOR.basic};
+  padding: 6px 20px;
+  border: 1px solid ${GRAYSCALE[9]};
+
+  &:hover {
+    background: ${GRAYSCALE[9]};
+    color: ${PALETTE.white};
+  }
+`;
+
+export const ReplySubmitButton = styled.button`
+  ${commentBtnBase}
+  background: ${PALETTE.primary.main};
+  color: ${PALETTE.white};
+  padding: 6px 20px;
+  border: none;
+  transition: background 0.2s ease;
+
+  &:hover {
+    background: ${PALETTE.primary.dark};
+  }
+`;
+
+// ── Edit / Delete ──
+
+export const ActionRow = styled.div`
+  display: flex;
+  gap: 4px;
+  align-items: center;
+`;
+
+export const EditButton = styled.button`
+  ${commentBtnBase}
+  padding: 4px 10px;
+  background: transparent;
+  color: ${TEXT_COLOR.basic};
+  border: 1px solid ${GRAYSCALE[9]};
+  font-size: ${FONT_SIZE.h11};
+
+  &:hover {
+    background: ${PALETTE.primary.extraLight};
+    color: ${PALETTE.primary.main};
+    border-color: ${PALETTE.primary.main};
+  }
+`;
+
+export const DeleteButton = styled.button`
+  ${commentBtnBase}
+  padding: 4px 10px;
+  background: transparent;
+  color: ${PALETTE.red};
+  border: 1px solid ${PALETTE.red};
+  font-size: ${FONT_SIZE.h11};
+
+  &:hover {
+    background: ${PALETTE.red};
+    color: ${PALETTE.white};
+  }
+`;
+
+export const EditInputWrapper = styled.div`
+  padding: 12px 0 12px ${({ isReply }) => (isReply ? COMMENT.replyIndent : "0")};
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: ${SURFACE.card};
+`;

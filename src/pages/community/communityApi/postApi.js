@@ -66,3 +66,17 @@ export const deletePost = async (postId) => {
   });
   if (!res.ok) throw new Error("게시글 삭제 실패");
 };
+
+// 게시글 좋아요
+export const requestPostLike = async (postId) => {
+  const res = await fetch(`${ROOT_URL}/posts/like/${postId}`);
+  if (!res.ok) throw new Error("게시글 좋아요 실패");
+};
+
+// 게시글 좋아요 취소
+export const cancelPostLike = async (postId) => {
+  const res = await fetch(`${ROOT_URL}/posts/like/${postId}`, {
+    method: "DELETE",
+  });
+  if (!res.ok) throw new Error("게시글 좋아요 취소 실패");
+};

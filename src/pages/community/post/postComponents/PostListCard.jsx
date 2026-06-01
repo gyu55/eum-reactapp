@@ -37,11 +37,12 @@ const PostListCard = ({
   return (
     // 포스트 카드 영역
     <S.Card
-      onClick={() =>
+      onClick={() => {
+        sessionStorage.setItem("community-scroll", String(window.scrollY));
         navigate(`/community/post/${id}`, {
-          state: { from: location.pathname },
-        })
-      }
+          state: { from: location.pathname + location.search },
+        });
+      }}
     >
       {/* 태그 및 작성 시각 */}
       <S.TagAndTimeRow>

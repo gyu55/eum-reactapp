@@ -79,8 +79,6 @@ const PostDetailPage = () => {
             <PostContent postId={postId} />
             <CommentSection postId={postId} />
           </S.PostBodyWrapper>
-          {/* <PostContent /> */}
-          {/* <CommentSection /> */}
         </S.ColumnBlock>
 
         {/* 우측 3개 사이드 바 영역 */}

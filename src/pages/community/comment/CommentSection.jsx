@@ -3,40 +3,7 @@ import CommentItem from "./CommentItem";
 import CommentItemSkeleton from "./CommentItemSkeleton";
 import NoResult from "../common/NoResult";
 import { getComments, postComment } from "../communityApi/commentApi";
-import {
-  CommentSectionWrapper,
-  HeaderRow,
-  CommentTitle,
-  CountBadge,
-  TextArea,
-  SubmitRow,
-  SubmitButton,
-  CommentList,
-} from "./commentStyle";
-
-const S = {
-  CommentSectionWrapper,
-  HeaderRow,
-  CommentTitle,
-  CountBadge,
-  TextArea,
-  SubmitRow,
-  SubmitButton,
-  CommentList,
-};
-
-const mapComment = (item) => ({
-  id: item.id,
-  userProfile: item.userProfile ?? "default.jpg",
-  userNickname: item.userNickname,
-  commentId: item.commentId,
-  commentContent: item.commentContent,
-  commentLikeCount: item.commentLikeCount,
-  commentReplyCount: item.commentReplyCount,
-  commentCreateAt: item.commentCreateAt,
-  postId: item.postId,
-  userId: item.userId,
-});
+import * as S from "./commentStyle";
 
 const CommentSection = ({ postId }) => {
   const [comments, setComments] = useState([]);
@@ -44,17 +11,17 @@ const CommentSection = ({ postId }) => {
   const [refreshKey, setRefreshKey] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
 
+  // 게시글 접속 시 최초 1회 메세지 로드
   useEffect(() => {
     if (!postId) return;
     setIsLoading(true);
     getComments(postId)
-      .then((data) =>
-        setComments(Array.isArray(data) ? data.map(mapComment) : []),
-      )
+      .then((data) => setComments(data))
       .catch(() => setComments([]))
       .finally(() => setIsLoading(false));
   }, [postId, refreshKey]);
 
+  // 댓글 작성
   const handleSubmit = async () => {
     if (!inputValue.trim()) return;
     try {
@@ -94,8 +61,16 @@ const CommentSection = ({ postId }) => {
             subMessage="첫 번째 댓글을 남겨보세요"
           />
         ) : (
-          comments.map((comment) => (
-            <CommentItem key={comment.id} {...comment} />
+          comments.map(({ id, ...comment }) => (
+            <CommentItem
+              key={id}
+              id={id}
+              postId={postId}
+              {...comment}
+              onReplySubmit={() => setRefreshKey((prev) => prev + 1)}
+              onDelete={() => setRefreshKey((prev) => prev + 1)}
+              onEditSubmit={() => setRefreshKey((prev) => prev + 1)}
+            />
           ))
         )}
       </S.CommentList>

@@ -17,7 +17,7 @@ export const getUserComments = async ({
 }) => {
   const params = new URLSearchParams({ page, order, keyword });
   const response = await fetch(
-    `${ROOT_URL}/comments/users/${userId}?${params}`
+    `${ROOT_URL}/comments/users/${userId}?${params}`,
   );
   if (!response.ok) throw new Error("유저 댓글을 불러오는 데 실패했습니다.");
   const result = await response.json();
@@ -33,4 +33,51 @@ export const postComment = async (postId, commentContent) => {
   });
   if (!response.ok) throw new Error("댓글 등록에 실패했습니다.");
   return response.json();
+};
+
+// 댓글 좋아요
+export const requestCommentLike = async (commentId) => {
+  const res = await fetch(`${ROOT_URL}/comments/likes/${commentId}`);
+  if (!res.ok) throw new Error("댓글 좋아요 실패");
+};
+
+// 댓글 좋아요 취소
+export const cancelCommentLike = async (commentId) => {
+  const res = await fetch(`${ROOT_URL}/comments/likes/${commentId}`, {
+    method: "DELETE",
+  });
+  if (!res.ok) throw new Error("댓글 좋아요 취소 실패");
+};
+
+// 대댓글 작성
+export const postReply = async (postId, commentId, commentContent) => {
+  const response = await fetch(
+    `${ROOT_URL}/comments/${postId}/replies/${commentId}`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ commentContent }),
+    },
+  );
+  if (!response.ok) throw new Error("대댓글 등록에 실패했습니다.");
+  return response.json();
+};
+
+// 댓글 삭제
+export const deleteComment = async (commentId) => {
+  const res = await fetch(`${ROOT_URL}/comments/${commentId}`, {
+    method: "DELETE",
+  });
+  if (!res.ok) throw new Error("댓글 삭제에 실패했습니다.");
+};
+
+// 댓글 수정
+export const updateComment = async ({ id, commentContent }) => {
+  const res = await fetch(`${ROOT_URL}/comments/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ commentContent }),
+  });
+  if (!res.ok) throw new Error("댓글 수정에 실패했습니다.");
+  return res.json();
 };

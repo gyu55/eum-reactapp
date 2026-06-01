@@ -6,6 +6,8 @@ import {
   requestCommentLike,
   cancelCommentLike,
   postReply,
+  deleteComment,
+  updateComment,
 } from "../communityApi/commentApi";
 import {
   CommentItemWrapper,
@@ -26,6 +28,10 @@ import {
   ReplySubmitRow,
   ReplyCancelButton,
   ReplySubmitButton,
+  ActionRow,
+  EditButton,
+  DeleteButton,
+  EditInputWrapper,
 } from "./commentStyle";
 
 import { AuthorAvatar } from "../post/detail/postDetailStyle";
@@ -51,6 +57,10 @@ const S = {
   ReplySubmitRow,
   ReplyCancelButton,
   ReplySubmitButton,
+  ActionRow,
+  EditButton,
+  DeleteButton,
+  EditInputWrapper,
 };
 
 const CommentItem = ({
@@ -64,13 +74,18 @@ const CommentItem = ({
   commentLikeCount = 0,
   commentReplyCount = 0,
   commentCreateAt = "방금 전",
+  commentIsWrited = false,
   showAccessibility = true,
   onReplySubmit,
+  onDelete,
+  onEditSubmit,
 }) => {
   const [liked, setLiked] = useState(commentIsLiked);
   const [likeCount, setLikeCount] = useState(commentLikeCount);
   const [replyOpen, setReplyOpen] = useState(false);
   const [replyText, setReplyText] = useState("");
+  const [editOpen, setEditOpen] = useState(false);
+  const [editText, setEditText] = useState("");
 
   const isReply = commentId !== null;
   const displayLines = commentContent ? commentContent.split("\n") : [];
@@ -97,6 +112,32 @@ const CommentItem = ({
       setReplyText("");
       setReplyOpen(false);
       onReplySubmit?.();
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const handleDelete = async () => {
+    if (!window.confirm("댓글을 삭제하시겠습니까?")) return;
+    try {
+      await deleteComment(id);
+      onDelete?.();
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const handleEditOpen = () => {
+    setEditText(commentContent);
+    setEditOpen(true);
+  };
+
+  const handleEditSubmit = async () => {
+    if (!editText.trim()) return;
+    try {
+      await updateComment(id, editText.trim());
+      setEditOpen(false);
+      onEditSubmit?.();
     } catch (e) {
       console.error(e);
     }
@@ -159,17 +200,47 @@ const CommentItem = ({
         </S.LeftArea>
         <S.RightArea>
           <S.TimeText>{formatRelativeTime(commentCreateAt)}</S.TimeText>
-          <S.ReportButton aria-label="댓글 신고">
-            <img
-              src={DEFAULT_IMAGES.reportIcon}
-              alt="신고"
-              onError={(e) => {
-                e.currentTarget.src = DEFAULT_IMAGES.reportIcon;
-              }}
-            />
-          </S.ReportButton>
+          {commentIsWrited ? (
+            <S.ActionRow>
+              <S.EditButton onClick={handleEditOpen}>수정</S.EditButton>
+              <S.DeleteButton onClick={handleDelete}>삭제</S.DeleteButton>
+            </S.ActionRow>
+          ) : (
+            <S.ReportButton aria-label="댓글 신고">
+              <img
+                src={DEFAULT_IMAGES.reportIcon}
+                alt="신고"
+                onError={(e) => {
+                  e.currentTarget.src = DEFAULT_IMAGES.reportIcon;
+                }}
+              />
+            </S.ReportButton>
+          )}
         </S.RightArea>
       </S.CommentItemWrapper>
+
+      {editOpen && (
+        <S.EditInputWrapper isReply={isReply}>
+          <S.ReplyTextArea
+            value={editText}
+            onChange={(e) => setEditText(e.target.value)}
+            placeholder="수정할 내용을 입력하세요"
+          />
+          <S.ReplySubmitRow>
+            <S.ReplyCancelButton
+              onClick={() => {
+                setEditOpen(false);
+                setEditText("");
+              }}
+            >
+              취소
+            </S.ReplyCancelButton>
+            <S.ReplySubmitButton onClick={handleEditSubmit}>
+              저장
+            </S.ReplySubmitButton>
+          </S.ReplySubmitRow>
+        </S.EditInputWrapper>
+      )}
 
       {replyOpen && (
         <S.ReplyInputWrapper>

@@ -68,6 +68,8 @@ const CommentSection = ({ postId }) => {
               postId={postId}
               {...comment}
               onReplySubmit={() => setRefreshKey((prev) => prev + 1)}
+              onDelete={() => setRefreshKey((prev) => prev + 1)}
+              onEditSubmit={() => setRefreshKey((prev) => prev + 1)}
             />
           ))
         )}

@@ -57,8 +57,27 @@ export const postReply = async (postId, commentId, commentContent) => {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ commentContent }),
-    }
+    },
   );
   if (!response.ok) throw new Error("대댓글 등록에 실패했습니다.");
   return response.json();
+};
+
+// 댓글 삭제
+export const deleteComment = async (commentId) => {
+  const res = await fetch(`${ROOT_URL}/comments/${commentId}`, {
+    method: "DELETE",
+  });
+  if (!res.ok) throw new Error("댓글 삭제에 실패했습니다.");
+};
+
+// 댓글 수정
+export const updateComment = async (commentId, commentContent) => {
+  const res = await fetch(`${ROOT_URL}/comments/${commentId}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ commentContent }),
+  });
+  if (!res.ok) throw new Error("댓글 수정에 실패했습니다.");
+  return res.json();
 };

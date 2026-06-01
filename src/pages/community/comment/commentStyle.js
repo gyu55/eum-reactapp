@@ -324,3 +324,48 @@ export const ReplySubmitButton = styled.button`
     background: ${PALETTE.primary.dark};
   }
 `;
+
+// ── Edit / Delete ──
+
+export const ActionRow = styled.div`
+  display: flex;
+  gap: 4px;
+  align-items: center;
+`;
+
+export const EditButton = styled.button`
+  ${commentBtnBase}
+  padding: 4px 10px;
+  background: transparent;
+  color: ${TEXT_COLOR.basic};
+  border: 1px solid ${GRAYSCALE[9]};
+  font-size: ${FONT_SIZE.h11};
+
+  &:hover {
+    background: ${PALETTE.primary.extraLight};
+    color: ${PALETTE.primary.main};
+    border-color: ${PALETTE.primary.main};
+  }
+`;
+
+export const DeleteButton = styled.button`
+  ${commentBtnBase}
+  padding: 4px 10px;
+  background: transparent;
+  color: ${PALETTE.red};
+  border: 1px solid ${PALETTE.red};
+  font-size: ${FONT_SIZE.h11};
+
+  &:hover {
+    background: ${PALETTE.red};
+    color: ${PALETTE.white};
+  }
+`;
+
+export const EditInputWrapper = styled.div`
+  padding: 12px 0 12px ${({ isReply }) => (isReply ? COMMENT.replyIndent : "0")};
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: ${SURFACE.card};
+`;

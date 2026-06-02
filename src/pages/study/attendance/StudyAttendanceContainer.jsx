@@ -3,9 +3,16 @@ import { useAttendance } from "../hooks/useAttendance";
 import StudyAttendanceComponent from "./StudyAttendanceComponent";
 
 const StudyAttendanceContainer = () => {
-  const { loading, error, summary } = useAttendance();
+  const { loading, error, summary, handleCalendarPeriodChange } = useAttendance();
 
-  return <StudyAttendanceComponent loading={loading} error={error} summary={summary} />;
+  return (
+    <StudyAttendanceComponent
+      loading={loading}
+      error={error}
+      summary={summary}
+      onCalendarPeriodChange={handleCalendarPeriodChange}
+    />
+  );
 };
 
 export default StudyAttendanceContainer;

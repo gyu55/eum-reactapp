@@ -1,5 +1,5 @@
 // 출석 화면 컴포넌트: 출석 현황, 주간 출석, 보상 목록 표시를 담당
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import moment from "moment";
 import "moment/locale/ko";
 import "react-calendar/dist/Calendar.css";
@@ -17,20 +17,42 @@ const summaryCards = [
 
 moment.locale("ko");
 
-const StudyAttendanceComponent = ({ loading, error, summary }) => {
-  const initialDate = useMemo(() => new Date(`${summary?.currentDate || "2026-05-21"}T00:00:00`), [summary?.currentDate]);
+const StudyAttendanceComponent = ({ loading, error, summary, onCalendarPeriodChange }) => {
   const today = useMemo(() => new Date(), []);
-  const [date, setDate] = useState(initialDate);
-  const [activeStartDate, setActiveStartDate] = useState(initialDate);
+  const [date, setDate] = useState(today);
+  const [activeStartDate, setActiveStartDate] = useState(today);
+  const [showTodayStatus, setShowTodayStatus] = useState(false);
 
   // 출석날짜목록: 백엔드에서 받은 날짜 배열과 달력 날짜를 비교할 때 사용
   const attendanceDateSet = useMemo(() => new Set(summary?.attendanceDates || []), [summary?.attendanceDates]);
+
+  // 출석완료안내: 오늘 출석을 완료했다면 페이지 진입 후 잠시 뒤 표시
+  useEffect(() => {
+    if (loading) {
+      setShowTodayStatus(false);
+
+      return;
+    }
+
+    if (!summary.checkedToday) {
+      setShowTodayStatus(true);
+
+      return;
+    }
+
+    const timerId = setTimeout(() => {
+      setShowTodayStatus(true);
+    }, 1200);
+
+    return () => clearTimeout(timerId);
+  }, [loading, summary.checkedToday]);
 
   // 오늘로 이동: 달력을 실제 오늘 날짜가 있는 월로 돌아감
   const handleTodayClick = () => {
 
     setDate(today);
     setActiveStartDate(today);
+    onCalendarPeriodChange(today);
   };
 
   if (loading) {
@@ -45,7 +67,7 @@ const StudyAttendanceComponent = ({ loading, error, summary }) => {
           <S.AttendanceDesc>매일 출석하고 보상을 받아요</S.AttendanceDesc>
         </div>
 
-        <S.TodayStatus $checked={summary.checkedToday}>
+        <S.TodayStatus $checked={summary.checkedToday} $visible={showTodayStatus}>
           <strong>{summary.checkedToday ? "✅ 오늘 출석 완료!" : "출석 전"}</strong>
           <span>{summary.todayLabel}</span>
         </S.TodayStatus>
@@ -72,19 +94,34 @@ const StudyAttendanceComponent = ({ loading, error, summary }) => {
               value={date}
               onChange={setDate}
               activeStartDate={activeStartDate}
-              onActiveStartDateChange={({ activeStartDate }) => setActiveStartDate(activeStartDate)}
+              onActiveStartDateChange={({ activeStartDate }) => {
+                setActiveStartDate(activeStartDate);
+                onCalendarPeriodChange(activeStartDate);
+              }}
               formatDay={(locale, date) => moment(date).format("D")}
               formatYear={(locale, date) => moment(date).format("YYYY")}
               formatMonthYear={(locale, date) => moment(date).format("YYYY. MM")}
               formatShortWeekday={(locale, date) => moment(date).format("dd")}
               calendarType="gregory"
-              showNeighboringMonth
+              showNeighboringMonth={false}
               next2Label={null}
               prev2Label={null}
               minDetail="year"
+              tileClassName={({ date, view }) => {
+                if (view !== "month") return null;
+                if (date.getDay() === 0) return "calendar-sunday";
+                if (date.getDay() === 6) return "calendar-saturday";
+
+                return null;
+              }}
               tileContent={({ date, view }) => {
                 const formattedDate = moment(date).format("YYYY-MM-DD");
-                if (view !== "month" || !attendanceDateSet.has(formattedDate)) return null;
+                const isCurrentMonth =
+                  date.getFullYear() === activeStartDate.getFullYear()
+                  && date.getMonth() === activeStartDate.getMonth();
+
+                if (view !== "month" || !isCurrentMonth || !attendanceDateSet.has(formattedDate)) return null;
+
                 return <S.CalendarDot />;
               }}
             />

@@ -2,7 +2,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import StudyAttendancePopup from "./attendance/StudyAttendancePopup";
+import { attendanceMock } from "./attendance/data/attendanceMock";
+import { checkAttendance, fetchAttendanceSummary } from "./apis/AttendanceApi";
 import { useStudyUser } from "./hooks/useStudyUser";
+import { mapAttendanceSummary } from "./mappers/attendanceMapper";
 import * as S from "./style";
 
 
@@ -97,6 +100,27 @@ const wordItems = [
 // 유튜브썸네일생성: 유튜브 영상 ID로 카드 썸네일 주소 만드는
 const getYoutubeThumbnail = (videoId) => `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
 
+// 날짜문자열변환: 출석 현황 API 요청에 사용할 YYYY-MM-DD 형식을 만듦
+const formatDate = (date) => {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
+};
+
+// 현재월조회기간생성: 홈 출석 팝업에서 이번 달 출석 현황을 조회
+const getCurrentMonthPeriod = () => {
+  const today = new Date();
+  const startDate = new Date(today.getFullYear(), today.getMonth(), 1);
+  const endDate = new Date(today.getFullYear(), today.getMonth() + 1, 1);
+
+  return {
+    startDate: formatDate(startDate),
+    endDate: formatDate(endDate),
+  };
+};
+
 // 영상 탭별 카드 목록
 const videoCardsByTab = {
   수어: [
@@ -150,8 +174,9 @@ const videoCardsByTab = {
 
 const StudyComponent = () => {
   const navigate = useNavigate();
-  const { isGuest } = useStudyUser();
+  const { userId, isGuest } = useStudyUser();
   const [isAttendanceOpen, setIsAttendanceOpen] = useState(false);
+  const [attendanceSummary, setAttendanceSummary] = useState(null);
   const [keyword, setKeyword] = useState("");
   const [activeVideoTab, setActiveVideoTab] = useState("수어");
 
@@ -201,11 +226,34 @@ const StudyComponent = () => {
     requireLogin(() => navigate(path));
   };
 
+  // 출석체크실행: 오늘 출석을 저장하고 최신 현황 팝업을 표시
+  const handleAttendanceCheck = async () => {
+    try {
+      await checkAttendance(userId);
+    } catch (error) {
+      if (error.status !== 409) {
+        alert(error.message);
+
+        return;
+      }
+    }
+
+    try {
+      const { startDate, endDate } = getCurrentMonthPeriod();
+      const summary = await fetchAttendanceSummary(userId, startDate, endDate);
+
+      setAttendanceSummary(mapAttendanceSummary(summary, attendanceMock));
+      setIsAttendanceOpen(true);
+    } catch {
+      alert("출석 현황을 불러오지 못했습니다.");
+    }
+  };
+
   // 기능 카드를 눌렀을 때 실행
   const handleCardClick = (card) => {
-    const openCard = () => {
+    const openCard = async () => {
       if (card.action === "popup") {
-        setIsAttendanceOpen(true);
+        await handleAttendanceCheck();
 
         return;
       }
@@ -364,6 +412,7 @@ const StudyComponent = () => {
         <StudyAttendancePopup
           onClose={() => setIsAttendanceOpen(false)}
           onDetail={handleAttendanceDetail}
+          summary={attendanceSummary}
         />
       )}
     </S.HomeWrap>

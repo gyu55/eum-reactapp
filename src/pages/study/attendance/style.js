@@ -12,7 +12,7 @@ const summaryTone = {
 export const AttendanceWrap = styled.section`
   width: 100%;
   min-height: 100vh;
-  padding: 258px 24px 350px;
+  padding: 72px 24px 48px;
   background: #f7f8ff;
   color: #1f2430;
   font-family: Pretendard, sans-serif;
@@ -28,7 +28,7 @@ export const AttendanceHeader = styled.header`
   align-items: center;
   gap: 24px;
   width: min(1204px, 100%);
-  margin: 0 auto 16px;
+  margin: 0 auto 12px;
 
   @media (max-width: 720px) {
     align-items: flex-start;
@@ -63,8 +63,8 @@ export const AttendanceDesc = styled.p`
 
 export const AttendanceNotice = styled.p`
   width: min(1204px, 100%);
-  margin: 0 auto 20px;
-  padding: 12px 16px;
+  margin: 0 auto 14px;
+  padding: 10px 16px;
   border: 1px solid #dfe3ff;
   border-radius: 8px;
   background: #f1f3ff;
@@ -83,6 +83,13 @@ export const TodayStatus = styled.div`
   border-radius: 12px;
   background: ${({ $checked }) => ($checked ? "#f0fdf4" : "#fff")};
   text-align: center;
+  opacity: ${({ $visible }) => ($visible ? 1 : 0)};
+  transform: ${({ $visible }) => ($visible ? "translateY(0)" : "translateY(-8px)")};
+  visibility: ${({ $visible }) => ($visible ? "visible" : "hidden")};
+  transition:
+    opacity 0.35s ease,
+    transform 0.35s ease,
+    visibility 0.35s ease;
 
   strong {
     margin-bottom: 3px;
@@ -103,9 +110,9 @@ export const TodayStatus = styled.div`
 export const SummaryGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 20px;
+  gap: 16px;
   width: min(1207px, 100%);
-  margin: 0 auto 24px;
+  margin: 0 auto 18px;
 
   @media (max-width: 860px) {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -117,8 +124,8 @@ export const SummaryGrid = styled.div`
 `;
 
 export const SummaryCard = styled.article`
-  min-height: 100px;
-  padding: 18px 28px;
+  min-height: 92px;
+  padding: 14px 24px;
   border: 1px solid ${({ $tone }) => summaryTone[$tone]?.border || "#e8ebf4"};
   border-radius: 12px;
   background: ${({ $tone }) => summaryTone[$tone]?.bg || "#fff"};
@@ -162,8 +169,8 @@ export const SummaryIcon = styled.div`
 export const AttendanceContent = styled.div`
   display: grid;
   grid-template-columns: minmax(0, 820px) 356px;
-  gap: 28px;
-  padding-top: 1%;
+  gap: 24px;
+  padding-top: 0;
   align-items: start;
   width: min(1204px, 100%);
   margin: 0 auto;
@@ -175,7 +182,7 @@ export const AttendanceContent = styled.div`
 
 export const CalendarCard = styled.article`
   position: relative;
-  min-height: 600px;
+  min-height: 540px;
   padding: 0;
   border: 0;
   border-radius: 20px;
@@ -186,13 +193,16 @@ export const CalendarCard = styled.article`
 // 달력 전체
 export const CalendarFrame = styled.div`
   position: relative;
+  display: flex;
+  justify-content: center;
+  width: 100%;
 
   .react-calendar {
-    width: 820px;
-    height: 600px;
+    width: min(820px, 100%);
+    height: 540px;
     border: 1px solid #e6e6e6;
     border-radius: 25px;
-    padding: 7% 4%;
+    padding: 5% 4%;
     font-family: Pretendard;
     font-size: 14px;
   }
@@ -211,7 +221,7 @@ export const CalendarFrame = styled.div`
   }
 
   .react-calendar__navigation {
-    height: 57px;
+    height: 52px;
     padding-bottom: 2%;
     border-bottom: 1px solid #dfdfdf;
   }
@@ -252,8 +262,8 @@ export const CalendarFrame = styled.div`
   }
 
   .react-calendar__month-view__weekdays {
-    margin-top: 2%;
-    padding-bottom: 4%;
+    margin-top: 6%;
+    padding-bottom: 3%;
     border-bottom: 0;
   }
 
@@ -270,18 +280,26 @@ export const CalendarFrame = styled.div`
   }
 
   /* 일요일에 빨간 폰트 */
-  .react-calendar__month-view__weekdays__weekday--weekend abbr[title="일요일"] {
+  .react-calendar__month-view__weekdays__weekday:first-child abbr {
     color: #ff0000;
   }
 
   /* 토요일에 파란 폰트 */
-  .react-calendar__month-view__weekdays__weekday--weekend abbr[title="토요일"] {
+  .react-calendar__month-view__weekdays__weekday:last-child abbr {
     color: #2e7af2;
   }
 
   /* 일 날짜 간격 */
+  .react-calendar__month-view__days {
+    min-height: 276px;
+    align-content: flex-start;
+  }
+
   .react-calendar__tile {
-    padding: 18px;
+    display: grid;
+    place-items: center;
+    height: 46px;
+    padding: 0;
     border-radius: 0;
     color: #424242;
     font-size: 14px;
@@ -300,12 +318,12 @@ export const CalendarFrame = styled.div`
   }
 
   /* 일요일 날짜 숫자 */
-  .react-calendar__month-view__days__day--weekend:nth-child(7n + 1) abbr {
+  .calendar-sunday abbr {
     color: #ff0000;
   }
 
   /* 토요일 날짜 숫자는 기본색 유지 또는 파란색 */
-  .react-calendar__month-view__days__day--weekend:nth-child(7n) abbr {
+  .calendar-saturday abbr {
     color: #2e7af2;
   }
 
@@ -333,6 +351,11 @@ export const CalendarFrame = styled.div`
     transform: translate(-50%, -50%);
   }
 
+  /* 다른 달의 오늘 날짜에는 원형 표시를 숨김 */
+  .react-calendar__month-view__days__day--neighboringMonth.react-calendar__tile--now::after {
+    display: none;
+  }
+
   .react-calendar__tile--active {
     background: none;
     color: #424242;
@@ -348,6 +371,11 @@ export const CalendarFrame = styled.div`
     z-index: 2;
     color: #fff;
   }
+
+  /* 다른 달의 오늘 날짜는 이웃 날짜 색상을 유지 */
+  .react-calendar__month-view__days__day--neighboringMonth.react-calendar__tile--now abbr {
+    color: #bdbdbd !important;
+  }
 `;
 
 export const StyledCalendar = styled(Calendar)``;
@@ -355,7 +383,7 @@ export const StyledCalendar = styled(Calendar)``;
 /* 오늘 버튼 스타일 */
 export const CalendarTodayButton = styled.button`
   position: absolute;
-  top: 60px;
+  top: 44px;
   right: 58px;
   width: 90px;
   border: 0;
@@ -373,7 +401,7 @@ export const CalendarTodayButton = styled.button`
 export const CalendarDot = styled.span`
   position: absolute;
   left: 50%;
-  top: 83%;
+  top: calc(50% + 17px);
   width: 0.3rem;
   height: 0.3rem;
   border-radius: 50%;
@@ -453,7 +481,7 @@ export const CalendarLegend = styled.div`
   margin: 0;
   position: absolute;
   left: 70px;
-  bottom: 38px;
+  bottom: 28px;
 
   span {
     position: relative;
@@ -484,14 +512,14 @@ export const CalendarLegend = styled.div`
 
 export const SidePanel = styled.aside`
   display: grid;
-  gap: 20px;
+  gap: 16px;
   width: 356px;
 `;
 
 export const WeeklyCard = styled.article`
   width: 356px;
-  min-height: 205px;
-  padding: 25px 24px;
+  min-height: 190px;
+  padding: 20px 24px;
   border: 1.5px solid #e6e6e6;
   border-radius: 20px;
   background: #fff;
@@ -502,7 +530,7 @@ export const WeekList = styled.div`
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 5px;
-  margin-bottom: 25px;
+  margin-bottom: 18px;
 `;
 
 export const WeekItem = styled.div`
@@ -511,7 +539,7 @@ export const WeekItem = styled.div`
   gap: 9px;
 
   span {
-    color: ${({ $status }) => ($status === "today" ? "#4359fc" : "#a6a6a6")};
+    color: ${({ $status }) => ($status === "today" || $status === "current" ? "#4359fc" : "#a6a6a6")};
     font-size: 10px;
     font-weight: 400;
     letter-spacing: -0.2px;
@@ -559,8 +587,8 @@ export const WeeklyProgressBar = styled.div`
 
 export const RewardCard = styled.article`
   width: 356px;
-  min-height: 315px;
-  padding: 30px 30px;
+  min-height: 300px;
+  padding: 24px 30px;
   border: 1.5px solid #e6e6e6;
   border-radius: 20px;
   background: #fff;
@@ -569,8 +597,8 @@ export const RewardCard = styled.article`
 
 export const RewardList = styled.div`
   display: grid;
-  gap: 22px;
-  padding-top: 18px;
+  gap: 18px;
+  padding-top: 14px;
   border-top: 1px solid #eeeeee;
 `;
 

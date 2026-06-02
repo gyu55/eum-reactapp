@@ -447,8 +447,10 @@ export const LevelButton = styled.button`
 
 /* 레벨 뱃지 */
 export const LevelBadge = styled.span`
-  width: 34px;
+  min-width: 34px;
   height: 19px;
+  padding: 0 8px;
+  box-sizing: border-box;
 
   display: flex;
   align-items: center;
@@ -489,14 +491,14 @@ export const ExpBar = styled.div`
 
 /* 경험치 채움 */
 export const ExpFill = styled.div`
-  width: 24%;
+  width: ${({ $percent }) => `${Math.min(Math.max($percent || 0, 0), 100)}%`};
   height: 100%;
   background: ${PALETTE.primary.main};
 `;
 
 /* 경험치 텍스트 */
 export const ExpText = styled.span`
-  width: 55px;
+  width: 92px;
 
   font-size: 8px;
   font-weight: ${FONT_WEIGHT.regular};

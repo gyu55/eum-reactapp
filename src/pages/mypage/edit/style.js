@@ -744,9 +744,11 @@ S.PreviewUserName = styled.p`
 
 /* 레벨 버튼 */
 S.PreviewLevelButton = styled.button`
-  width: 84px;
+  min-width: 84px;
   height: 17px;
   margin-top: 7px;
+  padding: 0 12px;
+  box-sizing: border-box;
 
   display: flex;
   align-items: center;

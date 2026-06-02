@@ -223,6 +223,43 @@ export const TextArea = styled.textarea`
   ${textFieldStyle}
 `;
 
+export const TiptapWrapper = styled.div`
+  width: 100%;
+
+  .ProseMirror {
+    min-height: 360px;
+    padding: 12px 24px;
+    ${h10Regular}
+    ${textFieldStyle}
+    outline: none;
+    box-sizing: border-box;
+
+    p {
+      margin: 0;
+    }
+
+    strong {
+      font-weight: bold;
+    }
+
+    em {
+      font-style: italic;
+    }
+
+    u {
+      text-decoration: underline;
+    }
+
+    s {
+      text-decoration: line-through;
+    }
+
+    &.ProseMirror-focused {
+      border-color: ${theme.PALETTE.primary.main};
+    }
+  }
+`;
+
 /* ── 첨부파일 ── */
 export const FileDropZone = styled.div`
   ${leftAreaWidth}

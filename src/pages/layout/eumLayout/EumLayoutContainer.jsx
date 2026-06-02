@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import useAuthStore from "../../../store/authStore.js";
 import EumLayout from "./EumLayout";
 
@@ -14,13 +14,18 @@ const EumLayoutContainer = () => {
   fetch("http://localhost:10000/private/api/users/me", { credentials: "include" })
     .then((res) => (res.ok ? res.json() : null))
     .then((data) => {
-      console.log("me API 응답:", data); // 추가
       if (data?.success) {
         setAuthUser(data.data);
         setIsAuthenticated(true);
+      } else {
+        setAuthUser(null);
+        setIsAuthenticated(false);
       }
     })
-    .catch((err) => console.log("me API 에러:", err)); // 추가
+    .catch(() => {
+      setAuthUser(null);
+      setIsAuthenticated(false);
+    });
 }, []);
 
   // ── 종 알림 백엔드 연동 시 아래 주석 해제 ─────────────────────

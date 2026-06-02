@@ -129,6 +129,11 @@ export const ChatProvider = ({ children }) => {
     setView(VIEW.POPUP);
   }, []);
 
+  const deleteRoom = useCallback(() => {
+    setChatRoomDTO(null);
+    setView(null);
+  }, []);
+
   return (
     <ChatContext.Provider
       value={{
@@ -150,6 +155,7 @@ export const ChatProvider = ({ children }) => {
         closeView,
         closeCreateRoomPopup,
         reopenChat,
+        deleteRoom,
       }}
     >
       {children}

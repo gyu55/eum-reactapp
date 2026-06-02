@@ -5,45 +5,13 @@
 
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { useEditor, EditorContent } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
+import Underline from "@tiptap/extension-underline";
 import ToolBar from "./postWriteComponent/ToolBar";
 import CommunityRule from "./postWriteComponent/CommunityRule";
 import PostingGuide from "./postWriteComponent/PostingGuide";
-import {
-  ActionBtn,
-  ActionButtons,
-  BodyCol,
-  CardBody,
-  CardHeader,
-  CategoryCol,
-  CategoryHint,
-  CategoryPill,
-  CategoryPills,
-  ContentArea,
-  FieldLabel,
-  FieldRow,
-  FileBtn,
-  FileButtons,
-  FileDropSub,
-  FileDropTitle,
-  FileDropZone,
-  InputField,
-  LabelText,
-  LeftBlock,
-  PostWritePage,
-  RequiredMark,
-  RightBlock,
-  SaveIcon,
-  SaveNotice,
-  SaveText,
-  TagCol,
-  TagHint,
-  TagInputField,
-  TextArea,
-  UploadIcon,
-  WriteCard,
-} from "./postWriteStyle";
-
-import { Page } from "../../communityStyle";
+import * as S from "./postWriteStyle";
 
 // 파일 업로드 내 파일
 import postFileUpload from "../../assets/postWrite/post-file-upload.svg";
@@ -63,40 +31,14 @@ const PostWrite = () => {
   const navigate = useNavigate();
   const [activeCategory, setActiveCategory] = useState("전체");
 
-  const S = {
-    ActionBtn,
-    ActionButtons,
-    BodyCol,
-    CardBody,
-    CardHeader,
-    CategoryCol,
-    CategoryHint,
-    CategoryPill,
-    CategoryPills,
-    ContentArea,
-    FieldLabel,
-    FieldRow,
-    FileBtn,
-    FileButtons,
-    FileDropSub,
-    FileDropTitle,
-    FileDropZone,
-    InputField,
-    LabelText,
-    LeftBlock,
-    Page,
-    PostWritePage,
-    RequiredMark,
-    RightBlock,
-    SaveIcon,
-    SaveNotice,
-    SaveText,
-    TagCol,
-    TagHint,
-    TagInputField,
-    TextArea,
-    UploadIcon,
-    WriteCard,
+  const editor = useEditor({
+    extensions: [StarterKit, Underline],
+    content: "",
+  });
+
+  const handleSubmit = () => {
+    console.log("HTML:", editor?.getHTML());
+    console.log("JSON:", editor?.getJSON());
   };
 
   return (
@@ -111,7 +53,9 @@ const PostWrite = () => {
               취소
             </S.ActionBtn>
             <S.ActionBtn $type="draft">임시저장</S.ActionBtn>
-            <S.ActionBtn $type="submit">등록하기</S.ActionBtn>
+            <S.ActionBtn $type="submit" onClick={handleSubmit}>
+              등록하기
+            </S.ActionBtn>
           </S.ActionButtons>
 
           {/* 작성 카드 */}
@@ -161,8 +105,10 @@ const PostWrite = () => {
                   <S.RequiredMark>*</S.RequiredMark>
                 </S.FieldLabel>
                 <S.BodyCol>
-                  <ToolBar />
-                  <S.TextArea placeholder="내용을 입력해 주세요" />
+                  <ToolBar editor={editor} />
+                  <S.TiptapWrapper>
+                    <EditorContent editor={editor} />
+                  </S.TiptapWrapper>
                 </S.BodyCol>
               </S.FieldRow>
 
@@ -206,7 +152,9 @@ const PostWrite = () => {
               취소
             </S.ActionBtn>
             <S.ActionBtn $type="draft">임시저장</S.ActionBtn>
-            <S.ActionBtn $type="submit">등록하기</S.ActionBtn>
+            <S.ActionBtn $type="submit" onClick={handleSubmit}>
+              등록하기
+            </S.ActionBtn>
           </S.ActionButtons>
         </S.LeftBlock>
 

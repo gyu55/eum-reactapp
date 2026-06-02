@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { colors } from "../../../constants";
 import { useChatContext } from "../../../context/ChatContext";
+import { deleteChatRoom } from "../../../communityApi/chatApi";
 import OutlineButton from "../../../common/OutlineButton";
 import ToggleSwitch from "../../../common/ToggleSwitch";
 import T from "../../../communityTextStyle";
@@ -46,15 +47,22 @@ const liveVectorUrl =
   "https://www.figma.com/api/mcp/asset/79378b34-81dd-4aef-bc8a-2e9814e941b7";
 
 const PopupRoomInfoPanel = ({
+  id: chatRoomId,
   chatRoomProfile,
   chatRoomName,
   chatRoomUsers,
   chatRoomDetail,
+  isOwner,
   tags,
 }) => {
-  const { leaveRoom } = useChatContext();
+  const { leaveRoom, deleteRoom } = useChatContext();
   const [signToggle, setSignToggle] = useState(false);
   const [readToggle, setReadToggle] = useState(false);
+
+  const handleDeleteRoom = async () => {
+    await deleteChatRoom(chatRoomId);
+    deleteRoom();
+  };
 
   return (
     <S.RightPanelScroll>
@@ -133,23 +141,39 @@ const PopupRoomInfoPanel = ({
         </OutlineButton>
       </S.PanelSection>
 
-      <S.PanelSection $gap="8px" $last>
-        <S.SectionLabel>채팅방 신고</S.SectionLabel>
-        <S.IntroText>
-          <T.H11Regular $color={colors.textMain}>
-            만약 해당 채팅방에서 부적절한 행위
-          </T.H11Regular>
-          <T.H11Regular $color={colors.textMain}>
-            혹은 대화가 발생한다면 아래의
-          </T.H11Regular>
-          <T.H11Regular $color={colors.textMain}>
-            신고하기 버튼으로 신고 가능합니다.
-          </T.H11Regular>
-        </S.IntroText>
-        <OutlineButton borderColor={colors.danger} textColor={colors.danger}>
-          채팅방신고
-        </OutlineButton>
-      </S.PanelSection>
+      {isOwner ? (
+        <S.PanelSection $gap="8px" $last>
+          <S.SectionLabel>채팅방 관리</S.SectionLabel>
+          <OutlineButton borderColor={colors.border} textColor={colors.textSub}>
+            채팅방 수정
+          </OutlineButton>
+          <OutlineButton
+            borderColor={colors.danger}
+            textColor={colors.danger}
+            onClick={handleDeleteRoom}
+          >
+            채팅방 삭제
+          </OutlineButton>
+        </S.PanelSection>
+      ) : (
+        <S.PanelSection $gap="8px" $last>
+          <S.SectionLabel>채팅방 신고</S.SectionLabel>
+          <S.IntroText>
+            <T.H11Regular $color={colors.textMain}>
+              만약 해당 채팅방에서 부적절한 행위
+            </T.H11Regular>
+            <T.H11Regular $color={colors.textMain}>
+              혹은 대화가 발생한다면 아래의
+            </T.H11Regular>
+            <T.H11Regular $color={colors.textMain}>
+              신고하기 버튼으로 신고 가능합니다.
+            </T.H11Regular>
+          </S.IntroText>
+          <OutlineButton borderColor={colors.danger} textColor={colors.danger}>
+            채팅방신고
+          </OutlineButton>
+        </S.PanelSection>
+      )}
     </S.RightPanelScroll>
   );
 };

@@ -23,8 +23,9 @@ const getProfileImageSrc = (profileImage) => {
 };
 
 const ProfilePreviewCard = ({ userInfo, previewImage, onLevelClick }) => {
-  const userExp = userInfo?.userExp || 0;
-  const level = Math.floor(userExp / 100) + 1;
+  // 백엔드 레벨 계산 결과
+  const level = userInfo?.userLevel || 1;
+  const levelName = userInfo?.userLevelName || "입문자";
 
   // 프로필 이미지 경로 처리
   const imageSrc = previewImage || getProfileImageSrc(userInfo?.userProfile);
@@ -55,7 +56,7 @@ const ProfilePreviewCard = ({ userInfo, previewImage, onLevelClick }) => {
         </S.PreviewUserName>
 
         <S.PreviewLevelButton type="button" onClick={onLevelClick}>
-          Lv.{level} · 열공러
+          Lv.{level} {levelName}
         </S.PreviewLevelButton>
 
         <S.PreviewIntro>

@@ -55,14 +55,12 @@ const ProfileCard = ({ profile, onLevelClick }) => {
     navigate("/mypage/edit");
   };
 
-  // 경험치 퍼센트 계산
-  const currentExp = profile?.userExp || 0;
-
-  // 레벨 계산 로직은 이후 레벨 시스템 API 연결 예정
-  const currentLevel = Math.floor(currentExp / 100) + 1;
-  const maxExp = currentLevel * 100;
-
-  const expPercent = Math.min((currentExp / maxExp) * 100, 100);
+  // 백엔드 레벨 계산 결과
+  const currentLevel = profile?.userLevel || 1;
+  const levelName = profile?.userLevelName || "입문자";
+  const currentLevelExp = profile?.currentLevelExp || 0;
+  const nextLevelExp = profile?.nextLevelExp || 100;
+  const expPercent = profile?.expPercent || 0;
 
   // 날짜 표시
   const getCreateDate = (date) => {
@@ -101,7 +99,7 @@ const ProfileCard = ({ profile, onLevelClick }) => {
 
           <LevelButton type="button" onClick={onLevelClick}>
             <LevelBadge>
-              Lv.{currentLevel}
+              Lv.{currentLevel} {levelName}
             </LevelBadge>
           </LevelButton>
         </ProfileNameRow>
@@ -116,7 +114,7 @@ const ProfileCard = ({ profile, onLevelClick }) => {
 
           <ExpButton type="button" onClick={onLevelClick}>
             <ExpText>
-              {currentExp} / {maxExp} EXP
+              {currentLevelExp} / {nextLevelExp} EXP
             </ExpText>
           </ExpButton>
         </ExpRow>

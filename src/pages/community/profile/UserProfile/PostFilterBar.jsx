@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
-import styled from "styled-components";
-import theme from "../../../../styles/theme";
+import * as S from "./postFilterBarStyle";
 
 import iconPost from "../../assets/icon/postWrite.svg";
 import iconPostActive from "../../assets/icon/postWriteWhite.svg";
@@ -100,192 +99,52 @@ const PostFilterBar = ({
   };
 
   return (
-    <Wrapper>
-      <SearchRow>
-        <SearchBox>
-          <SearchInput
+    <S.Wrapper>
+      <S.SearchRow>
+        <S.SearchBox>
+          <S.SearchInput
             type="text"
             placeholder={TYPE_PLACEHOLDER[activeType]}
             value={searchValue}
             onChange={handleSearchChange}
             onKeyDown={handleKeyDown}
           />
-          <SearchIcon src={iconSearch} alt="검색" onClick={handleSearch} />
-        </SearchBox>
-      </SearchRow>
-      <FilterRow>
+          <S.SearchIcon src={iconSearch} alt="검색" onClick={handleSearch} />
+        </S.SearchBox>
+      </S.SearchRow>
+      <S.FilterRow>
         {TYPE_LIST.map(({ key, label, icon, iconActive }) => (
-          <TypeTab
+          <S.TypeTab
             key={key}
             $active={activeType === key}
             onClick={() => handleTypeClick(key)}
           >
-            <TabIconLabel>
-              <TabIcon
+            <S.TabIconLabel>
+              <S.TabIcon
                 src={activeType === key ? iconActive : icon}
                 alt={label}
               />
-              <TabLabel $active={activeType === key}>{label}</TabLabel>
-            </TabIconLabel>
-            <CountBadge $active={activeType === key}>{counts[key]}</CountBadge>
-          </TypeTab>
+              <S.TabLabel $active={activeType === key}>{label}</S.TabLabel>
+            </S.TabIconLabel>
+            <S.CountBadge $active={activeType === key}>{counts[key]}</S.CountBadge>
+          </S.TypeTab>
         ))}
-        <Spacer />
+        <S.Spacer />
         {/* 인기순 최신순 고려 */}
-        <SortGroup>
+        <S.SortGroup>
           {SORT_LIST.map(({ key, label }) => (
-            <SortButton
+            <S.SortButton
               key={key}
               $active={activeSort === key}
               onClick={() => handleSortClick(key)}
             >
               {label}
-            </SortButton>
+            </S.SortButton>
           ))}
-        </SortGroup>
-      </FilterRow>
-    </Wrapper>
+        </S.SortGroup>
+      </S.FilterRow>
+    </S.Wrapper>
   );
 };
 
 export default PostFilterBar;
-
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  width: 100%;
-`;
-
-const SearchRow = styled.div`
-  display: flex;
-  justify-content: center;
-`;
-
-// 검색창 관련
-const SearchBox = styled.div`
-  width: 536px;
-  background: ${theme.PALETTE.white};
-  border: 1px solid ${theme.GRAYSCALE[8]};
-  border-radius: 12px;
-  padding: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  box-sizing: border-box;
-`;
-
-const SearchInput = styled.input`
-  flex: 1;
-  border: none;
-  outline: none;
-  font-size: ${theme.FONT_SIZE.h10};
-  font-weight: ${theme.FONT_WEIGHT.regular};
-  line-height: 24px;
-  letter-spacing: -0.28px;
-  color: ${theme.TEXT_COLOR.basic};
-  background: transparent;
-
-  &::placeholder {
-    color: ${theme.GRAYSCALE[9]};
-  }
-`;
-
-const SearchIcon = styled.img`
-  width: 16px;
-  height: 16px;
-  flex-shrink: 0;
-  cursor: pointer;
-`;
-
-const FilterRow = styled.div`
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  width: 100%;
-`;
-
-const TypeTab = styled.button`
-  display: flex;
-  gap: 16px;
-  align-items: center;
-  justify-content: center;
-  padding: 8px;
-  border-radius: 12px;
-  border: 1px solid
-    ${({ $active }) =>
-      $active ? theme.PALETTE.primary.main : theme.GRAYSCALE[8]};
-  background: ${({ $active }) =>
-    $active ? theme.PALETTE.primary.main : theme.GRAYSCALE[10]};
-  cursor: pointer;
-  flex-shrink: 0;
-`;
-
-const TabIconLabel = styled.div`
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  justify-content: center;
-`;
-
-const TabIcon = styled.img`
-  width: 16px;
-  height: 16px;
-  flex-shrink: 0;
-`;
-
-const TabLabel = styled.p`
-  margin: 0;
-  font-size: ${theme.FONT_SIZE.h10};
-  font-weight: ${theme.FONT_WEIGHT.regular};
-  line-height: 24px;
-  letter-spacing: -0.28px;
-  color: ${({ $active }) =>
-    $active ? theme.PALETTE.white : theme.GRAYSCALE[9]};
-  white-space: nowrap;
-`;
-
-const CountBadge = styled.div`
-  background: ${theme.PALETTE.white};
-  border-radius: 100px;
-  padding: 3px 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  font-size: ${theme.FONT_SIZE.h12};
-  font-weight: ${theme.FONT_WEIGHT.bold};
-  line-height: normal;
-  color: ${({ $active }) =>
-    $active ? theme.PALETTE.primary.main : theme.GRAYSCALE[9]};
-  white-space: nowrap;
-`;
-
-const Spacer = styled.div`
-  flex: 1;
-  min-width: 1px;
-`;
-
-const SortGroup = styled.div`
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  flex-shrink: 0;
-`;
-
-const SortButton = styled.button`
-  padding: 6px 16px;
-  border-radius: 10px;
-  border: 1px solid
-    ${({ $active }) =>
-      $active ? theme.PALETTE.primary.main : theme.GRAYSCALE[8]};
-  background: ${({ $active }) =>
-    $active ? theme.PALETTE.primary.extraLight : theme.PALETTE.white};
-  font-size: ${theme.FONT_SIZE.h11};
-  font-weight: ${theme.FONT_WEIGHT.bold};
-  line-height: normal;
-  color: ${theme.GRAYSCALE[9]};
-  cursor: pointer;
-  white-space: nowrap;
-  flex-shrink: 0;
-`;

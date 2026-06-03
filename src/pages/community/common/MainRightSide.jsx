@@ -42,6 +42,13 @@ const MainRightSide = () => {
         </PopupOverlay>
       )}
 
+      {/* 채팅방 수정 팝업 */}
+      {view === VIEW.POPUP && screen === SCREEN.UPDATE && (
+        <PopupOverlay>
+          <CreateChatRoomModal mode="update" />
+        </PopupOverlay>
+      )}
+
       {/* 팝업 — view=POPUP 일 때 screen 으로 채팅방/선택 화면 분기 */}
       {view === VIEW.POPUP && screen === SCREEN.ROOM && (
         <PopupOverlay>

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -7,13 +7,20 @@ import {
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import { useChatContext } from "../../context/ChatContext";
-import { getChatRoomInfo, insertChatRoom } from "../../communityApi/chatApi";
+import {
+  getChatRoomInfo,
+  insertChatRoom,
+  updateChatRoom,
+} from "../../communityApi/chatApi";
 import * as S from "./createChatRoomModalStyle";
 
-const CreateChatRoomModal = () => {
+const CreateChatRoomModal = ({ mode = "create" }) => {
+  const isUpdate = mode === "update";
+
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -30,7 +37,26 @@ const CreateChatRoomModal = () => {
   const [thumbnailPreview, setThumbnailPreview] = useState(null);
   const fileInputRef = useRef(null);
 
-  const { closeCreateRoomPopup, createChatRoom } = useChatContext();
+  const {
+    closeCreateRoomPopup,
+    closeUpdateRoomPopup,
+    createChatRoom,
+    updateRoom,
+    chatRoomDTO,
+  } = useChatContext();
+
+  // update 모드: 기존 채팅방 정보를 폼 초기값으로 세팅
+  useEffect(() => {
+    if (!isUpdate || !chatRoomDTO) return;
+    const limit = chatRoomDTO.chatRoomLimit;
+    const unlimited = !limit || limit >= 100;
+    reset({
+      chatRoomName: chatRoomDTO.chatRoomName ?? "",
+      chatRoomDetail: chatRoomDTO.chatRoomDetail ?? "",
+      chatRoomLimit: unlimited ? "" : String(limit),
+    });
+    setIsUnlimited(unlimited);
+  }, [isUpdate, chatRoomDTO, reset]);
 
   const handleTagKeyDown = (e) => {
     if (e.key === "Enter" && tagInput.trim() && tags.length < 5) {
@@ -55,7 +81,7 @@ const CreateChatRoomModal = () => {
     fileInputRef.current?.click();
   };
 
-  const handleCreateRoom = async (formData) => {
+  const handleFormSubmit = async (formData) => {
     const chatRoomRequestDTO = {
       chatRoomName: formData.chatRoomName,
       chatRoomType: "그룹",
@@ -64,10 +90,17 @@ const CreateChatRoomModal = () => {
       chatRoomLimit: isUnlimited ? 100 : Number(formData.chatRoomLimit),
     };
 
-    const chatRoomId = await insertChatRoom(chatRoomRequestDTO);
-    const chatRoomDTO = await getChatRoomInfo(chatRoomId);
-    createChatRoom(chatRoomDTO);
+    if (isUpdate) {
+      await updateChatRoom({ id: chatRoomDTO.id, ...chatRoomRequestDTO });
+      updateRoom();
+    } else {
+      const chatRoomId = await insertChatRoom(chatRoomRequestDTO);
+      const newChatRoomDTO = await getChatRoomInfo(chatRoomId);
+      createChatRoom(newChatRoomDTO);
+    }
   };
+
+  const handleClose = isUpdate ? closeUpdateRoomPopup : closeCreateRoomPopup;
 
   return (
     <S.CreateChatPageBg>
@@ -78,13 +111,17 @@ const CreateChatRoomModal = () => {
               <FontAwesomeIcon icon={faComments} />
             </S.TitleIconWrap>
             <S.TitleTextGroup>
-              <S.TitleMain>새로운 채팅방 만들기</S.TitleMain>
+              <S.TitleMain>
+                {isUpdate ? "채팅방 수정하기" : "새로운 채팅방 만들기"}
+              </S.TitleMain>
               <S.TitleSub>
-                수어 학습 커뮤니티에 새 공간을 만들어보세요
+                {isUpdate
+                  ? "채팅방 정보를 수정해보세요"
+                  : "수어 학습 커뮤니티에 새 공간을 만들어보세요"}
               </S.TitleSub>
             </S.TitleTextGroup>
           </S.TitlePill>
-          <S.CloseBtn onClick={closeCreateRoomPopup} aria-label="닫기">
+          <S.CloseBtn onClick={handleClose} aria-label="닫기">
             <FontAwesomeIcon icon={faXmark} />
           </S.CloseBtn>
         </S.TopBar>
@@ -231,11 +268,16 @@ const CreateChatRoomModal = () => {
           </S.FormBottomArea>
 
           <S.SubmitArea>
-            <S.SubmitBtn type="button" onClick={handleSubmit(handleCreateRoom)}>
+            <S.SubmitBtn
+              type="button"
+              onClick={handleSubmit(handleFormSubmit)}
+            >
               <S.SubmitBtnIcon>
                 <FontAwesomeIcon icon={faComments} />
               </S.SubmitBtnIcon>
-              <S.SubmitBtnText>채팅방 만들기</S.SubmitBtnText>
+              <S.SubmitBtnText>
+                {isUpdate ? "수정하기" : "채팅방 만들기"}
+              </S.SubmitBtnText>
             </S.SubmitBtn>
           </S.SubmitArea>
         </S.FormCard>

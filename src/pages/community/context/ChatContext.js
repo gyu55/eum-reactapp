@@ -132,10 +132,25 @@ export const ChatProvider = ({ children }) => {
   }, []);
 
   const [roomListRefreshKey, setRoomListRefreshKey] = useState(0);
+  const [chatRoomInfoRefreshKey, setChatRoomInfoRefreshKey] = useState(0);
 
   const deleteRoom = useCallback(() => {
     setChatRoomDTO(null);
     setView(null);
+    setRoomListRefreshKey((k) => k + 1);
+  }, []);
+
+  const openUpdateChatRoom = useCallback(() => {
+    setScreen(SCREEN.UPDATE);
+  }, []);
+
+  const closeUpdateRoomPopup = useCallback(() => {
+    setScreen(SCREEN.ROOM);
+  }, []);
+
+  const updateRoom = useCallback(() => {
+    setScreen(SCREEN.ROOM);
+    setChatRoomInfoRefreshKey((k) => k + 1);
     setRoomListRefreshKey((k) => k + 1);
   }, []);
 
@@ -161,7 +176,11 @@ export const ChatProvider = ({ children }) => {
         closeCreateRoomPopup,
         reopenChat,
         deleteRoom,
+        openUpdateChatRoom,
+        closeUpdateRoomPopup,
+        updateRoom,
         roomListRefreshKey,
+        chatRoomInfoRefreshKey,
       }}
     >
       {children}

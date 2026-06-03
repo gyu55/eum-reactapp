@@ -25,6 +25,7 @@ export const getChatRooms = async (page = 1, size = 6, keyword = "") => {
   return data;
 };
 
+// 채팅 메세지들 불러오기
 export const getChatMessages = async (chatRoomId) => {
   const response = await fetch(`${ROOT_URL}/chats/${chatRoomId}`);
   if (!response.ok) throw new Error("채팅 메시지를 불러오는 데 실패했습니다.");
@@ -32,6 +33,7 @@ export const getChatMessages = async (chatRoomId) => {
   return data;
 };
 
+// 채팅방 참여자들 불러오기
 export const getChatRoomUsers = async (chatRoomId) => {
   const response = await fetch(`${ROOT_URL}/chat-rooms/${chatRoomId}/users`);
   if (!response.ok)
@@ -48,6 +50,7 @@ export const getChatRoomInfo = async (chatRoomId) => {
   return data;
 };
 
+// 현재 참여중인 채팅방 목록 불러오기
 export const getJoinedChatRooms = async (page = 1) => {
   const response = await fetch(`${ROOT_URL}/chat-rooms/joined?page=${page}`);
   if (!response.ok)
@@ -56,6 +59,19 @@ export const getJoinedChatRooms = async (page = 1) => {
   return data;
 };
 
+// 채팅방 정보 수정
+export const updateChatRoom = async ({ id, ...chatRoomRequestDTO }) => {
+  const response = await fetch(`${ROOT_URL}/chat-rooms/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(chatRoomRequestDTO),
+  });
+  if (!response.ok) throw new Error("채팅방 수정에 실패했습니다");
+  const { data } = await response.json();
+  return data;
+};
+
+// 채팅방 소프트 삭제
 export const deleteChatRoom = async (chatRoomId) => {
   const response = await fetch(`${ROOT_URL}/chat-rooms/${chatRoomId}`, {
     method: "DELETE",

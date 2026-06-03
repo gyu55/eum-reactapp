@@ -55,7 +55,7 @@ const PopupRoomInfoPanel = ({
   isOwner,
   tags,
 }) => {
-  const { leaveRoom, deleteRoom } = useChatContext();
+  const { leaveRoom, deleteRoom, openUpdateChatRoom } = useChatContext();
   const [signToggle, setSignToggle] = useState(false);
   const [readToggle, setReadToggle] = useState(false);
 
@@ -144,7 +144,11 @@ const PopupRoomInfoPanel = ({
       {isOwner ? (
         <S.PanelSection $gap="8px" $last>
           <S.SectionLabel>채팅방 관리</S.SectionLabel>
-          <OutlineButton borderColor={colors.border} textColor={colors.textSub}>
+          <OutlineButton
+            borderColor={colors.border}
+            textColor={colors.textSub}
+            onClick={openUpdateChatRoom}
+          >
             채팅방 수정
           </OutlineButton>
           <OutlineButton

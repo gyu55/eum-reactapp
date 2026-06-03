@@ -43,16 +43,16 @@ const PopupChatScreen = () => {
   const [users, setUsers] = useState([]);
   const [chatRoomInfo, setChatRoomInfo] = useState(null);
   // 프로바이더 에서 현재 사용자가 선택 한 방 정보 불러온 뒤에 채팅방 아이디 할당
-  const { chatRoomDTO } = useChatContext();
+  const { chatRoomDTO, chatRoomInfoRefreshKey } = useChatContext();
   const chatRoomId = chatRoomDTO?.id;
 
-  // 채팅방 정보 불러오기
+  // 채팅방 정보 불러오기 (수정 완료 후 chatRoomInfoRefreshKey 증가 시 재조회)
   useEffect(() => {
     if (!chatRoomId) return;
     getChatRoomInfo(chatRoomId)
       .then(setChatRoomInfo)
       .catch((err) => console.error("채팅방 정보 불러오기 실패:", err));
-  }, [chatRoomId]);
+  }, [chatRoomId, chatRoomInfoRefreshKey]);
 
   // 채팅방 내 참여 유저들 불러오기
   useEffect(() => {

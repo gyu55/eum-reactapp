@@ -1,4 +1,3 @@
-import React from 'react';
 import CertificatePrintComponent from './CertificatePrintComponent';
 import { Outlet } from 'react-router-dom';
 

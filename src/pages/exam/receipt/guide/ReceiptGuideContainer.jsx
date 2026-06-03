@@ -1,5 +1,4 @@
 import * as S from "../info/style";
-import { styles } from "../../style";
 
 const steps = [
   { title: "회원가입", desc: "이음 사이트에서 회원가입을 진행합니다." },
@@ -10,29 +9,28 @@ const steps = [
 
 const ReceiptGuideContainer = () => {
   return (
-    <div>
-      <h2 style={styles.sectionTitle}>시험접수안내</h2>
-      <S.StepCard>
-        {steps.map((step, i) => (
-          <div key={i}>
-            <S.StepItem>
-              <S.StepCircle $index={i}>{i + 1}</S.StepCircle>
-              <div>
-                <S.StepTitle>{step.title}</S.StepTitle>
-                <S.StepDesc>{step.desc}</S.StepDesc>
-              </div>
-            </S.StepItem>
-            {i < steps.length - 1 && <S.StepDivider />}
-          </div>
-        ))}
-        <S.WarningBox>
-          접수 기간 마감일에는 서버 혼잡이 예상되오니 조기 접수를 권장합니다.
-        </S.WarningBox>
-        <S.Note>
-          결제 후 취소 시 환불 수수료가 발생할 수 있습니다.
-        </S.Note>
-      </S.StepCard>
-    </div>
+    <S.Wrapper>
+      <S.SectionTitle>시험접수안내</S.SectionTitle>
+      <S.Subtitle>접수 방법 및 유의사항을 확인하세요.</S.Subtitle>
+      {steps.map((step, i) => (
+        <div key={i}>
+          <S.StepItem>
+            <S.StepCircle $index={i}>{i + 1}</S.StepCircle>
+            <div>
+              <S.StepTitle>{step.title}</S.StepTitle>
+              <S.StepDesc>{step.desc}</S.StepDesc>
+            </div>
+          </S.StepItem>
+          {i < steps.length - 1 && <S.StepDivider />}
+        </div>
+      ))}
+      <S.WarningBox>
+        접수 기간 마감일에는 서버 혼잡이 예상되오니 조기 접수를 권장합니다.
+      </S.WarningBox>
+      <S.Note>
+        결제 후 취소 시 환불 수수료가 발생할 수 있습니다.
+      </S.Note>
+    </S.Wrapper>
   );
 };
 

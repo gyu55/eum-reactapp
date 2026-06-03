@@ -21,7 +21,7 @@ const formatPhone = (value) => {
 
 const ReceiptSubmitContainer = () => {
   const navigate = useNavigate();
-  const { isLoggedIn } = useLoginCheck();
+  const { isLoggedIn, user } = useLoginCheck();
   const { requestPayment } = useTossPayment();
   const [tests, setTests] = useState([]);
   const [selectedTestId, setSelectedTestId] = useState("");
@@ -43,6 +43,15 @@ const ReceiptSubmitContainer = () => {
       })
       .catch(() => {});
   }, []);
+
+  useEffect(() => {
+    if (user) {
+      setName(user.userName || "");
+      setPhone(user.userPhoneNum || "");
+      setEmail(user.userEmail || "");
+      setBirth(user.userBirth || "");
+    }
+  }, [user]);
 
   const handleFileChange = (e) => {
     if (e.target.files.length > 0) {
@@ -194,37 +203,33 @@ const ReceiptSubmitContainer = () => {
 
         <S.Grid>
           <div>
-            <S.Label>이름 <span>*</span></S.Label>
+            <S.Label>이름</S.Label>
             <S.Input
-              placeholder="홍길동"
               value={name}
-              onChange={e => setName(e.target.value)}
+              readOnly
             />
           </div>
           <div>
-            <S.Label>생년월일 <span>*</span></S.Label>
+            <S.Label>생년월일</S.Label>
             <S.Input
-              placeholder="YYYY-MM-DD"
               value={birth}
-              onChange={e => setBirth(formatBirth(e.target.value))}
+              readOnly
               style={{ letterSpacing: "1px" }}
             />
           </div>
           <div>
-            <S.Label>연락처 <span>*</span></S.Label>
+            <S.Label>연락처</S.Label>
             <S.Input
-              placeholder="010-0000-0000"
               value={phone}
-              onChange={e => setPhone(formatPhone(e.target.value))}
+              readOnly
               style={{ letterSpacing: "1px" }}
             />
           </div>
           <div>
-            <S.Label>이메일 <span>*</span></S.Label>
+            <S.Label>이메일</S.Label>
             <S.Input
-              placeholder="example@email.com"
               value={email}
-              onChange={e => setEmail(e.target.value)}
+              readOnly
             />
           </div>
         </S.Grid>

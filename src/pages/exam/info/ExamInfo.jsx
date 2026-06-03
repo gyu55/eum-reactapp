@@ -1,4 +1,6 @@
 import { useNavigate, useLocation, useOutlet } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleInfo, faBookOpen } from "@fortawesome/free-solid-svg-icons";
 import { PRIMARY, styles, statusStyle } from "./style";
 
 // 임시 데이터 — 추후 API로 교체
@@ -80,8 +82,8 @@ function ExamCard({ exam }) {
 }
 
 const infoCards = [
-  { title: "자격시험안내", sub: "응시 자격 및 시험 개요", path: "/exam/info/intro", icon: "/assets/image/exam/exam_info_card1.png" },
-  { title: "개요", sub: "시험 목적 및 운영 방향", path: "/exam/info/notice", icon: "/assets/image/exam/exam_info_card2.png" },
+  { title: "자격시험안내", sub: "응시 자격 및 시험 개요", path: "/exam/info/intro", icon: faCircleInfo },
+  { title: "개요",         sub: "시험 목적 및 운영 방향", path: "/exam/info/notice", icon: faBookOpen },
 ];
 
 export default function ExamInfo() {
@@ -123,7 +125,7 @@ export default function ExamInfo() {
                     }} onClick={() => navigate(active ? "/exam/info" : card.path, { preventScrollReset: true })}>
                       <div style={styles.infoCardInner}>
                         <div style={{ ...styles.infoCardIcon, background: active ? "#dde1ff" : "#eef0ff" }}>
-                          <img src={card.icon} alt="" style={{ width: 30, height: 30, objectFit: "contain" }} />
+                          <FontAwesomeIcon icon={card.icon} style={{ fontSize: 18, color: active ? PRIMARY : "#7b8cde" }} />
                         </div>
                         <div>
                           <div style={{ ...styles.infoCardTitle, color: active ? PRIMARY : undefined }}>{card.title}</div>

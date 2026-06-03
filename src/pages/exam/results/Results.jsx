@@ -1,67 +1,65 @@
 import { useNavigate, useLocation, useOutlet } from "react-router-dom";
-import { PRIMARY, styles } from "../style";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMagnifyingGlass, faAward } from "@fortawesome/free-solid-svg-icons";
+import { PRIMARY } from "../style";
+import * as S from "../style";
 
 const infoCards = [
-  { title: "합격자조회", sub: "수험번호로 결과 확인", path: "/exam/results/check" },
-  { title: "합격증", sub: "합격증 출력 및 발급", path: "/exam/results/license" },
+  { title: "합격자조회", sub: "수험번호로 결과 확인", path: "/exam/results/check",   icon: faMagnifyingGlass },
+  { title: "합격증",    sub: "합격증 출력 및 발급",  path: "/exam/results/license", icon: faAward },
 ];
 
 export default function Results() {
   const navigate = useNavigate();
   const location = useLocation();
-  const outlet = useOutlet();
+  const outlet   = useOutlet();
 
   return (
     <>
+      <S.HeroCard>
+        <div>
+          <S.HeroBadge>자격증</S.HeroBadge>
+          <S.HeroTitle>합격자발표</S.HeroTitle>
+          <S.HeroSub>합격 여부를 확인하고 합격증을 발급받으세요</S.HeroSub>
+        </div>
+        <S.HeroIllust>
+          <img src="/assets/image/exam/exam_results_hero.svg" alt="" style={{ width: 80, height: 80, objectFit: "contain" }} />
+        </S.HeroIllust>
+      </S.HeroCard>
 
-            <div style={styles.heroCard}>
-              <div>
-                <div style={styles.heroBadge()}>자격증</div>
-                <h1 style={styles.heroTitle}>합격자발표</h1>
-                <p style={styles.heroSub}>합격 여부를 확인하고 합격증을 발급받으세요</p>
-              </div>
-              <div style={styles.heroIllust}>
-                <img src="/assets/image/exam/exam_results_hero.svg" alt="" style={{ width: 80, height: 80, objectFit: "contain" }} />
-              </div>
-            </div>
+      <S.NoticeBanner>
+        <span style={{ fontSize: 16 }}>📢</span>
+        2025년 1회 합격자가 발표되었습니다. 수험번호와 생년월일로 합격 여부를 확인하세요.
+      </S.NoticeBanner>
 
-            <div style={styles.noticeBanner}>
-              <span style={{ fontSize: 16 }}>📢</span>
-              2025년 1회 합격자가 발표되었습니다. 수험번호와 생년월일로 합격 여부를 확인하세요.
-            </div>
+      <div>
+        <S.SectionTitle>합격자발표</S.SectionTitle>
+        <S.InfoCardRow>
+          {infoCards.map((card, i) => {
+            const active = location.pathname === card.path;
+            return (
+              <S.InfoCard
+                key={i}
+                $active={active}
+                onClick={() => navigate(active ? "/exam/results" : card.path, { preventScrollReset: true })}
+              >
+                <S.InfoCardInner>
+                  <S.InfoCardIcon $active={active}>
+                    <FontAwesomeIcon icon={card.icon} style={{ fontSize: 18, color: active ? PRIMARY : "#7b8cde" }} />
+                  </S.InfoCardIcon>
+                  <div>
+                    <S.InfoCardTitle $active={active}>{card.title}</S.InfoCardTitle>
+                    <S.InfoCardSub>{card.sub}</S.InfoCardSub>
+                  </div>
+                </S.InfoCardInner>
+                <S.InfoCardArrow $active={active}>›</S.InfoCardArrow>
+              </S.InfoCard>
+            );
+          })}
+        </S.InfoCardRow>
+      </div>
 
-            <div>
-              <h2 style={styles.sectionTitle}>합격자발표</h2>
-              <div style={styles.infoCardRow}>
-                {infoCards.map((card, i) => {
-                  const active = location.pathname === card.path;
-                  return (
-                    <button key={i} style={{
-                      ...styles.infoCard,
-                      border: active ? `2px solid ${PRIMARY}` : "1.5px solid #eee",
-                      background: active ? "#eef0ff" : "#fff",
-                    }} onClick={() => navigate(active ? "/exam/results" : card.path, { preventScrollReset: true })}>
-                      <div style={styles.infoCardInner}>
-                        <div style={{ ...styles.infoCardIcon, background: active ? "#dde1ff" : "#eef0ff" }}>
-                          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                            <rect x="3" y="2" width="14" height="16" rx="2" stroke={PRIMARY} strokeWidth="1.5" fill="none"/>
-                            <path d="M6 7H14M6 10H11M6 13H12" stroke={PRIMARY} strokeWidth="1.3" strokeLinecap="round"/>
-                          </svg>
-                        </div>
-                        <div>
-                          <div style={{ ...styles.infoCardTitle, color: active ? PRIMARY : undefined }}>{card.title}</div>
-                          <div style={styles.infoCardSub}>{card.sub}</div>
-                        </div>
-                      </div>
-                      <span style={styles.infoCardArrow(active)}>›</span>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-
-            {outlet}
-
+      {outlet}
     </>
   );
 }

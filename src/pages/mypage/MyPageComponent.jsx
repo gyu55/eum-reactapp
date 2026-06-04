@@ -58,47 +58,43 @@ const MyPageComponent = () => {
 
   return (
     <>
-      <S.Page>
-        <S.Inner>
-          <S.Layout>
-            {/* 왼쪽 메인 영역 */}
-            <S.LeftArea>
-              {/* 프로필 카드 */}
-              <ProfileCard
-                profile={myPageData.profile}
-                onLevelClick={() => setIsLevelModalOpen(true)}
-              />
+      <S.Layout>
+        {/* 왼쪽 메인 영역 */}
+        <S.LeftArea>
+          {/* 프로필 카드 */}
+          <ProfileCard
+            profile={myPageData.profile}
+            onLevelClick={() => setIsLevelModalOpen(true)}
+          />
 
-              {/* 나의 게시글 */}
-              <MypostList myPostList={myPageData.myPostList || []} />
+          {/* 나의 게시글 */}
+          <MypostList myPostList={myPageData.myPostList || []} />
 
-              {/* 즐겨찾기 */}
-              <BookmarkList bookmarkList={myPageData.bookmarkList || []} />
+          {/* 즐겨찾기 */}
+          <BookmarkList bookmarkList={myPageData.bookmarkList || []} />
 
-              {/* 팔로우 / 팔로워 */}
-              <FollowList
-                followingList={myPageData.followingList || []}
-                followerList={myPageData.followerList || []}
-              />
-            </S.LeftArea>
+          {/* 팔로우 / 팔로워 */}
+          <FollowList
+            followingList={myPageData.followingList || []}
+            followerList={myPageData.followerList || []}
+          />
+        </S.LeftArea>
 
-            {/* 오른쪽 사이드 영역 */}
-            <S.RightArea>
-              {/* 내 활동 */}
-              <ActivityCard activity={myPageData.activity} />
+        {/* 오른쪽 사이드 영역 */}
+        <S.RightArea>
+          {/* 내 활동 */}
+          <ActivityCard activity={myPageData.activity} />
 
-              {/* 학습 현황 */}
-              <StudyStatusCard studyStatusList={myPageData.studyStatusList || []} />
+          {/* 학습 현황 */}
+          <StudyStatusCard studyStatusList={myPageData.studyStatusList || []} />
 
-              {/* 연속 학습 */}
-              <AttendanceCard attendance={myPageData.attendance} />
+          {/* 연속 학습 */}
+          <AttendanceCard attendance={myPageData.attendance} />
 
-              {/* 퀵 메뉴 */}
-              <QuickMenuCard />
-            </S.RightArea>
-          </S.Layout>
-        </S.Inner>
-      </S.Page>
+          {/* 퀵 메뉴 */}
+          <QuickMenuCard />
+        </S.RightArea>
+      </S.Layout>
 
       {/* 레벨 안내 모달 */}
       {isLevelModalOpen && (

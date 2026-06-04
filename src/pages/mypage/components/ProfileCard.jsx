@@ -1,26 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-import {
-  ProfileWrapper,
-  ProfileImage,
-  ProfileContent,
-  ProfileNameRow,
-  ProfileUserName,
-  LevelButton,
-  LevelBadge,
-  ExpRow,
-  ExpButton,
-  ExpBar,
-  ExpFill,
-  ExpText,
-  DetailArea,
-  ProfileColumn,
-  ProfileRow,
-  ProfileLabel,
-  ProfileValue,
-  EditButton,
-} from "./style";
+import S from "./style";
 
 /*
   프로필 정보는 마이페이지 메인 API 연동
@@ -75,9 +56,9 @@ const ProfileCard = ({ profile, onLevelClick }) => {
   const profileImageSrc = getProfileImageSrc(profile?.userProfile);
 
   return (
-    <ProfileWrapper>
+    <S.ProfileWrapper>
       {/* 프로필 이미지 */}
-      <ProfileImage>
+      <S.ProfileImage>
         {profileImageSrc && (
           <img
             src={profileImageSrc}
@@ -88,98 +69,116 @@ const ProfileCard = ({ profile, onLevelClick }) => {
             }}
           />
         )}
-      </ProfileImage>
+      </S.ProfileImage>
 
-      <ProfileContent>
+      <S.ProfileContent>
         {/* 이름 / 레벨 */}
-        <ProfileNameRow>
-          <ProfileUserName>
+        <S.ProfileNameRow>
+          <S.ProfileUserName>
             {profile?.userName || "사용자"}
-          </ProfileUserName>
+          </S.ProfileUserName>
 
+<<<<<<< HEAD
           <LevelButton type="button" onClick={onLevelClick}>
             <LevelBadge>
               Lv.{currentLevel} {levelName}
             </LevelBadge>
           </LevelButton>
         </ProfileNameRow>
+=======
+          <S.LevelButton type="button" onClick={onLevelClick}>
+            <S.LevelBadge>
+              Lv.{currentLevel} {levelName}
+            </S.LevelBadge>
+          </S.LevelButton>
+        </S.ProfileNameRow>
+>>>>>>> b12cf5640e09fff6a3d154647aad43e787950d1a
 
         {/* 경험치 */}
-        <ExpRow>
-          <ExpButton type="button" onClick={onLevelClick}>
-            <ExpBar>
-              <ExpFill $percent={expPercent} />
-            </ExpBar>
-          </ExpButton>
+        <S.ExpRow>
+          <S.ExpButton type="button" onClick={onLevelClick}>
+            <S.ExpBar>
+              <S.ExpFill $percent={expPercent} />
+            </S.ExpBar>
+          </S.ExpButton>
 
+<<<<<<< HEAD
           <ExpButton type="button" onClick={onLevelClick}>
             <ExpText>
               {currentLevelExp} / {nextLevelExp} EXP
             </ExpText>
           </ExpButton>
         </ExpRow>
+=======
+          <S.ExpButton type="button" onClick={onLevelClick}>
+            <S.ExpText>
+              {currentLevelExp} / {nextLevelExp} EXP
+            </S.ExpText>
+          </S.ExpButton>
+        </S.ExpRow>
+>>>>>>> b12cf5640e09fff6a3d154647aad43e787950d1a
 
         {/* 회원 정보 */}
-        <DetailArea>
-          <ProfileColumn>
-            <ProfileRow>
-              <ProfileLabel>이메일</ProfileLabel>
+        <S.DetailArea>
+          <S.ProfileColumn>
+            <S.ProfileRow>
+              <S.ProfileLabel>이메일</S.ProfileLabel>
 
-              <ProfileValue>
+              <S.ProfileValue>
                 {profile?.userEmail || "-"}
-              </ProfileValue>
-            </ProfileRow>
+              </S.ProfileValue>
+            </S.ProfileRow>
 
-            <ProfileRow>
-              <ProfileLabel>닉네임</ProfileLabel>
+            <S.ProfileRow>
+              <S.ProfileLabel>닉네임</S.ProfileLabel>
 
-              <ProfileValue>
+              <S.ProfileValue>
                 {profile?.userNickname || "-"}
-              </ProfileValue>
-            </ProfileRow>
+              </S.ProfileValue>
+            </S.ProfileRow>
 
-            <ProfileRow>
-              <ProfileLabel>직업</ProfileLabel>
+            <S.ProfileRow>
+              <S.ProfileLabel>직업</S.ProfileLabel>
 
-              <ProfileValue>
+              <S.ProfileValue>
                 {profile?.userJob || "-"}
-              </ProfileValue>
-            </ProfileRow>
-          </ProfileColumn>
+              </S.ProfileValue>
+            </S.ProfileRow>
+          </S.ProfileColumn>
 
-          <ProfileColumn>
-            <ProfileRow>
-              <ProfileLabel>가입일</ProfileLabel>
+          <S.ProfileColumn>
+            <S.ProfileRow>
+              <S.ProfileLabel>가입일</S.ProfileLabel>
 
-              <ProfileValue>
+              <S.ProfileValue>
                 {getCreateDate(profile?.userCreateAt)}
-              </ProfileValue>
-            </ProfileRow>
+              </S.ProfileValue>
+            </S.ProfileRow>
 
-            <ProfileRow>
-              <ProfileLabel>지역</ProfileLabel>
+            <S.ProfileRow>
+              <S.ProfileLabel>지역</S.ProfileLabel>
 
-              <ProfileValue>
+              <S.ProfileValue>
                 {profile?.userAddress || "-"}
-              </ProfileValue>
-            </ProfileRow>
+              </S.ProfileValue>
+            </S.ProfileRow>
 
-            <ProfileRow>
-              <ProfileLabel>전화번호</ProfileLabel>
+            <S.ProfileRow>
+              <S.ProfileLabel>전화번호</S.ProfileLabel>
 
-              <ProfileValue>
+              <S.ProfileValue>
                 {profile?.userPhoneNum || "-"}
-              </ProfileValue>
-            </ProfileRow>
-          </ProfileColumn>
-        </DetailArea>
-      </ProfileContent>
+              </S.ProfileValue>
+            </S.ProfileRow>
+          </S.ProfileColumn>
+        </S.DetailArea>
+      </S.ProfileContent>
 
       {/* 정보수정 버튼 */}
-      <EditButton type="button" onClick={handleEditClick}>
+      <S.EditButton type="button" onClick={handleEditClick}>
         정보수정하기
-      </EditButton>
-    </ProfileWrapper>
+      </S.EditButton>
+    </S.ProfileWrapper>
   );
 };
 

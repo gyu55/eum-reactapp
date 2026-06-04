@@ -13,7 +13,7 @@ export const SectionTitle = styled.h2`
   font-size: 17px;
   font-weight: 700;
   color: #111;
-  margin: 0 0 14px;
+  margin: 0 0 6px;
   letter-spacing: -0.3px;
 `;
 
@@ -23,70 +23,285 @@ export const Subtitle = styled.p`
   margin-bottom: 24px;
 `;
 
-export const FormWrap = styled.div`
+/* ── 수료증 목록 ── */
+export const CertList = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 10px;
+  margin-bottom: 20px;
 `;
 
-export const Grid = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
+export const CertItem = styled.label`
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  border: 1.5px solid ${({ $selected }) => ($selected ? PRIMARY : "#e0e0e0")};
+  border-radius: 10px;
+  padding: 14px 18px;
+  cursor: pointer;
+  background: ${({ $selected }) => ($selected ? "#eef0ff" : "#fff")};
+  transition: border-color 0.15s, background 0.15s;
 `;
 
-export const Label = styled.label`
-  font-size: 13px;
-  font-weight: 600;
-  color: #555;
-  margin-bottom: 6px;
-  display: block;
-
-  span {
-    color: ${PRIMARY};
-    font-weight: 700;
-    margin-left: 2px;
-  }
+export const RadioInput = styled.input`
+  width: 16px;
+  height: 16px;
+  accent-color: ${PRIMARY};
+  flex-shrink: 0;
+  cursor: pointer;
 `;
 
-export const Input = styled.input`
-  width: 100%;
-  border: 1.5px solid #e0e0e0;
-  border-radius: 8px;
-  padding: 10px 14px;
-  font-size: 13px;
-  color: #333;
-  outline: none;
-  box-sizing: border-box;
+export const CertItemInfo = styled.div`
+  flex: 1;
 `;
 
-export const Textarea = styled.textarea`
-  width: 100%;
-  border: 1.5px solid #e0e0e0;
-  border-radius: 8px;
-  padding: 10px 14px;
-  font-size: 13px;
-  color: #333;
-  outline: none;
-  box-sizing: border-box;
-  height: 80px;
-  resize: vertical;
+export const CertItemName = styled.div`
+  font-size: 14px;
+  font-weight: 700;
+  color: ${({ $selected }) => ($selected ? PRIMARY : "#222")};
+`;
+
+export const CertItemMeta = styled.div`
+  font-size: 12px;
+  color: #999;
+  margin-top: 3px;
 `;
 
 export const FeeText = styled.div`
-  font-size: 13px;
-  color: ${PRIMARY};
-  font-weight: 600;
-`;
-
-export const FeeNote = styled.span`
   font-size: 12px;
   color: #888;
-  font-weight: 400;
-  margin-left: 8px;
+  margin-bottom: 20px;
+
+  strong {
+    color: ${PRIMARY};
+    font-weight: 700;
+  }
 `;
 
-export const SubmitBtn = styled.button`
+export const ConfirmBtn = styled.button`
+  width: 100%;
+  background: ${({ disabled }) => (disabled ? "#e0e0e0" : PRIMARY)};
+  color: ${({ disabled }) => (disabled ? "#aaa" : "#fff")};
+  border: none;
+  border-radius: 8px;
+  padding: 13px 0;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
+  transition: background 0.15s;
+`;
+
+/* ── 모달 ── */
+export const Overlay = styled.div`
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+`;
+
+export const Modal = styled.div`
+  background: #fff;
+  border-radius: 16px;
+  padding: 32px 28px 24px;
+  width: 400px;
+  position: relative;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+`;
+
+export const ModalHeader = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+`;
+
+export const ModalTitle = styled.div`
+  font-size: 16px;
+  font-weight: 700;
+  color: #111;
+`;
+
+export const ModalClose = styled.button`
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: #999;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;
+`;
+
+export const ModalSub = styled.div`
+  font-size: 12px;
+  color: #aaa;
+  margin-bottom: 20px;
+`;
+
+/* ── 본인확인 영역 ── */
+export const Divider = styled.div`
+  border-top: 1px solid #f0f0f0;
+  margin: 24px 0;
+`;
+
+export const VerifyTitle = styled.div`
+  font-size: 14px;
+  font-weight: 700;
+  color: #222;
+  margin-bottom: 14px;
+`;
+
+export const MethodCards = styled.div`
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+`;
+
+export const MethodCard = styled.button`
+  flex: 1;
+  border: 2px solid ${({ $selected }) => ($selected ? PRIMARY : "#e0e0e0")};
+  border-radius: 10px;
+  padding: 16px 12px;
+  background: ${({ $selected }) => ($selected ? "#eef0ff" : "#fff")};
+  cursor: pointer;
+  text-align: center;
+  transition: border-color 0.15s, background 0.15s;
+`;
+
+export const MethodIcon = styled.div`
+  font-size: 24px;
+  margin-bottom: 6px;
+`;
+
+export const MethodLabel = styled.div`
+  font-size: 13px;
+  font-weight: 700;
+  color: ${({ $selected }) => ($selected ? PRIMARY : "#444")};
+`;
+
+export const MethodValue = styled.div`
+  font-size: 11px;
+  color: #999;
+  margin-top: 3px;
+`;
+
+export const CodeRow = styled.div`
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+`;
+
+export const CodeInput = styled.input`
+  flex: 1;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 13px;
+  color: #333;
+  outline: none;
+
+  &:focus {
+    border-color: ${PRIMARY};
+  }
+`;
+
+export const SendBtn = styled.button`
+  background: #f5f5f7;
+  color: #444;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 10px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+`;
+
+export const VerifyBtn = styled.button`
+  width: 100%;
+  background: ${PRIMARY};
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 0;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+`;
+
+/* ── 결제 단계 ── */
+export const PaymentBox = styled.div`
+  border: 1.5px solid #eee;
+  border-radius: 10px;
+  padding: 18px 20px;
+  margin-bottom: 20px;
+`;
+
+export const PaymentRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  color: #555;
+
+  & + & {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #f0f0f0;
+  }
+`;
+
+export const PaymentTotal = styled.div`
+  font-size: 16px;
+  font-weight: 700;
+  color: ${PRIMARY};
+`;
+
+export const PayBtn = styled.button`
+  width: 100%;
+  background: ${PRIMARY};
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 13px 0;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+`;
+
+/* ── 완료 단계 ── */
+export const DoneWrap = styled.div`
+  text-align: center;
+  padding: 8px 0 4px;
+`;
+
+export const DoneIcon = styled.div`
+  font-size: 48px;
+  margin-bottom: 12px;
+`;
+
+export const DoneTitle = styled.div`
+  font-size: 17px;
+  font-weight: 700;
+  color: #111;
+  margin-bottom: 8px;
+`;
+
+export const DoneExpiry = styled.div`
+  font-size: 13px;
+  color: #555;
+  margin-bottom: 24px;
+
+  strong {
+    color: ${PRIMARY};
+    font-weight: 700;
+  }
+`;
+
+export const DoneBtn = styled.button`
+  width: 100%;
   background: ${PRIMARY};
   color: #fff;
   border: none;

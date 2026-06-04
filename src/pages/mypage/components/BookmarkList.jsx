@@ -1,19 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import {
-  Section,
-  SectionTitle,
-  BookmarkWrapper,
-  BookmarkHeader,
-  BookmarkRow,
-  TableHeaderText,
-  PostTitleBox,
-  PostBadge,
-  PostTitleText,
-  NumberText,
-  MoreButton,
-} from "./style";
+import S from "./style";
+
+const DEFAULT_VISIBLE_COUNT = 4;
 
 const getBadgeStyle = (postTag) => {
   if (postTag === "수어학습") return { color: "#22C55E", bg: "#DCFCE7" };
@@ -28,62 +18,67 @@ const getBadgeStyle = (postTag) => {
 
 const BookmarkList = ({ bookmarkList = [] }) => {
   const navigate = useNavigate();
-  const [visibleCount, setVisibleCount] = useState(4);
+  const [isExpanded, setIsExpanded] = useState(false);
 
-  const visibleBookmarks = bookmarkList.slice(0, visibleCount);
+  const visibleBookmarks = isExpanded
+    ? bookmarkList
+    : bookmarkList.slice(0, DEFAULT_VISIBLE_COUNT);
+
+  const needToggleButton = bookmarkList.length > DEFAULT_VISIBLE_COUNT;
 
   const handleMovePost = (postId) => {
     navigate(`/community/post/${postId}`);
   };
 
-  const handleMoreClick = () => {
-    setVisibleCount((prev) => prev + 4);
+  // 더보기 / 접기 상태 변경
+  const handleToggleClick = () => {
+    setIsExpanded((prev) => !prev);
   };
 
   return (
-    <Section>
-      <SectionTitle>즐겨찾기</SectionTitle>
+    <S.Section>
+      <S.SectionTitle>즐겨찾기</S.SectionTitle>
 
-      <BookmarkWrapper>
-        <BookmarkHeader>
-          <TableHeaderText>제목</TableHeaderText>
-          <TableHeaderText $center>작성자</TableHeaderText>
-          <TableHeaderText $center>좋아요</TableHeaderText>
-          <TableHeaderText $center>조회수</TableHeaderText>
-        </BookmarkHeader>
+      <S.BookmarkWrapper>
+        <S.BookmarkHeader>
+          <S.TableHeaderText>제목</S.TableHeaderText>
+          <S.TableHeaderText $center>작성자</S.TableHeaderText>
+          <S.TableHeaderText $center>좋아요</S.TableHeaderText>
+          <S.TableHeaderText $center>조회수</S.TableHeaderText>
+        </S.BookmarkHeader>
 
         {visibleBookmarks.map((bookmark) => {
           const badge = getBadgeStyle(bookmark.postTag);
 
           return (
-            <BookmarkRow key={bookmark.id}>
-              <PostTitleBox>
-                <PostBadge $color={badge.color} $bg={badge.bg}>
+            <S.BookmarkRow key={bookmark.id}>
+              <S.PostTitleBox>
+                <S.PostBadge $color={badge.color} $bg={badge.bg}>
                   {bookmark.postTag || "-"}
-                </PostBadge>
+                </S.PostBadge>
 
-                <PostTitleText
-                  style={{ cursor: "pointer" }}
+                <S.PostTitleText
+                  $clickable
                   onClick={() => handleMovePost(bookmark.id)}
                 >
                   {bookmark.postTitle}
-                </PostTitleText>
-              </PostTitleBox>
+                </S.PostTitleText>
+              </S.PostTitleBox>
 
-              <NumberText>{bookmark.userNickname || bookmark.userName || "-"}</NumberText>
-              <NumberText>{bookmark.likeCount ?? 0}</NumberText>
-              <NumberText>{bookmark.postReadCount ?? 0}</NumberText>
-            </BookmarkRow>
+              <S.NumberText>{bookmark.userNickname || bookmark.userName || "-"}</S.NumberText>
+              <S.NumberText>{bookmark.likeCount ?? 0}</S.NumberText>
+              <S.NumberText>{bookmark.postReadCount ?? 0}</S.NumberText>
+            </S.BookmarkRow>
           );
         })}
 
-        {visibleCount < bookmarkList.length && (
-          <MoreButton type="button" onClick={handleMoreClick}>
-            더 보기 <span>→</span>
-          </MoreButton>
+        {needToggleButton && (
+          <S.MoreButton type="button" onClick={handleToggleClick}>
+            {isExpanded ? "접기" : "더보기"} <span>{isExpanded ? "↑" : "→"}</span>
+          </S.MoreButton>
         )}
-      </BookmarkWrapper>
-    </Section>
+      </S.BookmarkWrapper>
+    </S.Section>
   );
 };
 

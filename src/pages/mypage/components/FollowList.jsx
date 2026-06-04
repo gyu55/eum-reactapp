@@ -1,22 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import {
-  Section,
-  SectionTitle,
-  FollowWrapper,
-  FollowHeader,
-  FollowTitle,
-  CountBadge,
-  UserList,
-  UserItem,
-  Avatar,
-  FollowUserName,
-  FollowDivider,
-  FollowerBlock,
-  MoreButton,
-  FollowWithdrawArea,
-} from "./style";
+import S from "./style";
 import MyPageStyle from "../style";
 
 const MAX_VISIBLE_USER_COUNT = 16;
@@ -41,7 +26,7 @@ const FollowAvatar = ({ profileImage }) => {
   const imageSrc = getProfileImageSrc(profileImage);
 
   return (
-    <Avatar>
+    <S.Avatar>
       {imageSrc && (
         <img
           src={imageSrc}
@@ -52,7 +37,7 @@ const FollowAvatar = ({ profileImage }) => {
           }}
         />
       )}
-    </Avatar>
+    </S.Avatar>
   );
 };
 
@@ -68,7 +53,7 @@ const FollowList = ({ followingList = [], followerList = [] }) => {
     ? followerList
     : followerList.slice(0, MAX_VISIBLE_USER_COUNT);
 
-  const needMoreButton =
+  const needToggleButton =
     followingList.length > MAX_VISIBLE_USER_COUNT ||
     followerList.length > MAX_VISIBLE_USER_COUNT;
 
@@ -81,65 +66,70 @@ const FollowList = ({ followingList = [], followerList = [] }) => {
     navigate("/mypage/withdraw");
   };
 
+  // 더보기 / 접기 상태 변경
+  const handleToggleClick = () => {
+    setIsExpanded((prev) => !prev);
+  };
+
   return (
-    <Section>
-      <SectionTitle>팔로우</SectionTitle>
+    <S.Section>
+      <S.SectionTitle>팔로우</S.SectionTitle>
 
-      <FollowWrapper>
-        <FollowHeader>
-          <FollowTitle>팔로잉</FollowTitle>
-          <CountBadge>{followingList.length}</CountBadge>
-        </FollowHeader>
+      <S.FollowWrapper>
+        <S.FollowHeader>
+          <S.FollowTitle>팔로잉</S.FollowTitle>
+          <S.CountBadge>{followingList.length}</S.CountBadge>
+        </S.FollowHeader>
 
-        <UserList>
+        <S.UserList>
           {visibleFollowingUsers.map((user) => (
-            <UserItem
+            <S.UserItem
               key={`following-${user.id}`}
+              $clickable
               onClick={() => handleMoveUserProfile(user.id)}
-              style={{ cursor: "pointer" }}
             >
               <FollowAvatar profileImage={user.userProfile} />
-              <FollowUserName>{user.userNickname || user.userName}</FollowUserName>
-            </UserItem>
+              <S.FollowUserName>{user.userNickname || user.userName}</S.FollowUserName>
+            </S.UserItem>
           ))}
-        </UserList>
+        </S.UserList>
 
-        <FollowDivider />
+        <S.FollowDivider />
 
-        <FollowerBlock>
-          <FollowHeader>
-            <FollowTitle>팔로워</FollowTitle>
-            <CountBadge>{followerList.length}</CountBadge>
-          </FollowHeader>
+        <S.FollowerBlock>
+          <S.FollowHeader>
+            <S.FollowTitle>팔로워</S.FollowTitle>
+            <S.CountBadge>{followerList.length}</S.CountBadge>
+          </S.FollowHeader>
 
-          <UserList>
+          <S.UserList>
             {visibleFollowerUsers.map((user) => (
-              <UserItem
+              <S.UserItem
                 key={`follower-${user.id}`}
+                $clickable
                 onClick={() => handleMoveUserProfile(user.id)}
-                style={{ cursor: "pointer" }}
               >
                 <FollowAvatar profileImage={user.userProfile} />
-                <FollowUserName>{user.userNickname || user.userName}</FollowUserName>
-              </UserItem>
+                <S.FollowUserName>{user.userNickname || user.userName}</S.FollowUserName>
+              </S.UserItem>
             ))}
-          </UserList>
-        </FollowerBlock>
+          </S.UserList>
+        </S.FollowerBlock>
 
-        {!isExpanded && needMoreButton && (
-          <MoreButton type="button" onClick={() => setIsExpanded(true)}>
-            더 보기 <span>→</span>
-          </MoreButton>
+        {needToggleButton && (
+          <S.MoreButton type="button" onClick={handleToggleClick}>
+            {isExpanded ? "접기" : "더보기"} <span>{isExpanded ? "↑" : "→"}</span>
+          </S.MoreButton>
         )}
-      </FollowWrapper>
+      </S.FollowWrapper>
 
       {/* 카드 바깥 오른쪽 하단 회원탈퇴 버튼 */}
-      <FollowWithdrawArea>
+      <S.FollowWithdrawArea>
         <MyPageStyle.WithdrawButton type="button" onClick={handleWithdrawClick}>
           회원 탈퇴
         </MyPageStyle.WithdrawButton>
-      </FollowWithdrawArea>
-    </Section>
+      </S.FollowWithdrawArea>
+    </S.Section>
   );
 };
 

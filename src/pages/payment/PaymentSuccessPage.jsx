@@ -107,10 +107,17 @@ const PaymentSuccessPage = () => {
   }, []);
 
   const goHome = () => {
-    if (paymentType === "TEST_APPLY") navigate("/exam/receipt/info/confirm");
-    else if (paymentType === "CERT_RENEW") navigate("/exam/update/check");
+    if (paymentType === "TEST_APPLY")    navigate("/exam/receipt/info/confirm");
+    else if (paymentType === "CERT_RENEW")   navigate("/exam/update/check");
+    else if (paymentType === "CERT_REISSUE") navigate("/exam/certificate/reissue");
     else navigate("/");
   };
+
+  const newExpiryDate = (() => {
+    const d = new Date();
+    d.setFullYear(d.getFullYear() + 1);
+    return `${d.getFullYear()}년 ${d.getMonth() + 1}월 ${d.getDate()}일`;
+  })();
 
   if (status === "loading") return (
     <Wrap><Card><Icon>⏳</Icon><Title>결제 확인 중...</Title></Card></Wrap>
@@ -136,6 +143,12 @@ const PaymentSuccessPage = () => {
         <InfoBox>
           <InfoRow><InfoLabel>주문번호</InfoLabel><span>{orderId}</span></InfoRow>
           <InfoRow><InfoLabel>결제금액</InfoLabel><span>{amount.toLocaleString()}원</span></InfoRow>
+          {paymentType === "CERT_REISSUE" && (
+            <InfoRow>
+              <InfoLabel>새 만료일</InfoLabel>
+              <span style={{ color: PRIMARY, fontWeight: 700 }}>{newExpiryDate}</span>
+            </InfoRow>
+          )}
         </InfoBox>
         <Btn onClick={goHome}>확인</Btn>
       </Card>

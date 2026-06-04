@@ -1,21 +1,6 @@
 import React from "react";
 
-import {
-  ModalOverlay,
-  LevelModalBox,
-  ModalHeader,
-  ModalTitle,
-  ModalCloseButton,
-  ModalDivider,
-  LevelModalContent,
-  LevelGuideHeader,
-  LevelGuideCards,
-  LevelGuideCard,
-  LevelGuideRow,
-  LevelGuideLabel,
-  LevelGuideValue,
-  LevelNoticeBox,
-} from "./style";
+import S from "./style";
 
 const levelUpData = [
   { label: "Lv.1 → Lv.2", value: "100 EXP" },
@@ -31,49 +16,49 @@ const expData = [
 
 const LevelGuideModal = ({ onClose }) => {
   return (
-    <ModalOverlay onClick={onClose}>
-      <LevelModalBox onClick={(e) => e.stopPropagation()}>
-        <ModalHeader>
-          <ModalTitle>레벨 안내</ModalTitle>
-          <ModalCloseButton type="button" onClick={onClose}>
+    <S.ModalOverlay onClick={onClose}>
+      <S.LevelModalBox onClick={(e) => e.stopPropagation()}>
+        <S.ModalHeader>
+          <S.ModalTitle>레벨 안내</S.ModalTitle>
+          <S.ModalCloseButton type="button" onClick={onClose}>
             ×
-          </ModalCloseButton>
-        </ModalHeader>
+          </S.ModalCloseButton>
+        </S.ModalHeader>
 
-        <ModalDivider />
+        <S.ModalDivider />
 
-        <LevelModalContent>
-          <LevelGuideHeader>
+        <S.LevelModalContent>
+          <S.LevelGuideHeader>
             <span>레벨업 기준</span>
             <span>경험치 획득 방법</span>
-          </LevelGuideHeader>
+          </S.LevelGuideHeader>
 
-          <LevelGuideCards>
-            <LevelGuideCard>
+          <S.LevelGuideCards>
+            <S.LevelGuideCard>
               {levelUpData.map((item) => (
-                <LevelGuideRow key={item.label}>
-                  <LevelGuideLabel>{item.label}</LevelGuideLabel>
-                  <LevelGuideValue>{item.value}</LevelGuideValue>
-                </LevelGuideRow>
+                <S.LevelGuideRow key={item.label}>
+                  <S.LevelGuideLabel>{item.label}</S.LevelGuideLabel>
+                  <S.LevelGuideValue>{item.value}</S.LevelGuideValue>
+                </S.LevelGuideRow>
               ))}
-            </LevelGuideCard>
+            </S.LevelGuideCard>
 
-            <LevelGuideCard>
+            <S.LevelGuideCard>
               {expData.map((item) => (
-                <LevelGuideRow key={item.label}>
-                  <LevelGuideLabel>{item.label}</LevelGuideLabel>
-                  <LevelGuideValue>{item.value}</LevelGuideValue>
-                </LevelGuideRow>
+                <S.LevelGuideRow key={item.label}>
+                  <S.LevelGuideLabel>{item.label}</S.LevelGuideLabel>
+                  <S.LevelGuideValue>{item.value}</S.LevelGuideValue>
+                </S.LevelGuideRow>
               ))}
-            </LevelGuideCard>
-          </LevelGuideCards>
+            </S.LevelGuideCard>
+          </S.LevelGuideCards>
 
-          <LevelNoticeBox>
+          <S.LevelNoticeBox>
             ※ 게시글/댓글 작성 경험치는 일일 최대 3회까지만 반영됩니다.
-          </LevelNoticeBox>
-        </LevelModalContent>
-      </LevelModalBox>
-    </ModalOverlay>
+          </S.LevelNoticeBox>
+        </S.LevelModalContent>
+      </S.LevelModalBox>
+    </S.ModalOverlay>
   );
 };
 

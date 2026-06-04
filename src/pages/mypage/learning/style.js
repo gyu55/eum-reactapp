@@ -55,7 +55,8 @@ S.LearningTitle = styled.h3`
 /* 카드 */
 S.LearningCardBox = styled.div`
   width: 981px;
-  height: 228px;
+  min-height: 228px;
+  height: auto;
 
   padding: 24px 26px 14px 28px;
   box-sizing: border-box;
@@ -106,7 +107,7 @@ S.LearningRow = styled.div`
   grid-template-columns: 1fr 120px 130px;
   align-items: center;
 
-  height: 31px;
+  min-height: 31px;
   border-bottom: 1px solid #eceef5;
 `;
 
@@ -116,16 +117,21 @@ S.LearningResultRow = styled.div`
   grid-template-columns: 1fr 100px 110px 90px;
   align-items: center;
 
-  height: 31px;
+  min-height: 31px;
   border-bottom: 1px solid #eceef5;
 `;
 
 /* 행 텍스트 */
 S.LearningText = styled.span`
+  min-width: 0;
+
   font-size: 13px;
   font-weight: ${FONT_WEIGHT.regular};
 
   text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 
   /* 제목 */
   &:first-child {
@@ -140,9 +146,34 @@ S.LearningText = styled.span`
   }
 `;
 
+/* 학습 제목 버튼 */
+S.LearningTitleButton = styled.button`
+  min-width: 0;
+  padding: 0;
+
+  font-size: 13px;
+  font-weight: ${FONT_WEIGHT.regular};
+  color: #333333;
+  text-align: left;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
+
+/* 빈 목록 문구 */
+S.EmptyText = styled.p`
+  margin: 28px 0 0;
+
+  font-size: 13px;
+  font-weight: ${FONT_WEIGHT.regular};
+  color: #9ca3af;
+  text-align: center;
+`;
+
 /* 더보기 */
 S.LearningMoreButton = styled.button`
-  margin: auto auto 0;
+  margin: 18px auto 0;
 
   display: flex;
   align-items: center;

@@ -1,43 +1,33 @@
 import React from "react";
 
-import {
-  StudyStatusWrapper,
-  StudyStatusTitle,
-  StudyStatusDivider,
-  StudyStatusList,
-  StudyStatusRow,
-  StudyStatusLabel,
-  StudyStatusPercent,
-  ProgressBar,
-  ProgressFill,
-} from "./style";
+import S from "./style";
 
 /*
   학습 단계별 진행률은 마이페이지 메인 API 연동
 */
 const StudyStatusCard = ({ studyStatusList = [] }) => {
   return (
-    <StudyStatusWrapper>
-      <StudyStatusTitle>📚 학습 현황</StudyStatusTitle>
-      <StudyStatusDivider />
+    <S.StudyStatusWrapper>
+      <S.StudyStatusTitle>📚 학습 현황</S.StudyStatusTitle>
+      <S.StudyStatusDivider />
 
-      <StudyStatusList>
+      <S.StudyStatusList>
         {/* 학습 데이터가 있을 때만 목록 표시 */}
         {studyStatusList.length > 0 &&
           studyStatusList.map((item) => (
-            <div key={item.id}>
-              <StudyStatusRow>
-                <StudyStatusLabel>{item.eduTitle}</StudyStatusLabel>
-                <StudyStatusPercent>{item.progress}%</StudyStatusPercent>
-              </StudyStatusRow>
+            <S.StudyStatusItem key={item.id}>
+              <S.StudyStatusRow>
+                <S.StudyStatusLabel>{item.eduTitle}</S.StudyStatusLabel>
+                <S.StudyStatusPercent>{item.progress}%</S.StudyStatusPercent>
+              </S.StudyStatusRow>
 
-              <ProgressBar>
-                <ProgressFill $percent={item.progress} />
-              </ProgressBar>
-            </div>
+              <S.ProgressBar>
+                <S.ProgressFill $percent={item.progress} />
+              </S.ProgressBar>
+            </S.StudyStatusItem>
           ))}
-      </StudyStatusList>
-    </StudyStatusWrapper>
+      </S.StudyStatusList>
+    </S.StudyStatusWrapper>
   );
 };
 

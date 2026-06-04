@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import ProfileCard from "../components/ProfileCard";
 import ActivityCard from "../components/ActivityCard";
@@ -13,22 +13,48 @@ import CertificateAvailableCard from "./components/CertificateAvailableCard";
 import S from "./style";
 
 const MyPageCertificateComponent = () => {
+  const [myPageData, setMyPageData] = useState(null);
   const [isLevelModalOpen, setIsLevelModalOpen] = useState(false);
 
-  const openLevelModal = () => {
-    setIsLevelModalOpen(true);
-  };
+  // 마이페이지 공통 데이터 조회
+  useEffect(() => {
+    const getMyPageMain = async () => {
+      try {
+        const response = await fetch("http://localhost:10000/private/api/mypage", {
+          method: "GET",
+          credentials: "include",
+        });
 
-  const closeLevelModal = () => {
-    setIsLevelModalOpen(false);
-  };
+        const result = await response.json();
+
+        if (!result.success) {
+          alert(result.message);
+          return;
+        }
+
+        setMyPageData(result.data);
+      } catch (error) {
+        console.error(error);
+        alert("마이페이지 정보를 불러오지 못했습니다.");
+      }
+    };
+
+    getMyPageMain();
+  }, []);
+
+  if (!myPageData) {
+    return null;
+  }
 
   return (
     <>
       <S.CertificateLayout>
         {/* 왼쪽 영역 */}
         <S.CertificateLeftArea>
-          <ProfileCard onLevelClick={openLevelModal} />
+          <ProfileCard
+            profile={myPageData.profile}
+            onLevelClick={() => setIsLevelModalOpen(true)}
+          />
 
           <CertificateListCard />
 
@@ -37,7 +63,7 @@ const MyPageCertificateComponent = () => {
 
         {/* 오른쪽 영역 */}
         <S.CertificateRightArea>
-          <ActivityCard />
+          <ActivityCard activity={myPageData.activity} />
 
           <CertificateGuideCard />
 
@@ -48,7 +74,7 @@ const MyPageCertificateComponent = () => {
       </S.CertificateLayout>
 
       {isLevelModalOpen && (
-        <LevelGuideModal onClose={closeLevelModal} />
+        <LevelGuideModal onClose={() => setIsLevelModalOpen(false)} />
       )}
     </>
   );

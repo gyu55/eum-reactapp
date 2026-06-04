@@ -67,13 +67,15 @@ export const Label = styled.label`
 
 export const Input = styled.input`
   width: 100%;
-  border: 1.5px solid #e0e0e0;
+  border: 1.5px solid ${({ readOnly }) => (readOnly ? "#e8e8e8" : "#e0e0e0")};
   border-radius: 8px;
   padding: 10px 14px;
   font-size: 13px;
-  color: #333;
+  color: ${({ readOnly }) => (readOnly ? "#888" : "#333")};
+  background: ${({ readOnly }) => (readOnly ? "#f5f5f7" : "#fff")};
   outline: none;
   box-sizing: border-box;
+  cursor: ${({ readOnly }) => (readOnly ? "default" : "text")};
 `;
 
 export const Select = styled.select`

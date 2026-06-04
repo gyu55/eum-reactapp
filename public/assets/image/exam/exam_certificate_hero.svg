@@ -1,0 +1,34 @@
+<svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+<linearGradient id="cert" x1="0" y1="0" x2="0.3" y2="1">
+      <stop offset="0%" stop-color="#5DD692"/>
+      <stop offset="100%" stop-color="#4ECA80"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Ribbon tails (behind certificate) -->
+  <g transform="translate(40,55) rotate(-32)">
+    <rect x="-5.5" y="-2" width="11" height="23" rx="4" fill="#3DB870"/>
+    <rect x="-2.5" y="2" width="4.5" height="16" rx="2" fill="#4ECA80" opacity="0.45"/>
+  </g>
+  <g transform="translate(40,55) rotate(32)">
+    <rect x="-5.5" y="-2" width="11" height="23" rx="4" fill="#3DB870"/>
+    <rect x="-2.5" y="2" width="4.5" height="16" rx="2" fill="#4ECA80" opacity="0.45"/>
+  </g>
+
+  <!-- Certificate drop shadow -->
+  <rect x="10" y="14" width="60" height="37" rx="9" fill="#3DB870" opacity="0.18" transform="translate(1,1.5)"/>
+  <!-- Certificate outer -->
+  <rect x="10" y="14" width="60" height="37" rx="9" fill="url(#cert)"/>
+  <!-- Certificate inner frame -->
+  <rect x="16" y="20" width="48" height="25" rx="6" fill="#6DD6A0" opacity="0.5"/>
+  <!-- Text line -->
+  <rect x="25" y="31" width="30" height="5" rx="2.5" fill="#3DB870" opacity="0.65"/>
+
+  <!-- Rosette shadow -->
+  <circle cx="40" cy="48" r="10" fill="#3DB870" opacity="0.18" transform="translate(1,1)"/>
+  <!-- Rosette outer ring -->
+  <circle cx="40" cy="48" r="10" fill="url(#cert)"/>
+  <!-- Rosette inner circle -->
+  <circle cx="40" cy="48" r="7" fill="#E8FAF2"/>
+</svg>

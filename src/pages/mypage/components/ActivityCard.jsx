@@ -1,105 +1,96 @@
 import React from "react";
 
-import {
-  ActivityWrapper,
-  ActivityTitle,
-  ActivityDivider,
-  ActivityGroup,
-  ActivityItem,
-  ActivityLabel,
-  ActivityIcon,
-  ActivityCount,
-} from "./style";
+import S from "./style";
 
 /*
   활동 수치는 마이페이지 메인 API 연동
 */
 const ActivityCard = ({ activity }) => {
   return (
-    <ActivityWrapper>
-      <ActivityTitle>📈 내 활동</ActivityTitle>
+    <S.ActivityWrapper>
+      <S.ActivityTitle>📢 나의 활동</S.ActivityTitle>
 
-      <ActivityDivider />
+      <S.ActivityDivider />
 
       {/* 게시글 / 댓글 */}
-      <ActivityGroup $first>
-        <ActivityItem>
-          <ActivityLabel>
-            <ActivityIcon>📝</ActivityIcon>
+      <S.ActivityGroup $first>
+        <S.ActivityItem>
+          <S.ActivityLabel>
+            <S.ActivityIcon>📄</S.ActivityIcon>
             작성 게시글
-          </ActivityLabel>
+          </S.ActivityLabel>
 
-          <ActivityCount>
+          <S.ActivityCount>
             {activity?.postCount || 0}
-          </ActivityCount>
-        </ActivityItem>
+          </S.ActivityCount>
+        </S.ActivityItem>
 
-        <ActivityItem>
-          <ActivityLabel>
-            <ActivityIcon>💬</ActivityIcon>
+        <S.ActivityItem>
+          <S.ActivityLabel>
+            <S.ActivityIcon>💬</S.ActivityIcon>
             작성 댓글
-          </ActivityLabel>
+          </S.ActivityLabel>
 
-          <ActivityCount>
+          <S.ActivityCount>
             {activity?.commentCount || 0}
-          </ActivityCount>
-        </ActivityItem>
-      </ActivityGroup>
+          </S.ActivityCount>
+        </S.ActivityItem>
+      </S.ActivityGroup>
 
-      <ActivityDivider style={{ marginTop: "12px" }} />
+      <S.ActivityDivider $spaced />
 
       {/* 좋아요 / 즐겨찾기 */}
-      <ActivityGroup>
-        <ActivityItem>
-          <ActivityLabel>
-            <ActivityIcon>❤️</ActivityIcon>
+      <S.ActivityGroup>
+        <S.ActivityItem>
+          <S.ActivityLabel>
+            <S.ActivityIcon>⭐</S.ActivityIcon>
             받은 좋아요
-          </ActivityLabel>
+          </S.ActivityLabel>
 
-          <ActivityCount>
+          <S.ActivityCount>
             {activity?.likeCount || 0}
-          </ActivityCount>
-        </ActivityItem>
+          </S.ActivityCount>
+        </S.ActivityItem>
 
-        <ActivityItem>
-          <ActivityLabel>
-            <ActivityIcon>📌</ActivityIcon>
+        <S.ActivityItem>
+          <S.ActivityLabel>
+            <S.ActivityIcon>🔖</S.ActivityIcon>
             즐겨찾기
-          </ActivityLabel>
+          </S.ActivityLabel>
 
-          <ActivityCount>
+          <S.ActivityCount>
             {activity?.bookmarkCount || 0}
-          </ActivityCount>
-        </ActivityItem>
-      </ActivityGroup>
+          </S.ActivityCount>
+        </S.ActivityItem>
+      </S.ActivityGroup>
 
-      <ActivityDivider style={{ marginTop: "12px" }} />
+      <S.ActivityDivider $spaced />
 
       {/* 팔로우 */}
-      <ActivityGroup>
-        <ActivityItem>
-          <ActivityLabel>
-            <ActivityIcon>👥</ActivityIcon>
+      <S.ActivityGroup>
+        <S.ActivityItem>
+          <S.ActivityLabel>
+            <S.ActivityIcon>👥</S.ActivityIcon>
             팔로잉
-          </ActivityLabel>
+          </S.ActivityLabel>
 
-          <ActivityCount>
+          <S.ActivityCount>
             {activity?.followingCount || 0}
-          </ActivityCount>
-        </ActivityItem>
+          </S.ActivityCount>
+        </S.ActivityItem>
 
-        <ActivityItem>
-          <ActivityLabel>
-            <ActivityIcon>👤</ActivityIcon>
+        <S.ActivityItem>
+          <S.ActivityLabel>
+            <S.ActivityIcon>👤</S.ActivityIcon>
             팔로워
-          </ActivityLabel>
+          </S.ActivityLabel>
 
-          <ActivityCount>
+          <S.ActivityCount>
             {activity?.followerCount || 0}
-          </ActivityCount>
-        </ActivityItem>
-      </ActivityGroup>
-    </ActivityWrapper>
+          </S.ActivityCount>
+        </S.ActivityItem>
+      </S.ActivityGroup>
+    </S.ActivityWrapper>
   );
 };
 

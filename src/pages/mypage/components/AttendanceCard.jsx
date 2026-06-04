@@ -1,12 +1,6 @@
 import React from "react";
 
-import {
-  AttendanceWrapper,
-  AttendanceDayText,
-  AttendanceInfoBox,
-  AttendanceStrongText,
-  AttendanceSubText,
-} from "./style";
+import S from "./style";
 
 const AttendanceCard = ({ attendance }) => {
   const attendanceCount = attendance?.attendanceCount || 0;
@@ -18,23 +12,23 @@ const AttendanceCard = ({ attendance }) => {
   };
 
   return (
-    <AttendanceWrapper>
-      <AttendanceDayText $digitType={getDigitType(attendanceCount)}>
-        {attendanceCount}일🔥
-      </AttendanceDayText>
+    <S.AttendanceWrapper>
+      <S.AttendanceDayText $digitType={getDigitType(attendanceCount)}>
+        {attendanceCount}일째🔥
+      </S.AttendanceDayText>
 
-      <AttendanceInfoBox>
-        <AttendanceStrongText>연속 학습 중!</AttendanceStrongText>
+      <S.AttendanceInfoBox>
+        <S.AttendanceStrongText>연속 학습 중!</S.AttendanceStrongText>
 
-        <AttendanceSubText>
+        <S.AttendanceSubText>
           {attendance?.attendanceStartDate || "-"} 부터 시작
-        </AttendanceSubText>
+        </S.AttendanceSubText>
 
-        <AttendanceSubText>
-          역대 최고: {attendance?.maxAttendanceCount || 0}일
-        </AttendanceSubText>
-      </AttendanceInfoBox>
-    </AttendanceWrapper>
+        <S.AttendanceSubText>
+          내 최고: {attendance?.maxAttendanceCount || 0}일
+        </S.AttendanceSubText>
+      </S.AttendanceInfoBox>
+    </S.AttendanceWrapper>
   );
 };
 

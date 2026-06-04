@@ -1,19 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import {
-  Section,
-  SectionTitle,
-  MyPostWrapper,
-  MyPostHeader,
-  MyPostRow,
-  TableHeaderText,
-  PostTitleBox,
-  PostBadge,
-  PostTitleText,
-  NumberText,
-  MoreButton,
-} from "./style";
+import S from "./style";
+
+const DEFAULT_VISIBLE_COUNT = 3;
 
 const getBadgeStyle = (postTag) => {
   if (postTag === "수어학습") return { color: "#22C55E", bg: "#DCFCE7" };
@@ -40,62 +30,67 @@ const formatDate = (date) => {
 
 const MypostList = ({ myPostList = [] }) => {
   const navigate = useNavigate();
-  const [visibleCount, setVisibleCount] = useState(3);
+  const [isExpanded, setIsExpanded] = useState(false);
 
-  const visiblePosts = myPostList.slice(0, visibleCount);
+  const visiblePosts = isExpanded
+    ? myPostList
+    : myPostList.slice(0, DEFAULT_VISIBLE_COUNT);
+
+  const needToggleButton = myPostList.length > DEFAULT_VISIBLE_COUNT;
 
   const handleMovePost = (postId) => {
     navigate(`/community/post/${postId}`);
   };
 
-  const handleMoreClick = () => {
-    setVisibleCount((prev) => prev + 3);
+  // 더보기 / 접기 상태 변경
+  const handleToggleClick = () => {
+    setIsExpanded((prev) => !prev);
   };
 
   return (
-    <Section>
-      <SectionTitle>나의 게시글</SectionTitle>
+    <S.Section>
+      <S.SectionTitle>나의 게시글</S.SectionTitle>
 
-      <MyPostWrapper>
-        <MyPostHeader>
-          <TableHeaderText>제목</TableHeaderText>
-          <TableHeaderText $center>좋아요</TableHeaderText>
-          <TableHeaderText $center>조회수</TableHeaderText>
-          <TableHeaderText $center>날짜</TableHeaderText>
-        </MyPostHeader>
+      <S.MyPostWrapper>
+        <S.MyPostHeader>
+          <S.TableHeaderText>제목</S.TableHeaderText>
+          <S.TableHeaderText $center>좋아요</S.TableHeaderText>
+          <S.TableHeaderText $center>조회수</S.TableHeaderText>
+          <S.TableHeaderText $center>날짜</S.TableHeaderText>
+        </S.MyPostHeader>
 
         {visiblePosts.map((post) => {
           const badge = getBadgeStyle(post.postTag);
 
           return (
-            <MyPostRow key={post.id}>
-              <PostTitleBox>
-                <PostBadge $color={badge.color} $bg={badge.bg}>
+            <S.MyPostRow key={post.id}>
+              <S.PostTitleBox>
+                <S.PostBadge $color={badge.color} $bg={badge.bg}>
                   {post.postTag || "-"}
-                </PostBadge>
+                </S.PostBadge>
 
-                <PostTitleText
-                  style={{ cursor: "pointer" }}
+                <S.PostTitleText
+                  $clickable
                   onClick={() => handleMovePost(post.id)}
                 >
                   {post.postTitle}
-                </PostTitleText>
-              </PostTitleBox>
+                </S.PostTitleText>
+              </S.PostTitleBox>
 
-              <NumberText>{post.likeCount ?? 0}</NumberText>
-              <NumberText>{post.postReadCount ?? 0}</NumberText>
-              <NumberText>{formatDate(post.postCreateAt)}</NumberText>
-            </MyPostRow>
+              <S.NumberText>{post.likeCount ?? 0}</S.NumberText>
+              <S.NumberText>{post.postReadCount ?? 0}</S.NumberText>
+              <S.NumberText>{formatDate(post.postCreateAt)}</S.NumberText>
+            </S.MyPostRow>
           );
         })}
 
-        {visibleCount < myPostList.length && (
-          <MoreButton type="button" onClick={handleMoreClick}>
-            더 보기 <span>→</span>
-          </MoreButton>
+        {needToggleButton && (
+          <S.MoreButton type="button" onClick={handleToggleClick}>
+            {isExpanded ? "접기" : "더보기"} <span>{isExpanded ? "↑" : "→"}</span>
+          </S.MoreButton>
         )}
-      </MyPostWrapper>
-    </Section>
+      </S.MyPostWrapper>
+    </S.Section>
   );
 };
 

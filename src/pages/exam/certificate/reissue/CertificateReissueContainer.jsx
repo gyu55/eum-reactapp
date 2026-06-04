@@ -1,4 +1,3 @@
-import React from 'react';
 import CertificateReissueComponent from './CertificateReissueComponent';
 import { Outlet } from 'react-router-dom';
 
@@ -8,7 +7,7 @@ const CertificateReissueContainer = () => {
       <CertificateReissueComponent />
       <Outlet />
     </>
-    
+
   );
 };
 

@@ -1,4 +1,3 @@
-import React from 'react';
 import CertificateCheckComponent from './CertificateCheckComponent';
 import { Outlet } from 'react-router-dom';
 

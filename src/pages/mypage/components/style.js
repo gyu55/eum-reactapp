@@ -3,32 +3,34 @@ import theme from "../../../styles/theme";
 
 const { PALETTE, GRAYSCALE, TEXT_COLOR, FONT_SIZE, FONT_WEIGHT } = theme;
 
+const S = {};
+
 /* 공통 CSS */
 
 /* 카드 */
-export const CardBox = styled.div`
+S.CardBox = styled.div`
   background-color: ${PALETTE.white};
   border-radius: 14px;
   padding: 20px;
 `;
 
 /* 섹션 */
-export const Section = styled.section`
+S.Section = styled.section`
   display: flex;
   flex-direction: column;
   gap: 16px;
 `;
 
 /* 섹션 제목 */
-export const SectionTitle = styled.h3`
+S.SectionTitle = styled.h3`
   margin: 0;
   font-size: ${FONT_SIZE.h9};
   font-weight: ${FONT_WEIGHT.bold};
   color: ${TEXT_COLOR.basic};
 `;
 
-/* 표 제목 */
-export const TableHeaderText = styled.span`
+/* 테이블 제목 */
+S.TableHeaderText = styled.span`
   font-size: ${FONT_SIZE.h11};
   font-weight: ${FONT_WEIGHT.bold};
   color: ${GRAYSCALE[9]};
@@ -36,16 +38,18 @@ export const TableHeaderText = styled.span`
 `;
 
 /* 게시글 제목 영역 */
-export const PostTitleBox = styled.div`
+S.PostTitleBox = styled.div`
   display: flex;
   align-items: center;
   gap: 8px;
+  min-width: 0;
 `;
 
-/* 카테고리 뱃지 */
-export const PostBadge = styled.span`
+/* 카테고리 배지 */
+S.PostBadge = styled.span`
   width: 58px;
   height: 16px;
+  flex-shrink: 0;
 
   display: flex;
   align-items: center;
@@ -60,22 +64,33 @@ export const PostBadge = styled.span`
 `;
 
 /* 제목 텍스트 */
-export const PostTitleText = styled.span`
+S.PostTitleText = styled.span`
+  min-width: 0;
+
   font-size: 13px;
   font-weight: ${FONT_WEIGHT.regular};
   color: ${TEXT_COLOR.basic};
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: ${({ $clickable }) => ($clickable ? "pointer" : "default")};
 `;
 
 /* 숫자 텍스트 */
-export const NumberText = styled.span`
+S.NumberText = styled.span`
   font-size: ${FONT_SIZE.h11};
   font-weight: ${FONT_WEIGHT.bold};
   color: ${GRAYSCALE[9]};
   text-align: center;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 /* 더보기 버튼 */
-export const MoreButton = styled.button`
+S.MoreButton = styled.button`
   margin: 14px auto 0;
 
   display: flex;
@@ -90,14 +105,14 @@ export const MoreButton = styled.button`
 /* ActivityCard CSS */
 
 /* 카드 전체 */
-export const ActivityWrapper = styled(CardBox)`
+S.ActivityWrapper = styled(S.CardBox)`
   width: 312px;
   min-height: 255px;
   padding: 18px 20px 22px;
 `;
 
 /* 제목 */
-export const ActivityTitle = styled.div`
+S.ActivityTitle = styled.div`
   display: flex;
   align-items: center;
   gap: 6px;
@@ -109,13 +124,14 @@ export const ActivityTitle = styled.div`
 `;
 
 /* 밑줄 */
-export const ActivityDivider = styled.div`
+S.ActivityDivider = styled.div`
   height: 1px;
+  margin-top: ${({ $spaced }) => ($spaced ? "12px" : "0")};
   background: ${GRAYSCALE[8]};
 `;
 
 /* 그룹 */
-export const ActivityGroup = styled.div`
+S.ActivityGroup = styled.div`
   margin-top: ${({ $first }) => ($first ? "14px" : "12px")};
 
   padding-left: 14px;
@@ -124,7 +140,7 @@ export const ActivityGroup = styled.div`
 `;
 
 /* 한 줄 */
-export const ActivityItem = styled.div`
+S.ActivityItem = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -134,8 +150,8 @@ export const ActivityItem = styled.div`
   }
 `;
 
-/* 이모티콘 + 텍스트 */
-export const ActivityLabel = styled.div`
+/* 아이콘 + 텍스트 */
+S.ActivityLabel = styled.div`
   display: flex;
   align-items: center;
   gap: 8px;
@@ -145,8 +161,8 @@ export const ActivityLabel = styled.div`
   color: ${TEXT_COLOR.basic};
 `;
 
-/* 이모티콘 */
-export const ActivityIcon = styled.span`
+/* 아이콘 */
+S.ActivityIcon = styled.span`
   width: 18px;
   height: 18px;
 
@@ -159,7 +175,7 @@ export const ActivityIcon = styled.span`
 `;
 
 /* 오른쪽 숫자 */
-export const ActivityCount = styled.span`
+S.ActivityCount = styled.span`
   font-size: 14px;
   font-weight: ${FONT_WEIGHT.bold};
   color: ${PALETTE.primary.main};
@@ -168,7 +184,7 @@ export const ActivityCount = styled.span`
 /* AttendanceCard CSS */
 
 /* 카드 전체 */
-export const AttendanceWrapper = styled.div`
+S.AttendanceWrapper = styled.div`
   position: relative;
 
   width: 312px;
@@ -180,7 +196,7 @@ export const AttendanceWrapper = styled.div`
 `;
 
 /* 출석일 */
-export const AttendanceDayText = styled.div`
+S.AttendanceDayText = styled.div`
   position: absolute;
   top: 23px;
 
@@ -193,13 +209,13 @@ export const AttendanceDayText = styled.div`
   font-size: 34px;
   font-weight: ${FONT_WEIGHT.bold};
   line-height: 1;
-  letter-spacing: -0.02em;
+  letter-spacing: 0;
   color: ${PALETTE.white};
   white-space: nowrap;
 `;
 
 /* 오른쪽 텍스트 영역 */
-export const AttendanceInfoBox = styled.div`
+S.AttendanceInfoBox = styled.div`
   position: absolute;
   top: 17px;
   left: 185px;
@@ -209,7 +225,7 @@ export const AttendanceInfoBox = styled.div`
 `;
 
 /* 강조 텍스트 */
-export const AttendanceStrongText = styled.span`
+S.AttendanceStrongText = styled.span`
   font-size: 13px;
   font-weight: ${FONT_WEIGHT.bold};
   color: ${PALETTE.white};
@@ -217,7 +233,7 @@ export const AttendanceStrongText = styled.span`
 `;
 
 /* 보조 텍스트 */
-export const AttendanceSubText = styled.span`
+S.AttendanceSubText = styled.span`
   font-size: 11px;
   font-weight: ${FONT_WEIGHT.regular};
   color: rgba(255, 255, 255, 0.8);
@@ -227,25 +243,25 @@ export const AttendanceSubText = styled.span`
 /* BookmarkList CSS */
 
 /* 카드 */
-export const BookmarkWrapper = styled(CardBox)`
+S.BookmarkWrapper = styled(S.CardBox)`
   width: 984px;
   min-height: 201px;
   height: auto;
   padding: 20px 28px 16px;
 `;
 
-/* 표 헤더 */
-export const BookmarkHeader = styled.div`
+/* 테이블 헤더 */
+S.BookmarkHeader = styled.div`
   display: grid;
-  grid-template-columns: 1fr 80px 70px 70px;
+  grid-template-columns: minmax(0, 1fr) 80px 70px 70px;
   padding-bottom: 9px;
   border-bottom: 1px solid #f3f4f6;
 `;
 
-/* 표 행 */
-export const BookmarkRow = styled.div`
+/* 행 */
+S.BookmarkRow = styled.div`
   display: grid;
-  grid-template-columns: 1fr 80px 70px 70px;
+  grid-template-columns: minmax(0, 1fr) 80px 70px 70px;
   align-items: center;
   padding: 9px 0;
   border-bottom: 1px solid #f3f4f6;
@@ -254,24 +270,25 @@ export const BookmarkRow = styled.div`
 /* MypostList CSS */
 
 /* 카드 */
-export const MyPostWrapper = styled(CardBox)`
+S.MyPostWrapper = styled(S.CardBox)`
   width: 984px;
   min-height: 220px;
+  height: auto;
   padding: 20px 28px 15px;
 `;
 
-/* 표 헤더 */
-export const MyPostHeader = styled.div`
+/* 테이블 헤더 */
+S.MyPostHeader = styled.div`
   display: grid;
-  grid-template-columns: 1fr 70px 70px 70px;
+  grid-template-columns: minmax(0, 1fr) 70px 70px 70px;
   padding-bottom: 9px;
   border-bottom: 1px solid #f3f4f6;
 `;
 
-/* 표 행 */
-export const MyPostRow = styled.div`
+/* 행 */
+S.MyPostRow = styled.div`
   display: grid;
-  grid-template-columns: 1fr 70px 70px 70px;
+  grid-template-columns: minmax(0, 1fr) 70px 70px 70px;
   align-items: center;
   padding: 9px 0;
   border-bottom: 1px solid #f3f4f6;
@@ -280,15 +297,15 @@ export const MyPostRow = styled.div`
 /* FollowList CSS */
 
 /* 카드 */
-export const FollowWrapper = styled(CardBox)`
+S.FollowWrapper = styled(S.CardBox)`
   width: 984px;
   min-height: 266px;
   height: auto;
   padding: 21px 28px 24px;
 `;
 
-/* 팔로우 카드 하단 회원탈퇴 영역 */
-export const FollowWithdrawArea = styled.div`
+/* 팔로우 카드 바깥 오른쪽 하단 회원탈퇴 영역 */
+S.FollowWithdrawArea = styled.div`
   width: 984px;
   margin-top: 6px;
 
@@ -297,21 +314,21 @@ export const FollowWithdrawArea = styled.div`
 `;
 
 /* 팔로우 제목 영역 */
-export const FollowHeader = styled.div`
+S.FollowHeader = styled.div`
   display: flex;
   align-items: center;
   gap: 9px;
 `;
 
 /* 팔로우 제목 */
-export const FollowTitle = styled.span`
+S.FollowTitle = styled.span`
   font-size: 13px;
   font-weight: ${FONT_WEIGHT.bold};
   color: ${TEXT_COLOR.basic};
 `;
 
-/* 인원 뱃지 */
-export const CountBadge = styled.span`
+/* 인원 배지 */
+S.CountBadge = styled.span`
   width: 24px;
   height: 18px;
 
@@ -328,7 +345,7 @@ export const CountBadge = styled.span`
 `;
 
 /* 유저 목록 */
-export const UserList = styled.div`
+S.UserList = styled.div`
   margin-top: 9px;
   display: flex;
   flex-wrap: wrap;
@@ -336,14 +353,15 @@ export const UserList = styled.div`
 `;
 
 /* 유저 아이템 */
-export const UserItem = styled.div`
+S.UserItem = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  cursor: ${({ $clickable }) => ($clickable ? "pointer" : "default")};
 `;
 
 /* 프로필 이미지 */
-export const Avatar = styled.div`
+S.Avatar = styled.div`
   width: 42px;
   height: 43px;
 
@@ -359,31 +377,35 @@ export const Avatar = styled.div`
 `;
 
 /* 유저 이름 */
-export const FollowUserName = styled.span`
+S.FollowUserName = styled.span`
   margin-top: 6px;
+
+  max-width: 58px;
 
   font-size: ${FONT_SIZE.h12};
   font-weight: ${FONT_WEIGHT.regular};
   color: ${GRAYSCALE[9]};
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 /* 밑줄 */
-export const FollowDivider = styled.div`
+S.FollowDivider = styled.div`
   height: 1px;
   margin-top: 6px;
   background: #f3f4f6;
 `;
 
 /* 팔로워 영역 */
-export const FollowerBlock = styled.div`
+S.FollowerBlock = styled.div`
   margin-top: 12px;
 `;
 
 /* ProfileCard CSS */
 
 /* 카드 전체 */
-export const ProfileWrapper = styled(CardBox)`
+S.ProfileWrapper = styled(S.CardBox)`
   width: 988px;
   height: 191px;
   padding: 28px 32px;
@@ -394,7 +416,7 @@ export const ProfileWrapper = styled(CardBox)`
 `;
 
 /* 프로필 이미지 */
-export const ProfileImage = styled.div`
+S.ProfileImage = styled.div`
   width: 96px;
   height: 96px;
 
@@ -417,36 +439,41 @@ export const ProfileImage = styled.div`
 `;
 
 /* 정보 영역 */
-export const ProfileContent = styled.div`
+S.ProfileContent = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
 `;
 
 /* 이름 영역 */
-export const ProfileNameRow = styled.div`
+S.ProfileNameRow = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
 `;
 
 /* 이름 */
-export const ProfileUserName = styled.span`
+S.ProfileUserName = styled.span`
   font-size: 18px;
   font-weight: ${FONT_WEIGHT.bold};
   color: ${TEXT_COLOR.basic};
 `;
 
 /* 레벨 버튼 */
-export const LevelButton = styled.button`
+S.LevelButton = styled.button`
   padding: 0;
   border: none;
   background: none;
   cursor: pointer;
 `;
 
+<<<<<<< HEAD
 /* 레벨 뱃지 */
 export const LevelBadge = styled.span`
+=======
+/* 레벨 배지 */
+S.LevelBadge = styled.span`
+>>>>>>> b12cf5640e09fff6a3d154647aad43e787950d1a
   min-width: 34px;
   height: 19px;
   padding: 0 8px;
@@ -465,14 +492,14 @@ export const LevelBadge = styled.span`
 `;
 
 /* 경험치 영역 */
-export const ExpRow = styled.div`
+S.ExpRow = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
 `;
 
 /* 경험치 버튼 */
-export const ExpButton = styled.button`
+S.ExpButton = styled.button`
   padding: 0;
   border: none;
   background: none;
@@ -480,7 +507,7 @@ export const ExpButton = styled.button`
 `;
 
 /* 경험치 바 */
-export const ExpBar = styled.div`
+S.ExpBar = styled.div`
   width: 131px;
   height: 7px;
 
@@ -490,14 +517,22 @@ export const ExpBar = styled.div`
 `;
 
 /* 경험치 채움 */
+<<<<<<< HEAD
 export const ExpFill = styled.div`
+=======
+S.ExpFill = styled.div`
+>>>>>>> b12cf5640e09fff6a3d154647aad43e787950d1a
   width: ${({ $percent }) => `${Math.min(Math.max($percent || 0, 0), 100)}%`};
   height: 100%;
   background: ${PALETTE.primary.main};
 `;
 
 /* 경험치 텍스트 */
+<<<<<<< HEAD
 export const ExpText = styled.span`
+=======
+S.ExpText = styled.span`
+>>>>>>> b12cf5640e09fff6a3d154647aad43e787950d1a
   width: 92px;
 
   font-size: 8px;
@@ -506,40 +541,40 @@ export const ExpText = styled.span`
 `;
 
 /* 개인정보 영역 */
-export const DetailArea = styled.div`
+S.DetailArea = styled.div`
   display: flex;
   gap: 72px;
 `;
 
 /* 개인정보 열 */
-export const ProfileColumn = styled.div`
+S.ProfileColumn = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
 `;
 
 /* 개인정보 행 */
-export const ProfileRow = styled.div`
+S.ProfileRow = styled.div`
   display: flex;
   gap: 10px;
 `;
 
 /* 개인정보 라벨 */
-export const ProfileLabel = styled.span`
+S.ProfileLabel = styled.span`
   font-size: ${FONT_SIZE.h11};
   font-weight: ${FONT_WEIGHT.regular};
   color: ${GRAYSCALE[9]};
 `;
 
 /* 개인정보 값 */
-export const ProfileValue = styled.span`
+S.ProfileValue = styled.span`
   font-size: ${FONT_SIZE.h11};
   font-weight: ${FONT_WEIGHT.regular};
   color: ${TEXT_COLOR.basic};
 `;
 
 /* 수정 버튼 */
-export const EditButton = styled.button`
+S.EditButton = styled.button`
   position: absolute;
   top: 28px;
   right: 32px;
@@ -559,7 +594,7 @@ export const EditButton = styled.button`
 /* QuickMenuCard CSS */
 
 /* 카드 전체 */
-export const QuickMenuWrapper = styled.div`
+S.QuickMenuWrapper = styled.div`
   width: 312px;
   min-height: 166px;
   padding: 13px 17px 10px;
@@ -569,7 +604,7 @@ export const QuickMenuWrapper = styled.div`
 `;
 
 /* 제목 */
-export const QuickMenuTitle = styled.div`
+S.QuickMenuTitle = styled.div`
   display: flex;
   align-items: center;
   gap: 11px;
@@ -580,14 +615,14 @@ export const QuickMenuTitle = styled.div`
 `;
 
 /* 밑줄 */
-export const QuickMenuDivider = styled.div`
+S.QuickMenuDivider = styled.div`
   height: 1px;
   margin-top: 9px;
   background: #f3f4f6;
 `;
 
 /* 메뉴 그리드 */
-export const MenuGrid = styled.div`
+S.MenuGrid = styled.div`
   margin-top: 9px;
 
   display: grid;
@@ -596,7 +631,7 @@ export const MenuGrid = styled.div`
 `;
 
 /* 메뉴 버튼 */
-export const MenuButton = styled.button`
+S.MenuButton = styled.button`
   width: 100%;
   height: 51px;
 
@@ -621,14 +656,14 @@ export const MenuButton = styled.button`
 /* StudyStatusCard CSS */
 
 /* 카드 전체 */
-export const StudyStatusWrapper = styled(CardBox)`
+S.StudyStatusWrapper = styled(S.CardBox)`
   width: 312px;
   height: 181px;
   padding: 18px 20px 22px;
 `;
 
 /* 제목 */
-export const StudyStatusTitle = styled.div`
+S.StudyStatusTitle = styled.div`
   display: flex;
   align-items: center;
   gap: 6px;
@@ -639,14 +674,14 @@ export const StudyStatusTitle = styled.div`
 `;
 
 /* 밑줄 */
-export const StudyStatusDivider = styled.div`
+S.StudyStatusDivider = styled.div`
   height: 1px;
   margin-top: 8px;
   background: #f3f4f6;
 `;
 
 /* 리스트 */
-export const StudyStatusList = styled.div`
+S.StudyStatusList = styled.div`
   margin-top: 8px;
 
   padding-left: 14px;
@@ -658,22 +693,25 @@ export const StudyStatusList = styled.div`
   gap: 8px;
 `;
 
+/* 리스트 아이템 */
+S.StudyStatusItem = styled.div``;
+
 /* 한 줄 */
-export const StudyStatusRow = styled.div`
+S.StudyStatusRow = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
 `;
 
 /* 단계명 */
-export const StudyStatusLabel = styled.span`
+S.StudyStatusLabel = styled.span`
   font-size: 13px;
   font-weight: ${FONT_WEIGHT.regular};
   color: #333333;
 `;
 
 /* 퍼센트 */
-export const StudyStatusPercent = styled.span`
+S.StudyStatusPercent = styled.span`
   min-width: 44px;
 
   font-size: 14px;
@@ -684,7 +722,7 @@ export const StudyStatusPercent = styled.span`
 `;
 
 /* 진행 바 */
-export const ProgressBar = styled.div`
+S.ProgressBar = styled.div`
   width: 100%;
   height: 7px;
   margin-top: 8px;
@@ -695,7 +733,7 @@ export const ProgressBar = styled.div`
 `;
 
 /* 진행률 */
-export const ProgressFill = styled.div`
+S.ProgressFill = styled.div`
   width: ${({ $percent }) => $percent}%;
   height: 100%;
 
@@ -706,7 +744,7 @@ export const ProgressFill = styled.div`
 /* LevelGuideModal CSS */
 
 /* 모달 배경 */
-export const ModalOverlay = styled.div`
+S.ModalOverlay = styled.div`
   position: fixed;
   inset: 0;
   z-index: 1000;
@@ -719,7 +757,7 @@ export const ModalOverlay = styled.div`
 `;
 
 /* 모달 박스 */
-export const LevelModalBox = styled.div`
+S.LevelModalBox = styled.div`
   width: 534px;
   height: 270px;
   padding: 18px 28px 16px;
@@ -731,14 +769,14 @@ export const LevelModalBox = styled.div`
 `;
 
 /* 모달 상단 */
-export const ModalHeader = styled.div`
+S.ModalHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
 `;
 
 /* 모달 제목 */
-export const ModalTitle = styled.h3`
+S.ModalTitle = styled.h3`
   margin: 0;
 
   font-size: 20px;
@@ -747,7 +785,7 @@ export const ModalTitle = styled.h3`
 `;
 
 /* 닫기 버튼 */
-export const ModalCloseButton = styled.button`
+S.ModalCloseButton = styled.button`
   padding: 0;
   border: none;
   background: none;
@@ -759,19 +797,19 @@ export const ModalCloseButton = styled.button`
 `;
 
 /* 밑줄 */
-export const ModalDivider = styled.div`
+S.ModalDivider = styled.div`
   height: 1px;
   margin-top: 10px;
   background: #e5e7eb;
 `;
 
 /* 본문 */
-export const LevelModalContent = styled.div`
+S.LevelModalContent = styled.div`
   padding-top: 8px;
 `;
 
 /* 안내 제목 */
-export const LevelGuideHeader = styled.div`
+S.LevelGuideHeader = styled.div`
   display: flex;
   gap: 196px;
   margin-bottom: 18px;
@@ -784,13 +822,13 @@ export const LevelGuideHeader = styled.div`
 `;
 
 /* 안내 카드 묶음 */
-export const LevelGuideCards = styled.div`
+S.LevelGuideCards = styled.div`
   display: flex;
   gap: 28px;
 `;
 
 /* 안내 카드 */
-export const LevelGuideCard = styled.div`
+S.LevelGuideCard = styled.div`
   width: 224px;
   height: 108px;
   padding: 16px 18px;
@@ -802,7 +840,7 @@ export const LevelGuideCard = styled.div`
 `;
 
 /* 안내 행 */
-export const LevelGuideRow = styled.div`
+S.LevelGuideRow = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -813,21 +851,21 @@ export const LevelGuideRow = styled.div`
 `;
 
 /* 안내 라벨 */
-export const LevelGuideLabel = styled.span`
+S.LevelGuideLabel = styled.span`
   font-size: 12px;
   font-weight: ${FONT_WEIGHT.bold};
   color: #111827;
 `;
 
 /* 경험치 */
-export const LevelGuideValue = styled.span`
+S.LevelGuideValue = styled.span`
   font-size: 12px;
   font-weight: ${FONT_WEIGHT.bold};
   color: #4359fc;
 `;
 
 /* 안내 문구 */
-export const LevelNoticeBox = styled.div`
+S.LevelNoticeBox = styled.div`
   width: 478px;
   height: 30px;
   margin-top: 19px;
@@ -844,3 +882,8 @@ export const LevelNoticeBox = styled.div`
   font-weight: ${FONT_WEIGHT.regular};
   color: #92400e;
 `;
+<<<<<<< HEAD
+=======
+
+export default S;
+>>>>>>> b12cf5640e09fff6a3d154647aad43e787950d1a

@@ -2,43 +2,56 @@ import React from "react";
 
 import S from "../style";
 
-const summaryList = [
-  {
-    icon: "📊",
-    label: "총 정답률",
-    value: "75%",
-  },
-  {
-    icon: "📝",
-    label: "총 푼 문제",
-    value: "55",
-  },
-  {
-    icon: "🕐",
-    label: "총 학습시간",
-    value: "2시간30분",
-  },
-];
+const formatTime = (seconds) => {
+  const value = Number(seconds || 0);
 
-const StudySummaryCard = () => {
+  if (value < 60) {
+    return `${value}초`;
+  }
+
+  const hour = Math.floor(value / 3600);
+  const minute = Math.floor((value % 3600) / 60);
+
+  if (hour > 0) {
+    return `${hour}시간${minute > 0 ? `${minute}분` : ""}`;
+  }
+
+  return `${minute}분`;
+};
+
+const StudySummaryCard = ({ summary }) => {
+  const summaryList = [
+    {
+      icon: "📊",
+      label: "총 정답률",
+      value: `${summary?.totalAccuracy || 0}%`,
+    },
+    {
+      icon: "📝",
+      label: "총 푼 문제",
+      value: summary?.totalQuestionCount || 0,
+    },
+    {
+      icon: "🕐",
+      label: "총 학습시간",
+      value: formatTime(summary?.totalStudyTime),
+    },
+  ];
+
   return (
     <S.StudySummaryCardBox>
-      <S.StudySummaryTitle>
-        📈 학습요약
-      </S.StudySummaryTitle>
+      <S.StudySummaryTitle>📈 학습요약</S.StudySummaryTitle>
 
       <S.StudySummaryList>
-        {/* 학습 요약 데이터 연동 예정 */}
-        {summaryList.map((summary) => (
-          <S.StudySummaryItem key={summary.label}>
+        {/* 학습 요약 데이터 표시 */}
+        {summaryList.map((summaryItem) => (
+          <S.StudySummaryItem key={summaryItem.label}>
             <S.StudySummaryLabel>
-              <span>{summary.icon}</span>
-              {summary.label}
+              <span>{summaryItem.icon}</span>
+              {summaryItem.label}
             </S.StudySummaryLabel>
 
-            <S.StudySummaryValue>
-              {summary.value}
-            </S.StudySummaryValue>
+            <S.StudySummaryValue>{summaryItem.value}</S.StudySummaryValue>
           </S.StudySummaryItem>
         ))}
       </S.StudySummaryList>

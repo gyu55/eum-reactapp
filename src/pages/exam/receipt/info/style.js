@@ -2,6 +2,27 @@ import styled from "styled-components";
 
 const STEP_COLORS = ["#4359fc", "#27ae60", "#e67e22", "#e74c3c"];
 
+export const Wrapper = styled.div`
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  padding: 28px 32px;
+`;
+
+export const SectionTitle = styled.h2`
+  font-size: 17px;
+  font-weight: 700;
+  color: #111;
+  margin: 0 0 6px;
+  letter-spacing: -0.3px;
+`;
+
+export const Subtitle = styled.p`
+  font-size: 13px;
+  color: #888;
+  margin: 0 0 20px;
+`;
+
 export const StepCard = styled.div`
   background: #fff;
   border: 1px solid #eee;

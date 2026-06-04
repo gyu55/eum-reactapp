@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import * as S from "./style";
+import useVerificationTimer from "../../../hooks/useVerificationTimer";
 
 const PASSWORD_REGEX = /^[a-zA-Z0-9!@#$%^&*]{8,}$/;
 
@@ -77,6 +78,8 @@ export default function FindAccountComponent() {
   const navigate = useNavigate();
   const location = useLocation();
   const [tab, setTab] = useState(location.state?.tab || "email");
+  const emailTimer = useVerificationTimer();
+  const pwTimer    = useVerificationTimer();
 
   /* ── 이메일 찾기 상태 ── */
   const [emailStep, setEmailStep] = useState(1);
@@ -110,12 +113,12 @@ export default function FindAccountComponent() {
         method: "GET",
         credentials: "include",
       });
-      const data = await res.json();
-      if (data.success) {
+      const { success, data, message } = await res.json();
+      if (success) {
         setEmailResult(data.userEmail);
         setEmailStep(2);
       } else {
-        setEmailMsg(data.message || "일치하는 계정을 찾을 수 없습니다.");
+        setEmailMsg(message || "일치하는 계정을 찾을 수 없습니다.");
       }
     } catch {
       setEmailMsg("서버 오류가 발생했습니다.");
@@ -203,11 +206,16 @@ export default function FindAccountComponent() {
                       disabled={emailCodeVerified}
                     />
                     <S.SmallBtn
-                      onClick={() => sendVerificationCode(emailPhone, setEmailLoading, setEmailMsg, setEmailCodeSent)}
-                      disabled={emailLoading || emailCodeVerified}
+                      onClick={() => { sendVerificationCode(emailPhone, setEmailLoading, setEmailMsg, setEmailCodeSent); emailTimer.start(); }}
+                      disabled={emailLoading || emailCodeVerified || emailTimer.isRunning}
                     >
-                      {emailCodeSent ? "재발송" : "인증 발송"}
+                      {emailTimer.isRunning ? emailTimer.format() : "인증 발송"}
                     </S.SmallBtn>
+                    {emailTimer.isRunning && !emailCodeVerified && (
+                      <S.SmallBtn onClick={() => { sendVerificationCode(emailPhone, setEmailLoading, setEmailMsg, setEmailCodeSent); emailTimer.start(); }}>
+                        재전송
+                      </S.SmallBtn>
+                    )}
                   </S.InlineRow>
                 </div>
                 {emailCodeSent && !emailCodeVerified && (
@@ -276,11 +284,16 @@ export default function FindAccountComponent() {
                       disabled={pwCodeVerified}
                     />
                     <S.SmallBtn
-                      onClick={() => sendVerificationCode(pwPhone, setPwLoading, setPwMsg, setPwCodeSent)}
-                      disabled={pwLoading || pwCodeVerified}
+                      onClick={() => { sendVerificationCode(pwPhone, setPwLoading, setPwMsg, setPwCodeSent); pwTimer.start(); }}
+                      disabled={pwLoading || pwCodeVerified || pwTimer.isRunning}
                     >
-                      {pwCodeSent ? "재발송" : "인증 발송"}
+                      {pwTimer.isRunning ? pwTimer.format() : "인증 발송"}
                     </S.SmallBtn>
+                    {pwTimer.isRunning && !pwCodeVerified && (
+                      <S.SmallBtn onClick={() => { sendVerificationCode(pwPhone, setPwLoading, setPwMsg, setPwCodeSent); pwTimer.start(); }}>
+                        재전송
+                      </S.SmallBtn>
+                    )}
                   </S.InlineRow>
                 </div>
                 {pwCodeSent && !pwCodeVerified && (

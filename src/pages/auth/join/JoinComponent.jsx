@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as S from "./style";
+import useVerificationTimer from "../../../hooks/useVerificationTimer";
 
 const steps = ["약관동의", "회원정보 입력", "가입완료"];
 
@@ -49,6 +50,7 @@ export default function JoinComponent() {
   const [codeVerified, setCodeVerified] = useState(false);
   const [smsLoading, setSmsLoading] = useState(false);
   const [smsMsg, setSmsMsg] = useState("");
+  const smsTimer = useVerificationTimer();
   const [submitLoading, setSubmitLoading] = useState(false);
   const [submitMsg, setSubmitMsg] = useState("");
 
@@ -71,7 +73,7 @@ export default function JoinComponent() {
     setSmsLoading(true);
     setSmsMsg("");
     // 테스트 시: SMS 발송 생략
-    setCodeSent(true); setSmsMsg("(테스트) 인증 생략"); setSmsLoading(false); return;
+    setCodeSent(true); setSmsMsg("(테스트) 인증 생략"); setSmsLoading(false); smsTimer.start(); return;
     try {
       const res = await fetch("http://localhost:10000/api/verifications/phone/verification-code", {
         method: "POST",
@@ -128,6 +130,10 @@ export default function JoinComponent() {
       setSubmitMsg("비밀번호가 일치하지 않습니다.");
       return;
     }
+    if (!codeVerified) {
+      setSubmitMsg("핸드폰 인증을 완료해주세요.");
+      return;
+    }
     setSubmitLoading(true);
     setSubmitMsg("");
     try {
@@ -139,6 +145,7 @@ export default function JoinComponent() {
           userEmail: form.userEmail,
           userPassword: form.userPassword,
           userBirth: birth,
+          userPhoneNum: phone.replace(/\D/g, ""),
         }),
       });
       const data = await res.json();
@@ -317,9 +324,17 @@ export default function JoinComponent() {
                       onChange={e => setPhone(formatPhone(e.target.value))}
                       disabled={codeVerified}
                     />
-                    <S.SmallBtn onClick={handleSendCode} disabled={smsLoading || codeVerified}>
-                      {codeSent ? "재발송" : "인증 발송"}
+                    <S.SmallBtn
+                      onClick={() => { handleSendCode(); }}
+                      disabled={smsLoading || codeVerified || smsTimer.isRunning}
+                    >
+                      {smsTimer.isRunning ? smsTimer.format() : "인증 발송"}
                     </S.SmallBtn>
+                    {smsTimer.isRunning && !codeVerified && (
+                      <S.SmallBtn onClick={() => { handleSendCode(); smsTimer.start(); }}>
+                        재전송
+                      </S.SmallBtn>
+                    )}
                   </S.InlineRow>
                   {codeSent && !codeVerified && (
                     <div style={{ marginTop: 8 }}>

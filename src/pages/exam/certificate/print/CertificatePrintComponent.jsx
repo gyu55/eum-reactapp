@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import * as S from "./style";
 import useLoginCheck from "../../../../hooks/useLoginCheck";
+import LoginGuard from "../../../../components/common/LoginGuard";
 
 const DUMMY_CERTS = [
   { id: 1, no: "CL-2025-00456", course: "수어통역 기초과정",  date: "2025년 2월 28일" },
@@ -9,7 +10,7 @@ const DUMMY_CERTS = [
 ];
 
 const CertificatePrintComponent = () => {
-  const { user } = useLoginCheck();
+  const { isLoggedIn, user } = useLoginCheck();
   const certRef   = useRef(null);
   const [selectedId, setSelectedId] = useState("");
 
@@ -19,6 +20,14 @@ const CertificatePrintComponent = () => {
   const birth = user?.userBirth ? user.userBirth.replace(/-/g, ".") : "0000.00.00";
 
   const cert = selected ? { ...selected, name, birth } : null;
+
+  if (isLoggedIn === null) return null;
+  if (!isLoggedIn) return (
+    <S.Wrapper>
+      <S.SectionTitle style={{ marginBottom: 6 }}>수료증 출력</S.SectionTitle>
+      <LoginGuard message="수료증 출력은 로그인 후 이용 가능합니다." />
+    </S.Wrapper>
+  );
 
   const handlePrint = () => {
     if (!cert) return;

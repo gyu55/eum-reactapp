@@ -33,7 +33,7 @@ export default function LoginComponent() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
-        body: JSON.stringify({ userEmail, userPassword, socialUserProvider: "local", autoLogin }),
+        body: JSON.stringify({ userEmail, userPassword, socialUserProvider: "local", autoLogin })
       });
       const data = await res.json();
       if (data.success) {
@@ -76,7 +76,10 @@ export default function LoginComponent() {
             id="save-id"
             type="checkbox"
             checked={saveId}
-            onChange={e => setSaveId(e.target.checked)}
+            onChange={e => {
+              setSaveId(e.target.checked);
+              if (!e.target.checked) localStorage.removeItem("savedEmail");
+            }}
           />
           <S.AutoLoginLabel htmlFor="save-id">아이디 저장</S.AutoLoginLabel>
           <div style={{ flex: 1 }} />

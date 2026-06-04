@@ -51,6 +51,17 @@ export const fetchLearnCompletedWordCount = async ({ userId, learnId }) =>
 export const fetchTodayCompletedWordCount = async (userId) =>
   requestJson(`${BASE_URL}/api/word-studies/users/${userId}/today-completed-count`, {}, "오늘 완료 단어 개수 조회 실패");
 
+// 학습 시작 기록 저장
+export const startLearn = async (learnId) =>
+  requestJson(
+    BASE_URL + "/private/api/edu-starts/edus/" + learnId,
+    {
+      method: "POST",
+      credentials: "include",
+    },
+    "학습 시작 기록 저장 실패"
+  );
+
 // 학습 단어 완료 저장
 export const finishLearnWord = async ({ userId, eduWordMapId }) =>
   requestJson(

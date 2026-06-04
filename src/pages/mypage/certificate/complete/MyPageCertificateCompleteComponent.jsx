@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import S from "./style";
@@ -23,16 +23,64 @@ const CheckIcon = () => {
   );
 };
 
+const formatDate = (date) => {
+  if (!date) {
+    return "-";
+  }
+
+  return String(date).split("T")[0].replaceAll("-", ".");
+};
+
 const MyPageCertificateCompleteComponent = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const requestInfo = location.state?.requestInfo || {};
+  const certRenewId = location.state?.certRenewId;
+  const fallbackInfo = location.state?.completeInfo;
 
-  const certificateName = requestInfo.certificateName || "수어 통역사 2급";
-  const certificateDate = requestInfo.certificateDate || "2025.03.08";
-  const address = requestInfo.address || "서울특별시 강남구 테헤란로 123";
-  const detailAddress = requestInfo.detailAddress || "101동 1203호";
+  const [completeInfo, setCompleteInfo] = useState(fallbackInfo || null);
+
+  // 신청 완료 정보 조회
+  useEffect(() => {
+    if (!certRenewId) {
+      return;
+    }
+
+    const getCompleteInfo = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:10000/private/api/mypage/certificates/apply/${certRenewId}`,
+          {
+            method: "GET",
+            credentials: "include",
+          }
+        );
+
+        const result = await response.json();
+
+        if (!result.success) {
+          alert(result.message);
+          return;
+        }
+
+        setCompleteInfo(result.data);
+      } catch (error) {
+        console.error(error);
+        alert("신청 완료 정보를 불러오지 못했습니다.");
+      }
+    };
+
+    getCompleteInfo();
+  }, [certRenewId]);
+
+  if (!completeInfo) {
+    return null;
+  }
+
+  const certificateName = completeInfo.testTitle || "-";
+  const certificateDate = formatDate(completeInfo.acquiredAt);
+  const statusName = completeInfo.certApplyStatusName || "신청 완료";
+  const address = completeInfo.certAddress || completeInfo.certRoadAddress || "-";
 
   return (
     <S.CompleteWrapper>
@@ -64,15 +112,13 @@ const MyPageCertificateCompleteComponent = () => {
 
           <S.CompleteStatusItem>
             <S.CompleteInfoLabel>신청 상태</S.CompleteInfoLabel>
-            <S.CompleteStatusBadge>신청 완료</S.CompleteStatusBadge>
+            <S.CompleteStatusBadge>{statusName}</S.CompleteStatusBadge>
           </S.CompleteStatusItem>
         </S.CompleteInfoGrid>
 
         <S.CompleteAddressBox>
           <S.CompleteAddressTitle>수령 주소</S.CompleteAddressTitle>
-          <S.CompleteAddressText>
-            {address}, {detailAddress}
-          </S.CompleteAddressText>
+          <S.CompleteAddressText>{address}</S.CompleteAddressText>
         </S.CompleteAddressBox>
       </S.CompleteInfoCard>
 
@@ -81,7 +127,7 @@ const MyPageCertificateCompleteComponent = () => {
 
         <S.CompleteNoticeList>
           <S.CompleteNoticeText>
-            · 신청 후 상태는 ‘신청 대기 → 신청 완료’로 변경될 수 있습니다.
+            · 신청 후 상태는 신청대기에서 신청완료로 변경될 수 있습니다.
           </S.CompleteNoticeText>
 
           <S.CompleteNoticeText>
@@ -94,7 +140,7 @@ const MyPageCertificateCompleteComponent = () => {
         </S.CompleteNoticeList>
       </S.CompleteNoticeCard>
 
-      <S.CompleteBackButton type="button" onClick={() => navigate("/mypage")}>
+      <S.CompleteBackButton type="button" onClick={() => navigate("/mypage/certificate")}>
         마이페이지로 돌아가기
       </S.CompleteBackButton>
     </S.CompleteWrapper>

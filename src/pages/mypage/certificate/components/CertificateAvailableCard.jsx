@@ -3,22 +3,21 @@ import React from "react";
 import S from "../style";
 
 /* 자격증 아이콘 */
-const certificateIconImg =
-  "/assets/image/main/exam.svg";
+const certificateIconImg = "/assets/image/main/examIcon.svg";
 
-const CertificateAvailableCard = () => {
+const CertificateAvailableCard = ({ availableApplyCount = 0 }) => {
   return (
     <S.CertificateAvailableCardBox>
-      {/* 신청 가능 안내 */}
+      {/* 실물 신청 가능 안내 */}
       <S.CertificateAvailableContent>
         <S.CertificateAvailableTitle>
           실물 신청 가능
         </S.CertificateAvailableTitle>
 
-        {/* 신청 가능 개수 API 연결 */}
+        {/* 신청 가능한 자격증 개수 */}
         <S.CertificateAvailableCountWrap>
           <S.CertificateAvailableCount>
-            1
+            {availableApplyCount}
           </S.CertificateAvailableCount>
 
           <S.CertificateAvailableUnit>

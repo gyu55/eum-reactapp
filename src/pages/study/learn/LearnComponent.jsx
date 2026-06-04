@@ -1,6 +1,7 @@
 // 학습 메인 컴포넌트: 메뉴, 로드맵, 퀘스트, 진행도를 화면에 표시
 import { useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { startLearn } from "../apis/LearnApi";
 import { useLearn } from "../hooks/useLearn";
 import { useTodayQuests } from "../hooks/useTodayQuests";
 import LearnQuestPanel from "./parts/LearnQuestPanel";
@@ -69,7 +70,7 @@ const LearnComponent = () => {
   };
 
   // 레슨 시작: 선택한 학습 경로로 이동
-  const handleStartLesson = (lesson) => {
+  const handleStartLesson = async (lesson) => {
     if (lesson.status === "locked" || lesson.status === "reward") {
       alert(SERVICE_READY_MESSAGE);
 
@@ -77,6 +78,12 @@ const LearnComponent = () => {
     }
 
     if (activeType === "sign" && Number.isFinite(Number(lesson.id))) {
+      try {
+        await startLearn(lesson.id);
+      } catch {
+        // 시작 기록 저장 실패가 학습 진입을 막지 않도록 둠
+      }
+
       navigate(`/study/learn/quiz/greeting/questions/1?eduId=${lesson.id}`, {
         state: {
           eduId: lesson.id,

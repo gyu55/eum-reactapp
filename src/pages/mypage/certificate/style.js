@@ -144,7 +144,7 @@ S.CertificateStatusButton = styled.button`
   color: #000000;
 `;
 
-/* 신청 박스 */
+/* 신청 버튼 */
 S.CertificateApplyButton = styled.button`
   width: 80px;
   height: 30px;
@@ -159,13 +159,13 @@ S.CertificateApplyButton = styled.button`
   border: none;
   border-radius: 8px;
 
-  background: #e4e7ef;
+  background: ${({ disabled }) => (disabled ? "#e4e7ef" : "#f1f3ff")};
 
   font-size: 12px;
   font-weight: ${FONT_WEIGHT.regular};
-  color: #000000;
+  color: ${({ disabled }) => (disabled ? "#777777" : "#000000")};
 
-  cursor: pointer;
+  cursor: ${({ disabled }) => (disabled ? "default" : "pointer")};
 `;
 
 /* 선택 자격증 상세 CSS */
@@ -325,7 +325,7 @@ S.CourseDesc = styled.p`
 /* 수강중인 강좌 카드 */
 S.CourseCardBox = styled.div`
   width: 985px;
-  height: 327px;
+  min-height: ${({ $isExpanded }) => ($isExpanded ? "auto" : "327px")};
   padding: 22px 22px 8px;
   box-sizing: border-box;
 
@@ -338,13 +338,14 @@ S.CourseList = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 220px);
   column-gap: 13px;
+  row-gap: 18px;
   justify-content: space-between;
 `;
 
 /* 강좌 카드 */
 S.CourseItem = styled.div`
   width: 220px;
-  height: 243px;
+  height: 260px;
   box-sizing: border-box;
 
   border: 1px solid #eceef5;
@@ -368,46 +369,93 @@ S.CourseImageBox = styled.div`
   }
 `;
 
+
 /* 강좌 내용 */
 S.CourseInfo = styled.div`
-  padding: 6px 7px 2px;
+  height: 156px;
+  padding: 12px 14px 12px;
   box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
 `;
 
 /* 강좌명 */
 S.CourseName = styled.p`
   margin: 0;
 
-  font-size: 12px;
-  font-weight: ${FONT_WEIGHT.regular};
+  height: 40px;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  font-family: "Pretendard";
+  font-size: 15px;
+  font-weight: ${FONT_WEIGHT.bold};
+  line-height: 1.35;
   color: #000000;
+
+  word-break: keep-all;
 `;
 
 /* 과정명 */
 S.CourseLevel = styled.p`
-  margin: 6px 0 0;
+  margin: 8px 0 0;
 
-  font-size: 12px;
+  height: 18px;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  font-family: "Pretendard";
+  font-size: 14px;
   font-weight: ${FONT_WEIGHT.regular};
+  line-height: 1.3;
   color: #000000;
 `;
 
 /* 수강기간 */
-S.CourseDate = styled.p`
-  margin: 6px 0 0;
+S.CourseDate = styled.div`
+  margin: 12px 0 0;
 
-  font-size: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  font-family: "Pretendard";
+  font-size: 14px;
   font-weight: ${FONT_WEIGHT.regular};
-  line-height: 1.4;
+  line-height: 1.25;
   color: #000000;
+`;
+
+/* 수강기간 첫 줄 */
+S.CourseDateLine = styled.span`
+  display: block;
+  text-align: left;
+  white-space: nowrap;
+`;
+
+/* 수강기간 종료일 */
+S.CourseDateEnd = styled.span`
+  display: block;
+  padding-left: 100px;
+
+  text-align: left;
+  white-space: nowrap;
 `;
 
 /* 진행 바 */
 S.CourseProgressBar = styled.div`
-  width: calc(100% - 14px);
+  width: 100%;
   height: 8px;
 
-  margin: 9px auto 0;
+  margin-top: auto;
 
   border-radius: 999px;
   background: #e4e7ef;
@@ -422,7 +470,7 @@ S.CourseProgressFill = styled.div`
 
   border-radius: 999px;
   background: #4359fc;
-`;
+`
 
 /* 강좌 더보기 */
 S.CourseMoreButton = styled.button`

@@ -165,6 +165,7 @@ const LearnQuizComponent = () => {
   const [selectedOptionId, setSelectedOptionId] = useState(null);
   const [status, setStatus] = useState("solving");
   const [reviewIndex, setReviewIndex] = useState(0);
+  const [savedEduWordMapIds, setSavedEduWordMapIds] = useState([]);
 
   // 세션 자료 조회: 학습 시작 시 단어와 영상을 불러와 문제 세션 구성
   useEffect(() => {
@@ -234,6 +235,10 @@ const LearnQuizComponent = () => {
     setStatus("solving");
   }, [id]);
 
+  useEffect(() => {
+    setSavedEduWordMapIds([]);
+  }, [routeEduId]);
+
   const selectedOption = question?.options.find((option) => option.id === selectedOptionId) || null;
   const progress = Math.round(((currentIndex + 1) / totalQuestions) * 100);
   const progressStatus = status === "correct" ? "correct" : status === "incorrect" ? "incorrect" : "solving";
@@ -258,8 +263,24 @@ const LearnQuizComponent = () => {
     setSelectedOptionId(optionId);
   };
 
+  // 단어 완료 저장: 문제를 확인한 단어만 학습 진행도로 기록
+  const saveCurrentWord = async () => {
+    const eduWordMapId = question?.word?.eduWordMapId;
+
+    if (isGuest || !userId || !eduWordMapId || savedEduWordMapIds.includes(eduWordMapId)) {
+      return;
+    }
+
+    try {
+      await finishLearnWord({ userId, eduWordMapId });
+      setSavedEduWordMapIds((prev) => [...prev, eduWordMapId]);
+    } catch {
+      // 단어 저장 실패가 문제 풀이 흐름을 막지 않도록 둠
+    }
+  };
+
   // 정답 확인: 선택한 보기의 정답 여부 확인 및 컨텍스트 기록
-  const handleCheck = () => {
+  const handleCheck = async () => {
     if (!selectedOption) return;
 
     const isCorrect = Boolean(selectedOption.correct);
@@ -271,32 +292,14 @@ const LearnQuizComponent = () => {
     });
 
     setStatus(isCorrect ? "correct" : "incorrect");
+
+    if (isCorrect) {
+      await saveCurrentWord();
+    }
   };
 
-  // 퀴즈 완료: 학습 완료 저장을 시도하고 학습 메인으로 돌아감
+  // 퀴즈 완료: 결과 저장을 시도하고 학습 메인으로 돌아감
   const handleFinish = async () => {
-    if (!isGuest && userId) {
-
-      // 중복 제거
-      const eduWordMapIds = [
-        ...new Set(
-          quizWords
-            .map((word) => word.eduWordMapId)
-            .filter(Boolean)
-        ),
-      ];
-        
-      try {
-        await Promise.all(
-          eduWordMapIds.map((eduWordMapId) =>
-            finishLearnWord({ userId, eduWordMapId})
-          )
-        );
-      } catch {
-        // 저장 실패가 세션 종료를 막지 않도록 둠
-      }
-    }
-
     if (isGuest || !userId || !canSubmitQuizAnswers(quiz.id, state.answers)) {
       setResult({
         quizId: quiz.id,
@@ -481,7 +484,7 @@ const LearnQuizComponent = () => {
         ) : (
           <LearnQuizFeedback
             status={status}
-            exp={question.exp}
+            exp={status === "correct" ? (isBackendQuiz ? 20 : question.exp) : 0}
             message={status === "correct" ? question.feedback.correct : question.feedback.incorrect}
             description={question.word?.wordsDetail || question.hint}
             onNext={handleNext}

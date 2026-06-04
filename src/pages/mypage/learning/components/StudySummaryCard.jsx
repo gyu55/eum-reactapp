@@ -23,17 +23,17 @@ const StudySummaryCard = ({ summary }) => {
   const summaryList = [
     {
       icon: "📊",
-      label: "총 정답률",
+      label: "전체 진행률",
       value: `${summary?.totalAccuracy || 0}%`,
     },
     {
       icon: "📝",
-      label: "총 푼 문제",
+      label: "완료 단어",
       value: summary?.totalQuestionCount || 0,
     },
     {
       icon: "🕐",
-      label: "총 학습시간",
+      label: "학습 시간",
       value: formatTime(summary?.totalStudyTime),
     },
   ];

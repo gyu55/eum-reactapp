@@ -278,13 +278,13 @@ S.SubmitButton = styled.button`
 
   border: none;
   border-radius: 8px;
-  background: #4359fc;
+  background: ${({ disabled }) => (disabled ? "#999999" : "#4359fc")};
 
   font-size: 12px;
   font-weight: ${FONT_WEIGHT.regular};
   color: #ffffff;
 
-  cursor: pointer;
+  cursor: ${({ disabled }) => (disabled ? "default" : "pointer")};
 `;
 
 export default S;

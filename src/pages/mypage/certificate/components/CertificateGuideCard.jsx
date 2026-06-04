@@ -5,15 +5,15 @@ import S from "../style";
 
 const guideList = [
   "자격증 취득 정보는 조회용으로 표시됩니다.",
-  "실물 신청이 가능한 항목만 버튼이 노출돼요.",
-  "신청 후 처리 상태는 실시간으로 반영됩니다.",
+  "실물 신청이 가능한 항목만 버튼을 눌러 신청할 수 있어요.",
+  "신청 후 처리 상태는 마이페이지에서 확인할 수 있어요.",
   "발급 완료 시 수령 여부를 확인할 수 있어요.",
 ];
 
 const CertificateGuideCard = () => {
   const navigate = useNavigate();
 
-  /* 신청 가이드 페이지 이동 */
+  // 신청 가이드 페이지 이동
   const handleGuideClick = () => {
     navigate("/mypage/certificate/guide");
   };
@@ -29,7 +29,7 @@ const CertificateGuideCard = () => {
       <S.CertificateGuideList>
         {guideList.map((guide) => (
           <S.CertificateGuideItem key={guide}>
-            • {guide}
+            · {guide}
           </S.CertificateGuideItem>
         ))}
       </S.CertificateGuideList>

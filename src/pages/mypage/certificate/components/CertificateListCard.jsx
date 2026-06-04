@@ -1,39 +1,57 @@
 import React, { useState } from "react";
-
-import S from "../style";
 import { useNavigate } from "react-router-dom";
 
-const certificateList = [
-  {
-    name: "수어 통역사 2급",
-    date: "2025.03.08",
-    status: "미신청",
-    apply: "신청하기",
-  },
-  {
-    name: "수어 통역사 1급",
-    date: "2024.11.21",
-    status: "신청완료",
-    apply: "완료",
-  },
-  {
-    name: "수어 지도사",
-    date: "2023.08.14",
-    status: "신청대기",
-    apply: "처리중",
-  },
-];
+import S from "../style";
 
-const CertificateListCard = () => {
+const formatDate = (date) => {
+  if (!date) {
+    return "-";
+  }
+
+  return String(date).split("T")[0].replaceAll("-", ".");
+};
+
+const CertificateListCard = ({ certificateList = [] }) => {
+  const navigate = useNavigate();
   const [selectedCertificate, setSelectedCertificate] = useState(null);
 
-  const handleApplyClick = (certificate) => {
-    if (certificate.apply !== "신청하기") return;
+  // 선택한 자격증의 최신 상세 정보를 조회
+  const handleCertificateClick = async (certificate) => {
+    try {
+      const response = await fetch(
+        `http://localhost:10000/private/api/mypage/certificates/${certificate.testResultId}`,
+        {
+          method: "GET",
+          credentials: "include",
+        }
+      );
 
-    setSelectedCertificate(certificate);
+      const result = await response.json();
+
+      if (!result.success) {
+        alert(result.message);
+        return;
+      }
+
+      setSelectedCertificate(result.data);
+    } catch (error) {
+      console.error(error);
+      alert("선택한 자격증 정보를 불러오지 못했습니다.");
+    }
   };
 
-  const navigate = useNavigate();
+  // 신청 가능한 자격증만 신청 페이지로 이동
+  const handleApplyClick = (certificate) => {
+    if (!certificate.canApply) {
+      return;
+    }
+
+    navigate("/mypage/certificate/confirm", {
+      state: {
+        testResultId: certificate.testResultId,
+      },
+    });
+  };
 
   return (
     <S.CertificateSection>
@@ -51,24 +69,37 @@ const CertificateListCard = () => {
           <S.CertificateHeaderText>신청</S.CertificateHeaderText>
         </S.CertificateHeader>
 
-        {/* 자격증 목록 연동 */}
-        {certificateList.map((certificate) => (
-          <S.CertificateRow key={certificate.name}>
-            <S.CertificateText>{certificate.name}</S.CertificateText>
-            <S.CertificateText>{certificate.date}</S.CertificateText>
-
-            <S.CertificateStatusButton type="button">
-              {certificate.status}
-            </S.CertificateStatusButton>
-
-            <S.CertificateApplyButton
-              type="button"
-              onClick={() => handleApplyClick(certificate)}
-            >
-              {certificate.apply}
-            </S.CertificateApplyButton>
+        {/* 합격한 자격증 목록 */}
+        {certificateList.length === 0 ? (
+          <S.CertificateRow>
+            <S.CertificateText>취득한 자격증이 없습니다.</S.CertificateText>
+            <S.CertificateText>-</S.CertificateText>
+            <S.CertificateText>-</S.CertificateText>
+            <S.CertificateText>-</S.CertificateText>
           </S.CertificateRow>
-        ))}
+        ) : (
+          certificateList.map((certificate) => (
+            <S.CertificateRow key={certificate.testResultId}>
+              <S.CertificateText>{certificate.testTitle}</S.CertificateText>
+              <S.CertificateText>{formatDate(certificate.acquiredAt)}</S.CertificateText>
+
+              <S.CertificateStatusButton
+                type="button"
+                onClick={() => handleCertificateClick(certificate)}
+              >
+                {certificate.certApplyStatusName}
+              </S.CertificateStatusButton>
+
+              <S.CertificateApplyButton
+                type="button"
+                disabled={!certificate.canApply}
+                onClick={() => handleCertificateClick(certificate)}
+              >
+                {certificate.buttonText}
+              </S.CertificateApplyButton>
+            </S.CertificateRow>
+          ))
+        )}
 
         {selectedCertificate && (
           <S.CertificateDetailBox>
@@ -78,21 +109,21 @@ const CertificateListCard = () => {
               <S.CertificateDetailInfoItem>
                 <S.CertificateDetailLabel>자격증명</S.CertificateDetailLabel>
                 <S.CertificateDetailValue>
-                  {selectedCertificate.name}
+                  {selectedCertificate.testTitle}
                 </S.CertificateDetailValue>
               </S.CertificateDetailInfoItem>
 
               <S.CertificateDetailInfoItem>
                 <S.CertificateDetailLabel>취득일자</S.CertificateDetailLabel>
                 <S.CertificateDetailValue>
-                  {selectedCertificate.date}
+                  {formatDate(selectedCertificate.acquiredAt)}
                 </S.CertificateDetailValue>
               </S.CertificateDetailInfoItem>
 
               <S.CertificateDetailInfoItem>
                 <S.CertificateDetailLabel>실물 신청 상태</S.CertificateDetailLabel>
                 <S.CertificateDetailValue>
-                  {selectedCertificate.status}
+                  {selectedCertificate.certApplyStatusName}
                 </S.CertificateDetailValue>
               </S.CertificateDetailInfoItem>
             </S.CertificateDetailInfoRow>
@@ -105,10 +136,14 @@ const CertificateListCard = () => {
               신청 후 처리 상태는 마이페이지에서 계속 확인할 수 있습니다.
             </S.CertificateDetailNoticeText>
 
-            {/* 실물 신청 API 연동 */}
-            <S.CertificateDetailApplyButton type="button" onClick={() => navigate("/mypage/certificate/confirm")}>
-              실물 신청
-            </S.CertificateDetailApplyButton>
+            {selectedCertificate.canApply && (
+              <S.CertificateDetailApplyButton
+                type="button"
+                onClick={() => handleApplyClick(selectedCertificate)}
+              >
+                실물 신청
+              </S.CertificateDetailApplyButton>
+            )}
           </S.CertificateDetailBox>
         )}
 

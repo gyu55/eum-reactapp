@@ -2,6 +2,7 @@ import { useState } from "react";
 import * as S from "./style";
 import useLoginCheck from "../../../../hooks/useLoginCheck";
 import LoginGuard from "../../../../components/common/LoginGuard";
+import useVerificationTimer from "../../../../hooks/useVerificationTimer";
 import useTossPayment from "../../../../hooks/useTossPayment";
 
 const DUMMY_CERTS = [
@@ -31,6 +32,7 @@ const ReissueModal = ({ user, cert, onClose }) => {
   const [method, setMethod]       = useState("");
   const [codeSent, setCodeSent]   = useState(false);
   const [code, setCode]           = useState("");
+  const codeTimer = useVerificationTimer();
   const [payLoading, setPayLoading] = useState(false);
   const [payError, setPayError]     = useState("");
 
@@ -42,6 +44,7 @@ const ReissueModal = ({ user, cert, onClose }) => {
     //   : "/api/auth/send-phone-code";
     // await fetch(endpoint, { method: "POST", credentials: "include" });
     setCodeSent(true);
+    codeTimer.start();
   };
 
   const handleOverlayClick = (e) => {
@@ -97,9 +100,14 @@ const ReissueModal = ({ user, cert, onClose }) => {
                     onChange={e => setCode(e.target.value)}
                     maxLength={6}
                   />
-                  <S.SendBtn type="button" onClick={handleSend}>
-                    {codeSent ? "재전송" : "인증번호 전송"}
+                  <S.SendBtn type="button" onClick={handleSend} disabled={codeTimer.isRunning}>
+                    {codeTimer.isRunning ? codeTimer.format() : "인증번호 전송"}
                   </S.SendBtn>
+                  {codeTimer.isRunning && (
+                    <S.SendBtn type="button" onClick={() => { handleSend(); codeTimer.start(); }}>
+                      재전송
+                    </S.SendBtn>
+                  )}
                 </S.CodeRow>
 
                 {codeSent && code.length === 6 && (

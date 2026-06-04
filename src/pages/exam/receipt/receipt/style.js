@@ -283,3 +283,53 @@ export const ConfirmBtn = styled.button`
   opacity: 0;
   animation: ${slideUp} 0.5s ease 0.6s forwards;
 `;
+
+export const ModalOverlay = styled.div`
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+`;
+
+export const ModalBox = styled.div`
+  background: #fff;
+  border-radius: 16px;
+  padding: 36px 32px 28px;
+  width: 340px;
+  text-align: center;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+`;
+
+export const ModalIcon = styled.div`
+  font-size: 40px;
+  margin-bottom: 16px;
+`;
+
+export const ModalTitle = styled.div`
+  font-size: 16px;
+  font-weight: 700;
+  color: #111;
+  margin-bottom: 10px;
+`;
+
+export const ModalDesc = styled.div`
+  font-size: 13px;
+  color: #888;
+  line-height: 1.7;
+  margin-bottom: 24px;
+`;
+
+export const ModalConfirmBtn = styled.button`
+  width: 100%;
+  background: ${PRIMARY};
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 0;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+`;

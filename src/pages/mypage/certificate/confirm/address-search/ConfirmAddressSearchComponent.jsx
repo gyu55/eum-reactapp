@@ -2,35 +2,56 @@ import React, { useState } from "react";
 
 import S from "./style";
 
-const addressList = [
-  {
-    zipCode: "06236",
-    roadAddress: "서울특별시 강남구 테헤란로 123",
-    building: "이음빌딩",
-    jibunAddress: "서울특별시 강남구 역삼동 123-45",
-  },
-  {
-    zipCode: "06134",
-    roadAddress: "서울특별시 강남구 테헤란로 152",
-    building: "강남파이낸스센터",
-    jibunAddress: "서울특별시 강남구 역삼동 737",
-  },
-  {
-    zipCode: "06242",
-    roadAddress: "서울특별시 강남구 테헤란로 210",
-    building: "역삼 센터타워",
-    jibunAddress: "서울특별시 강남구 역삼동 701",
-  },
-  {
-    zipCode: "06229",
-    roadAddress: "서울특별시 강남구 테헤란로 301",
-    building: "테헤란타워",
-    jibunAddress: "서울특별시 강남구 역삼동 825-20",
-  },
-];
+const getAddressValue = (address, keyList) => {
+  for (const key of keyList) {
+    if (address?.[key]) {
+      return address[key];
+    }
+  }
+
+  return "";
+};
 
 const ConfirmAddressSearchComponent = ({ onCancel, onConfirm }) => {
+  const [keyword, setKeyword] = useState("");
+  const [addressList, setAddressList] = useState([]);
   const [selectedAddress, setSelectedAddress] = useState(null);
+  const [isSearching, setIsSearching] = useState(false);
+
+  // 도로명주소 검색 API 조회
+  const handleSearchClick = async () => {
+    if (!keyword.trim()) {
+      alert("검색어를 입력해주세요.");
+      return;
+    }
+
+    try {
+      setIsSearching(true);
+
+      const response = await fetch(
+        `http://localhost:10000/private/api/mypage/certificates/address-search?keyword=${encodeURIComponent(keyword.trim())}`,
+        {
+          method: "GET",
+          credentials: "include",
+        }
+      );
+
+      const result = await response.json();
+
+      if (!result.success) {
+        alert(result.message);
+        return;
+      }
+
+      setAddressList(result.data || []);
+      setSelectedAddress(null);
+    } catch (error) {
+      console.error(error);
+      alert("주소 검색 중 오류가 발생했습니다.");
+    } finally {
+      setIsSearching(false);
+    }
+  };
 
   const handleConfirmClick = () => {
     if (!selectedAddress) {
@@ -53,10 +74,19 @@ const ConfirmAddressSearchComponent = ({ onCancel, onConfirm }) => {
         <S.SearchArea>
           <S.SearchInput
             type="text"
+            value={keyword}
+            onChange={(e) => setKeyword(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                handleSearchClick();
+              }
+            }}
             placeholder="예: 테헤란로 123 / 강남구 역삼동"
           />
 
-          <S.SearchButton type="button">검색</S.SearchButton>
+          <S.SearchButton type="button" onClick={handleSearchClick}>
+            {isSearching ? "검색 중" : "검색"}
+          </S.SearchButton>
         </S.SearchArea>
 
         <S.SearchGuideBox>
@@ -74,7 +104,7 @@ const ConfirmAddressSearchComponent = ({ onCancel, onConfirm }) => {
 
         <S.ResultTop>
           <S.ResultTitle>검색 결과</S.ResultTitle>
-          <S.ResultCount>총 4건</S.ResultCount>
+          <S.ResultCount>총 {addressList.length}건</S.ResultCount>
         </S.ResultTop>
 
         <S.ResultHeader>
@@ -85,18 +115,24 @@ const ConfirmAddressSearchComponent = ({ onCancel, onConfirm }) => {
         </S.ResultHeader>
 
         {addressList.map((address) => {
-          const isSelected = selectedAddress?.zipCode === address.zipCode;
+          const zipCode = getAddressValue(address, ["zipCode", "zipNo", "postcode"]);
+          const roadAddress = getAddressValue(address, ["roadAddress", "roadAddr"]);
+          const buildingName = getAddressValue(address, ["building", "buildingName", "bdNm"]);
+          const jibunAddress = getAddressValue(address, ["jibunAddress", "jibunAddr"]);
+          const isSelected = selectedAddress === address;
 
           return (
-            <S.ResultRow key={address.zipCode}>
-              <S.ZipCodeText>{address.zipCode}</S.ZipCodeText>
+            <S.ResultRow key={`${zipCode}-${roadAddress}`}>
+              <S.ZipCodeText>{zipCode}</S.ZipCodeText>
 
               <S.RoadAddress>
-                <S.AddressText>{address.roadAddress}</S.AddressText>
-                <S.AddressText>{address.building}</S.AddressText>
+                <S.AddressText>{roadAddress}</S.AddressText>
+                {buildingName && (
+                  <S.AddressText>{buildingName}</S.AddressText>
+                )}
               </S.RoadAddress>
 
-              <S.AddressText>{address.jibunAddress}</S.AddressText>
+              <S.AddressText>{jibunAddress}</S.AddressText>
 
               <S.SelectButtonWrap>
                 <S.SelectButton
@@ -114,7 +150,7 @@ const ConfirmAddressSearchComponent = ({ onCancel, onConfirm }) => {
         <S.BottomGuideBox>
           <S.BottomGuideTitle>선택 안내</S.BottomGuideTitle>
           <S.BottomGuideText>
-            원하는 주소의 ‘선택’ 버튼을 누르면 신청 페이지의 주소 입력란에 자동으로 반영됩니다.
+            원하는 주소의 선택 버튼을 누르면 신청 페이지의 주소 입력란에 자동으로 반영됩니다.
             <br />
             상세 주소는 주소 선택 후 직접 입력해주세요.
           </S.BottomGuideText>

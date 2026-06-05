@@ -1,6 +1,9 @@
 import theme from "../../../../../styles/theme";
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useEditor, EditorContent } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
+import Underline from "@tiptap/extension-underline";
 import {
   getPostById,
   deletePost,
@@ -8,7 +11,6 @@ import {
   cancelPostLike,
 } from "../../../communityApi/postApi";
 import * as S from "../postDetailStyle";
-import DummyContent from "./dummyContent/DummyContent";
 import { DEFAULT_IMAGES } from "../../../constants";
 import PostContentSkeleton from "./PostContentSkeleton";
 import modifyIcon from "../../../assets/icon/modify-grey.svg";
@@ -28,6 +30,19 @@ const PostContent = ({ postId }) => {
   const [liked, setLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
   const [deletePopupOpen, setDeletePopupOpen] = useState(false);
+
+  const contentEditor = useEditor({
+    extensions: [StarterKit, Underline],
+    content: "",
+    editable: false,
+    immediatelyRender: false,
+  });
+
+  useEffect(() => {
+    if (contentEditor && post?.postContent) {
+      contentEditor.commands.setContent(post.postContent);
+    }
+  }, [contentEditor, post?.postContent]);
 
   const handleDeleteConfirm = async () => {
     try {
@@ -86,7 +101,7 @@ const PostContent = ({ postId }) => {
   const {
     // id,
     postTitle,
-    // postContent,
+    // postContent — useEffect에서 post?.postContent로 직접 참조
     postReadCount,
     postCreateAt,
     // postTag,
@@ -126,7 +141,9 @@ const PostContent = ({ postId }) => {
         <S.Divider />
 
         {/* 게시글 몸체 */}
-        <DummyContent />
+        <S.TiptapViewerWrapper>
+          <EditorContent editor={contentEditor} />
+        </S.TiptapViewerWrapper>
         {/* <S.TagRow>
           {tags.map((tag) => (
             <S.Tag key={tag}>{tag}</S.Tag>

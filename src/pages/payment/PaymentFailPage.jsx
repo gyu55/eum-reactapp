@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
@@ -40,14 +41,48 @@ const PaymentFailPage = () => {
   const navigate = useNavigate();
 
   const message = searchParams.get("message") || "결제가 취소되었거나 실패했습니다.";
+  const paymentType = searchParams.get("paymentType");
+  const referenceId = searchParams.get("referenceId");
+
+  const [cancelMessage, setCancelMessage] = useState("");
+
+  useEffect(() => {
+    const cancelCertIssue = async () => {
+      if (paymentType !== "CERT_ISSUE" || !referenceId) {
+        return;
+      }
+
+      try {
+        await fetch(`http://localhost:10000/api/cert-renew/${referenceId}`, {
+          method: "DELETE",
+          credentials: "include",
+        });
+
+        setCancelMessage("실물 신청 정보는 취소 처리되었습니다.");
+      } catch (error) {
+        console.error(error);
+        setCancelMessage("실물 신청 취소 처리 중 오류가 발생했습니다.");
+      }
+    };
+
+    cancelCertIssue();
+  }, [paymentType, referenceId]);
 
   return (
     <Wrap>
       <Card>
         <Icon>❌</Icon>
         <Title>결제에 실패했습니다</Title>
-        <Sub>{message}</Sub>
-        <Btn onClick={() => navigate(-1)}>다시 시도하기</Btn>
+        <Sub>
+          {message}
+          {cancelMessage && (
+            <>
+              <br />
+              {cancelMessage}
+            </>
+          )}
+        </Sub>
+        <Btn onClick={() => navigate("/mypage/certificate")}>마이페이지로 돌아가기</Btn>
       </Card>
     </Wrap>
   );

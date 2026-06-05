@@ -13,9 +13,15 @@ const formatDate = (date) => {
 
 const CertificateListCard = ({ certificateList = [] }) => {
   const navigate = useNavigate();
-  const [selectedCertificate, setSelectedCertificate] = useState(null);
 
-  // 선택한 자격증의 최신 상세 정보를 조회
+  const [selectedCertificate, setSelectedCertificate] = useState(null);
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const hasMoreCertificates = certificateList.length >= 4;
+  const visibleCertificateList = isExpanded
+    ? certificateList
+    : certificateList.slice(0, 3);
+
   const handleCertificateClick = async (certificate) => {
     try {
       const response = await fetch(
@@ -40,7 +46,6 @@ const CertificateListCard = ({ certificateList = [] }) => {
     }
   };
 
-  // 신청 가능한 자격증만 신청 페이지로 이동
   const handleApplyClick = (certificate) => {
     if (!certificate.canApply) {
       return;
@@ -69,7 +74,6 @@ const CertificateListCard = ({ certificateList = [] }) => {
           <S.CertificateHeaderText>신청</S.CertificateHeaderText>
         </S.CertificateHeader>
 
-        {/* 합격한 자격증 목록 */}
         {certificateList.length === 0 ? (
           <S.CertificateRow>
             <S.CertificateText>취득한 자격증이 없습니다.</S.CertificateText>
@@ -78,15 +82,12 @@ const CertificateListCard = ({ certificateList = [] }) => {
             <S.CertificateText>-</S.CertificateText>
           </S.CertificateRow>
         ) : (
-          certificateList.map((certificate) => (
+          visibleCertificateList.map((certificate) => (
             <S.CertificateRow key={certificate.testResultId}>
               <S.CertificateText>{certificate.testTitle}</S.CertificateText>
               <S.CertificateText>{formatDate(certificate.acquiredAt)}</S.CertificateText>
 
-              <S.CertificateStatusButton
-                type="button"
-                onClick={() => handleCertificateClick(certificate)}
-              >
+              <S.CertificateStatusButton as="span">
                 {certificate.certApplyStatusName}
               </S.CertificateStatusButton>
 
@@ -147,9 +148,16 @@ const CertificateListCard = ({ certificateList = [] }) => {
           </S.CertificateDetailBox>
         )}
 
-        <S.CertificateMoreButton type="button" $hasDetail={!!selectedCertificate}>
-          더 보기 <span>→</span>
-        </S.CertificateMoreButton>
+        {hasMoreCertificates && (
+          <S.CertificateMoreButton
+            type="button"
+            $hasDetail={!!selectedCertificate}
+            onClick={() => setIsExpanded((prev) => !prev)}
+          >
+            {isExpanded ? "접기" : "더보기"}{" "}
+            <span>{isExpanded ? "▲" : "▼"}</span>
+          </S.CertificateMoreButton>
+        )}
       </S.CertificateCardBox>
     </S.CertificateSection>
   );

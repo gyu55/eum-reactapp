@@ -2,7 +2,6 @@ import React, { useState } from "react";
 
 import S from "../style";
 
-// 자격증 페이지에서만 사용하는 학습 영상 보완 데이터
 const fallbackCourseVideos = [
   {
     eduId: "fallback-1",
@@ -55,10 +54,10 @@ const getYoutubeThumbnail = (youtubeUrl) => {
   return videoId ? `https://img.youtube.com/vi/${videoId}/hqdefault.jpg` : "";
 };
 
-const CourseListCard = ({ courseList = [] }) => {
+const CourseListCard = () => {
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const displayCourseList = courseList.length > 0 ? courseList : fallbackCourseVideos;
+  const displayCourseList = fallbackCourseVideos;
   const needToggleButton = displayCourseList.length > DEFAULT_VISIBLE_COUNT;
   const visibleCourseList = isExpanded
     ? displayCourseList

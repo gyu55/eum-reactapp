@@ -183,7 +183,7 @@ S.AddressField = styled.div`
 /* 신청 전 확인사항 카드 */
 S.NoticeCard = styled.div`
   width: 1040px;
-  height: 124px;
+  min-height: 124px;
 
   padding: 22px 24px;
   box-sizing: border-box;

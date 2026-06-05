@@ -46,7 +46,6 @@ const MyPageCertificateConfirmComponent = () => {
     ? `${roadAddress} ${buildingName}`
     : roadAddress;
 
-  // 신청 화면에서 사용할 회원 정보와 자격증 목록 조회
   useEffect(() => {
     const getConfirmData = async () => {
       try {
@@ -93,7 +92,6 @@ const MyPageCertificateConfirmComponent = () => {
     getConfirmData();
   }, [selectedTestResultId]);
 
-  // 선택한 자격증 상세 조회
   useEffect(() => {
     if (!selectedTestResultId) {
       return;
@@ -126,7 +124,57 @@ const MyPageCertificateConfirmComponent = () => {
     getCertificateDetail();
   }, [selectedTestResultId]);
 
-  // 주소검색 페이지로 이동할 때 기존 신청 정보를 유지
+  const cancelCertRenew = async (certRenewId) => {
+    if (!certRenewId) {
+      return;
+    }
+
+    try {
+      await fetch(`http://localhost:10000/api/cert-renew/${certRenewId}`, {
+        method: "DELETE",
+        credentials: "include",
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const requestCertificatePayment = async (certRenewId) => {
+    const readyRes = await fetch("http://localhost:10000/api/payments/ready", {
+      method: "POST",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        paymentType: "CERT_ISSUE",
+        referenceId: certRenewId,
+        paymentAmount: 5000,
+        orderName: "실물 자격증 발급 수수료",
+      }),
+    });
+
+    const readyData = await readyRes.json();
+
+    if (!readyData.success) {
+      throw new Error(readyData.message || "결제 준비에 실패했습니다.");
+    }
+
+    const { orderId } = readyData.data;
+
+    const successUrl = `${window.location.origin}/payment/success?paymentType=CERT_ISSUE&referenceId=${certRenewId}`;
+    const failUrl = `${window.location.origin}/payment/fail?paymentType=CERT_ISSUE&referenceId=${certRenewId}`;
+
+    const tossPayments = window.TossPayments(process.env.REACT_APP_TOSS_CLIENT_KEY);
+
+    await tossPayments.requestPayment("카드", {
+      amount: 5000,
+      orderId,
+      orderName: "실물 자격증 발급 수수료",
+      customerName: userInfo?.userName || "",
+      successUrl,
+      failUrl,
+    });
+  };
+
   const handleAddressClick = () => {
     navigate("/mypage/certificate/confirm/address-search", {
       state: {
@@ -142,6 +190,8 @@ const MyPageCertificateConfirmComponent = () => {
   };
 
   const handleSubmitClick = async () => {
+    let createdCertRenewId = null;
+
     if (!selectedCertificate) {
       alert("신청할 자격증을 선택해주세요.");
       return;
@@ -200,15 +250,18 @@ const MyPageCertificateConfirmComponent = () => {
         return;
       }
 
-      navigate("/mypage/certificate/complete", {
-        state: {
-          certRenewId: result.data?.certRenewId,
-          completeInfo: result.data,
-        },
-      });
+      createdCertRenewId = result.data?.certRenewId;
+
+      if (!createdCertRenewId) {
+        alert("신청 정보가 정상적으로 생성되지 않았습니다.");
+        return;
+      }
+
+      await requestCertificatePayment(createdCertRenewId);
     } catch (error) {
       console.error(error);
-      alert("실물 신청 중 오류가 발생했습니다.");
+      await cancelCertRenew(createdCertRenewId);
+      alert("결제 요청 중 오류가 발생했습니다. 신청 정보는 취소 처리되었습니다.");
     } finally {
       setIsSubmitting(false);
     }
@@ -330,13 +383,16 @@ const MyPageCertificateConfirmComponent = () => {
 
         <S.NoticeCard>
           <S.NoticeText>
-            · 신청 후 상태는 미신청에서 신청대기, 신청완료 순으로 변경됩니다.
+            · 신청 후 상태는 미신청에서 신청대기, 진행중, 완료 순으로 변경됩니다.
           </S.NoticeText>
           <S.NoticeText>
             · 입력한 주소 정보가 정확해야 정상적으로 수령할 수 있습니다.
           </S.NoticeText>
           <S.NoticeText>
             · 발급 일정은 내부 처리 상황에 따라 달라질 수 있습니다.
+          </S.NoticeText>
+          <S.NoticeText>
+            · 실물 자격증 발급 신청은 5,000원의 발급 수수료가 발생합니다.
           </S.NoticeText>
         </S.NoticeCard>
       </S.ConfirmSection>

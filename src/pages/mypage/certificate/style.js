@@ -65,7 +65,8 @@ S.CertificateDesc = styled.p`
 /* 카드 */
 S.CertificateCardBox = styled.div`
   width: 984px;
-  height: ${({ $hasDetail }) => ($hasDetail ? "474px" : "257px")};
+  min-height: ${({ $hasDetail }) => ($hasDetail ? "474px" : "257px")};
+  height: auto;
 
   padding: 24px 26px 12px 28px;
   box-sizing: border-box;
@@ -87,13 +88,19 @@ S.CertificateHeader = styled.div`
 
 /* 헤더 텍스트 */
 S.CertificateHeaderText = styled.span`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+
   font-size: 12px;
   font-weight: ${FONT_WEIGHT.regular};
   color: #000000;
-
   text-align: center;
 
   &:first-child {
+    justify-content: flex-start;
     text-align: left;
   }
 `;
@@ -105,20 +112,36 @@ S.CertificateRow = styled.div`
   column-gap: 18px;
   align-items: center;
 
+  min-height: 44px;
   padding: 7px 0;
   border-bottom: 1px solid #eceef5;
 `;
 
 /* 행 텍스트 */
 S.CertificateText = styled.span`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 0;
+
   font-size: 12px;
   font-weight: ${FONT_WEIGHT.regular};
   color: #000000;
-
   text-align: center;
+  line-height: 1.4;
 
   &:first-child {
+    justify-content: flex-start;
     text-align: left;
+
+    overflow: hidden;
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
   }
 `;
 
@@ -128,7 +151,9 @@ S.CertificateStatusButton = styled.button`
   height: 30px;
   padding: 0;
 
+  margin: 0 auto;
   justify-self: center;
+  align-self: center;
 
   display: flex;
   align-items: center;
@@ -136,12 +161,13 @@ S.CertificateStatusButton = styled.button`
 
   border: none;
   border-radius: 8px;
-
   background: #e4e7ef;
 
   font-size: 12px;
   font-weight: ${FONT_WEIGHT.regular};
   color: #000000;
+
+  cursor: default;
 `;
 
 /* 신청 버튼 */
@@ -150,7 +176,9 @@ S.CertificateApplyButton = styled.button`
   height: 30px;
   padding: 0;
 
+  margin: 0 auto;
   justify-self: center;
+  align-self: center;
 
   display: flex;
   align-items: center;
@@ -158,12 +186,11 @@ S.CertificateApplyButton = styled.button`
 
   border: none;
   border-radius: 8px;
-
-  background: ${({ disabled }) => (disabled ? "#e4e7ef" : "#f1f3ff")};
+  background: #e4e7ef;
 
   font-size: 12px;
   font-weight: ${FONT_WEIGHT.regular};
-  color: ${({ disabled }) => (disabled ? "#777777" : "#000000")};
+  color: #000000;
 
   cursor: ${({ disabled }) => (disabled ? "default" : "pointer")};
 `;
@@ -284,15 +311,18 @@ S.CertificateDetailApplyButton = styled.button`
 
 /* 더보기 */
 S.CertificateMoreButton = styled.button`
-  margin: ${({ $hasDetail }) => ($hasDetail ? "18px auto 0" : "46px auto 0")};
+  margin: ${({ $hasDetail }) => ($hasDetail ? "18px auto 0" : "28px auto 0")};
 
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 4px;
 
   font-size: 12px;
   font-weight: ${FONT_WEIGHT.bold};
   color: #555555;
+
+  cursor: pointer;
 `;
 
 /* 수강중인 자격증 목록 CSS */

@@ -83,10 +83,10 @@ const PaymentSuccessPage = () => {
   const navigate = useNavigate();
 
   const paymentKey = searchParams.get("paymentKey");
-  const orderId    = searchParams.get("orderId");
-  const amount     = Number(searchParams.get("amount"));
-  const paymentType  = searchParams.get("paymentType");
-  const referenceId  = Number(searchParams.get("referenceId"));
+  const orderId = searchParams.get("orderId");
+  const amount = Number(searchParams.get("amount"));
+  const paymentType = searchParams.get("paymentType");
+  const referenceId = Number(searchParams.get("referenceId"));
 
   const [status, setStatus] = useState("loading");
   const [errMsg, setErrMsg] = useState("");
@@ -98,19 +98,37 @@ const PaymentSuccessPage = () => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ paymentKey, orderId, amount, paymentType, referenceId }),
     })
-      .then(res => res.json())
-      .then(data => {
-        if (data.success) setStatus("done");
-        else { setStatus("error"); setErrMsg(data.message || "결제 확인에 실패했습니다."); }
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          setStatus("done");
+        } else {
+          setStatus("error");
+          setErrMsg(data.message || "결제 확인에 실패했습니다.");
+        }
       })
-      .catch(() => { setStatus("error"); setErrMsg("서버에 연결할 수 없습니다."); });
-  }, []);
+      .catch(() => {
+        setStatus("error");
+        setErrMsg("서버와 연결할 수 없습니다.");
+      });
+  }, [paymentKey, orderId, amount, paymentType, referenceId]);
 
   const goHome = () => {
-    if (paymentType === "TEST_APPLY")    navigate("/exam/receipt/info/confirm");
-    else if (paymentType === "CERT_RENEW")   navigate("/exam/update/check");
-    else if (paymentType === "CERT_REISSUE") navigate("/exam/certificate/reissue");
-    else navigate("/");
+    if (paymentType === "TEST_APPLY") {
+      navigate("/exam/receipt/info/confirm");
+    } else if (paymentType === "CERT_RENEW") {
+      navigate("/exam/update/check");
+    } else if (paymentType === "CERT_REISSUE") {
+      navigate("/exam/certificate/reissue");
+    } else if (paymentType === "CERT_ISSUE") {
+      navigate("/mypage/certificate/complete", {
+        state: {
+          certRenewId: referenceId,
+        },
+      });
+    } else {
+      navigate("/");
+    }
   };
 
   const newExpiryDate = (() => {
@@ -119,30 +137,45 @@ const PaymentSuccessPage = () => {
     return `${d.getFullYear()}년 ${d.getMonth() + 1}월 ${d.getDate()}일`;
   })();
 
-  if (status === "loading") return (
-    <Wrap><Card><Icon>⏳</Icon><Title>결제 확인 중...</Title></Card></Wrap>
-  );
+  if (status === "loading") {
+    return (
+      <Wrap>
+        <Card>
+          <Icon>⏳</Icon>
+          <Title>결제 확인 중...</Title>
+        </Card>
+      </Wrap>
+    );
+  }
 
-  if (status === "error") return (
-    <Wrap>
-      <Card>
-        <Icon>❌</Icon>
-        <Title>결제 확인 실패</Title>
-        <ErrMsg>{errMsg}</ErrMsg>
-        <Btn onClick={() => navigate(-1)}>돌아가기</Btn>
-      </Card>
-    </Wrap>
-  );
+  if (status === "error") {
+    return (
+      <Wrap>
+        <Card>
+          <Icon>!</Icon>
+          <Title>결제 확인 실패</Title>
+          <ErrMsg>{errMsg}</ErrMsg>
+          <Btn onClick={() => navigate(-1)}>돌아가기</Btn>
+        </Card>
+      </Wrap>
+    );
+  }
 
   return (
     <Wrap>
       <Card>
-        <Icon>✅</Icon>
+        <Icon>✓</Icon>
         <Title>결제가 완료되었습니다</Title>
         <Sub>정상적으로 처리되었습니다.</Sub>
         <InfoBox>
-          <InfoRow><InfoLabel>주문번호</InfoLabel><span>{orderId}</span></InfoRow>
-          <InfoRow><InfoLabel>결제금액</InfoLabel><span>{amount.toLocaleString()}원</span></InfoRow>
+          <InfoRow>
+            <InfoLabel>주문번호</InfoLabel>
+            <span>{orderId}</span>
+          </InfoRow>
+          <InfoRow>
+            <InfoLabel>결제금액</InfoLabel>
+            <span>{amount.toLocaleString()}원</span>
+          </InfoRow>
           {paymentType === "CERT_REISSUE" && (
             <InfoRow>
               <InfoLabel>새 만료일</InfoLabel>

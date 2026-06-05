@@ -33,6 +33,7 @@ const ReceiptSubmitContainer = () => {
   const [submitLoading, setSubmitLoading] = useState(false);
   const [submitMsg, setSubmitMsg] = useState("");
   const [submitOk, setSubmitOk] = useState(false);
+  const [cancelMsg, setCancelMsg] = useState("");
   const fileRef = useRef(null);
 
   useEffect(() => {
@@ -71,6 +72,7 @@ const ReceiptSubmitContainer = () => {
 
     setSubmitLoading(true);
     setSubmitMsg("");
+    setCancelMsg("");
 
     // 1단계: 원서 접수
     let referenceId;
@@ -114,8 +116,15 @@ const ReceiptSubmitContainer = () => {
       });
     } catch (e) {
       console.error("[결제 오류]", e);
+      // 결제 실패/취소 시 원서 접수 롤백
+      await fetch(`http://localhost:10000/api/test-applications/${referenceId}`, {
+        method: "DELETE",
+        credentials: "include",
+      }).catch(() => {});
       if (e?.message && !e.message.includes("취소")) {
         setSubmitMsg(e.message || "결제 요청 중 오류가 발생했습니다.");
+      } else {
+        setCancelMsg("결제가 취소되어 원서 접수가 취소되었습니다.\n다시 접수하려면 원서접수 버튼을 눌러주세요.");
       }
       setSubmitLoading(false);
     }
@@ -268,6 +277,20 @@ const ReceiptSubmitContainer = () => {
           {submitLoading ? "처리 중..." : "원서접수 및 결제하기"}
         </S.SubmitBtn>
       </S.FormWrap>
+
+      {cancelMsg && (
+        <S.ModalOverlay>
+          <S.ModalBox>
+            <S.ModalIcon>⚠️</S.ModalIcon>
+            <S.ModalTitle>결제가 취소되었습니다</S.ModalTitle>
+            <S.ModalDesc>
+              결제를 완료하지 않아 원서 접수가 취소되었습니다.<br />
+              다시 접수하려면 아래 버튼을 눌러주세요.
+            </S.ModalDesc>
+            <S.ModalConfirmBtn onClick={() => setCancelMsg("")}>확인</S.ModalConfirmBtn>
+          </S.ModalBox>
+        </S.ModalOverlay>
+      )}
     </S.Wrapper>
   );
 };

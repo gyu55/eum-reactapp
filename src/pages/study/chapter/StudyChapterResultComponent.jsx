@@ -12,33 +12,25 @@ const StudyChapterResultComponent = () => {
   const [isBadgeOpen, setIsBadgeOpen] = useState(true);
   const chapter = chapterQuizMock.find((item) => item.id === quiz);
 
+  const hasAnswers = state.answers.length > 0;
+
   // 정답 개수와 정확도를 계산하는 값
   const result = useMemo(() => {
     const questions = chapter?.questions || [];
-    const hasAnswers = state.answers.length > 0;
-    const totalCount = hasAnswers ? questions.length : 5;
-    const correctCount = hasAnswers
-      ? state.answers.filter((answer) => answer.isCorrect).length
-      : 4;
+    const totalCount = questions.length;
+    const correctCount = state.answers.filter((answer) => answer.isCorrect).length;
     const accuracy = totalCount > 0 ? Math.round((correctCount / totalCount) * 100) : 0;
     const wrongItems = questions.filter(
       (question) => !state.answers.find((answer) => answer.questionId === question.id && answer.isCorrect)
     );
-    const fallbackWrong = {
-      id: "wrong-fallback",
-      question: "수어의 4 대 요소가 아닌 것은?",
-      myAnswer: "수향",
-      correctAnswer: "수색",
-    };
 
     return {
       totalCount,
       correctCount,
       accuracy,
-      wrongItems: hasAnswers && wrongItems.length > 0 ? wrongItems : [fallbackWrong],
+      wrongItems,
     };
   }, [chapter, state.answers]);
-
   if (!chapter) {
     return (
       <S.ChapterWrap>
@@ -50,6 +42,17 @@ const StudyChapterResultComponent = () => {
     );
   }
 
+  if (!hasAnswers) {
+    return (
+      <S.ChapterWrap>
+        <S.ChapterReadyCard>
+          <h1>아직 퀴즈 결과가 없습니다.</h1>
+          <p>문제를 먼저 풀면 결과와 오답 확인이 표시돼요.</p>
+          <S.ResultTextAction to={`/study/chapter/${quiz}`}>문제 풀러가기</S.ResultTextAction>
+        </S.ChapterReadyCard>
+      </S.ChapterWrap>
+    );
+  }
   return (
     <S.ChapterResultWrap>
       <S.ChapterResultContent $dimmed={isBadgeOpen}>
@@ -79,14 +82,13 @@ const StudyChapterResultComponent = () => {
         </S.ResultStatGrid>
 
         <S.ResultWrongBox>
-          <strong>❌ 틀린 문제</strong>
-          <p>Q. {result.wrongItems[0]?.question}</p>
-          <p>
-            내 답: {result.wrongItems[0]?.myAnswer || "선택한 답"} →
-            <em> 정답: {result.wrongItems[0]?.correctAnswer || "정답 보기"}</em>
-          </p>
+          <strong>틀린 문제</strong>
+          {result.wrongItems.length > 0 ? (
+            <p>Q. {result.wrongItems[0]?.question}</p>
+          ) : (
+            <p>틀린 문제가 없어요.</p>
+          )}
         </S.ResultWrongBox>
-
         <S.ResultLine />
 
         <S.ResultTextActions>

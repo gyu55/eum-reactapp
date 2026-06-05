@@ -263,59 +263,6 @@ export const QuizBottomBar = styled.div`
   }
 `;
 
-export const ExperienceResultWrap = styled.div`
-  display: grid;
-  gap: 28px;
-`;
-
-export const ExperienceJoinGuide = styled.aside`
-  padding: 34px;
-  border-radius: 24px;
-  background: #f7f7fb;
-  text-align: center;
-
-  strong {
-    display: block;
-    margin-bottom: 12px;
-    color: #1a1a1a;
-    font-size: ${({ theme }) => theme.FONT_SIZE.h8};
-    font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
-  }
-
-  p {
-    width: min(520px, 100%);
-    margin: 0 auto 26px;
-    color: #666;
-    font-size: ${({ theme }) => theme.FONT_SIZE.h10};
-    line-height: ${({ theme }) => theme.FONT_LINE.h10};
-  }
-
-  div {
-    display: flex;
-    justify-content: center;
-    gap: 12px;
-  }
-
-  a {
-    min-width: 130px;
-    height: 48px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 14px;
-    background: ${({ theme }) => theme.PALETTE.primary.main};
-    color: ${({ theme }) => theme.PALETTE.white};
-    font-size: ${({ theme }) => theme.FONT_SIZE.h10};
-    font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
-    text-decoration: none;
-
-    &:last-child {
-      background: ${({ theme }) => theme.PALETTE.white};
-      color: #1a1a1a;
-    }
-  }
-`;
-
 export const AuthPromptOverlay = styled.div`
   position: fixed;
   inset: 0;

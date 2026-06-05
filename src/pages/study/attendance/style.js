@@ -10,12 +10,21 @@ const summaryTone = {
 };
 
 export const AttendanceWrap = styled.section`
+  box-sizing: border-box;
   width: 100%;
+  max-width: 100%;
   min-height: 100vh;
+  overflow-x: hidden;
   padding: 72px 24px 48px;
   background: #f7f8ff;
   color: #1f2430;
   font-family: Pretendard, sans-serif;
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
 
   @media (max-width: 768px) {
     padding: 104px 16px 72px;
@@ -27,20 +36,14 @@ export const AttendanceHeader = styled.header`
   justify-content: space-between;
   align-items: center;
   gap: 24px;
-  width: min(1204px, 100%);
+  width: 100%;
+  max-width: 1168px;
   margin: 0 auto 12px;
 
   @media (max-width: 720px) {
     align-items: flex-start;
     flex-direction: column;
   }
-`;
-
-export const AttendanceKicker = styled.p`
-  margin: 0 0 10px;
-  color: #4359fc;
-  font-size: 14px;
-  font-weight: 900;
 `;
 
 export const AttendanceTitle = styled.h1`
@@ -62,7 +65,8 @@ export const AttendanceDesc = styled.p`
 `;
 
 export const AttendanceNotice = styled.p`
-  width: min(1204px, 100%);
+  width: 100%;
+  max-width: 1168px;
   margin: 0 auto 14px;
   padding: 10px 16px;
   border: 1px solid #dfe3ff;
@@ -111,7 +115,9 @@ export const SummaryGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 16px;
-  width: min(1207px, 100%);
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 1168px;
   margin: 0 auto 18px;
 
   @media (max-width: 860px) {
@@ -124,7 +130,12 @@ export const SummaryGrid = styled.div`
 `;
 
 export const SummaryCard = styled.article`
-  min-height: 92px;
+  box-sizing: border-box;
+  display: grid;
+  align-content: center;
+  width: 100%;
+  height: 114px;
+  min-height: 114px;
   padding: 14px 24px;
   border: 1px solid ${({ $tone }) => summaryTone[$tone]?.border || "#e8ebf4"};
   border-radius: 12px;
@@ -168,11 +179,12 @@ export const SummaryIcon = styled.div`
 
 export const AttendanceContent = styled.div`
   display: grid;
-  grid-template-columns: minmax(0, 820px) 356px;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 356px);
   gap: 24px;
   padding-top: 0;
-  align-items: start;
-  width: min(1204px, 100%);
+  align-items: stretch;
+  width: 100%;
+  max-width: 1168px;
   margin: 0 auto;
 
   @media (max-width: 1060px) {
@@ -181,7 +193,9 @@ export const AttendanceContent = styled.div`
 `;
 
 export const CalendarCard = styled.article`
+  box-sizing: border-box;
   position: relative;
+  height: 540px;
   min-height: 540px;
   padding: 0;
   border: 0;
@@ -418,61 +432,6 @@ export const CardTitle = styled.h2`
   letter-spacing: -0.32px;
 `;
 
-export const CalendarWeekHead = styled.div`
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  margin-bottom: 12px;
-  border-bottom: 1px solid #eef1f5;
-
-  span {
-    padding-bottom: 12px;
-    color: #8a93a3;
-    font-size: 13px;
-    font-weight: 900;
-    text-align: center;
-  }
-`;
-
-export const CalendarGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 10px;
-`;
-
-export const CalendarDay = styled.div`
-  position: relative;
-  display: grid;
-  place-items: center;
-  min-height: 68px;
-  border: 1px solid ${({ $today }) => ($today ? "#4359fc" : "#f1f3f8")};
-  border-radius: 8px;
-  background: ${({ $today }) => ($today ? "#f5f7ff" : "#fff")};
-
-  span {
-    display: grid;
-    place-items: center;
-    width: 34px;
-    height: 34px;
-    border-radius: 50%;
-    background: ${({ $today }) => ($today ? "#4359fc" : "transparent")};
-    color: ${({ $today }) => ($today ? "#fff" : "#2c2c2a")};
-    font-size: 14px;
-    font-weight: 900;
-  }
-
-  &::after {
-    content: "";
-    position: absolute;
-    left: 50%;
-    bottom: 12px;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: ${({ $checked }) => ($checked ? "#4359fc" : "#d8dde8")};
-    transform: translateX(-50%);
-  }
-`;
-
 /* 출석 미출석 */
 export const CalendarLegend = styled.div`
   display: flex;
@@ -511,13 +470,25 @@ export const CalendarLegend = styled.div`
 `;
 
 export const SidePanel = styled.aside`
+  box-sizing: border-box;
   display: grid;
+  grid-template-rows: 190px minmax(0, 1fr);
   gap: 16px;
-  width: 356px;
+  width: 100%;
+  max-width: 356px;
+  height: 540px;
+
+  @media (max-width: 1060px) {
+    grid-template-rows: auto auto;
+    max-width: none;
+    height: auto;
+  }
 `;
 
 export const WeeklyCard = styled.article`
-  width: 356px;
+  box-sizing: border-box;
+  width: 100%;
+  height: 190px;
   min-height: 190px;
   padding: 20px 24px;
   border: 1.5px solid #e6e6e6;
@@ -586,8 +557,12 @@ export const WeeklyProgressBar = styled.div`
 `;
 
 export const RewardCard = styled.article`
-  width: 356px;
-  min-height: 300px;
+  box-sizing: border-box;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
   padding: 24px 30px;
   border: 1.5px solid #e6e6e6;
   border-radius: 20px;
@@ -597,7 +572,8 @@ export const RewardCard = styled.article`
 
 export const RewardList = styled.div`
   display: grid;
-  gap: 18px;
+  align-content: space-between;
+  gap: 12px;
   padding-top: 14px;
   border-top: 1px solid #eeeeee;
 `;
@@ -611,7 +587,7 @@ export const RewardItem = styled.article`
   strong {
     display: block;
     margin-bottom: 5px;
-    color: ${({ $status }) => ($status === "receive" ? "#ff8004" : $status === "locked" ? "#c8c8c8" : "#1a1a1a")};
+    color: ${({ $status }) => ($status === "earned" ? "#ff8004" : $status === "locked" ? "#c8c8c8" : "#1a1a1a")};
     font-size: 14px;
     font-weight: 700;
     letter-spacing: -0.28px;
@@ -624,15 +600,17 @@ export const RewardItem = styled.article`
     letter-spacing: -0.24px;
   }
 
-  button {
+  .rewardStatus {
     height: 28px;
     border: 0;
     border-radius: 999px;
-    background: ${({ $status }) => ($status === "receive" ? "#fff1d8" : $status === "locked" ? "transparent" : "#eef1ff")};
-    color: ${({ $status }) => ($status === "receive" ? "#ff8004" : $status === "locked" ? "#777" : "#4359fc")};
+    background: ${({ $status }) => ($status === "earned" ? "#fff1d8" : $status === "locked" ? "#f6f6f6" : "#eef1ff")};
+    color: ${({ $status }) => ($status === "earned" ? "#ff8004" : $status === "locked" ? "#777" : "#4359fc")};
     font-size: 11px;
     font-weight: 700;
-    cursor: pointer;
+    display: grid;
+    place-items: center;
+    cursor: default;
   }
 `;
 
@@ -651,7 +629,6 @@ export const RewardDay = styled.div`
 export const AttendancePopupWrap = styled.div`
   position: fixed;
   inset: 0;
-  /* z-index: 1000; */
   display: flex;
   align-items: center;
   justify-content: center;

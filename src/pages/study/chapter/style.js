@@ -524,25 +524,9 @@ export const ResultTextAction = styled(Link)`
   text-decoration: none;
 `;
 
-export const BadgeRewardCard = styled.article`
-  padding: 30px;
-  border-radius: 24px;
-  background: ${({ theme }) => theme.PALETTE.white};
-  text-align: center;
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.06);
-`;
-
-export const WrongAnswerReview = styled.div`
-  padding: 28px;
-  border-radius: 24px;
-  background: ${({ theme }) => theme.PALETTE.white};
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.06);
-`;
-
 export const BadgeModalOverlay = styled.div`
   position: fixed;
   inset: 0;
-  /* z-index: 900; */
   display: flex;
   align-items: flex-start;
   justify-content: center;

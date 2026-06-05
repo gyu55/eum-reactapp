@@ -1,6 +1,7 @@
-// 학습 메인 컴포넌트: 메뉴, 로드맵, 퀘스트, 진행도 확인
+// 학습 메인 컴포넌트: 메뉴, 로드맵, 퀘스트, 진행도를 화면에 표시
 import { useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { startLearn } from "../apis/LearnApi";
 import { useLearn } from "../hooks/useLearn";
 import { useTodayQuests } from "../hooks/useTodayQuests";
 import LearnQuestPanel from "./parts/LearnQuestPanel";
@@ -8,7 +9,7 @@ import LearnRoadmapItem from "./parts/LearnRoadmapItem";
 import LearnSideMenu from "./parts/LearnSideMenu";
 import * as S from "./style";
 
-const SERVICE_READY_MESSAGE = "\uc11c\ube44\uc2a4 \uc900\ube44\uc911\uc785\ub2c8\ub2e4.";
+const SERVICE_READY_MESSAGE = "서비스 준비중입니다.";
 
 const LearnComponent = () => {
   const navigate = useNavigate();
@@ -18,7 +19,21 @@ const LearnComponent = () => {
   const [activeType, setActiveType] = useState(location.state?.activeType || "sign");
   const [selectedLessonId, setSelectedLessonId] = useState(null);
   const roadmap = data.roadmaps[activeType] || data.roadmaps.sign;
+  const isSignView = activeType === "sign";
+  const signLessons = data.roadmaps.sign?.lessons || [];
+  const isEmpty = isSignView && !loading && !error && signLessons.length === 0;
+  const shouldShowRoadmap = !isSignView || (!loading && !error && !isEmpty);
+  const statusMessage = isSignView
+    ? loading
+      ? "학습 정보를 불러오는 중이에요."
+      : error || (isEmpty ? "등록된 학습이 아직 없어요. 관리자에서 학습 단어를 등록하면 여기에 표시돼요." : null)
+    : null;
+
   const visibleLessons = useMemo(() => {
+    if (!shouldShowRoadmap) {
+      return [];
+    }
+
     const baseLessons = roadmap.lessons.slice(0, 5);
 
     return Array.from({ length: 5 }, (_, index) => {
@@ -31,14 +46,14 @@ const LearnComponent = () => {
       return {
         id: `locked-${index + 1}`,
         title: `수어 학습 ${index + 1}`,
-        desc: "앞 단계를 완료하면 열려요",
+        desc: "앞 단계를 완료하면 열려요.",
         status: "locked",
         badge: "★",
         buttonText: "잠금",
         to: null,
       };
     });
-  }, [roadmap.lessons]);
+  }, [roadmap.lessons, shouldShowRoadmap]);
 
   const currentMenus = useMemo(
     () =>
@@ -49,13 +64,13 @@ const LearnComponent = () => {
     [activeType, data.menus]
   );
 
-  // 레슨 시작: 선택한 학습 경로로 이동
-  // 레슨 선택: 단계 버튼을 눌렀을 때 말풍선만 열기
+  // 레슨 선택: 단계 버튼을 다시 누르면 말풍선만 닫기
   const handleSelectLesson = (lesson) => {
     setSelectedLessonId((currentId) => (currentId === lesson.id ? null : lesson.id));
   };
 
-  const handleStartLesson = (lesson) => {
+  // 레슨 시작: 선택한 학습 경로로 이동
+  const handleStartLesson = async (lesson) => {
     if (lesson.status === "locked" || lesson.status === "reward") {
       alert(SERVICE_READY_MESSAGE);
 
@@ -63,6 +78,12 @@ const LearnComponent = () => {
     }
 
     if (activeType === "sign" && Number.isFinite(Number(lesson.id))) {
+      try {
+        await startLearn(lesson.id);
+      } catch {
+        // 시작 기록 저장 실패가 학습 진입을 막지 않도록 둠
+      }
+
       navigate(`/study/learn/quiz/greeting/questions/1?eduId=${lesson.id}`, {
         state: {
           eduId: lesson.id,
@@ -86,6 +107,7 @@ const LearnComponent = () => {
   const handleMenu = (menu) => {
     if (menu.type) {
       setActiveType(menu.type);
+      setSelectedLessonId(null);
 
       return;
     }
@@ -99,13 +121,12 @@ const LearnComponent = () => {
     navigate(menu.to);
   };
 
-  // 학습종류선택: hover 또는 focus 시 보여줄 학습 고정
+  // 학습 종류 선택: hover 또는 focus 때 보여줄 학습 과정을 변경
   const handleSelectLearningType = (menu) => {
-
-    if (!menu.type)
-      return;
+    if (!menu.type) return;
 
     setActiveType(menu.type);
+    setSelectedLessonId(null);
   };
 
   return (
@@ -115,74 +136,78 @@ const LearnComponent = () => {
 
         <S.MainArea>
           <S.TopBar>
-            <S.StreakBadge>{"\ud83d\udd25"} {data.streak}</S.StreakBadge>
+            <S.StreakBadge>{"🔥"} {data.streak}</S.StreakBadge>
             <S.GuideButton type="button">{roadmap.chapter.guideLabel}</S.GuideButton>
           </S.TopBar>
 
           <S.ChapterPanel>
             <S.ChapterHead>
               <S.Title>{roadmap.chapter.title}</S.Title>
-              <S.GuidePill type="button">{"\ud83d\udcd6"} {roadmap.chapter.guideLabel}</S.GuidePill>
+              <S.GuidePill type="button">{"📖"} {roadmap.chapter.guideLabel}</S.GuidePill>
             </S.ChapterHead>
 
-            {loading && <S.StatusText>{"\ud559\uc2b5 \uc815\ubcf4\ub97c \ubd88\ub7ec\uc624\ub294 \uc911\uc774\uc5d0\uc694."}</S.StatusText>}
-            {error && <S.StatusText>{error}</S.StatusText>}
+            {statusMessage && <S.StatusText>{statusMessage}</S.StatusText>}
 
-            <S.RoadmapStage>
-              <S.RoadmapPath aria-hidden="true" viewBox="0 0 592 680" preserveAspectRatio="none">
-                <path d="M260 118 C300 144 332 164 332 226 C332 272 296 292 296 356 C296 418 260 444 260 510 C260 570 332 590 332 634" />
-              </S.RoadmapPath>
-              <S.RoadmapList>
-                {visibleLessons.map((lesson, index) => (
-                  <LearnRoadmapItem
-                    key={lesson.id}
-                    lesson={lesson}
-                    index={index}
-                    selected={selectedLessonId === lesson.id}
-                    onSelect={handleSelectLesson}
-                    onStart={handleStartLesson}
-                  />
-                ))}
-              </S.RoadmapList>
-              <S.RoadmapMascot aria-hidden="true">
-                <span className="eye left" />
-                <span className="eye right" />
-                <span className="smile" />
-                <span className="arm left" />
-                <span className="arm right" />
-                <span className="foot left" />
-                <span className="foot right" />
-              </S.RoadmapMascot>
-            </S.RoadmapStage>
+            {shouldShowRoadmap && (
+              <S.RoadmapStage>
+                <S.RoadmapPath aria-hidden="true" viewBox="0 0 592 680" preserveAspectRatio="none">
+                  <path d="M260 118 C300 144 332 164 332 226 C332 272 296 292 296 356 C296 418 260 444 260 510 C260 570 332 590 332 634" />
+                </S.RoadmapPath>
+                <S.RoadmapList>
+                  {visibleLessons.map((lesson, index) => (
+                    <LearnRoadmapItem
+                      key={lesson.id}
+                      lesson={lesson}
+                      index={index}
+                      selected={selectedLessonId === lesson.id}
+                      onSelect={handleSelectLesson}
+                      onStart={handleStartLesson}
+                    />
+                  ))}
+                </S.RoadmapList>
+                <S.RoadmapMascot aria-hidden="true">
+                  <span className="eye left" />
+                  <span className="eye right" />
+                  <span className="smile" />
+                  <span className="arm left" />
+                  <span className="arm right" />
+                  <span className="foot left" />
+                  <span className="foot right" />
+                </S.RoadmapMascot>
+              </S.RoadmapStage>
+            )}
 
-            <S.NextChapter type="button" onClick={() => alert(SERVICE_READY_MESSAGE)}>
-              <strong>{roadmap.chapter.nextTitle}</strong>
-              <span>{roadmap.chapter.nextDesc} {"\u2192"}</span>
-            </S.NextChapter>
-
+            {shouldShowRoadmap && (
+              <S.NextChapter type="button" onClick={() => alert(SERVICE_READY_MESSAGE)}>
+                <strong>{roadmap.chapter.nextTitle}</strong>
+                <span>{roadmap.chapter.nextDesc} {"→"}</span>
+              </S.NextChapter>
+            )}
           </S.ChapterPanel>
         </S.MainArea>
 
         <LearnQuestPanel quests={quests} />
       </S.LearnLayout>
 
-      <S.ProgressArea>
-        <S.ProgressText>
-          <S.ProgressTitle>{roadmap.chapter.progressTitle}</S.ProgressTitle>
-          <S.ProgressDesc>{roadmap.chapter.progressDesc}</S.ProgressDesc>
-        </S.ProgressText>
-        <S.ProgressBar $progress={roadmap.chapter.percent} aria-label="\uc624\ub298\uc758 \ud559\uc2b5 \uc9c4\ud589\ub960">
-          <span />
-        </S.ProgressBar>
-        <S.Percent>{roadmap.chapter.percent}%</S.Percent>
-        <S.ExpBox>
-          <span>{"\ud68d\ub4dd EXP"}</span>
-          <strong>
-            <S.ExpIcon>{"\u26a1"}</S.ExpIcon>
-            {roadmap.chapter.exp}
-          </strong>
-        </S.ExpBox>
-      </S.ProgressArea>
+      {shouldShowRoadmap && (
+        <S.ProgressArea>
+          <S.ProgressText>
+            <S.ProgressTitle>{roadmap.chapter.progressTitle}</S.ProgressTitle>
+            <S.ProgressDesc>{roadmap.chapter.progressDesc}</S.ProgressDesc>
+          </S.ProgressText>
+          <S.ProgressBar $progress={roadmap.chapter.percent} aria-label="오늘의 학습 진행률">
+            <span />
+          </S.ProgressBar>
+          <S.Percent>{roadmap.chapter.percent}%</S.Percent>
+          <S.ExpBox>
+            <span>{"획득 EXP"}</span>
+            <strong>
+              <S.ExpIcon>{"⚡"}</S.ExpIcon>
+              {roadmap.chapter.exp}
+            </strong>
+          </S.ExpBox>
+        </S.ProgressArea>
+      )}
     </S.LearnWrap>
   );
 };

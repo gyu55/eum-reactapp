@@ -17,6 +17,7 @@ const formatAttendanceDate = (dateText) => {
 
 const StudyAttendancePopup = ({ onClose, onDetail, summary }) => {
   const streakDays = summary?.streakDays || 0;
+  const todayRewardExp = summary?.todayRewardExp || 0;
   const nextRewardDay = rewardDays.find((day) => day > streakDays);
 
   return (
@@ -32,12 +33,12 @@ const StudyAttendancePopup = ({ onClose, onDetail, summary }) => {
         <div className="rewards">
           <div>
             <span>⚡</span>
-            <small>획득 EXP</small>
-            <strong>+30 EXP</strong>
+            <small>오늘 받은 EXP</small>
+            <strong>+{todayRewardExp} EXP</strong>
           </div>
           <div>
             <span>🏅</span>
-            <small>획득뱃지</small>
+            <small>획득 뱃지</small>
             <strong>{summary?.badgeCount || 0}개</strong>
           </div>
         </div>

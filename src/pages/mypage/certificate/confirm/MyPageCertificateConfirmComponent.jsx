@@ -1,50 +1,164 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import S from "./style";
 
-const certificateList = [
-  {
-    name: "수어 통역사 2급",
-    date: "2025.03.08",
-  },
-  {
-    name: "수어 통역사 1급",
-    date: "2024.11.21",
-  },
-  {
-    name: "수어 지도사",
-    date: "2023.08.14",
-  },
-];
+const formatDate = (date) => {
+  if (!date) {
+    return "-";
+  }
+
+  return String(date).split("T")[0].replaceAll("-", ".");
+};
+
+const getAddressValue = (address, keyList) => {
+  for (const key of keyList) {
+    if (address?.[key]) {
+      return address[key];
+    }
+  }
+
+  return "";
+};
 
 const MyPageCertificateConfirmComponent = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const selectedAddress = location.state?.selectedAddress;
+  const state = location.state || {};
+  const selectedAddress = state.selectedAddress || null;
 
-  const [selectedCertificateName, setSelectedCertificateName] = useState(
-    "수어 통역사 2급"
-  );
-  const [detailAddress, setDetailAddress] = useState("");
+  const [userInfo, setUserInfo] = useState(null);
+  const [certificateList, setCertificateList] = useState([]);
+  const [selectedTestResultId, setSelectedTestResultId] = useState(state.testResultId || "");
+  const [selectedCertificate, setSelectedCertificate] = useState(null);
+  const [receiveType, setReceiveType] = useState("우편수령");
+  const [detailAddress, setDetailAddress] = useState(state.detailAddress || "");
   const [isAgreed, setIsAgreed] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const selectedCertificate = certificateList.find(
-    (certificate) => certificate.name === selectedCertificateName
-  );
+  const postcode = getAddressValue(selectedAddress, ["zipCode", "zipNo", "postcode"]);
+  const roadAddress = getAddressValue(selectedAddress, ["roadAddress", "roadAddr"]);
+  const jibunAddress = getAddressValue(selectedAddress, ["jibunAddress", "jibunAddr"]);
+  const buildingName = getAddressValue(selectedAddress, ["building", "buildingName", "bdNm"]);
 
+  const fullRoadAddress = buildingName
+    ? `${roadAddress} ${buildingName}`
+    : roadAddress;
+
+  // 신청 화면에서 사용할 회원 정보와 자격증 목록 조회
+  useEffect(() => {
+    const getConfirmData = async () => {
+      try {
+        const [userResponse, certificateResponse] = await Promise.all([
+          fetch("http://localhost:10000/private/api/mypage/edit", {
+            method: "GET",
+            credentials: "include",
+          }),
+          fetch("http://localhost:10000/private/api/mypage/certificates", {
+            method: "GET",
+            credentials: "include",
+          }),
+        ]);
+
+        const userResult = await userResponse.json();
+        const certificateResult = await certificateResponse.json();
+
+        if (!userResult.success) {
+          alert(userResult.message);
+          return;
+        }
+
+        if (!certificateResult.success) {
+          alert(certificateResult.message);
+          return;
+        }
+
+        const availableList = (certificateResult.data?.certificateList || []).filter(
+          (certificate) => certificate.canApply
+        );
+
+        setUserInfo(userResult.data);
+        setCertificateList(availableList);
+
+        if (!selectedTestResultId && availableList.length > 0) {
+          setSelectedTestResultId(availableList[0].testResultId);
+        }
+      } catch (error) {
+        console.error(error);
+        alert("신청 정보를 불러오지 못했습니다.");
+      }
+    };
+
+    getConfirmData();
+  }, [selectedTestResultId]);
+
+  // 선택한 자격증 상세 조회
+  useEffect(() => {
+    if (!selectedTestResultId) {
+      return;
+    }
+
+    const getCertificateDetail = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:10000/private/api/mypage/certificates/${selectedTestResultId}`,
+          {
+            method: "GET",
+            credentials: "include",
+          }
+        );
+
+        const result = await response.json();
+
+        if (!result.success) {
+          alert(result.message);
+          return;
+        }
+
+        setSelectedCertificate(result.data);
+      } catch (error) {
+        console.error(error);
+        alert("선택한 자격증 정보를 불러오지 못했습니다.");
+      }
+    };
+
+    getCertificateDetail();
+  }, [selectedTestResultId]);
+
+  // 주소검색 페이지로 이동할 때 기존 신청 정보를 유지
   const handleAddressClick = () => {
-    navigate("/mypage/certificate/confirm/address-search");
+    navigate("/mypage/certificate/confirm/address-search", {
+      state: {
+        testResultId: selectedTestResultId,
+        selectedAddress,
+        detailAddress,
+      },
+    });
   };
 
   const handleCancelClick = () => {
     navigate("/mypage/certificate");
   };
 
-  const handleSubmitClick = () => {
+  const handleSubmitClick = async () => {
+    if (!selectedCertificate) {
+      alert("신청할 자격증을 선택해주세요.");
+      return;
+    }
+
+    if (!selectedCertificate.canApply) {
+      alert("이미 실물 신청이 진행 중인 자격증입니다.");
+      return;
+    }
+
     if (!selectedAddress) {
       alert("주소를 먼저 선택해주세요.");
+      return;
+    }
+
+    if (!detailAddress.trim()) {
+      alert("상세 주소를 입력해주세요.");
       return;
     }
 
@@ -53,17 +167,56 @@ const MyPageCertificateConfirmComponent = () => {
       return;
     }
 
-    navigate("/mypage/certificate/complete", {
-      state: {
-        requestInfo: {
-          certificateName: selectedCertificate.name,
-          certificateDate: selectedCertificate.date,
-          address: `${selectedAddress.roadAddress} ${selectedAddress.building}`,
-          detailAddress,
+    const certAddress = `${fullRoadAddress}, ${detailAddress.trim()}`;
+
+    const requestBody = {
+      testResultId: selectedCertificate.testResultId,
+      certReceiveType: receiveType,
+      certName: userInfo?.userName || "",
+      certPhone: userInfo?.userPhoneNum || "",
+      certPostcode: postcode,
+      certRoadAddress: fullRoadAddress,
+      certJibunAddress: jibunAddress,
+      certDetailAddress: detailAddress.trim(),
+      certAddress,
+    };
+
+    try {
+      setIsSubmitting(true);
+
+      const response = await fetch("http://localhost:10000/private/api/mypage/certificates/apply", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      },
-    });
+        credentials: "include",
+        body: JSON.stringify(requestBody),
+      });
+
+      const result = await response.json();
+
+      if (!result.success) {
+        alert(result.message);
+        return;
+      }
+
+      navigate("/mypage/certificate/complete", {
+        state: {
+          certRenewId: result.data?.certRenewId,
+          completeInfo: result.data,
+        },
+      });
+    } catch (error) {
+      console.error(error);
+      alert("실물 신청 중 오류가 발생했습니다.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
+
+  if (!userInfo || !selectedCertificate) {
+    return null;
+  }
 
   return (
     <S.ConfirmWrapper>
@@ -78,12 +231,12 @@ const MyPageCertificateConfirmComponent = () => {
               <S.Label>선택 자격증</S.Label>
 
               <S.Select
-                value={selectedCertificateName}
-                onChange={(e) => setSelectedCertificateName(e.target.value)}
+                value={selectedTestResultId}
+                onChange={(e) => setSelectedTestResultId(Number(e.target.value))}
               >
                 {certificateList.map((certificate) => (
-                  <option key={certificate.name} value={certificate.name}>
-                    {certificate.name}
+                  <option key={certificate.testResultId} value={certificate.testResultId}>
+                    {certificate.testTitle}
                   </option>
                 ))}
               </S.Select>
@@ -91,7 +244,7 @@ const MyPageCertificateConfirmComponent = () => {
 
             <S.Field>
               <S.Label>취득일자</S.Label>
-              <S.Input value={selectedCertificate.date} readOnly />
+              <S.Input value={formatDate(selectedCertificate.acquiredAt)} readOnly />
             </S.Field>
           </S.InputRow>
         </S.SelectedCertificateCard>
@@ -107,17 +260,17 @@ const MyPageCertificateConfirmComponent = () => {
           <S.InputRow $columns="1fr 1fr 1fr">
             <S.Field>
               <S.Label>이름</S.Label>
-              <S.Input placeholder="홍길동" />
+              <S.Input value={userInfo.userName || ""} readOnly />
             </S.Field>
 
             <S.Field>
               <S.Label>이메일</S.Label>
-              <S.Input placeholder="user123@gmail.com" />
+              <S.Input value={userInfo.userEmail || ""} readOnly />
             </S.Field>
 
             <S.Field>
               <S.Label>전화번호</S.Label>
-              <S.Input placeholder="010-1234-5678" />
+              <S.Input value={userInfo.userPhoneNum || ""} readOnly />
             </S.Field>
           </S.InputRow>
         </S.ApplicantCard>
@@ -126,26 +279,25 @@ const MyPageCertificateConfirmComponent = () => {
       <S.ConfirmSection>
         <S.ConfirmSectionTitle>수령 정보 입력</S.ConfirmSectionTitle>
         <S.ConfirmSectionDesc>
-          실물 자격증을 받을 정보를 입력하세요.
+          실물 자격증을 받을 정보를 입력해주세요.
         </S.ConfirmSectionDesc>
 
         <S.DeliveryCard>
           <S.AddressSearchRow>
             <S.Field>
               <S.Label>수령 방법</S.Label>
-              <S.Select defaultValue="우편수령">
-                <option>우편수령</option>
-                <option>인터넷 수령</option>
+              <S.Select
+                value={receiveType}
+                onChange={(e) => setReceiveType(e.target.value)}
+              >
+                <option value="우편수령">우편수령</option>
+                <option value="센터수령">센터수령</option>
               </S.Select>
             </S.Field>
 
             <S.Field>
               <S.Label>우편번호</S.Label>
-              <S.Input
-                value={selectedAddress?.zipCode || ""}
-                placeholder="06236"
-                readOnly
-              />
+              <S.Input value={postcode} placeholder="우편번호" readOnly />
             </S.Field>
 
             <S.AddressButton type="button" onClick={handleAddressClick}>
@@ -156,12 +308,8 @@ const MyPageCertificateConfirmComponent = () => {
           <S.AddressField>
             <S.Label>주소</S.Label>
             <S.Input
-              value={
-                selectedAddress
-                  ? `${selectedAddress.roadAddress} ${selectedAddress.building}`
-                  : ""
-              }
-              placeholder="서울특별시 강남구 테헤란로 123"
+              value={fullRoadAddress}
+              placeholder="주소를 검색해주세요."
               readOnly
             />
           </S.AddressField>
@@ -171,7 +319,7 @@ const MyPageCertificateConfirmComponent = () => {
             <S.Input
               value={detailAddress}
               onChange={(e) => setDetailAddress(e.target.value)}
-              placeholder="101동 1203호"
+              placeholder="상세 주소를 입력해주세요."
             />
           </S.AddressField>
         </S.DeliveryCard>
@@ -182,7 +330,7 @@ const MyPageCertificateConfirmComponent = () => {
 
         <S.NoticeCard>
           <S.NoticeText>
-            · 신청 후 상태는 ‘미신청 → 신청 대기 → 신청 완료’ 순으로 변경됩니다.
+            · 신청 후 상태는 미신청에서 신청대기, 신청완료 순으로 변경됩니다.
           </S.NoticeText>
           <S.NoticeText>
             · 입력한 주소 정보가 정확해야 정상적으로 수령할 수 있습니다.
@@ -213,8 +361,12 @@ const MyPageCertificateConfirmComponent = () => {
           취소
         </S.CancelButton>
 
-        <S.SubmitButton type="button" onClick={handleSubmitClick}>
-          신청 완료
+        <S.SubmitButton
+          type="button"
+          onClick={handleSubmitClick}
+          disabled={isSubmitting}
+        >
+          {isSubmitting ? "처리 중" : "신청 완료"}
         </S.SubmitButton>
       </S.ButtonArea>
     </S.ConfirmWrapper>

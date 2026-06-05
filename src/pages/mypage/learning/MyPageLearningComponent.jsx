@@ -190,9 +190,9 @@ const MyPageLearningComponent = () => {
             <S.LearningCardBox>
               <S.LearningResultHeader>
                 <S.LearningHeaderText>제목</S.LearningHeaderText>
-                <S.LearningHeaderText>정답 수</S.LearningHeaderText>
-                <S.LearningHeaderText>소요시간</S.LearningHeaderText>
-                <S.LearningHeaderText>정답률</S.LearningHeaderText>
+                <S.LearningHeaderText>완료 단어</S.LearningHeaderText>
+                <S.LearningHeaderText>학습 시간</S.LearningHeaderText>
+                <S.LearningHeaderText>완료율</S.LearningHeaderText>
               </S.LearningResultHeader>
 
               {/* 학습 결과 목록 */}

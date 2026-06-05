@@ -6,6 +6,13 @@ import * as S from "./style";
 
 const StudyChapterComponent = () => {
   const navigate = useNavigate();
+  const chapterCount = chapterQuizMock.length;
+  const totalExp = chapterQuizMock.reduce((sum, chapter) => sum + (Number(chapter.exp) || 0), 0);
+  const averageProgress = chapterCount > 0
+    ? Math.round(
+      chapterQuizMock.reduce((sum, chapter) => sum + (Number(chapter.progress) || 0), 0) / chapterCount
+    )
+    : 0;
 
   // 선택한 챕터 안내 화면으로 이동
   const handleMoveChapter = (chapter) => {
@@ -22,15 +29,15 @@ const StudyChapterComponent = () => {
 
       <S.ChapterSummary>
         <div>
-          <strong>3개</strong>
+          <strong>{chapterCount}개</strong>
           <span>진행 가능한 퀴즈</span>
         </div>
         <div>
-          <strong>90 EXP</strong>
+          <strong>{totalExp} EXP</strong>
           <span>오늘 획득 가능</span>
         </div>
         <div>
-          <strong>22%</strong>
+          <strong>{averageProgress}%</strong>
           <span>평균 진행률</span>
         </div>
       </S.ChapterSummary>

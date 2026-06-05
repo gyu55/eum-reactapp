@@ -1,87 +1,136 @@
-import React from "react";
+import React, { useState } from "react";
 
 import S from "../style";
 
-const courseList = [
+// 자격증 페이지에서만 사용하는 학습 영상 보완 데이터
+const fallbackCourseVideos = [
   {
-    title: "수어 기초 회화",
-    level: "초급 과정",
-    startDate: "2025.12.31",
-    endDate: "2026.12.30",
-    progress: 62,
-    image: "",
+    eduId: "fallback-1",
+    category: "숫자",
+    title: "1부터 1000까지 배워보기 수화 지숫자",
+    eduDetail: "초급 과정",
+    studyPeriod: "2025.12.31 ~ 2026.12.30",
+    progressPercent: 62,
+    thumbnail: "https://img.youtube.com/vi/1JyJwc_Hd8U/hqdefault.jpg",
   },
   {
-    title: "표현 중심의 수어 문법 학습",
-    level: "중급 과정",
-    startDate: "2025.12.31",
-    endDate: "2026.12.30",
-    progress: 46,
-    image: "",
+    eduId: "fallback-2",
+    category: "수어",
+    title: "지문자로 한글이름 써보기 내 이름을 수화로",
+    eduDetail: "중급 과정",
+    studyPeriod: "2025.12.31 ~ 2026.12.30",
+    progressPercent: 46,
+    thumbnail: "https://img.youtube.com/vi/1IDTB4KQ-Fk/hqdefault.jpg",
   },
   {
-    title: "실전 중심의 수어 통역 연습",
-    level: "실습 과정",
-    startDate: "2025.12.31",
-    endDate: "2026.12.30",
-    progress: 32,
-    image: "",
+    eduId: "fallback-3",
+    category: "알파벳",
+    title: "미국 수어 알파벳 ABC 배우기",
+    eduDetail: "실습 과정",
+    studyPeriod: "2025.12.31 ~ 2026.12.30",
+    progressPercent: 32,
+    thumbnail: "https://img.youtube.com/vi/hRzXnPTW8jY/hqdefault.jpg",
   },
   {
-    title: "농인 문화와 소통 이해",
-    level: "이해 과정",
-    startDate: "2025.12.31",
-    endDate: "2026.12.30",
-    progress: 78,
-    image: "",
+    eduId: "fallback-4",
+    category: "교신",
+    title: "한국 CW 교신에 자주 나오는 단어",
+    eduDetail: "이해 과정",
+    studyPeriod: "2025.12.31 ~ 2026.12.30",
+    progressPercent: 78,
+    thumbnail: "https://img.youtube.com/vi/fHPC_1MjqD0/hqdefault.jpg",
   },
 ];
 
-const CourseListCard = () => {
+const DEFAULT_VISIBLE_COUNT = 4;
+
+const getYoutubeThumbnail = (youtubeUrl) => {
+  if (!youtubeUrl) {
+    return "";
+  }
+
+  const match = String(youtubeUrl).match(/(?:v=|\/embed\/|youtu\.be\/)([^&?/]+)/);
+  const videoId = match?.[1];
+
+  return videoId ? `https://img.youtube.com/vi/${videoId}/hqdefault.jpg` : "";
+};
+
+const CourseListCard = ({ courseList = [] }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const displayCourseList = courseList.length > 0 ? courseList : fallbackCourseVideos;
+  const needToggleButton = displayCourseList.length > DEFAULT_VISIBLE_COUNT;
+  const visibleCourseList = isExpanded
+    ? displayCourseList
+    : displayCourseList.slice(0, DEFAULT_VISIBLE_COUNT);
+
   return (
     <S.CourseSection>
-      {/* 섹션 제목 */}
       <S.CourseTitle>수강중인 강좌</S.CourseTitle>
 
-      {/* 섹션 설명 */}
       <S.CourseDesc>
         현재 학습 중인 수어 강좌를 확인할 수 있어요.
       </S.CourseDesc>
 
-      {/* 수강중인 강좌 카드 */}
-      <S.CourseCardBox>
+      <S.CourseCardBox $isExpanded={isExpanded}>
         <S.CourseList>
-          {/* 수강 강좌 목록 연동 */}
-          {courseList.map((course) => (
-            <S.CourseItem key={course.title}>
-              {/* 강좌 이미지 연동 */}
-              <S.CourseImageBox>
-                {course.image && (
-                  <img src={course.image} alt={course.title} />
-                )}
-              </S.CourseImageBox>
+          {visibleCourseList.map((course, index) => {
+            const fallbackVideo = fallbackCourseVideos[index % fallbackCourseVideos.length];
+            const thumbnailUrl =
+              course.thumbnailUrl ||
+              course.thumbnail ||
+              getYoutubeThumbnail(course.youtubeUrl) ||
+              fallbackVideo?.thumbnail ||
+              "";
 
-              <S.CourseInfo>
-                <S.CourseName>{course.title}</S.CourseName>
-                <S.CourseLevel>{course.level}</S.CourseLevel>
+            const courseTitle = course.eduTitle || course.title || fallbackVideo.title;
+            const courseLevel = course.eduDetail || course.category || fallbackVideo.eduDetail || "수어 학습";
+            const studyPeriod = course.studyPeriod || fallbackVideo.studyPeriod || "-";
+            const [startDate, endDate] = studyPeriod.split(" ~ ");
 
-                <S.CourseDate>
-                  수강기간: {course.startDate} ~
-                  <br />
-                  {course.endDate}
-                </S.CourseDate>
+            return (
+              <S.CourseItem key={course.eduId || fallbackVideo.eduId}>
+                <S.CourseImageBox>
+                  {thumbnailUrl && (
+                    <img src={thumbnailUrl} alt={courseTitle} />
+                  )}
+                </S.CourseImageBox>
 
-                <S.CourseProgressBar>
-                  <S.CourseProgressFill $percent={course.progress} />
-                </S.CourseProgressBar>
-              </S.CourseInfo>
-            </S.CourseItem>
-          ))}
+                <S.CourseInfo>
+                  <S.CourseName title={courseTitle}>
+                    {courseTitle}
+                  </S.CourseName>
+
+                  <S.CourseLevel>{courseLevel}</S.CourseLevel>
+
+                  <S.CourseDate>
+                    <S.CourseDateLine>
+                      수강기간: {startDate} ~
+                    </S.CourseDateLine>
+                    <S.CourseDateEnd>
+                      {endDate || ""}
+                    </S.CourseDateEnd>
+                  </S.CourseDate>
+
+                  <S.CourseProgressBar>
+                    <S.CourseProgressFill
+                      $percent={course.progressPercent || fallbackVideo.progressPercent || 0}
+                    />
+                  </S.CourseProgressBar>
+                </S.CourseInfo>
+              </S.CourseItem>
+            );
+          })}
         </S.CourseList>
 
-        <S.CourseMoreButton type="button">
-          더 보기 <span>→</span>
-        </S.CourseMoreButton>
+        {needToggleButton && (
+          <S.CourseMoreButton
+            type="button"
+            onClick={() => setIsExpanded((prev) => !prev)}
+          >
+            {isExpanded ? "접기" : "더 보기"} <span>{isExpanded ? "↑" : "→"}</span>
+          </S.CourseMoreButton>
+        )}
       </S.CourseCardBox>
     </S.CourseSection>
   );

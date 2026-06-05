@@ -17,7 +17,7 @@ const LearnQuizFeedback = ({ status, exp, message, description, onNext }) => {
             <p className="description">{description}</p>
           </div>
         )}
-        {isCorrect && <span>{`+${exp} XP 획득`}</span>}
+        {isCorrect && exp > 0 && <span>{`학습 완료 +${exp} EXP`}</span>}
       </S.LearnQuizFeedbackText>
       <S.LearnQuizFeedbackActions $status={status}>
         <button type="button" onClick={onNext}>

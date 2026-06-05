@@ -1600,7 +1600,7 @@ export const LearnReviewActions = styled.div`
   align-items: center;
   width: min(1320px, 100%);
   margin: 0 auto;
-  padding-top: 34px 120px 0;
+  padding: 34px 120px 0;
   border-top: 1px solid #e6e6e6;
 `;
 

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import * as S from "./style";
+import useVerificationTimer from "../../../hooks/useVerificationTimer";
 
 
 const formatPhone = (value) => {
@@ -17,6 +18,7 @@ export default function SocialJoinComponent() {
   const [codeVerified, setCodeVerified] = useState(false);
   const [smsLoading, setSmsLoading] = useState(false);
   const [smsMsg, setSmsMsg] = useState("");
+  const smsTimer = useVerificationTimer();
   const [submitLoading, setSubmitLoading] = useState(false);
   const [submitMsg, setSubmitMsg] = useState("");
   const [done, setDone] = useState(false);
@@ -25,7 +27,7 @@ export default function SocialJoinComponent() {
     const memberPhone = phone.replace(/\D/g, "");
     if (!memberPhone) return;
     // 테스트 시: 아래 두 줄 주석 해제, 실서비스 시 주석 처리
-    setCodeSent(true); setCodeVerified(true); setSmsMsg("(테스트) 인증 생략"); return;
+    setCodeSent(true); setCodeVerified(true); setSmsMsg("(테스트) 인증 생략"); smsTimer.start(); return;
     setSmsLoading(true);
     setSmsMsg("");
     try {
@@ -164,9 +166,17 @@ export default function SocialJoinComponent() {
                 onChange={e => setPhone(formatPhone(e.target.value))}
                 disabled={codeVerified}
               />
-              <S.SmallBtn onClick={handleSendCode} disabled={smsLoading || codeVerified || !phone}>
-                {codeSent ? "재발송" : "인증 발송"}
+              <S.SmallBtn
+                onClick={handleSendCode}
+                disabled={smsLoading || codeVerified || smsTimer.isRunning || !phone}
+              >
+                {smsTimer.isRunning ? smsTimer.format() : "인증 발송"}
               </S.SmallBtn>
+              {smsTimer.isRunning && !codeVerified && (
+                <S.SmallBtn onClick={() => { handleSendCode(); smsTimer.start(); }}>
+                  재전송
+                </S.SmallBtn>
+              )}
             </S.InlineRow>
             {codeSent && !codeVerified && (
               <div style={{ marginTop: 8 }}>

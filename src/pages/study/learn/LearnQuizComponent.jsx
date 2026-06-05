@@ -89,6 +89,7 @@ const LearnQuizComponent = () => {
   const searchParams = new URLSearchParams(location.search);
   const queryEduId = searchParams.get("eduId");
   const routeEduId = location.state?.eduId || queryEduId;
+  const isBackendQuiz = Boolean(routeEduId);
 
   const lessonTitle = location.state?.lessonTitle;
   const [sessionWords, setSessionWords] = useState([]); // 백엔드에서 받은 단어들이 들어 있음
@@ -98,18 +99,25 @@ const LearnQuizComponent = () => {
   const [sessionSeed, setSessionSeed] = useState(Math.random);
   const baseQuiz = useMemo(() => getLearnQuiz(type), [type]);
 
-  // OpenAPI 단어 우선 사용: 수어 원본이 있으면 기존 더미데이터를 제외
+  // OpenAPI 단어만 사용: eduId로 들어온 학습 퀴즈에서는 기존 더미 단어를 섞지 않음
   const quizWords = useMemo(() => {
     const openApiWords = sessionWords.filter((word) => word.signWordId);
 
-    return openApiWords.length > 0 ? openApiWords : sessionWords;
-  }, [sessionWords]);
+    return isBackendQuiz ? openApiWords : sessionWords;
+  }, [isBackendQuiz, sessionWords]);
 
   const orderedQuizWords = useMemo(() => shuffleItems(quizWords, sessionSeed), [quizWords, sessionSeed]);
 
   const quiz = useMemo(() => {
     if (orderedQuizWords.length === 0) {
-      return baseQuiz;
+      return isBackendQuiz
+        ? {
+            ...baseQuiz,
+            id: routeEduId || baseQuiz.id,
+            title: lessonTitle || baseQuiz.title,
+            questions: [],
+          }
+        : baseQuiz;
     }
 
     return {
@@ -148,13 +156,16 @@ const LearnQuizComponent = () => {
         };
       }),
     };
-  }, [baseQuiz, lessonTitle, orderedQuizWords, routeEduId, sessionSeed, sessionVideos]);
+  }, [baseQuiz, isBackendQuiz, lessonTitle, orderedQuizWords, routeEduId, sessionSeed, sessionVideos]);
 
   const currentIndex = Math.max(Number(id) - 1, 0);
   const question = quiz.questions[currentIndex] || quiz.questions[0];
+  const hasQuestion = Boolean(question);
+  const totalQuestions = Math.max(quiz.questions.length, 1);
   const [selectedOptionId, setSelectedOptionId] = useState(null);
   const [status, setStatus] = useState("solving");
   const [reviewIndex, setReviewIndex] = useState(0);
+  const [savedEduWordMapIds, setSavedEduWordMapIds] = useState([]);
 
   // 세션 자료 조회: 학습 시작 시 단어와 영상을 불러와 문제 세션 구성
   useEffect(() => {
@@ -192,7 +203,7 @@ const LearnQuizComponent = () => {
         }
       } catch {
         if (!ignore) {
-          setSessionError("학습 자료를 불러오지 못해 임시 문제를 보여주고 있어요.");
+          setSessionError("학습 단어를 불러오지 못했어요. 잠시 후 다시 시도해 주세요.");
         }
       } finally {
         if (!ignore) {
@@ -224,12 +235,18 @@ const LearnQuizComponent = () => {
     setStatus("solving");
   }, [id]);
 
-  const selectedOption = question.options.find((option) => option.id === selectedOptionId);
-  const progress = Math.round(((currentIndex + 1) / quiz.questions.length) * 100);
+  useEffect(() => {
+    setSavedEduWordMapIds([]);
+  }, [routeEduId]);
+
+  const selectedOption = question?.options.find((option) => option.id === selectedOptionId) || null;
+  const progress = Math.round(((currentIndex + 1) / totalQuestions) * 100);
   const progressStatus = status === "correct" ? "correct" : status === "incorrect" ? "incorrect" : "solving";
   const isLastQuestion = currentIndex >= quiz.questions.length - 1;
   const isSignalQuiz = type === "signal";
   const reviewQuestions = useMemo(() => {
+    if (!question) return [];
+
     const wrongQuestionIds = state.answers
       .filter((answer) => answer.correct === false)
       .map((answer) => String(answer.questionId));
@@ -246,8 +263,24 @@ const LearnQuizComponent = () => {
     setSelectedOptionId(optionId);
   };
 
+  // 단어 완료 저장: 문제를 확인한 단어만 학습 진행도로 기록
+  const saveCurrentWord = async () => {
+    const eduWordMapId = question?.word?.eduWordMapId;
+
+    if (isGuest || !userId || !eduWordMapId || savedEduWordMapIds.includes(eduWordMapId)) {
+      return;
+    }
+
+    try {
+      await finishLearnWord({ userId, eduWordMapId });
+      setSavedEduWordMapIds((prev) => [...prev, eduWordMapId]);
+    } catch {
+      // 단어 저장 실패가 문제 풀이 흐름을 막지 않도록 둠
+    }
+  };
+
   // 정답 확인: 선택한 보기의 정답 여부 확인 및 컨텍스트 기록
-  const handleCheck = () => {
+  const handleCheck = async () => {
     if (!selectedOption) return;
 
     const isCorrect = Boolean(selectedOption.correct);
@@ -259,32 +292,14 @@ const LearnQuizComponent = () => {
     });
 
     setStatus(isCorrect ? "correct" : "incorrect");
+
+    if (isCorrect) {
+      await saveCurrentWord();
+    }
   };
 
-  // 퀴즈 완료: 학습 완료 저장을 시도하고 학습 메인으로 돌아감
+  // 퀴즈 완료: 결과 저장을 시도하고 학습 메인으로 돌아감
   const handleFinish = async () => {
-    if (!isGuest && userId) {
-
-      // 중복 제거
-      const eduWordMapIds = [
-        ...new Set(
-          quizWords
-            .map((word) => word.eduWordMapId)
-            .filter(Boolean)
-        ),
-      ];
-        
-      try {
-        await Promise.all(
-          eduWordMapIds.map((eduWordMapId) =>
-            finishLearnWord({ userId, eduWordMapId})
-          )
-        );
-      } catch {
-        // 저장 실패가 세션 종료를 막지 않도록 둠
-      }
-    }
-
     if (isGuest || !userId || !canSubmitQuizAnswers(quiz.id, state.answers)) {
       setResult({
         quizId: quiz.id,
@@ -336,7 +351,8 @@ const LearnQuizComponent = () => {
       return;
     }
 
-    navigate(`/study/learn/quiz/${type}/questions/${currentIndex + 2}?eduId=${routeEduId}`);
+    const nextQuery = routeEduId ? `?eduId=${routeEduId}` : "";
+    navigate(`/study/learn/quiz/${type}/questions/${currentIndex + 2}${nextQuery}`);
   };
 
   // 닫기: 학습 메인 화면으로 이동
@@ -354,6 +370,38 @@ const LearnQuizComponent = () => {
 
     handleFinish();
   };
+
+  if (!hasQuestion) {
+    const emptyMessage = sessionLoading
+      ? "학습 단어를 불러오는 중이에요."
+      : sessionError || "등록된 OpenAPI 학습 단어가 없어요. 관리자에서 학습 단어를 연결해 주세요.";
+
+    return (
+      <S.LearnQuizWrap>
+        <S.LearnQuizShell>
+          <S.LearnQuizTop>
+            <S.LearnQuizClose type="button" onClick={handleClose} aria-label="퀴즈 닫기">
+              ×
+            </S.LearnQuizClose>
+            <S.LearnQuizProgress aria-label="학습 퀴즈 진행률" $progress={0} $status="solving">
+              <span />
+            </S.LearnQuizProgress>
+            <S.LearnQuizCount>0 / 0</S.LearnQuizCount>
+          </S.LearnQuizTop>
+
+          <S.LearnQuizHeader>
+            <S.LearnQuizTitle>{emptyMessage}</S.LearnQuizTitle>
+          </S.LearnQuizHeader>
+
+          <S.LearnQuizBottom>
+            <S.LearnQuizSkip type="button" onClick={handleClose}>
+              학습으로 돌아가기
+            </S.LearnQuizSkip>
+          </S.LearnQuizBottom>
+        </S.LearnQuizShell>
+      </S.LearnQuizWrap>
+    );
+  }
 
   if (status === "review") {
 
@@ -388,7 +436,7 @@ const LearnQuizComponent = () => {
             <span />
           </S.LearnQuizProgress>
           <S.LearnQuizCount>
-            {currentIndex + 1} / {quiz.questions.length}
+            {currentIndex + 1} / {totalQuestions}
           </S.LearnQuizCount>
         </S.LearnQuizTop>
 
@@ -436,7 +484,7 @@ const LearnQuizComponent = () => {
         ) : (
           <LearnQuizFeedback
             status={status}
-            exp={question.exp}
+            exp={status === "correct" ? (isBackendQuiz ? 20 : question.exp) : 0}
             message={status === "correct" ? question.feedback.correct : question.feedback.incorrect}
             description={question.word?.wordsDetail || question.hint}
             onNext={handleNext}

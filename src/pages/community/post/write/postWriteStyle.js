@@ -395,3 +395,9 @@ export const SaveText = styled.p`
   color: ${theme.PALETTE.primary.main};
   white-space: pre-line;
 `;
+
+export const ErrorText = styled.p`
+  margin: 2px 0 0;
+  ${h11Regular}
+  color: ${theme.PALETTE.red};
+`;

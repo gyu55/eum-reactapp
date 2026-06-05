@@ -287,6 +287,65 @@ export const AccessBtn = styled.button`
   }
 `;
 
+/* ── TipTap 읽기 전용 뷰어 ── */
+export const TiptapViewerWrapper = styled.div`
+  width: 100%;
+
+  .ProseMirror {
+    outline: none;
+
+    p {
+      margin: 0 0 12px 0;
+      line-height: 1.7;
+    }
+    p:last-child {
+      margin-bottom: 0;
+    }
+    strong {
+      font-weight: bold;
+    }
+    em {
+      font-style: italic;
+    }
+    u {
+      text-decoration: underline;
+    }
+    h1,
+    h2,
+    h3 {
+      font-weight: bold;
+      margin: 0 0 8px 0;
+    }
+    ul,
+    ol {
+      padding-left: 24px;
+      margin: 0 0 12px 0;
+    }
+    li {
+      margin-bottom: 4px;
+    }
+    blockquote {
+      border-left: 4px solid ${PALETTE.primary.main};
+      padding-left: 12px;
+      margin: 0 0 12px 0;
+      color: inherit;
+    }
+    code {
+      background: ${GRAYSCALE[8]};
+      border-radius: 4px;
+      padding: 2px 4px;
+      font-family: monospace;
+    }
+    pre {
+      background: ${GRAYSCALE[8]};
+      border-radius: 6px;
+      padding: 12px;
+      overflow-x: auto;
+      margin: 0 0 12px 0;
+    }
+  }
+`;
+
 /* ── Like / Share / Report ── */
 export const ActionRow = styled.div`
   display: flex;

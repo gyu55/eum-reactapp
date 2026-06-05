@@ -17,6 +17,11 @@ const defaultProfiles = [
   defaultProfile4,
 ];
 
+const stripHtml = (html) => {
+  if (!html) return "";
+  return html.replace(/<[^>]*>/g, "");
+};
+
 const PostListCard = ({
   id = 0,
   postTag = "",
@@ -55,7 +60,7 @@ const PostListCard = ({
         {/* 게시글 제목 및 내용 */}
         <S.ContentArea>
           <S.Title>{postTitle}</S.Title>
-          <S.Description>{postContent}</S.Description>
+          <S.Description>{stripHtml(postContent)}</S.Description>
         </S.ContentArea>
         <S.Thumbnail>
           <img

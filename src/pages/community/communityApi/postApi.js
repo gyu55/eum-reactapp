@@ -80,3 +80,14 @@ export const cancelPostLike = async (postId) => {
   });
   if (!res.ok) throw new Error("게시글 좋아요 취소 실패");
 };
+
+// 게시글 작성
+export const createPost = async ({ postTitle, postContent, postTag }) => {
+  const res = await fetch(`${ROOT_URL}/posts`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ postTitle, postContent, postTag }),
+  });
+  if (!res.ok) throw new Error("게시글 작성 실패");
+  return res.json();
+};

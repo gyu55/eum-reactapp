@@ -12,6 +12,7 @@ import ToolBar from "./postWriteComponent/ToolBar";
 import CommunityRule from "./postWriteComponent/CommunityRule";
 import PostingGuide from "./postWriteComponent/PostingGuide";
 import * as S from "./postWriteStyle";
+import { createPost } from "../../communityApi/postApi";
 
 // 파일 업로드 내 파일
 import postFileUpload from "../../assets/postWrite/post-file-upload.svg";
@@ -26,19 +27,52 @@ const CATEGORIES = [
   "취업·진로",
 ];
 
+// const searchParams = searchParams()
+
+const TITLE_MAX = 255;
+const CONTENT_MAX = 4000;
+
 /* ══ 컴포넌트 ══ */
 const PostWrite = () => {
   const navigate = useNavigate();
   const [activeCategory, setActiveCategory] = useState("전체");
+  const [title, setTitle] = useState("");
+  const [errors, setErrors] = useState({});
 
   const editor = useEditor({
     extensions: [StarterKit, Underline],
     content: "",
   });
 
-  const handleSubmit = () => {
-    console.log("HTML:", editor?.getHTML());
-    console.log("JSON:", editor?.getJSON());
+  const validate = () => {
+    const errs = {};
+    if (activeCategory === "전체") errs.category = "카테고리를 선택해 주세요.";
+    if (!title.trim()) errs.title = "제목을 입력해 주세요.";
+    else if (title.length > TITLE_MAX)
+      errs.title = `제목은 ${TITLE_MAX}자 이내로 입력해 주세요.`;
+    if (editor?.isEmpty) errs.content = "본문을 입력해 주세요.";
+    else if ((editor?.getHTML() ?? "").length > CONTENT_MAX)
+      errs.content = `본문은 ${CONTENT_MAX}자 이내로 입력해 주세요.`;
+    return errs;
+  };
+
+  const handleSubmit = async () => {
+    const errs = validate();
+    if (Object.keys(errs).length > 0) {
+      setErrors(errs);
+      return;
+    }
+    setErrors({});
+    try {
+      await createPost({
+        postTitle: title,
+        postContent: editor.getHTML(),
+        postTag: activeCategory,
+      });
+      navigate(-1);
+    } catch {
+      setErrors({ submit: "게시글 등록에 실패했습니다. 다시 시도해 주세요." });
+    }
   };
 
   return (
@@ -86,6 +120,9 @@ const PostWrite = () => {
                       </S.CategoryPill>
                     ))}
                   </S.CategoryPills>
+                  {errors.category && (
+                    <S.ErrorText>{errors.category}</S.ErrorText>
+                  )}
                 </S.CategoryCol>
               </S.FieldRow>
 
@@ -95,7 +132,15 @@ const PostWrite = () => {
                   <S.LabelText>제목</S.LabelText>
                   <S.RequiredMark>*</S.RequiredMark>
                 </S.FieldLabel>
-                <S.InputField placeholder="제목을 입력해 주세요 zz" />
+                <S.CategoryCol>
+                  <S.InputField
+                    placeholder="제목을 입력해 주세요"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    maxLength={TITLE_MAX}
+                  />
+                  {errors.title && <S.ErrorText>{errors.title}</S.ErrorText>}
+                </S.CategoryCol>
               </S.FieldRow>
 
               {/* 본문 */}
@@ -109,6 +154,9 @@ const PostWrite = () => {
                   <S.TiptapWrapper>
                     <EditorContent editor={editor} />
                   </S.TiptapWrapper>
+                  {errors.content && (
+                    <S.ErrorText>{errors.content}</S.ErrorText>
+                  )}
                 </S.BodyCol>
               </S.FieldRow>
 
@@ -147,6 +195,7 @@ const PostWrite = () => {
           </S.WriteCard>
 
           {/* 하단 액션 버튼 */}
+          {errors.submit && <S.ErrorText>{errors.submit}</S.ErrorText>}
           <S.ActionButtons>
             <S.ActionBtn $type="cancel" onClick={() => navigate(-1)}>
               취소

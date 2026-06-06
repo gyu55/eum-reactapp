@@ -17,6 +17,7 @@ import { createPost, updatePost } from "../../communityApi/postApi";
 // 파일 업로드 내 파일
 import postFileUpload from "../../assets/postWrite/post-file-upload.svg";
 import postTempSaveInfo from "../../assets/postWrite/post-temp-save-info.svg";
+import useAuthCheck from "../../../customservice/useAuthCheck";
 
 const CATEGORIES = [
   "전체",
@@ -38,7 +39,9 @@ const PostWrite = () => {
   const location = useLocation();
   const editState = location.state?.mode === "edit" ? location.state : null;
 
-  const [activeCategory, setActiveCategory] = useState(editState?.postTag ?? "전체");
+  const [activeCategory, setActiveCategory] = useState(
+    editState?.postTag ?? "전체",
+  );
   const [title, setTitle] = useState(editState?.postTitle ?? "");
   const [errors, setErrors] = useState({});
 
@@ -52,6 +55,8 @@ const PostWrite = () => {
       editor.commands.setContent(editState.postContent);
     }
   }, [editor, editState?.postContent]);
+
+  useAuthCheck();
 
   const validate = () => {
     const errs = {};
@@ -88,7 +93,11 @@ const PostWrite = () => {
       }
       navigate(-1);
     } catch {
-      setErrors({ submit: editState ? "게시글 수정에 실패했습니다. 다시 시도해 주세요." : "게시글 등록에 실패했습니다. 다시 시도해 주세요." });
+      setErrors({
+        submit: editState
+          ? "게시글 수정에 실패했습니다. 다시 시도해 주세요."
+          : "게시글 등록에 실패했습니다. 다시 시도해 주세요.",
+      });
     }
   };
 
@@ -112,7 +121,11 @@ const PostWrite = () => {
           {/* 작성 카드 */}
           <S.WriteCard>
             <S.CardHeader>
-              <p>{editState ? "게시글을 수정합니다" : "이음 커뮤니티에 새 글을 작성합니다"}</p>
+              <p>
+                {editState
+                  ? "게시글을 수정합니다"
+                  : "이음 커뮤니티에 새 글을 작성합니다"}
+              </p>
             </S.CardHeader>
 
             <S.CardBody>

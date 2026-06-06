@@ -44,7 +44,7 @@ export const InfoBox = styled.div`
 `;
 
 export const InfoLabel = styled.p`
-  font-size: ${FONT_SIZE.h11};
+  font-size: ${FONT_SIZE.h10};
   font-weight: ${FONT_WEIGHT.bold};
   color: ${PALETTE.red};
   margin: 0;

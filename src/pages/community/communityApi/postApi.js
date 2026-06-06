@@ -91,3 +91,14 @@ export const createPost = async ({ postTitle, postContent, postTag }) => {
   if (!res.ok) throw new Error("게시글 작성 실패");
   return res.json();
 };
+
+// 게시글 수정
+export const updatePost = async (postId, { postTitle, postContent, postTag }) => {
+  const res = await fetch(`${ROOT_URL}/posts/${postId}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ postTitle, postContent, postTag }),
+  });
+  if (!res.ok) throw new Error("게시글 수정 실패");
+  return res.json();
+};

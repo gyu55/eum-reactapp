@@ -3,8 +3,8 @@
 // import { useNavigate } from "react-router-dom";
 // import theme from "../styles/theme";
 
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
@@ -12,7 +12,7 @@ import ToolBar from "./postWriteComponent/ToolBar";
 import CommunityRule from "./postWriteComponent/CommunityRule";
 import PostingGuide from "./postWriteComponent/PostingGuide";
 import * as S from "./postWriteStyle";
-import { createPost } from "../../communityApi/postApi";
+import { createPost, updatePost } from "../../communityApi/postApi";
 
 // 파일 업로드 내 파일
 import postFileUpload from "../../assets/postWrite/post-file-upload.svg";
@@ -35,14 +35,27 @@ const CONTENT_MAX = 4000;
 /* ══ 컴포넌트 ══ */
 const PostWrite = () => {
   const navigate = useNavigate();
-  const [activeCategory, setActiveCategory] = useState("전체");
-  const [title, setTitle] = useState("");
+  const location = useLocation();
+  const editState = location.state?.mode === "edit" ? location.state : null;
+
+  const [activeCategory, setActiveCategory] = useState(
+    editState?.postTag ?? "전체",
+  );
+  const [title, setTitle] = useState(editState?.postTitle ?? "");
   const [errors, setErrors] = useState({});
 
   const editor = useEditor({
     extensions: [StarterKit, Underline],
     content: "",
   });
+
+  useEffect(() => {
+    if (editor && editState?.postContent) {
+      editor.commands.setContent(editState.postContent);
+    }
+  }, [editor, editState?.postContent]);
+
+  // useAuthCheck();
 
   const validate = () => {
     const errs = {};
@@ -64,14 +77,26 @@ const PostWrite = () => {
     }
     setErrors({});
     try {
-      await createPost({
-        postTitle: title,
-        postContent: editor.getHTML(),
-        postTag: activeCategory,
-      });
+      if (editState) {
+        await updatePost(editState.postId, {
+          postTitle: title,
+          postContent: editor.getHTML(),
+          postTag: activeCategory,
+        });
+      } else {
+        await createPost({
+          postTitle: title,
+          postContent: editor.getHTML(),
+          postTag: activeCategory,
+        });
+      }
       navigate(-1);
     } catch {
-      setErrors({ submit: "게시글 등록에 실패했습니다. 다시 시도해 주세요." });
+      setErrors({
+        submit: editState
+          ? "게시글 수정에 실패했습니다. 다시 시도해 주세요."
+          : "게시글 등록에 실패했습니다. 다시 시도해 주세요.",
+      });
     }
   };
 
@@ -88,14 +113,18 @@ const PostWrite = () => {
             </S.ActionBtn>
             <S.ActionBtn $type="draft">임시저장</S.ActionBtn>
             <S.ActionBtn $type="submit" onClick={handleSubmit}>
-              등록하기
+              {editState ? "수정하기" : "등록하기"}
             </S.ActionBtn>
           </S.ActionButtons>
 
           {/* 작성 카드 */}
           <S.WriteCard>
             <S.CardHeader>
-              <p>이음 커뮤니티에 새 글을 작성합니다</p>
+              <p>
+                {editState
+                  ? "게시글을 수정합니다"
+                  : "이음 커뮤니티에 새 글을 작성합니다"}
+              </p>
             </S.CardHeader>
 
             <S.CardBody>
@@ -202,7 +231,7 @@ const PostWrite = () => {
             </S.ActionBtn>
             <S.ActionBtn $type="draft">임시저장</S.ActionBtn>
             <S.ActionBtn $type="submit" onClick={handleSubmit}>
-              등록하기
+              {editState ? "수정하기" : "등록하기"}
             </S.ActionBtn>
           </S.ActionButtons>
         </S.LeftBlock>

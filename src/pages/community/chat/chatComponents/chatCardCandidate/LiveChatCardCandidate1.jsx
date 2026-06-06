@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import styled from "styled-components";
 import theme from "../../../../../styles/theme";
 import {
@@ -7,6 +8,8 @@ import {
 } from "../../../communityStyle";
 import T from "../../../communityTextStyle";
 import { BORDER_STYLE } from "../../../constants";
+import useAuthStore from "../../../../../store/authStore";
+import LoginRequiredPopup from "../../../common/LoginRequiredPopup";
 
 // 후보 1: 아바타 + 진행도 바형
 // - 좌상단 그라데이션 원형 아바타로 채팅방 식별성 강화
@@ -169,12 +172,27 @@ const LiveChatCardCandidate1 = ({
   chatRoomLimit = 100,
   onJoin,
 }) => {
+  const { isAuthenticated } = useAuthStore();
+  const [showLoginPopup, setShowLoginPopup] = useState(false);
+
   const limit = chatRoomLimit || 100;
   const percent = Math.min(100, Math.round((chatRoomUsers / limit) * 100)) || 0;
   const firstChar = chatRoomName?.trim()?.charAt(0) || "?";
 
+  const handleJoin = () => {
+    if (!isAuthenticated) {
+      setShowLoginPopup(true);
+    } else {
+      onJoin();
+    }
+  };
+
   return (
     <Card>
+      <LoginRequiredPopup
+        isOpen={showLoginPopup}
+        onClose={() => setShowLoginPopup(false)}
+      />
       <TopRow>
         <Avatar>{firstChar}</Avatar>
         <TitleColumn>
@@ -197,7 +215,7 @@ const LiveChatCardCandidate1 = ({
           <ProgressFill $percent={percent} />
         </ProgressBar>
       </ProgressArea>
-      <JoinButton onClick={onJoin}>참여하기</JoinButton>
+      <JoinButton onClick={handleJoin}>참여하기</JoinButton>
     </Card>
   );
 };

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { ColumnBlock, ActionBtn, RowBlock } from "../communityStyle";
+import { ColumnBlock, RowBlock } from "../communityStyle";
 import T from "../communityTextStyle";
 import styled from "styled-components";
 import { flexCenterRow } from "../../../styles/common";
@@ -10,6 +10,7 @@ import LiveChatCardCandidate1Skeleton from "./skeleton/LiveChatCardCandidate1Ske
 
 import LiveChatCardCandidate1 from "./chatComponents/chatCardCandidate/LiveChatCardCandidate1.jsx";
 import NoResult from "../common/NoResult.jsx";
+import CreateChatRoomButton from "./chatComponents/CreateChatRoomButton";
 
 const HeaderBlock = styled.div`
   ${flexCenterRow}
@@ -18,7 +19,7 @@ const HeaderBlock = styled.div`
 `;
 
 const CommunityChatComponent = () => {
-  const { openChatRoom, openCreateChatRoom } = useChatContext();
+  const { openChatRoom } = useChatContext();
   const [rooms, setRooms] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -80,9 +81,7 @@ const CommunityChatComponent = () => {
       <ColumnBlock marginBottom="42px">
         <HeaderBlock>
           <T.H6Bold>실시간 채팅방</T.H6Bold>
-          <ActionBtn $type="submit" onClick={openCreateChatRoom}>
-            +채팅방 만들기
-          </ActionBtn>
+          <CreateChatRoomButton />
         </HeaderBlock>
 
         <RowBlock flexWrap="wrap">

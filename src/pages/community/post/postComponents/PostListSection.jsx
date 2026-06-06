@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import PostListCard from "./PostListCard.jsx";
 import PageCount from "./PageCount";
 import { fetchPosts } from "../../communityApi/postApi";
@@ -13,6 +13,8 @@ import {
   PostCategoryHeader,
   PostCategoryRow,
 } from "../communityPostContainerStyle";
+import useAuthStore from "../../../../store/authStore";
+import LoginRequiredPopup from "../../common/LoginRequiredPopup";
 
 const S = {
   ColumnBlock,
@@ -24,6 +26,18 @@ const S = {
 };
 
 const PostListSection = () => {
+  const navigate = useNavigate();
+  const { isAuthenticated } = useAuthStore();
+  const [showLoginPopup, setShowLoginPopup] = useState(false);
+
+  const handleWrite = () => {
+    if (!isAuthenticated) {
+      setShowLoginPopup(true);
+    } else {
+      navigate("/community/post/write");
+    }
+  };
+
   const [posts, setPosts] = useState([]);
   const [totalPages, setTotalPages] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
@@ -132,6 +146,10 @@ const PostListSection = () => {
 
   return (
     <>
+      <LoginRequiredPopup
+        isOpen={showLoginPopup}
+        onClose={() => setShowLoginPopup(false)}
+      />
       <S.PostHeader ref={listTopRef}>
         <T.H7Bold>게시글</T.H7Bold>
       </S.PostHeader>
@@ -147,9 +165,9 @@ const PostListSection = () => {
             </S.CategoryPill>
           ))}
         </S.PostCategoryRow>
-        <Link to="/community/post/write">
-          <S.ActionBtn $type="submit">글쓰기</S.ActionBtn>
-        </Link>
+        <S.ActionBtn $type="submit" onClick={handleWrite}>
+          글쓰기
+        </S.ActionBtn>
       </S.PostCategoryHeader>
       {content}
     </>

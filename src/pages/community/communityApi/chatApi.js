@@ -1,4 +1,5 @@
 const ROOT_URL = "http://localhost:10000/api";
+const PRIVATE_ROOT_URL = "http://localhost:10000/private";
 
 // 채팅방 생성
 export const insertChatRoom = async (chatRoomRequestDTO) => {
@@ -25,9 +26,11 @@ export const getChatRooms = async (page = 1, size = 6, keyword = "") => {
   return data;
 };
 
-// 채팅 메세지들 불러오기
+// 채팅 메세지들 불러오기 (로그인 필요)
 export const getChatMessages = async (chatRoomId) => {
-  const response = await fetch(`${ROOT_URL}/chats/${chatRoomId}`);
+  const response = await fetch(`${PRIVATE_ROOT_URL}/chats/${chatRoomId}`, {
+    credentials: "include",
+  });
   if (!response.ok) throw new Error("채팅 메시지를 불러오는 데 실패했습니다.");
   const { data } = await response.json();
   return data;
@@ -44,7 +47,9 @@ export const getChatRoomUsers = async (chatRoomId) => {
 
 // 단일 채팅방 불러오는 api
 export const getChatRoomInfo = async (chatRoomId) => {
-  const response = await fetch(`${ROOT_URL}/chat-rooms/${chatRoomId}`);
+  const response = await fetch(`${PRIVATE_ROOT_URL}/chat-rooms/${chatRoomId}`, {
+    credentials: "include",
+  });
   if (!response.ok) throw new Error("채팅방 정보를 불러오는 데 실패했습니다.");
   const { data } = await response.json();
   return data;

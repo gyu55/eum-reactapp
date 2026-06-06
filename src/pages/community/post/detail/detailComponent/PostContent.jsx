@@ -99,18 +99,30 @@ const PostContent = ({ postId }) => {
 
   // 게시글 데이터 분리 (post 데이터 생기고 난 뒤)
   const {
-    // id,
+    id,
     postTitle,
     // postContent — useEffect에서 post?.postContent로 직접 참조
     postReadCount,
     postCreateAt,
-    // postTag,
+    postTag,
     userNickname,
     userProfile,
     // commentCount,
     // isLiked,
     isOwner,
   } = post;
+
+  const handleEditClick = () => {
+    navigate("/community/post/write", {
+      state: {
+        mode: "edit",
+        postId: id,
+        postTitle,
+        postContent: post.postContent,
+        postTag,
+      },
+    });
+  };
 
   return (
     <div>
@@ -183,7 +195,7 @@ const PostContent = ({ postId }) => {
 
             {isOwner ? (
               <>
-                <S.IconButton aria-label="게시글 수정">
+                <S.IconButton aria-label="게시글 수정" onClick={handleEditClick}>
                   <img src={modifyIcon} alt="수정" />
                 </S.IconButton>
                 <S.IconButton

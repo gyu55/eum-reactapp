@@ -1,4 +1,5 @@
 import React from "react";
+import ReactDOM from "react-dom";
 import { useNavigate } from "react-router-dom";
 import * as S from "./alertPopupStyle";
 import styled from "styled-components";
@@ -31,7 +32,7 @@ const LoginRequiredPopup = ({ isOpen, onClose }) => {
     navigate("/login");
   };
 
-  return (
+  return ReactDOM.createPortal(
     <S.Overlay onClick={onClose}>
       <S.Card onClick={(e) => e.stopPropagation()}>
         <S.Title>안내</S.Title>
@@ -43,7 +44,8 @@ const LoginRequiredPopup = ({ isOpen, onClose }) => {
           <LoginButton onClick={handleLogin}>로그인</LoginButton>
         </S.ButtonRow>
       </S.Card>
-    </S.Overlay>
+    </S.Overlay>,
+    document.body
   );
 };
 

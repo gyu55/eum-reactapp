@@ -385,18 +385,72 @@ S.CourseItem = styled.div`
   overflow: hidden;
 `;
 
-/* 강좌 이미지 */
-S.CourseImageBox = styled.div`
+
+/* 강좌 영상 이미지 링크 */
+S.CourseVideoLink = styled.a`
+  position: relative;
+
   width: 100%;
   height: 104px;
 
+  display: block;
+
   background: #e5e7eb;
+  overflow: hidden;
 
   img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    display: block;
   }
+`;
+
+/* 강좌 영상 재생 버튼 */
+S.CoursePlayButton = styled.span`
+  position: absolute;
+  left: 50%;
+  top: 50%;
+
+  width: 44px;
+  height: 44px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transform: translate(-50%, -50%);
+
+  border-radius: 50%;
+  background: rgba(67, 89, 252, 0.9);
+
+  font-size: 18px;
+  font-weight: ${FONT_WEIGHT.bold};
+  color: #ffffff;
+`;
+
+/* 강좌 페이지 번호 영역 */
+S.CoursePaginationArea = styled.div`
+  margin: 12px auto 4px;
+
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+`;
+
+/* 강좌 페이지 번호 버튼 */
+S.CoursePageButton = styled.button`
+  min-width: 26px;
+  height: 26px;
+  padding: 0 8px;
+
+  border: 1px solid ${({ $active }) => ($active ? "#4359fc" : "#e4e7ef")};
+  border-radius: 6px;
+  background: ${({ $active }) => ($active ? "#4359fc" : "#ffffff")};
+
+  font-size: 12px;
+  font-weight: ${FONT_WEIGHT.regular};
+  color: ${({ $active }) => ($active ? "#ffffff" : "#555555")};
 `;
 
 
@@ -667,6 +721,102 @@ S.CertificateAvailableIcon = styled.div`
 
     filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.12));
   }
+`;
+
+/* 자격증 페이지네이션 영역 */
+S.CertificatePaginationArea = styled.div`
+  margin-top: 10px;
+
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+`;
+
+/* 자격증 페이지 번호 버튼 */
+S.CertificatePageButton = styled.button`
+  min-width: 26px;
+  height: 26px;
+  padding: 0 8px;
+
+  border: 1px solid ${({ $active }) => ($active ? "#4359fc" : "#e4e7ef")};
+  border-radius: 6px;
+  background: ${({ $active }) => ($active ? "#4359fc" : "#ffffff")};
+
+  font-size: 12px;
+  font-weight: ${FONT_WEIGHT.regular};
+  color: ${({ $active }) => ($active ? "#ffffff" : "#555555")};
+
+  cursor: pointer;
+`;
+
+/* 강좌 영상 이미지 링크 */
+S.CourseVideoLink = styled.a`
+  position: relative;
+
+  width: 100%;
+  height: 104px;
+
+  display: block;
+
+  background: #e5e7eb;
+  overflow: hidden;
+  cursor: pointer;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+`;
+
+/* 강좌 영상 재생 버튼 */
+S.CoursePlayButton = styled.span`
+  position: absolute;
+  left: 50%;
+  top: 50%;
+
+  width: 44px;
+  height: 44px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transform: translate(-50%, -50%);
+
+  border-radius: 50%;
+  background: rgba(67, 89, 252, 0.9);
+
+  font-size: 18px;
+  font-weight: ${FONT_WEIGHT.bold};
+  color: #ffffff;
+`;
+
+/* 강좌 페이지네이션 영역 */
+S.CoursePaginationArea = styled.div`
+  margin: 12px auto 4px;
+
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+`;
+
+/* 강좌 페이지 번호 버튼 */
+S.CoursePageButton = styled.button`
+  min-width: 26px;
+  height: 26px;
+  padding: 0 8px;
+
+  border: 1px solid ${({ $active }) => ($active ? "#4359fc" : "#e4e7ef")};
+  border-radius: 6px;
+  background: ${({ $active }) => ($active ? "#4359fc" : "#ffffff")};
+
+  font-size: 12px;
+  font-weight: ${FONT_WEIGHT.regular};
+  color: ${({ $active }) => ($active ? "#ffffff" : "#555555")};
+
+  cursor: pointer;
 `;
 
 export default S;

@@ -10,7 +10,7 @@ const S3_PROFILE_BASE_URL =
   "https://testapp-gyuhoroh213589.s3.ap-northeast-2.amazonaws.com";
 
 /*
-  프로필 정보는 마이페이지 메인 API 연동
+  프로필 정보는 마이페이지 메인, 학습, 자격증에서 공통으로 사용합니다.
 */
 const ProfileCard = ({ profile, onLevelClick }) => {
   const navigate = useNavigate();
@@ -66,7 +66,6 @@ const ProfileCard = ({ profile, onLevelClick }) => {
     return date.includes("T") ? date.split("T")[0] : date.split(" ")[0];
   };
 
-  // 프로필 이미지
   const profileImageSrc = getProfileImageSrc(profile?.userProfile);
 
   return (
@@ -83,10 +82,10 @@ const ProfileCard = ({ profile, onLevelClick }) => {
       </S.ProfileImage>
 
       <S.ProfileContent>
-        {/* 이름 / 레벨 */}
+        {/* 닉네임 / 레벨 */}
         <S.ProfileNameRow>
           <S.ProfileUserName>
-            {profile?.userName || "사용자"}
+            {profile?.userNickname || profile?.userName || "사용자"}
           </S.ProfileUserName>
 
           <S.LevelButton type="button" onClick={onLevelClick}>
@@ -116,52 +115,34 @@ const ProfileCard = ({ profile, onLevelClick }) => {
           <S.ProfileColumn>
             <S.ProfileRow>
               <S.ProfileLabel>이메일</S.ProfileLabel>
-
-              <S.ProfileValue>
-                {profile?.userEmail || "-"}
-              </S.ProfileValue>
+              <S.ProfileValue>{profile?.userEmail || "-"}</S.ProfileValue>
             </S.ProfileRow>
 
             <S.ProfileRow>
-              <S.ProfileLabel>닉네임</S.ProfileLabel>
-
-              <S.ProfileValue>
-                {profile?.userNickname || "-"}
-              </S.ProfileValue>
+              <S.ProfileLabel>이름</S.ProfileLabel>
+              <S.ProfileValue>{profile?.userName || "-"}</S.ProfileValue>
             </S.ProfileRow>
 
             <S.ProfileRow>
               <S.ProfileLabel>직업</S.ProfileLabel>
-
-              <S.ProfileValue>
-                {profile?.userJob || "-"}
-              </S.ProfileValue>
+              <S.ProfileValue>{profile?.userJob || "-"}</S.ProfileValue>
             </S.ProfileRow>
           </S.ProfileColumn>
 
           <S.ProfileColumn>
             <S.ProfileRow>
               <S.ProfileLabel>가입일</S.ProfileLabel>
-
-              <S.ProfileValue>
-                {getCreateDate(profile?.userCreateAt)}
-              </S.ProfileValue>
+              <S.ProfileValue>{getCreateDate(profile?.userCreateAt)}</S.ProfileValue>
             </S.ProfileRow>
 
             <S.ProfileRow>
               <S.ProfileLabel>지역</S.ProfileLabel>
-
-              <S.ProfileValue>
-                {profile?.userAddress || "-"}
-              </S.ProfileValue>
+              <S.ProfileValue>{profile?.userAddress || "-"}</S.ProfileValue>
             </S.ProfileRow>
 
             <S.ProfileRow>
               <S.ProfileLabel>전화번호</S.ProfileLabel>
-
-              <S.ProfileValue>
-                {profile?.userPhoneNum || "-"}
-              </S.ProfileValue>
+              <S.ProfileValue>{profile?.userPhoneNum || "-"}</S.ProfileValue>
             </S.ProfileRow>
           </S.ProfileColumn>
         </S.DetailArea>

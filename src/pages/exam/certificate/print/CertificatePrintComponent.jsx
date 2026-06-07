@@ -1,25 +1,45 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import * as S from "./style";
 import useLoginCheck from "../../../../hooks/useLoginCheck";
 import LoginGuard from "../../../../components/common/LoginGuard";
 
-const DUMMY_CERTS = [
-  { id: 1, no: "CL-2025-00456", course: "수어통역 기초과정",  date: "2025년 2월 28일" },
-  { id: 2, no: "CL-2024-00123", course: "수어통역 심화과정",  date: "2024년 8월 15일" },
-  { id: 3, no: "CL-2024-00089", course: "수어통역 전문과정",  date: "2024년 3월 10일" },
-];
+const isExpired = (expireAt) => expireAt && new Date(expireAt) < new Date();
+
+const formatKorDate = (dateStr) => {
+  if (!dateStr) return "";
+  const d = new Date(dateStr);
+  return `${d.getFullYear()}년 ${d.getMonth() + 1}월 ${d.getDate()}일`;
+};
 
 const CertificatePrintComponent = () => {
   const { isLoggedIn, user } = useLoginCheck();
   const certRef   = useRef(null);
   const [selectedId, setSelectedId] = useState("");
+  const [certs, setCerts] = useState([]);
 
-  const selected  = DUMMY_CERTS.find(c => String(c.id) === selectedId);
+  useEffect(() => {
+    if (!isLoggedIn) return;
+    fetch("http://localhost:10000/private/api/edu-certs/me", { credentials: "include" })
+      .then(res => res.json())
+      .then(data => { if (data.success) setCerts(data.data); })
+      .catch(() => {});
+  }, [isLoggedIn]);
+
+  const selected = certs.find(c => String(c.id) === selectedId);
 
   const name  = user?.userName  || user?.userNickname || "OOO";
   const birth = user?.userBirth ? user.userBirth.replace(/-/g, ".") : "0000.00.00";
 
-  const cert = selected ? { ...selected, name, birth } : null;
+  const expired = selected ? isExpired(selected.eduCertExpireAt) : false;
+  const cert = selected && !expired
+    ? {
+        no: `No. ${String(selected.id).padStart(6, "0")}`,
+        course: selected.eduTitle,
+        date: formatKorDate(selected.eduCertCreateAt),
+        name,
+        birth,
+      }
+    : null;
 
   if (isLoggedIn === null) return null;
   if (!isLoggedIn) return (
@@ -142,16 +162,20 @@ const CertificatePrintComponent = () => {
           onChange={e => setSelectedId(e.target.value)}
         >
           <option value="">수료증을 선택해주세요</option>
-          {DUMMY_CERTS.map(c => (
+          {certs.map(c => (
             <option key={c.id} value={c.id}>
-              {c.course} ({c.date})
+              {c.eduTitle} ({formatKorDate(c.eduCertCreateAt)}){isExpired(c.eduCertExpireAt) ? " [만료]" : ""}
             </option>
           ))}
         </S.CertSelect>
       </S.SelectRow>
 
-      {!cert ? (
+      {!selectedId ? (
         <S.EmptyMsg>수료증을 선택하면 미리보기가 표시됩니다.</S.EmptyMsg>
+      ) : expired ? (
+        <S.EmptyMsg style={{ color: "#e74c3c" }}>
+          만료된 수료증은 출력할 수 없습니다. (만료일: {formatKorDate(selected.eduCertExpireAt)})
+        </S.EmptyMsg>
       ) : (
         <>
           <S.CertCardWrap ref={certRef}>

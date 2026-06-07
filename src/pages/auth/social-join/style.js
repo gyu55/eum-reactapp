@@ -141,7 +141,7 @@ export const SmallBtn = styled.button`
   color: #fff;
 
   &:disabled {
-    opacity: 0.5;
+    background: #c0c0c0;
     cursor: not-allowed;
   }
 `;

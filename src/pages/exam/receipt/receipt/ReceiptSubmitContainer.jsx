@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import * as S from "./style";
 import useLoginCheck from "../../../../hooks/useLoginCheck";
 import LoginGuard from "../../../../components/common/LoginGuard";
@@ -21,12 +21,14 @@ const formatPhone = (value) => {
 
 const ReceiptSubmitContainer = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { isLoggedIn, user } = useLoginCheck();
   const { requestPayment } = useTossPayment();
   const [tests, setTests] = useState([]);
   const [selectedTestId, setSelectedTestId] = useState("");
   const [name, setName] = useState("");
   const [birth, setBirth] = useState("");
+  const [birthLocked, setBirthLocked] = useState(false);
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [files, setFiles] = useState([]); // 실제 File 객체 배열
@@ -40,7 +42,11 @@ const ReceiptSubmitContainer = () => {
     fetch("http://localhost:10000/api/tests", { credentials: "include" })
       .then(res => res.json())
       .then(data => {
-        if (data.success) setTests(data.data);
+        if (data.success) {
+          setTests(data.data);
+          const preselect = location.state?.testId;
+          if (preselect) setSelectedTestId(preselect);
+        }
       })
       .catch(() => {});
   }, []);
@@ -50,7 +56,10 @@ const ReceiptSubmitContainer = () => {
       setName(user.userName || "");
       setPhone(user.userPhoneNum || "");
       setEmail(user.userEmail || "");
-      setBirth(user.userBirth || "");
+      if (user.userBirth) {
+        setBirth(user.userBirth);
+        setBirthLocked(true);
+      }
     }
   }, [user]);
 
@@ -67,6 +76,10 @@ const ReceiptSubmitContainer = () => {
   const handleSubmit = async () => {
     if (!selectedTestId) {
       setSubmitMsg("시험 회차를 선택해주세요.");
+      return;
+    }
+    if (!birth) {
+      setSubmitMsg("생년월일을 입력해주세요.");
       return;
     }
 
@@ -194,7 +207,10 @@ const ReceiptSubmitContainer = () => {
           <S.Label>시험 회차 <span>*</span></S.Label>
           <S.Select value={selectedTestId} onChange={e => { setSelectedTestId(e.target.value); setSubmitMsg(""); }}>
             <option value="">시험 회차를 선택하세요</option>
-            {tests.map(t => (
+            {tests.filter(t => {
+              const now = new Date();
+              return now >= new Date(t.testReceiptStart) && now <= new Date(t.testReceiptEnd);
+            }).map(t => (
               <option key={t.id} value={t.id}>
                 {t.testTitle} ({new Date(t.testDate).toLocaleDateString("ko-KR")})
               </option>
@@ -219,10 +235,12 @@ const ReceiptSubmitContainer = () => {
             />
           </div>
           <div>
-            <S.Label>생년월일</S.Label>
+            <S.Label>생년월일 {!birthLocked && <span>*</span>}</S.Label>
             <S.Input
               value={birth}
-              readOnly
+              readOnly={birthLocked}
+              placeholder={birthLocked ? "" : "YYYY-MM-DD"}
+              onChange={birthLocked ? undefined : e => setBirth(formatBirth(e.target.value))}
               style={{ letterSpacing: "1px" }}
             />
           </div>

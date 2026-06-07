@@ -1,47 +1,14 @@
+import { useState, useEffect } from "react";
 import { useNavigate, useLocation, useOutlet } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleInfo, faBookOpen } from "@fortawesome/free-solid-svg-icons";
 import { PRIMARY, styles, statusStyle } from "./style";
 
-// 임시 데이터 — 추후 API로 교체
-const examData = [
-  {
-    id: 1,
-    round: "1회 정기시험",
-    status: "완료",
-    period: "2025.02.03 – 02.14",
-    examDate: "2025.03.08",
-    dday: null,
-    active: false,
-  },
-  {
-    id: 2,
-    round: "2회 정기시험",
-    status: "접수중",
-    period: "2025.05.12 – 05.23",
-    examDate: "2025.06.14",
-    dday: -86,
-    active: true,
-  },
-  {
-    id: 3,
-    round: "3회 정기시험",
-    status: "예정",
-    period: "2025.08.11 – 08.22",
-    examDate: "2025.09.13",
-    dday: null,
-    active: false,
-  },
-  {
-    id: 4,
-    round: "4회 정기시험",
-    status: "예정",
-    period: "2025.11.03 – 11.14",
-    examDate: "2025.12.06",
-    dday: null,
-    active: false,
-  },
-];
+const formatDate = (dateStr) => {
+  if (!dateStr) return "";
+  const d = new Date(dateStr);
+  return `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, "0")}.${String(d.getDate()).padStart(2, "0")}`;
+};
 
 
 function StatusBadge({ status }) {
@@ -53,14 +20,17 @@ function StatusBadge({ status }) {
   );
 }
 
-function ExamCard({ exam }) {
+function ExamCard({ exam, onApply }) {
   const isActive = exam.active;
   return (
     <div style={styles.examCard(isActive)}>
       <div style={styles.examCardBadgeRow}>
         <StatusBadge status={exam.status} />
       </div>
-      <div style={styles.examCardRound(exam.status)}>{exam.round}</div>
+      <div style={styles.examCardRound(exam.status)}>
+        {exam.round.split(' ').slice(0, 2).join(' ')}<br />
+        {exam.round.split(' ').slice(2).join(' ')}
+      </div>
 
       <div style={styles.examCardPeriodLabel(exam.status)}>접수기간</div>
       <div style={styles.examCardPeriodValue(exam.status)}>{exam.period}</div>
@@ -77,6 +47,26 @@ function ExamCard({ exam }) {
           </div>
         )}
       </div>
+
+      {exam.status === "접수중" && (
+        <button
+          onClick={() => onApply(exam.id)}
+          style={{
+            marginTop: 14,
+            width: "100%",
+            padding: "10px 0",
+            background: PRIMARY,
+            color: "#fff",
+            border: "none",
+            borderRadius: 8,
+            fontSize: 14,
+            fontWeight: 700,
+            cursor: "pointer",
+          }}
+        >
+          접수하기
+        </button>
+      )}
     </div>
   );
 }
@@ -90,6 +80,38 @@ export default function ExamInfo() {
   const navigate = useNavigate();
   const location = useLocation();
   const outlet = useOutlet();
+  const [tests, setTests] = useState([]);
+
+  useEffect(() => {
+    fetch("http://localhost:10000/api/tests", { credentials: "include" })
+      .then(res => res.json())
+      .then(data => { if (data.success) setTests(data.data); })
+      .catch(() => {});
+  }, []);
+
+  const examData = tests.map(t => {
+    const now = new Date();
+    const start = new Date(t.testReceiptStart);
+    const end = new Date(t.testReceiptEnd);
+    const examDate = new Date(t.testDate);
+    let status = "예정";
+    if (now > examDate) status = "완료";
+    else if (now >= start && now <= end) status = "접수중";
+    const dday = status === "접수중" ? Math.ceil((examDate - now) / (1000 * 60 * 60 * 24)) : null;
+    return {
+      id: t.id,
+      round: t.testTitle,
+      status,
+      period: `${formatDate(t.testReceiptStart)} – ${formatDate(t.testReceiptEnd)}`,
+      examDate: formatDate(t.testDate),
+      dday,
+      active: status === "접수중",
+    };
+  });
+
+  const handleApply = (testId) => {
+    navigate("/exam/receipt/info/submit", { state: { testId: String(testId) } });
+  };
 
   return (
     <>
@@ -108,7 +130,7 @@ export default function ExamInfo() {
             {/* 공지 배너 */}
             <div style={styles.noticeBanner}>
               <span style={{ fontSize: 16 }}>📢</span>
-              2025년 수어 자격시험 일정이 공개되었습니다. 원서접수 전 반드시 응시 자격 요건을 확인하세요.
+              2026년 수어 자격시험 일정이 공개되었습니다. 원서접수 전 반드시 응시 자격 요건을 확인하세요.
             </div>
 
             {/* 시험정보 카드 */}
@@ -142,10 +164,10 @@ export default function ExamInfo() {
             {/* 탭 클릭 시 서브 콘텐츠, 기본 시 시험 일정 표시 */}
             {outlet ?? (
               <div>
-                <h2 style={styles.sectionTitleSm}>2025년 시험 일정</h2>
+                <h2 style={styles.sectionTitleSm}>2026년 시험 일정</h2>
                 <div style={styles.examCardRow}>
                   {examData.map((exam) => (
-                    <ExamCard key={exam.id} exam={exam} />
+                    <ExamCard key={exam.id} exam={exam} onApply={handleApply} />
                   ))}
                 </div>
               </div>

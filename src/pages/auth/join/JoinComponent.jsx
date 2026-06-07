@@ -53,6 +53,28 @@ export default function JoinComponent() {
   const smsTimer = useVerificationTimer();
   const [submitLoading, setSubmitLoading] = useState(false);
   const [submitMsg, setSubmitMsg] = useState("");
+  const [emailMsg, setEmailMsg] = useState("");
+  const [emailChecked, setEmailChecked] = useState(false);
+
+  const handleEmailCheck = async () => {
+    const email = form.userEmail.trim();
+    if (!email) return;
+    setEmailMsg("");
+    setEmailChecked(false);
+    try {
+      const res = await fetch(`http://localhost:10000/api/users/email/exists?email=${encodeURIComponent(email)}`);
+      const data = await res.json();
+      if (data.data) {
+        setEmailMsg("이미 사용 중인 이메일입니다.");
+      } else {
+        setEmailMsg("사용 가능한 이메일입니다.");
+        setEmailChecked(true);
+        advanceTo(3);
+      }
+    } catch {
+      setEmailMsg("");
+    }
+  };
 
   const handleAgreeAll = (checked) => {
     setAgreeAll(checked);
@@ -100,7 +122,7 @@ export default function JoinComponent() {
     setSmsLoading(true);
     setSmsMsg("");
     // 테스트 시: 인증코드 확인 생략
-    setCodeVerified(true); setSmsMsg("(테스트) 인증 완료"); setSmsLoading(false); return;
+    setCodeVerified(true); smsTimer.reset(); setSmsMsg("(테스트) 인증 완료"); setSmsLoading(false); return;
     try {
       const res = await fetch("http://localhost:10000/api/verifications/phone/verification-code", {
         method: "PUT",
@@ -110,6 +132,7 @@ export default function JoinComponent() {
       const data = await res.json();
       if (data.success) {
         setCodeVerified(true);
+        smsTimer.reset();
         setSmsMsg("인증이 완료되었습니다.");
       } else {
         setSmsMsg(data.message || "인증번호가 올바르지 않습니다.");
@@ -128,6 +151,10 @@ export default function JoinComponent() {
     }
     if (form.userPassword !== form.confirmPassword) {
       setSubmitMsg("비밀번호가 일치하지 않습니다.");
+      return;
+    }
+    if (emailMsg === "이미 사용 중인 이메일입니다.") {
+      setSubmitMsg("이미 사용 중인 이메일입니다.");
       return;
     }
     if (!codeVerified) {
@@ -261,15 +288,29 @@ export default function JoinComponent() {
               {formStep >= 2 && (
                 <S.AnimatedField>
                   <S.Label>아이디 (이메일) <span>*</span></S.Label>
-                  <S.Input
-                    name="userEmail"
-                    placeholder="example@email.com"
-                    value={form.userEmail}
-                    onChange={e => {
-                      handleForm(e);
-                      if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e.target.value)) advanceTo(3);
-                    }}
-                  />
+                  <S.InlineRow>
+                    <S.Input
+                      name="userEmail"
+                      placeholder="example@email.com"
+                      value={form.userEmail}
+                      style={{ flex: 1 }}
+                      onChange={e => {
+                        handleForm(e);
+                        setEmailMsg("");
+                        setEmailChecked(false);
+                      }}
+                    />
+                    <S.SmallBtn
+                      type="button"
+                      onClick={handleEmailCheck}
+                      disabled={emailChecked || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.userEmail)}
+                    >
+                      중복확인
+                    </S.SmallBtn>
+                  </S.InlineRow>
+                  {emailMsg && (
+                    <S.FieldHint $ok={emailChecked}>{emailMsg}</S.FieldHint>
+                  )}
                 </S.AnimatedField>
               )}
 

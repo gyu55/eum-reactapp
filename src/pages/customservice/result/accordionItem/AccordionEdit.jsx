@@ -4,7 +4,7 @@ import * as S from "../style";
 const AccordionEdit = ({ result, showEditInput, setShowEditInput, onEdit, onDelete }) => {
   const [editContent, setEditContent]         = useState(result.inquireContent);
   const [editFile, setEditFile]               = useState(null);
-  const [editFilePreview, setEditFilePreview] = useState(null);
+  const [editFilePreview, setEditFilePreview] = useState(result.inquireFileUrl || null);  // ← 수정
   const fileInputRef                          = useRef(null);
 
   const handleSubmit = async () => {
@@ -69,6 +69,17 @@ const AccordionEdit = ({ result, showEditInput, setShowEditInput, onEdit, onDele
             />
             + 파일 첨부 (클릭해서 선택)
           </S.FileDropZone>
+
+          {editFilePreview && !editFile && (
+            <S.FileItem onClick={(e) => e.stopPropagation()}>
+              <S.FileInfo>
+                {result.inquireFileUrl.split(",").map((url, i) => (
+                  <S.FileThumb key={i} src={url.trim()} alt={`첨부 이미지 ${i + 1}`} />
+                ))}
+              </S.FileInfo>
+              <S.FileRemoveBtn onClick={(e) => { e.stopPropagation(); setEditFilePreview(null); }}>✕</S.FileRemoveBtn>
+            </S.FileItem>
+          )}
 
           {editFile && (
             <S.FileItem onClick={(e) => e.stopPropagation()}>

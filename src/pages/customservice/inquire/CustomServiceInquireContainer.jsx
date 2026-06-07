@@ -65,19 +65,25 @@ const CustomServiceInquireContainer = ({ onSubmit }) => {
     formData.append("inquireEmail",   email);
     formData.append("inquireTitle",   title);
     formData.append("inquireContent", content);
+    files.forEach(file => formData.append("file", file));
 
-    // 파일 추가
-    if (files.length > 0) {
-      formData.append("file", files[0]); // 파일 1개
+    console.log("files 개수:", files.length);
+    for (let [key, value] of formData.entries()) {
+      console.log(key, value);
     }
 
-    await fetch("http://localhost:10000/api/inquire", {
+    const res = await fetch("http://localhost:10000/api/inquire", {
       method: "POST",
       credentials: "include",
-      body: formData, // Content-Type 헤더 제거! FormData가 자동 설정
+      body: formData,   // Content-Type 헤더 설정 X
     });
+
+    if (!res.ok) throw new Error("문의 등록 실패");
+    alert("문의가 등록되었습니다.");
   } catch (err) {
     console.error(err);
+    alert("문의 등록에 실패했습니다.");
+    return;
   }
 
   setActiveCategory("학습 문의");

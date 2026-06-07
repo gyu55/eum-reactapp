@@ -4,11 +4,12 @@ import theme from "../../../../styles/theme";
 import useAuthStore from "../../../../store/authStore";
 import LoginRequiredPopup from "../../common/LoginRequiredPopup";
 import UserReportPopup from "../../common/UserReportPopup";
+import { RADIUS } from "../../constants";
 
 const ReportButton = styled.button`
   width: 100%;
   padding: 8px 16px;
-  border-radius: 10px;
+  border-radius: ${RADIUS.sm};
   border: 2px solid ${theme.PALETTE.warning.main};
   background: ${theme.PALETTE.white};
   font-size: ${theme.FONT_SIZE.h11};

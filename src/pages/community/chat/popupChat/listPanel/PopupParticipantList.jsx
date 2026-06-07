@@ -35,10 +35,11 @@ const S = {
   LevelBadge,
 };
 
+
 const onlineDotUrl =
   "https://www.figma.com/api/mcp/asset/b33f6cd4-cc19-4c37-9250-813cb5dca21d";
 
-const PopupParticipantList = ({ users, selectedUserEmail, onUserClick }) => (
+const PopupParticipantList = ({ users, selectedUserId, onUserClick }) => (
   <S.LeftPanel>
     <S.ParticipantHeader>
       <S.ParticipantLabel>참여자</S.ParticipantLabel>
@@ -46,31 +47,34 @@ const PopupParticipantList = ({ users, selectedUserEmail, onUserClick }) => (
     </S.ParticipantHeader>
     <S.Divider />
     <S.UserList>
-      {users.map((user) => (
-        <S.UserItem
-          key={user.email ?? user.id}
-          $selected={selectedUserEmail === user.email}
-          onClick={() => onUserClick(user)}
-        >
-          <S.UserProfileRow>
-            <S.AvatarWrap>
-              <PopupThumbnailBox
-                src={user.avatar || defaultProfile}
-                alt={user.name}
-                onError={(e) => {
-                  e.target.src = defaultProfile;
-                }}
-              />
-              {user.online && <S.OnlineDot src={onlineDotUrl} alt="" />}
-            </S.AvatarWrap>
-            <S.UserMeta>
-              <S.UserNameText>{user.name}</S.UserNameText>
-              <S.UserRoleText>{user.role}</S.UserRoleText>
-            </S.UserMeta>
-          </S.UserProfileRow>
-          <S.LevelBadge>Lv.{user.level}</S.LevelBadge>
-        </S.UserItem>
-      ))}
+      {users.map((user) => {
+        const { id, userProfile, userNickname, userExp } = user;
+        return (
+          <S.UserItem
+            key={id}
+            $selected={selectedUserId === id}
+            onClick={() => onUserClick(user)}
+          >
+            <S.UserProfileRow>
+              <S.AvatarWrap>
+                <PopupThumbnailBox
+                  src={userProfile || defaultProfile}
+                  alt={userNickname}
+                  onError={(e) => {
+                    e.target.src = defaultProfile;
+                  }}
+                />
+                {user.online && <S.OnlineDot src={onlineDotUrl} alt="" />}
+              </S.AvatarWrap>
+              <S.UserMeta>
+                <S.UserNameText>{userNickname}</S.UserNameText>
+                {/* <S.UserRoleText>{user.role}</S.UserRoleText> */}
+              </S.UserMeta>
+            </S.UserProfileRow>
+            <S.LevelBadge>Lv.{userExp}</S.LevelBadge>
+          </S.UserItem>
+        );
+      })}
     </S.UserList>
   </S.LeftPanel>
 );

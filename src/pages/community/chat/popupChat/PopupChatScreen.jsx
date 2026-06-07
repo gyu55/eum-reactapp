@@ -16,16 +16,16 @@ const S = {
   RightPanel,
 };
 
-const toDisplayUser = (userDTO) => ({
-  email: userDTO.userEmail,
-  id: userDTO.id,
-  name: userDTO.userNickname,
-  role: "학습자",
-  level: Math.max(1, Math.floor(userDTO.userExp / 100)),
-  avatar: userDTO.userProfile,
-  iconProfile: false,
-  online: false,
-});
+// const toDisplayUser = (userDTO) => ({
+//   email: userDTO.userEmail,
+//   id: userDTO.id,
+//   name: userDTO.userNickname,
+//   role: "학습자",
+//   level: Math.max(1, Math.floor(userDTO.userExp / 100)),
+//   avatar: userDTO.userProfile,
+//   iconProfile: false,
+//   online: false,
+// });
 
 const TAGS = [
   { label: "#수어기초", bg: colors.primaryLight, color: colors.primary },
@@ -58,13 +58,13 @@ const PopupChatScreen = () => {
   useEffect(() => {
     if (!chatRoomId) return;
     getChatRoomUsers(chatRoomId)
-      .then((data) => setUsers(data.map(toDisplayUser)))
+      .then((data) => setUsers(data))
       .catch((err) => console.error("유저 목록 불러오기 실패:", err));
   }, [chatRoomId]);
 
   // 유저 선택, 선택 해제 로직
   const handleUserClick = (user) => {
-    setSelectedUser((prev) => (prev?.email === user.email ? null : user));
+    setSelectedUser((prev) => (prev?.id === user.id ? null : user));
   };
 
   return (
@@ -76,7 +76,7 @@ const PopupChatScreen = () => {
           {/* 왼쪽 판넬 (참여 유저 목록) */}
           <PopupParticipantList
             users={users}
-            selectedUserEmail={selectedUser?.email}
+            selectedUserId={selectedUser?.id}
             onUserClick={handleUserClick}
           />
           {/* 채팅 메세지 나열되는 곳 */}
@@ -86,7 +86,7 @@ const PopupChatScreen = () => {
           <S.RightPanel>
             {selectedUser ? (
               <PopupUserInfoPanel
-                user={selectedUser}
+                {...selectedUser}
                 onClose={() => setSelectedUser(null)}
               />
             ) : (

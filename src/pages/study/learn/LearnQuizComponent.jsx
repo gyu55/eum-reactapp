@@ -1,7 +1,7 @@
 // 학습 퀴즈 컴포넌트: 단어 조회, 문제 생성, 정답 확인, 복습 흐름 담당
 import { useContext, useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { fetchEduVideoById, fetchWordsByLearnId, finishLearnWord } from "../apis/LearnApi";
+import { fetchEduVideoById, fetchRandomWordsByLearnId, finishLearnWord } from "../apis/LearnApi";
 import { submitQuizAnswers } from "../apis/QuizApi";
 import { StudyQuizContext } from "../../../context/StudyQuizContext";
 import { useStudyUser } from "../hooks/useStudyUser";
@@ -178,7 +178,7 @@ const LearnQuizComponent = () => {
       setSessionError(null);
 
       try {
-        const words = await fetchWordsByLearnId(routeEduId);
+        const words = await fetchRandomWordsByLearnId(routeEduId, 5);
         if (ignore) return;
 
         setSessionSeed(Math.random());
@@ -251,8 +251,9 @@ const LearnQuizComponent = () => {
       .filter((answer) => answer.correct === false)
       .map((answer) => String(answer.questionId));
     const wrongQuestions = quiz.questions.filter((item) => wrongQuestionIds.includes(String(item.id)));
+    const randomWrongQuestion = wrongQuestions[Math.floor(Math.random() * wrongQuestions.length)];
 
-    return wrongQuestions.length > 0 ? wrongQuestions : [question];
+    return randomWrongQuestion ? [randomWrongQuestion] : [question];
   }, [question, quiz.questions, state.answers]);
   const reviewQuestion = reviewQuestions[reviewIndex] || reviewQuestions[0];
 

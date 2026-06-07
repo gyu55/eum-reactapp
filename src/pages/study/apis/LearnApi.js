@@ -35,6 +35,10 @@ export const fetchLearnList = async () =>
 export const fetchWordsByLearnId = async (learnId) =>
   requestJson(`${BASE_URL}/api/words/edu/${learnId}`, {}, "학습 단어 조회 실패");
 
+// 학습별 랜덤 단어 목록 조회
+export const fetchRandomWordsByLearnId = async (learnId, limit = 5) =>
+  requestJson(`${BASE_URL}/api/words/edu/${learnId}/random?limit=${limit}`, {}, "학습 랜덤 단어 조회 실패");
+
 // 학습 영상 조회
 export const fetchEduVideoById = async (eduVideoId) =>
   requestJson(`${BASE_URL}/api/edu-videos/${eduVideoId}`, {}, "학습 영상 조회 실패");

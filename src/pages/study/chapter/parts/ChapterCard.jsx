@@ -13,9 +13,6 @@ const ChapterCard = ({ chapter, onClick }) => {
         <span>{chapter.questionCount}문제</span>
         <span>+{chapter.exp} EXP</span>
       </S.ChapterMeta>
-      <S.ChapterProgress $progress={chapter.progress}>
-        <span />
-      </S.ChapterProgress>
     </S.ChapterCard>
   );
 };

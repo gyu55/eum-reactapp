@@ -4,8 +4,8 @@ import styled from "styled-components";
 export const SearchWrap = styled.section`
   width: 100%;
   min-height: 100vh;
-  padding: 118px 24px 96px;
-  background: #f8f9ff;
+  padding: 86px 24px 96px;
+  background: #fff;
   color: #222;
   font-family: Pretendard, sans-serif;
 
@@ -15,7 +15,7 @@ export const SearchWrap = styled.section`
 `;
 
 export const SearchHero = styled.div`
-  width: min(880px, 100%);
+  width: min(900px, 100%);
   margin: 0 auto;
   text-align: center;
 `;
@@ -29,7 +29,7 @@ export const Kicker = styled.p`
 
 export const Title = styled.h1`
   margin: 0;
-  font-size: 34px;
+  font-size: 27px;
   font-weight: 900;
   line-height: 1.32;
 
@@ -47,30 +47,47 @@ export const Desc = styled.p`
 `;
 
 export const SearchForm = styled.form`
+  position: relative;
   display: grid;
-  grid-template-columns: 1fr 112px;
-  gap: 10px;
-  width: min(760px, 100%);
-  margin: 32px auto 0;
+  grid-template-columns: 1fr 46px;
+  align-items: center;
+  width: min(860px, 100%);
+  margin: 36px auto 0;
+  border-bottom: 1.5px solid #7d8494;
 
   @media (max-width: 768px) {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 42px;
   }
 `;
 
+export const SearchIcon = styled.svg`
+  position: absolute;
+  left: 7px;
+  top: 50%;
+  width: 21px;
+  height: 21px;
+  color: #6c7280;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transform: translateY(-50%);
+  pointer-events: none;
+`;
+
 export const SearchInput = styled.input`
-  height: 58px;
-  padding: 0 20px;
-  border: 1px solid #dde1ef;
-  border-radius: 8px;
-  background: #fff;
+  height: 50px;
+  padding: 0 18px 0 48px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
   color: #222;
-  font-size: 16px;
+  font-size: 15px;
   outline: none;
 
   &:focus {
-    border-color: #4d5cff;
-    box-shadow: 0 0 0 4px rgba(77, 92, 255, 0.12);
+    box-shadow: none;
   }
 
   &::placeholder {
@@ -79,17 +96,26 @@ export const SearchInput = styled.input`
 `;
 
 export const SearchButton = styled.button`
-  height: 58px;
+  height: 50px;
   border: 0;
-  border-radius: 8px;
-  background: #4d5cff;
-  color: #fff;
-  font-size: 16px;
+  border-radius: 0;
+  background: transparent;
+  color: #4359fc;
+  font-size: 30px;
   font-weight: 800;
   cursor: pointer;
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
 
   &:hover {
-    background: #3545f5;
+    color: #3545f5;
+    transform: translateX(4px);
+  }
+
+  &:focus-visible {
+    outline: 3px solid rgba(67, 89, 252, 0.22);
+    outline-offset: 4px;
   }
 
   @media (max-width: 768px) {
@@ -99,27 +125,64 @@ export const SearchButton = styled.button`
 
 export const CategoryList = styled.div`
   display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 10px;
-  width: min(920px, 100%);
-  margin: 26px auto 0;
+  justify-content: flex-start;
+  gap: 38px;
+  width: min(900px, 100%);
+  margin: 24px auto 0;
+  padding: 0 2px 5px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  cursor: grab;
+  user-select: none;
+  -webkit-overflow-scrolling: touch;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  &:active {
+    cursor: grabbing;
+  }
 `;
 
 export const CategoryButton = styled.button`
-  min-height: 42px;
-  padding: 0 18px;
-  border: 1px solid ${({ $active }) => ($active ? "#4d5cff" : "#dde1ef")};
-  border-radius: 999px;
-  background: ${({ $active }) => ($active ? "#4d5cff" : "#fff")};
-  color: ${({ $active }) => ($active ? "#fff" : "#5d6270")};
+  position: relative;
+  min-height: 34px;
+  flex: 0 0 auto;
+  padding: 0 3px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: ${({ $active }) => ($active ? "#4359fc" : "#333")};
   font-size: 14px;
-  font-weight: 800;
+  font-weight: ${({ $active }) => ($active ? 800 : 600)};
   cursor: pointer;
+  transition: color 0.2s ease;
+
+  &::after {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -5px;
+    height: 2px;
+    border-radius: 999px;
+    background: #4359fc;
+    content: "";
+    opacity: ${({ $active }) => ($active ? 1 : 0)};
+    transform: scaleX(${({ $active }) => ($active ? 1 : 0.3)});
+    transition:
+      opacity 0.2s ease,
+      transform 0.2s ease;
+  }
 
   &:hover {
-    border-color: #4d5cff;
-    color: ${({ $active }) => ($active ? "#fff" : "#4d5cff")};
+    color: #4359fc;
+  }
+
+  &:hover::after {
+    opacity: 1;
+    transform: scaleX(1);
   }
 `;
 

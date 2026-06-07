@@ -265,4 +265,32 @@ S.StudySummaryValue = styled.p`
   color: #4359fc;
 `;
 
+/* 학습 페이지네이션 영역 */
+S.LearningPaginationArea = styled.div`
+  margin-top: 10px;
+
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+`;
+
+/* 학습 페이지 번호 버튼 */
+S.LearningPageButton = styled.button`
+  min-width: 26px;
+  height: 26px;
+  padding: 0 8px;
+
+  border: 1px solid ${({ $active }) => ($active ? "#4359fc" : "#e4e7ef")};
+  border-radius: 6px;
+  background: ${({ $active }) => ($active ? "#4359fc" : "#ffffff")};
+
+  font-size: 12px;
+  font-weight: ${FONT_WEIGHT.regular};
+  color: ${({ $active }) => ($active ? "#ffffff" : "#555555")};
+
+  cursor: pointer;
+`;
+
+
+
 export default S;

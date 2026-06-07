@@ -5,12 +5,27 @@ import QuizFeedback from "../components/QuizFeedback";
 import QuizOptionCard from "../components/QuizOptionCard";
 import QuizProgress from "../components/QuizProgress";
 import QuizShell from "../components/QuizShell";
-import { submitQuizAnswers } from "../apis/QuizApi";
+import { fetchQuizQuestions, submitQuizAnswers } from "../apis/QuizApi";
 import { StudyQuizContext } from "../../../context/StudyQuizContext";
 import { canSubmitQuizAnswers, mapQuizAnswersForSubmit } from "../mappers/quizMapper";
 import { useStudyUser } from "../hooks/useStudyUser";
-import { chapterQuizMock } from "./data/chapterQuizMock";
+import { chapterQuizMeta } from "./data/chapterQuizMeta";
 import * as S from "./style";
+
+const optionLabels = ["A", "B", "C", "D", "E"];
+
+const mapBackendChapterQuestions = (questions = [], fallbackExplanations = []) =>
+  questions.map((question, index) => ({
+    id: question.id,
+    question: question.quizQuestionDetail,
+    options: (question.choices || []).map((choice, choiceIndex) => ({
+      id: choice.id,
+      label: optionLabels[choiceIndex] || String(choice.quizChoiceNumber || choiceIndex + 1),
+      text: choice.quizChoiceDetail,
+      correct: choice.quizChoiceIsCorrect === 1,
+    })),
+    explanation: fallbackExplanations[index] || "문제 해설을 확인해보세요.",
+  }));
 
 const StudyChapterQuizComponent = () => {
   const navigate = useNavigate();
@@ -18,22 +33,61 @@ const StudyChapterQuizComponent = () => {
   const { state, actions } = useContext(StudyQuizContext);
   const { userId, isGuest } = useStudyUser();
   const [selectedOption, setSelectedOption] = useState(null);
-  const chapter = chapterQuizMock.find((item) => item.id === quiz);
+  const [questions, setQuestions] = useState([]);
+  const [questionLoading, setQuestionLoading] = useState(false);
+  const [questionError, setQuestionError] = useState(null);
+  const chapter = chapterQuizMeta.find((item) => item.id === quiz);
+  const backendQuizId = chapter?.backendQuizId;
   const currentIndex = Math.max(Number(id || 1) - 1, 0);
-  const currentQuestion = chapter?.questions?.[currentIndex];
+  const currentQuestion = questions[currentIndex];
   const isQuestionMode = Boolean(id);
+
+  // 백엔드 퀴즈 문제와 보기 목록 조회
+  useEffect(() => {
+    if (!backendQuizId) return;
+
+    let ignore = false;
+
+    const loadQuestions = async () => {
+      setQuestionLoading(true);
+      setQuestionError(null);
+
+      try {
+        const data = await fetchQuizQuestions(backendQuizId);
+
+        if (!ignore) {
+          setQuestions(mapBackendChapterQuestions(data, chapter?.explanations));
+        }
+      } catch {
+        if (!ignore) {
+          setQuestionError("퀴즈 문제를 불러오지 못했습니다.");
+          setQuestions([]);
+        }
+      } finally {
+        if (!ignore) {
+          setQuestionLoading(false);
+        }
+      }
+    };
+
+    loadQuestions();
+
+    return () => {
+      ignore = true;
+    };
+  }, [backendQuizId, chapter?.explanations]);
 
   // 현재 정규 퀴즈 데이터 -> context
   useEffect(() => {
-    if (!chapter) return;
+    if (!chapter || questions.length === 0) return;
 
     actions.setQuiz({
       mode: "member",
-      quizId: chapter.id,
+      quizId: backendQuizId,
       quizType: "chapter",
-      questions: chapter.questions,
+      questions,
     });
-  }, [actions, chapter]);
+  }, [actions, backendQuizId, chapter, questions]);
 
   // 문제 번호가 바뀔 때 선택된 보기 초기화
   useEffect(() => {
@@ -42,12 +96,20 @@ const StudyChapterQuizComponent = () => {
 
   // 현재 문제가 마지막 문제인지 계산하는 값
   const isLastQuestion = useMemo(
-    () => currentIndex >= (chapter?.questions?.length || 1) - 1,
-    [chapter, currentIndex]
+    () => currentIndex >= (questions.length || 1) - 1,
+    [currentIndex, questions.length]
   );
 
   // 첫 번째 정규 퀴즈 문제로 이동
   const handleStartQuiz = () => {
+    if (questionLoading) return;
+
+    if (questionError || questions.length === 0) {
+      alert("퀴즈 문제를 불러온 뒤 다시 시도해주세요.");
+
+      return;
+    }
+
     navigate(`/study/chapter/${quiz}/questions/1`);
   };
 
@@ -67,15 +129,17 @@ const StudyChapterQuizComponent = () => {
 
   // 퀴즈 제출: 마지막 문제 이후 백엔드에 답안을 저장
   const submitChapterQuiz = async () => {
-    if (!chapter) return;
+    if (!chapter || !backendQuizId) return;
 
-    if (isGuest || !userId || !canSubmitQuizAnswers(chapter.id, state.answers)) {
+    if (isGuest || !userId || !canSubmitQuizAnswers(backendQuizId, state.answers, questions.length)) {
 
       actions.setResult({
-        quizId: chapter.id,
+        quizId: backendQuizId,
         completed: true,
         submitted: false,
         reason: isGuest || !userId ? "guest" : "mock",
+        questions,
+        answers: state.answers,
         finishedAt: new Date().toISOString(),
       });
 
@@ -86,23 +150,27 @@ const StudyChapterQuizComponent = () => {
 
     try {
       const result = await submitQuizAnswers({
-        quizId: chapter.id,
+        quizId: backendQuizId,
         userId,
         answers,
       });
 
       actions.setResult({
-        quizId: chapter.id,
+        quizId: backendQuizId,
         completed: true,
         submitted: true,
         data: result,
+        questions,
+        answers: state.answers,
         finishedAt: new Date().toISOString(),
       });
     } catch {
       actions.setResult({
-        quizId: chapter.id,
+        quizId: backendQuizId,
         completed: true,
         submitted: false,
+        questions,
+        answers: state.answers,
         finishedAt: new Date().toISOString(),
       });
     }
@@ -147,7 +215,7 @@ const StudyChapterQuizComponent = () => {
     return (
       <QuizShell>
         <S.ChapterQuestionCard>
-          <h1>문제를 찾을 수 없습니다.</h1>
+          <h1>{questionLoading ? "퀴즈 문제를 불러오는 중입니다." : questionError || "문제를 찾을 수 없습니다."}</h1>
           <button type="button" onClick={() => navigate(`/study/chapter/${quiz}`)}>
             퀴즈 안내로 돌아가기
           </button>
@@ -166,14 +234,14 @@ const StudyChapterQuizComponent = () => {
           <div>
             <span>{chapter.title}</span>
             <strong>
-              {currentIndex + 1} / {chapter.questions.length}
+              {currentIndex + 1} / {questions.length}
             </strong>
           </div>
           <em>+{chapter.exp} EXP</em>
         </S.ChapterQuestionHeader>
 
         <S.ChapterQuestionCard>
-          <QuizProgress current={currentIndex + 1} total={chapter.questions.length} />
+          <QuizProgress current={currentIndex + 1} total={questions.length} />
 
           <S.ChapterQuestionInfo>
             <span>{chapter.label} 퀴즈</span>
@@ -230,8 +298,9 @@ const StudyChapterQuizComponent = () => {
           <span>+{chapter.exp} EXP</span>
         </S.ChapterMeta>
         <button type="button" onClick={handleStartQuiz}>
-          퀴즈 시작하기
+          {questionLoading ? "문제 불러오는 중" : "퀴즈 시작하기"}
         </button>
+        {questionError && <p>{questionError}</p>}
       </S.ChapterReadyCard>
     </S.ChapterReadyWrap>
   );

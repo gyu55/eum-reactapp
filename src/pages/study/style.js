@@ -37,6 +37,18 @@ const heroWave = keyframes`
   }
 `;
 
+const searchButtonPop = keyframes`
+  0% {
+    transform: translateY(-2px) scale(1);
+  }
+  45% {
+    transform: translateY(-2px) scale(0.96);
+  }
+  100% {
+    transform: translateY(-2px) scale(1);
+  }
+`;
+
 export const StudyPage = styled.section`
   width: 100%;
   min-height: calc(100vh - 80px);
@@ -361,57 +373,119 @@ export const SearchArea = styled.section`
 `;
 
 export const SearchForm = styled.form`
-  width: 940px;
+  position: relative;
+  width: min(940px, 100%);
   max-width: 100%;
-  height: 66px;
   display: flex;
   align-items: center;
+  gap: 18px;
   margin: 0 auto;
-  padding: 0 10px 0 30px;
-  border: 1.5px solid ${({ theme }) => theme.GRAYSCALE[2]};
-  border-radius: 15px;
-  background: ${({ theme }) => theme.PALETTE.white};
-  transition:
-    border-color 0.2s ease,
-    box-shadow 0.2s ease;
 
   input {
     flex: 1;
     min-width: 0;
+    height: 64px;
+    padding: 0 28px 0 70px;
     border: 0;
+    border-radius: 999px;
     outline: 0;
+    background: #f6f4f3;
     color: #1a1a1a;
-    font-size: ${({ theme }) => theme.FONT_SIZE.h10};
+    font-size: ${({ theme }) => theme.FONT_SIZE.h9};
+    font-weight: ${({ theme }) => theme.FONT_WEIGHT.medium};
+    box-shadow: inset 0 0 0 1px rgba(26, 26, 26, 0.02);
+    transition:
+      background-color 0.24s ease,
+      box-shadow 0.24s ease;
+  }
+
+  input::placeholder {
+    color: #777;
   }
 
   button {
-    width: 63px;
-    height: 47px;
-    border-radius: 15px;
-    background: ${({ theme }) => theme.PALETTE.primary.main};
-    color: ${({ theme }) => theme.PALETTE.white};
-    font-size: ${({ theme }) => theme.FONT_SIZE.h10};
+    width: 102px;
+    height: 64px;
+    flex: 0 0 102px;
+    border: 1.5px solid #dedede;
+    border-radius: 20px;
+    background: ${({ theme }) => theme.PALETTE.white};
+    color: #1a1a1a;
+    font-size: ${({ theme }) => theme.FONT_SIZE.h9};
     font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
     transition:
-      transform 0.2s ease,
-      box-shadow 0.2s ease;
+      border-color 0.24s ease,
+      background-color 0.24s ease,
+      color 0.24s ease,
+      transform 0.24s ease,
+      box-shadow 0.24s ease;
   }
 
   &:focus-within {
-    border-color: ${({ theme }) => theme.PALETTE.primary.main};
-    box-shadow: 0 16px 35px rgba(67, 89, 252, 0.12);
+    svg {
+      color: ${({ theme }) => theme.PALETTE.primary.main};
+    }
+
+    input {
+      background: ${({ theme }) => theme.PALETTE.white};
+      box-shadow:
+        inset 0 0 0 2px rgba(67, 89, 252, 0.2),
+        0 18px 38px rgba(67, 89, 252, 0.11);
+    }
   }
 
   button:hover,
+  button:active,
   button:focus-visible {
+    border-color: ${({ theme }) => theme.PALETTE.primary.main};
+    background: ${({ theme }) => theme.PALETTE.primary.main};
+    color: ${({ theme }) => theme.PALETTE.white};
     transform: translateY(-2px);
-    box-shadow: 0 10px 22px rgba(67, 89, 252, 0.22);
+    box-shadow: 0 16px 28px rgba(67, 89, 252, 0.24);
+  }
+
+  button:active {
+    animation: ${searchButtonPop} 0.34s ease;
   }
 
   button:focus-visible {
     outline: 3px solid rgba(67, 89, 252, 0.25);
     outline-offset: 3px;
   }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 14px;
+
+    input,
+    button {
+      width: 100%;
+    }
+
+    button {
+      flex-basis: 58px;
+      height: 58px;
+      border-radius: 18px;
+    }
+  }
+`;
+
+export const SearchIcon = styled.svg`
+    position: absolute;
+    left: 30px;
+    top: 50%;
+    width: 24px;
+    height: 24px;
+    color: #8d8d8d;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transform: translateY(-50%);
+    pointer-events: none;
+    transition: color 0.24s ease;
+    z-index: 1;
 `;
 
 export const WordGrid = styled.div`

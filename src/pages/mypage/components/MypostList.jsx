@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom";
 
 import S from "./style";
 
-const DEFAULT_VISIBLE_COUNT = 3;
+const COLLAPSED_COUNT = 4;
+const PAGE_SIZE = 8;
 
 const getBadgeStyle = (postTag) => {
   if (postTag === "수어학습") return { color: "#22C55E", bg: "#DCFCE7" };
@@ -30,13 +31,27 @@ const formatDate = (date) => {
 
 const MypostList = ({ myPostList = [] }) => {
   const navigate = useNavigate();
+
   const [isExpanded, setIsExpanded] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
 
-  const visiblePosts = isExpanded
-    ? myPostList
-    : myPostList.slice(0, DEFAULT_VISIBLE_COUNT);
+  const needToggleButton = myPostList.length > COLLAPSED_COUNT;
+  const needPagination = isExpanded && myPostList.length >= PAGE_SIZE;
+  const pageCount = Math.ceil(myPostList.length / PAGE_SIZE);
 
-  const needToggleButton = myPostList.length > DEFAULT_VISIBLE_COUNT;
+  // 더보기 전에는 4개, 더보기 후 8개 이상이면 페이지네이션으로 보여줍니다.
+  const visiblePosts = (() => {
+    if (!isExpanded) {
+      return myPostList.slice(0, COLLAPSED_COUNT);
+    }
+
+    if (!needPagination) {
+      return myPostList;
+    }
+
+    const startIndex = (currentPage - 1) * PAGE_SIZE;
+    return myPostList.slice(startIndex, startIndex + PAGE_SIZE);
+  })();
 
   const handleMovePost = (postId) => {
     navigate(`/community/post/${postId}`);
@@ -45,6 +60,7 @@ const MypostList = ({ myPostList = [] }) => {
   // 더보기 / 접기 상태 변경
   const handleToggleClick = () => {
     setIsExpanded((prev) => !prev);
+    setCurrentPage(1);
   };
 
   return (
@@ -84,9 +100,24 @@ const MypostList = ({ myPostList = [] }) => {
           );
         })}
 
+        {needPagination && (
+          <S.PaginationArea>
+            {Array.from({ length: pageCount }, (_, index) => index + 1).map((page) => (
+              <S.PageButton
+                key={page}
+                type="button"
+                $active={page === currentPage}
+                onClick={() => setCurrentPage(page)}
+              >
+                {page}
+              </S.PageButton>
+            ))}
+          </S.PaginationArea>
+        )}
+
         {needToggleButton && (
           <S.MoreButton type="button" onClick={handleToggleClick}>
-            {isExpanded ? "접기" : "더보기"} <span>{isExpanded ? "↑" : "→"}</span>
+            {isExpanded ? "접기" : "더 보기"} <span>{isExpanded ? "↑" : "→"}</span>
           </S.MoreButton>
         )}
       </S.MyPostWrapper>

@@ -66,6 +66,7 @@ import StudyChapterQuizContainer from "../pages/study/chapter/StudyChapterQuizCo
 import StudyChapterQuizComponent from "../pages/study/chapter/StudyChapterQuizComponent";
 import StudyChapterResultContainer from "../pages/study/chapter/StudyChapterResultContainer";
 import StudySearchContainer from "../pages/study/search/StudySearchContainer";
+import StudyAdminContainer from "../pages/study/admin/StudyAdminContainer";
 import StudyLearnContainer from "../pages/study/learn/LearnContainer";
 import StudyLearnComponent from "../pages/study/learn/LearnComponent";
 import StudyLearnAlphabetContainer from "../pages/study/learn/LearnAlphabetContainer";
@@ -239,6 +240,10 @@ const router = createBrowserRouter([
           {
             path: "search",
             element: <StudySearchContainer />
+          },
+          {
+            path: "admin",
+            element: <StudyAdminContainer />
           },
           {
             path: "learn",

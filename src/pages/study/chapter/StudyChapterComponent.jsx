@@ -1,18 +1,17 @@
 // 오!퀴즈 목록 컴포넌트: 퀴즈 카테고리 카드 목록
 import { useNavigate } from "react-router-dom";
-import { chapterQuizMock } from "./data/chapterQuizMock";
+import { chapterQuizMeta } from "./data/chapterQuizMeta";
 import ChapterCard from "./parts/ChapterCard";
 import * as S from "./style";
 
 const StudyChapterComponent = () => {
   const navigate = useNavigate();
-  const chapterCount = chapterQuizMock.length;
-  const totalExp = chapterQuizMock.reduce((sum, chapter) => sum + (Number(chapter.exp) || 0), 0);
-  const averageProgress = chapterCount > 0
-    ? Math.round(
-      chapterQuizMock.reduce((sum, chapter) => sum + (Number(chapter.progress) || 0), 0) / chapterCount
-    )
-    : 0;
+  const chapterCount = chapterQuizMeta.length;
+  const totalExp = chapterQuizMeta.reduce((sum, chapter) => sum + (Number(chapter.exp) || 0), 0);
+  const totalQuestionCount = chapterQuizMeta.reduce(
+    (sum, chapter) => sum + (Number(chapter.questionCount) || 0),
+    0
+  );
 
   // 선택한 챕터 안내 화면으로 이동
   const handleMoveChapter = (chapter) => {
@@ -37,13 +36,13 @@ const StudyChapterComponent = () => {
           <span>오늘 획득 가능</span>
         </div>
         <div>
-          <strong>{averageProgress}%</strong>
-          <span>평균 진행률</span>
+          <strong>{totalQuestionCount}문제</strong>
+          <span>전체 문제</span>
         </div>
       </S.ChapterSummary>
 
       <S.ChapterGrid>
-        {chapterQuizMock.map((chapter) => (
+        {chapterQuizMeta.map((chapter) => (
           <ChapterCard
             key={chapter.id}
             chapter={chapter}

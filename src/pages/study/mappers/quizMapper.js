@@ -23,8 +23,8 @@ export const mapQuizAnswersForSubmit = (answers = []) =>
     quizChoiceId: answer.selectedId || answer.answerId,
   }));
 
-// 퀴즈제출가능확인: 백엔드가 받을 수 있는 숫자 id 답안인지 확인하는
-export const canSubmitQuizAnswers = (quizId, answers = []) =>
+// 퀴즈 제출 가능 확인: 모든 문제에 숫자 id 답안이 있는지 확인
+export const canSubmitQuizAnswers = (quizId, answers = [], questionCount = 0) =>
   Number.isFinite(Number(quizId)) &&
-  answers.length > 0 &&
+  answers.length === questionCount &&
   answers.every((answer) => Number.isFinite(Number(answer.questionId)) && Number.isFinite(Number(answer.selectedId || answer.answerId)));

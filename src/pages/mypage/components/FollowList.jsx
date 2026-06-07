@@ -4,7 +4,8 @@ import { useNavigate } from "react-router-dom";
 import S from "./style";
 import MyPageStyle from "../style";
 
-const MAX_VISIBLE_USER_COUNT = 16;
+const COLLAPSED_COUNT = 16;
+const PAGE_SIZE = 32;
 
 const isDefaultProfile = (profileImage) => {
   return !profileImage || profileImage === "default.jpg" || profileImage === "null";
@@ -43,19 +44,31 @@ const FollowAvatar = ({ profileImage }) => {
 
 const FollowList = ({ followingList = [], followerList = [] }) => {
   const navigate = useNavigate();
+
   const [isExpanded, setIsExpanded] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
 
-  const visibleFollowingUsers = isExpanded
-    ? followingList
-    : followingList.slice(0, MAX_VISIBLE_USER_COUNT);
+  const maxFollowCount = Math.max(followingList.length, followerList.length);
+  const needToggleButton = maxFollowCount > COLLAPSED_COUNT;
+  const needPagination = isExpanded && maxFollowCount >= PAGE_SIZE;
+  const pageCount = Math.ceil(maxFollowCount / PAGE_SIZE);
 
-  const visibleFollowerUsers = isExpanded
-    ? followerList
-    : followerList.slice(0, MAX_VISIBLE_USER_COUNT);
+  // 팔로우는 16명 기준, 더보기 후 32명 이상이면 페이지네이션으로 보여줍니다.
+  const getVisibleUsers = (list) => {
+    if (!isExpanded) {
+      return list.slice(0, COLLAPSED_COUNT);
+    }
 
-  const needToggleButton =
-    followingList.length > MAX_VISIBLE_USER_COUNT ||
-    followerList.length > MAX_VISIBLE_USER_COUNT;
+    if (!needPagination) {
+      return list;
+    }
+
+    const startIndex = (currentPage - 1) * PAGE_SIZE;
+    return list.slice(startIndex, startIndex + PAGE_SIZE);
+  };
+
+  const visibleFollowingUsers = getVisibleUsers(followingList);
+  const visibleFollowerUsers = getVisibleUsers(followerList);
 
   const handleMoveUserProfile = (userId) => {
     navigate(`/community/profile/${userId}`);
@@ -69,6 +82,7 @@ const FollowList = ({ followingList = [], followerList = [] }) => {
   // 더보기 / 접기 상태 변경
   const handleToggleClick = () => {
     setIsExpanded((prev) => !prev);
+    setCurrentPage(1);
   };
 
   return (
@@ -116,9 +130,24 @@ const FollowList = ({ followingList = [], followerList = [] }) => {
           </S.UserList>
         </S.FollowerBlock>
 
+        {needPagination && (
+          <S.PaginationArea>
+            {Array.from({ length: pageCount }, (_, index) => index + 1).map((page) => (
+              <S.PageButton
+                key={page}
+                type="button"
+                $active={page === currentPage}
+                onClick={() => setCurrentPage(page)}
+              >
+                {page}
+              </S.PageButton>
+            ))}
+          </S.PaginationArea>
+        )}
+
         {needToggleButton && (
           <S.MoreButton type="button" onClick={handleToggleClick}>
-            {isExpanded ? "접기" : "더보기"} <span>{isExpanded ? "↑" : "→"}</span>
+            {isExpanded ? "접기" : "더 보기"} <span>{isExpanded ? "↑" : "→"}</span>
           </S.MoreButton>
         )}
       </S.FollowWrapper>

@@ -1,5 +1,5 @@
-// 검색화면컴포넌트: 검색창, 결과 목록, 상세 카드 전환을 담당합니다.
-import { useEffect, useMemo, useState } from "react";
+// 검색화면컴포넌트: 검색창, 결과 목록, 상세 카드 전환 담당
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { fetchSignWords } from "../apis/SignWordApi";
 import { useSignWordSearch } from "../hooks/useSignWordSearch";
@@ -11,6 +11,12 @@ import * as S from "./style";
 const StudySearchComponent = () => {
   const location = useLocation();
   const initialKeyword = location.state?.keyword || new URLSearchParams(location.search).get("keyword") || "";
+  const categoryScrollRef = useRef(null);
+  const categoryDragRef = useRef({
+    active: false,
+    startX: 0,
+    scrollLeft: 0,
+  });
   const {
     keyword,
     setKeyword,
@@ -27,7 +33,14 @@ const StudySearchComponent = () => {
 
   // 검색카테고리: 실제 API 검색 결과에 포함된 분류만 필터로 보여줍니다.
   const categories = useMemo(
-    () => ["전체", ...new Set(results.map((item) => item.category).filter(Boolean))],
+    () => [
+      "전체",
+      ...new Set(
+        results
+          .map((item) => item.category)
+          .filter((category) => category && category !== "전체")
+      ),
+    ],
     [results]
   );
 
@@ -76,6 +89,31 @@ const StudySearchComponent = () => {
 
   };
 
+  const handleCategoryMouseDown = (event) => {
+    const list = categoryScrollRef.current;
+    if (!list) return;
+
+    categoryDragRef.current = {
+      active: true,
+      startX: event.pageX - list.offsetLeft,
+      scrollLeft: list.scrollLeft,
+    };
+  };
+
+  const handleCategoryMouseMove = (event) => {
+    const list = categoryScrollRef.current;
+    const drag = categoryDragRef.current;
+    if (!list || !drag.active) return;
+
+    event.preventDefault();
+    const currentX = event.pageX - list.offsetLeft;
+    list.scrollLeft = drag.scrollLeft - (currentX - drag.startX);
+  };
+
+  const handleCategoryMouseEnd = () => {
+    categoryDragRef.current.active = false;
+  };
+
   // 상세이동함수: 목록에서 선택한 결과를 상세 카드로 전환합니다.
   const handleSelect = (index) => {
     setSelectedIndex(index);
@@ -94,11 +132,13 @@ const StudySearchComponent = () => {
   return (
     <S.SearchWrap>
       <S.SearchHero>
-        <S.Kicker>수어 검색</S.Kicker>
         <S.Title>필요한 수어 표현을 바로 찾아보세요</S.Title>
-        <S.Desc>단어를 검색하고 카드에서 영상, 분류, 동작 설명을 확인할 수 있어요.</S.Desc>
 
         <S.SearchForm onSubmit={handleSubmit}>
+          <S.SearchIcon aria-hidden="true" viewBox="0 0 24 24">
+            <circle cx="11" cy="11" r="7" />
+            <path d="M16.5 16.5L21 21" />
+          </S.SearchIcon>
           <S.SearchInput
             type="search"
             value={keyword}
@@ -106,11 +146,20 @@ const StudySearchComponent = () => {
             placeholder="예: 안녕하세요, 병원, 도와주세요"
             aria-label="수어 검색어"
           />
-          <S.SearchButton type="submit">검색</S.SearchButton>
+          <S.SearchButton type="submit" aria-label="검색">
+            →
+          </S.SearchButton>
         </S.SearchForm>
       </S.SearchHero>
 
-      <S.CategoryList aria-label="수어 검색 카테고리">
+      <S.CategoryList
+        ref={categoryScrollRef}
+        aria-label="수어 검색 카테고리"
+        onMouseDown={handleCategoryMouseDown}
+        onMouseMove={handleCategoryMouseMove}
+        onMouseUp={handleCategoryMouseEnd}
+        onMouseLeave={handleCategoryMouseEnd}
+      >
         {categories.map((category) => (
           <S.CategoryButton
             type="button"

@@ -60,7 +60,7 @@ const featureCards = [
     desc: "위험을 알리는 방법",
     image: "/assets/image/learn/emergency.png",
     tone: "red",
-    to: "/study/learn/quiz/sos/questions/1",
+    to: "/study/chapter/sos",
     requiresLogin: true,
   },
   {
@@ -331,8 +331,12 @@ const StudyComponent = () => {
       </S.CategoryBand>
 
       <S.SearchArea>
-        <h2>찾고 싶은 단어를 검색하세요</h2>
+        <h2>배우고 싶은 단어를 찾아보세요</h2>
         <S.SearchForm onSubmit={handleSearch}>
+          <S.SearchIcon aria-hidden="true" viewBox="0 0 24 24">
+            <circle cx="11" cy="11" r="7" />
+            <path d="M16.5 16.5L21 21" />
+          </S.SearchIcon>
           <input
             type="text"
             value={keyword}
@@ -362,9 +366,9 @@ const StudyComponent = () => {
 
       <S.VideoArea id="video-section">
         <h2>
-          바로 배우는 <span>오늘의 단어</span> 영상
+          바로 배우는 <span>추천 학습</span> 영상
         </h2>
-        <p className="desc">매일 업데이트되는 짧은 학습 영상을 만나보세요.</p>
+        <p className="desc">수어, 수신호, 모스부호 영상을 골라 짧게 학습해보세요.</p>
 
         <S.VideoTabs>
           {videoTabs.map((tab) => (
@@ -403,9 +407,9 @@ const StudyComponent = () => {
           </S.VideoEmpty>
         )}
 
-        <S.ActionLink to="/study/learn" onClick={(event) => handleProtectedLink(event, "/study/learn")}>
+        {/* <S.ActionLink to="/study/learn" onClick={(event) => handleProtectedLink(event, "/study/learn")}>
           더 많은 영상 보기 →
-        </S.ActionLink>
+        </S.ActionLink> */}
       </S.VideoArea>
 
       {isAttendanceOpen && (

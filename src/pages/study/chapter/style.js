@@ -203,21 +203,6 @@ export const ChapterMeta = styled.div`
   }
 `;
 
-export const ChapterProgress = styled.div`
-  height: 8px;
-  overflow: hidden;
-  border-radius: 999px;
-  background: #ececf2;
-
-  span {
-    display: block;
-    width: ${({ $progress }) => `${$progress || 0}%`};
-    height: 100%;
-    border-radius: inherit;
-    background: ${({ theme }) => theme.PALETTE.primary.main};
-  }
-`;
-
 export const ChapterReadyCard = styled.article`
   width: min(520px, calc(100% - 48px));
   display: flex;
@@ -496,6 +481,32 @@ export const ResultWrongBox = styled.article`
   }
 `;
 
+export const ResultWrongItem = styled.div`
+  & + & {
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid #f1f1f1;
+  }
+
+  p {
+    margin: 0 0 8px;
+    color: #555;
+    font-size: 13px;
+    line-height: 18px;
+  }
+
+  span,
+  em {
+    display: block;
+    font-size: 12px;
+    line-height: 18px;
+  }
+
+  span {
+    color: #ef4444;
+  }
+`;
+
 export const ResultLine = styled.div`
   width: 660px;
   max-width: 100%;
@@ -528,10 +539,11 @@ export const BadgeModalOverlay = styled.div`
   position: fixed;
   inset: 0;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
-  padding-top: 150px;
+  padding: 24px;
   background: rgba(26, 26, 46, 0.34);
+  box-sizing: border-box;
 `;
 
 export const FireworkCanvas = styled.canvas`

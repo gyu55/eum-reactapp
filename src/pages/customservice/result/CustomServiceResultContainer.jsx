@@ -97,7 +97,7 @@ const CustomServiceResultContainer = () => {
 
   const totalCount   = results.length;
   const doneCount    = results.filter((r) => r.inquireStatus === "답변완료").length;
-  const pendingCount = results.filter((r) => r.inquireStatus === "답변대기").length;
+  const pendingCount = results.filter((r) => r.inquireStatus === "대기").length;
 
   const STATS = [
     { label: STATS_LABELS[0], count: totalCount },

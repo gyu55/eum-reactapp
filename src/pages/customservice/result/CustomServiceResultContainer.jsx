@@ -6,31 +6,16 @@ import useAuthCheck from "../useAuthCheck";
 import { STATS_LABELS } from "./constants";
 
 const CustomServiceResultContainer = () => {
-  // const isAuth                      = useAuthCheck();
-  const [results, setResults]       = useState([]);
-  const [isLoading, setIsLoading]   = useState(false);
-  const [error, setError]           = useState(null);
-  const [isAdmin, setIsAdmin]       = useState(false);
+  const [results, setResults]     = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError]         = useState(null);
+  const [isAdmin, setIsAdmin]     = useState(false);
 
-  useEffect(() => {
-    const fetchMe = async () => {
-      try {
-        const res = await fetch("http://localhost:10000/api/auth/me", { credentials: "include" });
-        if (res.ok) {
-          const user = await res.json();
-          setIsAdmin(user.role === "ADMIN");
-        }
-      } catch {
-        setIsAdmin(false);
-      }
-    };
-    fetchMe();
-  }, []);
-
-  const loadResults = async () => {
+  // ── 목록 다시 불러오기 ──────────────────────────
+  const reload = async (admin) => {
     setIsLoading(true);
     try {
-      const url = isAdmin
+      const url = admin
         ? "http://localhost:10000/api/inquire/admin"
         : "http://localhost:10000/api/inquire";
       const res = await fetch(url, { credentials: "include" });
@@ -44,10 +29,26 @@ const CustomServiceResultContainer = () => {
     }
   };
 
+  // ── 최초 진입 ───────────────────────────────────
   useEffect(() => {
-    loadResults();
-  }, [isAdmin]);
+    const init = async () => {
+      try {
+        const meRes = await fetch("http://localhost:10000/api/auth/me", { credentials: "include" });
+        let admin = false;
+        if (meRes.ok) {
+          const user = await meRes.json();
+          admin = user.role === "ADMIN";
+          setIsAdmin(admin);
+        }
+        await reload(admin);   // ← admin 값 직접 넘김
+      } catch {
+        setError("초기화 실패");
+      }
+    };
+    init();
+  }, []);
 
+  // ── 답변 / 수정 / 삭제 후 reload ───────────────
   const handleAnswer = async (id, answer) => {
     try {
       const res = await fetch(`http://localhost:10000/api/inquire/${id}/answer`, {
@@ -58,7 +59,7 @@ const CustomServiceResultContainer = () => {
       });
       if (!res.ok) throw new Error("답변 실패");
       alert("답변이 등록되었습니다.");
-      loadResults();
+      reload(isAdmin);   // ← 현재 isAdmin 상태 넘김
     } catch {
       alert("답변 등록에 실패했습니다.");
     }
@@ -74,7 +75,7 @@ const CustomServiceResultContainer = () => {
       });
       if (!res.ok) throw new Error("수정 실패");
       alert("문의가 수정되었습니다.");
-      loadResults();
+      reload(isAdmin);   // ← 현재 isAdmin 상태 넘김
     } catch {
       alert("문의 수정에 실패했습니다.");
     }
@@ -88,7 +89,7 @@ const CustomServiceResultContainer = () => {
       });
       if (!res.ok) throw new Error("삭제 실패");
       alert("문의가 삭제되었습니다.");
-      loadResults();
+      reload(isAdmin);   // ← 현재 isAdmin 상태 넘김
     } catch {
       alert("문의 삭제에 실패했습니다.");
     }

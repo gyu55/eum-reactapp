@@ -1,6 +1,4 @@
 import styled from "styled-components";
-import { styles } from "../style";
-import theme from "../../../styles/theme";
 
 export const ReviewCard = styled.div`
   width: 380px;
@@ -176,8 +174,8 @@ export const ReviewGrid = styled.div`
 
 export const SliderWrap = styled.div`
   display: flex;
-  align-items: center;
-  gap: 12px;
+  align-items: stretch;
+  position: relative;
 `;
 
 export const CardViewport = styled.div`
@@ -189,30 +187,28 @@ export const CardTrack = styled.div`
   display: flex;
   gap: 24px;
   transform: translateX(-${({ $offset }) => $offset}px);
-  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: ${({ $animated }) => $animated 
+    ? "transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)" 
+    : "none"};   /* ← 이게 빠져있으면 점프가 보임 */
 `;
 
 export const ArrowBtn = styled.button`
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  border: 1.5px solid #ccc;
-  background: #fff;
+  width: 44px;
+  height: 220px;                       /* ← 카드 높이 직접 지정 */
+  border: none;
+  background: transparent;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 22px;
+  color: transparent;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  transition: opacity 0.2s;
-
-  &:disabled {
-    opacity: 0.3;
-    cursor: default;
-  }
+  transition: color 0.25s ease, background 0.25s ease;
 
   &:hover:not(:disabled) {
-    background: #f5f5f5;
+    color: rgba(255, 255, 255, 0.85);
+    background: rgba(0, 0, 0, 0.08);
   }
 `;
 

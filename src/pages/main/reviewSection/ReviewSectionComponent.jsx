@@ -19,6 +19,7 @@ const ReviewSectionComponent = ({ reviews = [], hasMore, onMore }) => {
   const [index, setIndex] = useState(PER_VIEW);
   const [animated, setAnimated] = useState(true);
   const isTransitioning = useRef(false);
+  const autoRef = useRef(null);   // ← 추가
 
   const offset = index * STEP;
 
@@ -28,6 +29,23 @@ const ReviewSectionComponent = ({ reviews = [], hasMore, onMore }) => {
     setAnimated(true);
     setIndex((prev) => prev + dir);
   };
+
+  // ── 자동 슬라이드 ──────────────────────────────
+  const startAuto = () => {
+    autoRef.current = setInterval(() => {
+      if (isTransitioning.current) return;
+      isTransitioning.current = true;
+      setAnimated(true);
+      setIndex((prev) => prev + 1);   // ← go() 대신 직접 setIndex
+    }, 3000);
+  };
+  const stopAuto = () => clearInterval(autoRef.current);
+
+  useEffect(() => {
+    startAuto();
+    return () => stopAuto();
+  }, []);   // ← [] 로 변경, total 의존성 제거
+  // ───────────────────────────────────────────────  
 
   const handleTransitionEnd = () => {
     if (index >= total + PER_VIEW) {
@@ -56,8 +74,9 @@ const ReviewSectionComponent = ({ reviews = [], hasMore, onMore }) => {
         <S.SubTitle>42,000명이 이음과 함께 수어를 배웠습니다.</S.SubTitle>
       </S.TitleWrap>
 
-      <S.SliderWrap>
-        <S.ArrowBtn onClick={() => go(-1)}>◀</S.ArrowBtn>
+      {/* hover 시 자동슬라이드 멈춤 + 화살표 표시 */}
+      <S.SliderWrap onMouseEnter={stopAuto} onMouseLeave={startAuto}>
+        <S.ArrowBtn onClick={() => go(-1)}>❮</S.ArrowBtn>
         <S.CardViewport>
           <S.CardTrack
             $offset={offset}
@@ -69,13 +88,11 @@ const ReviewSectionComponent = ({ reviews = [], hasMore, onMore }) => {
             ))}
           </S.CardTrack>
         </S.CardViewport>
-        <S.ArrowBtn onClick={() => go(1)}>▶</S.ArrowBtn>
+        <S.ArrowBtn onClick={() => go(1)}>❯</S.ArrowBtn>
       </S.SliderWrap>
 
       {hasMore && (
-        <S.MoreButton onClick={onMore}>
-          다른 후기들 보러가기
-        </S.MoreButton>
+        <S.MoreButton onClick={onMore}>다른 후기들 보러가기</S.MoreButton>
       )}
     </S.SectionWrap>
   );

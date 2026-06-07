@@ -11,12 +11,13 @@ const AccordionQA = ({ result }) => {
 
       {/* 기존 첨부 이미지 */}
       {result.inquireFileUrl && (
-        <S.FileItem>
-          <S.FileInfo>
-            <S.FileThumb src={result.inquireFileUrl} alt="첨부 이미지" />
-            <S.FileName>{result.inquireFileUrl.split("/").pop()}</S.FileName>
-          </S.FileInfo>
-        </S.FileItem>
+        result.inquireFileUrl.split(",").map((url, i) => (
+          <S.FileItem key={i}>
+            <S.FileInfo>
+              <S.FileThumb src={url.trim()} alt={`첨부 이미지 ${i + 1}`} />
+            </S.FileInfo>
+          </S.FileItem>
+        ))
       )}
 
       {result.inquireAnswer ? (

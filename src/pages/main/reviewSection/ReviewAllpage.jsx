@@ -9,7 +9,7 @@ const ReviewAllPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("/api/reviews")
+    fetch("/api/reviews/all")
       .then(res => res.json())
       .then(data => {
         if (data && data.length > 0) {

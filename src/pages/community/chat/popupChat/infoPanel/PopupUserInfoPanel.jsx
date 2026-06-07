@@ -1,54 +1,28 @@
 import React from "react";
 import { colors } from "../../../constants";
 import OutlineButton from "../../../common/OutlineButton";
-import {
-  RightPanelScroll,
-  UserInfoTopSection,
-  UserInfoSectionHeader,
-  UserInfoSectionTitle,
-  Divider,
-  UserBigAvatarBox,
-  UserInfoName,
-  LevelRoleBadge,
-  PanelSection,
-  SectionLabel,
-  ActionDescText,
-  ReportCard,
-  ReportCardTitle,
-  ReportCardDesc,
-  ORANGE,
-} from "../../ChatStyle";
+import * as S from "../../ChatStyle";
+import UserReportButton from "../../../report/userreport/UserReportButton";
 
-const S = {
-  RightPanelScroll,
-  UserInfoTopSection,
-  UserInfoSectionHeader,
-  UserInfoSectionTitle,
-  Divider,
-  UserBigAvatarBox,
-  UserInfoName,
-  LevelRoleBadge,
-  PanelSection,
-  SectionLabel,
-  ActionDescText,
-  ReportCard,
-  ReportCardTitle,
-  ReportCardDesc,
-};
-
-const PopupUserInfoPanel = ({ user, onClose }) => (
+const PopupUserInfoPanel = ({
+  id,
+  userProfile,
+  userNickname,
+  userExp,
+  onClose,
+}) => (
   <S.RightPanelScroll>
     <S.UserInfoTopSection>
       <S.UserInfoSectionHeader>
         <S.UserInfoSectionTitle>유저 정보</S.UserInfoSectionTitle>
         <S.Divider />
       </S.UserInfoSectionHeader>
-      <S.UserBigAvatarBox $isIcon={user.iconProfile}>
-        <img src={user.avatar} alt={user.name} />
+      <S.UserBigAvatarBox>
+        <img src={userProfile} alt={userNickname} />
       </S.UserBigAvatarBox>
-      <S.UserInfoName>{user.name}</S.UserInfoName>
+      <S.UserInfoName>{userNickname}</S.UserInfoName>
       <S.LevelRoleBadge>
-        Lv.{user.level} · {user.role}
+        Lv.{userExp} · {"테스트"}
       </S.LevelRoleBadge>
       <OutlineButton
         borderColor={colors.primary}
@@ -96,9 +70,10 @@ const PopupUserInfoPanel = ({ user, onClose }) => (
           부적절한 활동이 확인되면 신고해 주세요. 운영팀이 검토합니다.
         </S.ReportCardDesc>
       </S.ReportCard>
-      <OutlineButton borderColor={ORANGE} textColor={ORANGE}>
+      {/* <OutlineButton borderColor={ORANGE} textColor={ORANGE}>
         이 유저 신고하기
-      </OutlineButton>
+      </OutlineButton> */}
+      <UserReportButton userId={id}>.</UserReportButton>
       <OutlineButton borderColor={colors.border} textColor={colors.textSub}>
         이 유저 차단하기
       </OutlineButton>

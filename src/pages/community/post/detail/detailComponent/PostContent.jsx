@@ -5,7 +5,6 @@ import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
 import {
-  getPostById,
   deletePost,
   requestPostLike,
   cancelPostLike,
@@ -21,12 +20,11 @@ import { faHeart } from "@fortawesome/free-solid-svg-icons";
 
 const { PALETTE } = theme;
 
-const PostContent = ({ postId }) => {
+const PostContent = ({ post, postId }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from ?? "/community";
 
-  const [post, setPost] = useState(null);
   const [liked, setLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
   const [deletePopupOpen, setDeletePopupOpen] = useState(false);
@@ -44,6 +42,13 @@ const PostContent = ({ postId }) => {
     }
   }, [contentEditor, post?.postContent]);
 
+  useEffect(() => {
+    if (post) {
+      setLikeCount(post.likeCount ?? 0);
+      setLiked(post.isLiked ?? false);
+    }
+  }, [post]);
+
   const handleDeleteConfirm = async () => {
     try {
       await deletePost(postId);
@@ -53,23 +58,6 @@ const PostContent = ({ postId }) => {
       console.error("게시글 삭제 실패:", err);
     }
   };
-
-  useEffect(() => {
-    if (!postId) return;
-
-    console.log("postId:", postId);
-
-    getPostById(postId)
-      .then(({ data }) => {
-        console.log("게시글 데이터:", data);
-        setPost(data);
-        setLikeCount(data.likeCount ?? 0);
-        setLiked(data.isLiked ?? false);
-      })
-      .catch((err) => console.error("게시글 조회 실패:", err));
-  }, [postId]);
-
-  const authorLevel = post?.userLevel ?? "Lv.1";
 
   // 게시글 좋아요 버튼 누르는 함수
   const clickPostLike = async () => {
@@ -89,7 +77,6 @@ const PostContent = ({ postId }) => {
     }
   };
 
-  // 아직 post 데이터가 없을 때
   if (!post)
     return (
       <div>
@@ -97,18 +84,16 @@ const PostContent = ({ postId }) => {
       </div>
     );
 
-  // 게시글 데이터 분리 (post 데이터 생기고 난 뒤)
   const {
     id,
     postTitle,
-    // postContent — useEffect에서 post?.postContent로 직접 참조
+    postContent,
     postReadCount,
     postCreateAt,
     postTag,
     userNickname,
     userProfile,
-    // commentCount,
-    // isLiked,
+    userLevel = "Lv.1",
     isOwner,
   } = post;
 
@@ -118,7 +103,7 @@ const PostContent = ({ postId }) => {
         mode: "edit",
         postId: id,
         postTitle,
-        postContent: post.postContent,
+        postContent,
         postTag,
       },
     });
@@ -141,7 +126,7 @@ const PostContent = ({ postId }) => {
           <S.AuthorMeta>
             <S.AuthorName>{userNickname}</S.AuthorName>
             <S.AuthorSubRow>
-              <S.LevelBadge>{authorLevel}</S.LevelBadge>
+              <S.LevelBadge>{userLevel}</S.LevelBadge>
               <S.MetaText>
                 · {postCreateAt} · 조회 {postReadCount}
               </S.MetaText>
@@ -195,7 +180,10 @@ const PostContent = ({ postId }) => {
 
             {isOwner ? (
               <>
-                <S.IconButton aria-label="게시글 수정" onClick={handleEditClick}>
+                <S.IconButton
+                  aria-label="게시글 수정"
+                  onClick={handleEditClick}
+                >
                   <img src={modifyIcon} alt="수정" />
                 </S.IconButton>
                 <S.IconButton

@@ -21,6 +21,7 @@ const toDisplayMessage = (msg, currentUserId) => ({
   isMine:
     msg.chatIsMe ?? (currentUserId != null && msg.userId === currentUserId),
   content: msg.chatContent,
+  chatType: msg.chatType ?? "텍스트",
   time: formatTime(msg.chatCreateAt),
   username: msg.userNickname ?? "사용자",
   profileImage: msg.userProfile ?? null,
@@ -96,7 +97,19 @@ const useChatRoom = (chatRoomId) => {
     [chatRoomId],
   );
 
-  return { messages, sendMessage };
+  const sendImageMessage = useCallback(
+    (imageUrl) => {
+      const ws = wsRef.current;
+      if (!ws || ws.readyState !== WebSocket.OPEN) {
+        console.warn("WebSocket이 아직 연결되지 않았습니다.");
+        return;
+      }
+      ws.send(JSON.stringify({ chatContent: imageUrl, chatType: "IMAGE" }));
+    },
+    [],
+  );
+
+  return { messages, sendMessage, sendImageMessage };
 };
 
 export default useChatRoom;

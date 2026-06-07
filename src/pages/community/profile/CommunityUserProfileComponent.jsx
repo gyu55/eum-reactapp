@@ -65,7 +65,7 @@ const CommunityUserProfileComponent = () => {
             <UserChatRequest />
 
             {/* 유저 신고 */}
-            <UserReportBlock />
+            <UserReportBlock userId={userId} />
           </S.ColumnBlock>
         </S.ContentArea>
       </S.Page>

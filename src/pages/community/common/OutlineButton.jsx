@@ -1,11 +1,11 @@
 import React from "react";
 import styled from "styled-components";
-import { fonts, radius } from "../constants";
+import { fonts, RADIUS, radius } from "../constants";
 
 const Btn = styled.button`
   background: ${({ $bgColor }) => $bgColor || "#ffffff"};
   border: 2px solid ${({ $borderColor }) => $borderColor};
-  border-radius: ${radius.sm};
+  border-radius: ${RADIUS.sm};
   width: 100%;
   padding: ${({ $padding }) => $padding || "8px 16px"};
   cursor: pointer;

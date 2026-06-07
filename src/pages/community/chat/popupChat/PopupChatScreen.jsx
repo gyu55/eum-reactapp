@@ -5,7 +5,7 @@ import PopupChatHeader from "./header/PopupChatHeader";
 import PopupParticipantList from "./listPanel/PopupParticipantList";
 import PopupChatCenter from "./centerBody/PopupChatCenter";
 import PopupRoomInfoPanel from "./infoPanel/PopupRoomInfoPanel";
-import PopupUserInfoPanel from "./infoPanel/PopupUserInfoPanel";
+import UserInfoMiniPopup from "./infoPanel/UserInfoMiniPopup";
 import { useChatContext } from "../../context/ChatContext";
 import { getChatRoomUsers, getChatRoomInfo } from "../../communityApi/chatApi";
 
@@ -82,18 +82,19 @@ const PopupChatScreen = () => {
           {/* 채팅 메세지 나열되는 곳 */}
           <PopupChatCenter chatRoomId={chatRoomId} key={chatRoomId} />
 
-          {/* 오른쪽 정보 판넬 */}
+          {/* 오른쪽 정보 판넬 - 항상 채팅방 정보 표시 */}
           <S.RightPanel>
-            {selectedUser ? (
-              <PopupUserInfoPanel
-                {...selectedUser}
-                onClose={() => setSelectedUser(null)}
-              />
-            ) : (
-              <PopupRoomInfoPanel tags={TAGS} {...chatRoomInfo} />
-            )}
+            <PopupRoomInfoPanel tags={TAGS} {...chatRoomInfo} />
           </S.RightPanel>
         </S.Body>
+
+        {/* 유저 클릭 시 중앙 오버레이 팝업 */}
+        {selectedUser && (
+          <UserInfoMiniPopup
+            {...selectedUser}
+            onClose={() => setSelectedUser(null)}
+          />
+        )}
       </S.Popup>
     </S.PageBg>
   );

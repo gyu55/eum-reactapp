@@ -2,46 +2,56 @@ import React, { useState } from "react";
 
 import S from "../style";
 
+const COLLAPSED_COUNT = 4;
+const PAGE_SIZE = 8;
+
+// 자격증 페이지에서만 보여줄 수강중인 강좌 React 더미데이터
 const fallbackCourseVideos = [
   {
-    eduId: "fallback-1",
+    eduId: "course-number",
     category: "숫자",
     title: "1부터 1000까지 배워보기 수화 지숫자",
     eduDetail: "초급 과정",
-    studyPeriod: "2025.12.31 ~ 2026.12.30",
+    studyStartAt: "2025.12.31",
+    studyEndAt: "2026.12.30",
     progressPercent: 62,
+    youtubeUrl: "https://www.youtube.com/watch?v=1JyJwc_Hd8U",
     thumbnail: "https://img.youtube.com/vi/1JyJwc_Hd8U/hqdefault.jpg",
   },
   {
-    eduId: "fallback-2",
+    eduId: "course-finger",
     category: "수어",
     title: "지문자로 한글이름 써보기 내 이름을 수화로",
-    eduDetail: "중급 과정",
-    studyPeriod: "2025.12.31 ~ 2026.12.30",
+    eduDetail: "실습 과정",
+    studyStartAt: "2025.12.31",
+    studyEndAt: "2026.12.30",
     progressPercent: 46,
+    youtubeUrl: "https://www.youtube.com/watch?v=1IDTB4KQ-Fk",
     thumbnail: "https://img.youtube.com/vi/1IDTB4KQ-Fk/hqdefault.jpg",
   },
   {
-    eduId: "fallback-3",
+    eduId: "course-alphabet",
     category: "알파벳",
     title: "미국 수어 알파벳 ABC 배우기",
     eduDetail: "실습 과정",
-    studyPeriod: "2025.12.31 ~ 2026.12.30",
+    studyStartAt: "2025.12.31",
+    studyEndAt: "2026.12.30",
     progressPercent: 32,
+    youtubeUrl: "https://www.youtube.com/watch?v=hRzXnPTW8jY",
     thumbnail: "https://img.youtube.com/vi/hRzXnPTW8jY/hqdefault.jpg",
   },
   {
-    eduId: "fallback-4",
+    eduId: "course-cw",
     category: "교신",
     title: "한국 CW 교신에 자주 나오는 단어",
     eduDetail: "이해 과정",
-    studyPeriod: "2025.12.31 ~ 2026.12.30",
+    studyStartAt: "2025.12.31",
+    studyEndAt: "2026.12.30",
     progressPercent: 78,
+    youtubeUrl: "https://www.youtube.com/watch?v=fHPC_1MjqD0",
     thumbnail: "https://img.youtube.com/vi/fHPC_1MjqD0/hqdefault.jpg",
   },
 ];
-
-const DEFAULT_VISIBLE_COUNT = 4;
 
 const getYoutubeThumbnail = (youtubeUrl) => {
   if (!youtubeUrl) {
@@ -54,14 +64,34 @@ const getYoutubeThumbnail = (youtubeUrl) => {
   return videoId ? `https://img.youtube.com/vi/${videoId}/hqdefault.jpg` : "";
 };
 
-const CourseListCard = () => {
+const CourseListCard = ({ courseList = [] }) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
 
-  const displayCourseList = fallbackCourseVideos;
-  const needToggleButton = displayCourseList.length > DEFAULT_VISIBLE_COUNT;
-  const visibleCourseList = isExpanded
-    ? displayCourseList
-    : displayCourseList.slice(0, DEFAULT_VISIBLE_COUNT);
+  // 백엔드 강좌가 없을 때만 자격증 페이지용 React 더미데이터를 보여줍니다.
+  const displayCourseList = courseList.length > 0 ? courseList : fallbackCourseVideos;
+
+  const needToggleButton = displayCourseList.length > COLLAPSED_COUNT;
+  const needPagination = isExpanded && displayCourseList.length > PAGE_SIZE;
+  const pageCount = Math.ceil(displayCourseList.length / PAGE_SIZE);
+
+  const visibleCourseList = (() => {
+    if (!isExpanded) {
+      return displayCourseList.slice(0, COLLAPSED_COUNT);
+    }
+
+    if (!needPagination) {
+      return displayCourseList;
+    }
+
+    const startIndex = (currentPage - 1) * PAGE_SIZE;
+    return displayCourseList.slice(startIndex, startIndex + PAGE_SIZE);
+  })();
+
+  const handleToggleClick = () => {
+    setIsExpanded((prev) => !prev);
+    setCurrentPage(1);
+  };
 
   return (
     <S.CourseSection>
@@ -75,25 +105,30 @@ const CourseListCard = () => {
         <S.CourseList>
           {visibleCourseList.map((course, index) => {
             const fallbackVideo = fallbackCourseVideos[index % fallbackCourseVideos.length];
+            const youtubeUrl = course.youtubeUrl || fallbackVideo.youtubeUrl;
             const thumbnailUrl =
               course.thumbnailUrl ||
               course.thumbnail ||
-              getYoutubeThumbnail(course.youtubeUrl) ||
-              fallbackVideo?.thumbnail ||
-              "";
+              getYoutubeThumbnail(youtubeUrl) ||
+              fallbackVideo.thumbnail;
 
             const courseTitle = course.eduTitle || course.title || fallbackVideo.title;
-            const courseLevel = course.eduDetail || course.category || fallbackVideo.eduDetail || "수어 학습";
-            const studyPeriod = course.studyPeriod || fallbackVideo.studyPeriod || "-";
-            const [startDate, endDate] = studyPeriod.split(" ~ ");
+            const courseLevel = course.eduDetail || course.category || fallbackVideo.eduDetail;
+            const startDate = course.studyStartAt || fallbackVideo.studyStartAt;
+            const endDate = course.studyEndAt || fallbackVideo.studyEndAt;
+            const progressPercent = course.progressPercent ?? fallbackVideo.progressPercent ?? 0;
 
             return (
               <S.CourseItem key={course.eduId || fallbackVideo.eduId}>
-                <S.CourseImageBox>
-                  {thumbnailUrl && (
-                    <img src={thumbnailUrl} alt={courseTitle} />
-                  )}
-                </S.CourseImageBox>
+                {/* 오늘의 단어 영상처럼 이미지 클릭 시 유튜브로 이동 */}
+                <S.CourseVideoLink
+                  href={youtubeUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <img src={thumbnailUrl} alt={courseTitle} />
+                  <S.CoursePlayButton>▶</S.CoursePlayButton>
+                </S.CourseVideoLink>
 
                 <S.CourseInfo>
                   <S.CourseName title={courseTitle}>
@@ -107,14 +142,12 @@ const CourseListCard = () => {
                       수강기간: {startDate} ~
                     </S.CourseDateLine>
                     <S.CourseDateEnd>
-                      {endDate || ""}
+                      {endDate}
                     </S.CourseDateEnd>
                   </S.CourseDate>
 
                   <S.CourseProgressBar>
-                    <S.CourseProgressFill
-                      $percent={course.progressPercent || fallbackVideo.progressPercent || 0}
-                    />
+                    <S.CourseProgressFill $percent={progressPercent} />
                   </S.CourseProgressBar>
                 </S.CourseInfo>
               </S.CourseItem>
@@ -123,12 +156,24 @@ const CourseListCard = () => {
         </S.CourseList>
 
         {needToggleButton && (
-          <S.CourseMoreButton
-            type="button"
-            onClick={() => setIsExpanded((prev) => !prev)}
-          >
+          <S.CourseMoreButton type="button" onClick={handleToggleClick}>
             {isExpanded ? "접기" : "더 보기"} <span>{isExpanded ? "↑" : "→"}</span>
           </S.CourseMoreButton>
+        )}
+
+        {needPagination && (
+          <S.CoursePaginationArea>
+            {Array.from({ length: pageCount }, (_, index) => index + 1).map((page) => (
+              <S.CoursePageButton
+                key={page}
+                type="button"
+                $active={page === currentPage}
+                onClick={() => setCurrentPage(page)}
+              >
+                {page}
+              </S.CoursePageButton>
+            ))}
+          </S.CoursePaginationArea>
         )}
       </S.CourseCardBox>
     </S.CourseSection>

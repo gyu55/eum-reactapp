@@ -3,6 +3,9 @@ import { useNavigate } from "react-router-dom";
 
 import S from "../style";
 
+const COLLAPSED_COUNT = 4;
+const PAGE_SIZE = 8;
+
 const formatDate = (date) => {
   if (!date) {
     return "-";
@@ -16,11 +19,25 @@ const CertificateListCard = ({ certificateList = [] }) => {
 
   const [selectedCertificate, setSelectedCertificate] = useState(null);
   const [isExpanded, setIsExpanded] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
 
-  const hasMoreCertificates = certificateList.length >= 4;
-  const visibleCertificateList = isExpanded
-    ? certificateList
-    : certificateList.slice(0, 3);
+  const needToggleButton = certificateList.length > COLLAPSED_COUNT;
+  const needPagination = isExpanded && certificateList.length >= PAGE_SIZE;
+  const pageCount = Math.ceil(certificateList.length / PAGE_SIZE);
+
+  // 내 자격증은 4개까지 기본 노출, 더보기 후 8개 이상이면 페이지네이션으로 보여줍니다.
+  const visibleCertificateList = (() => {
+    if (!isExpanded) {
+      return certificateList.slice(0, COLLAPSED_COUNT);
+    }
+
+    if (!needPagination) {
+      return certificateList;
+    }
+
+    const startIndex = (currentPage - 1) * PAGE_SIZE;
+    return certificateList.slice(startIndex, startIndex + PAGE_SIZE);
+  })();
 
   const handleCertificateClick = async (certificate) => {
     try {
@@ -56,6 +73,12 @@ const CertificateListCard = ({ certificateList = [] }) => {
         testResultId: certificate.testResultId,
       },
     });
+  };
+
+  // 더보기 / 접기 상태 변경
+  const handleToggleClick = () => {
+    setIsExpanded((prev) => !prev);
+    setCurrentPage(1);
   };
 
   return (
@@ -148,14 +171,28 @@ const CertificateListCard = ({ certificateList = [] }) => {
           </S.CertificateDetailBox>
         )}
 
-        {hasMoreCertificates && (
+        {needPagination && (
+          <S.CertificatePaginationArea>
+            {Array.from({ length: pageCount }, (_, index) => index + 1).map((page) => (
+              <S.CertificatePageButton
+                key={page}
+                type="button"
+                $active={page === currentPage}
+                onClick={() => setCurrentPage(page)}
+              >
+                {page}
+              </S.CertificatePageButton>
+            ))}
+          </S.CertificatePaginationArea>
+        )}
+
+        {needToggleButton && (
           <S.CertificateMoreButton
             type="button"
             $hasDetail={!!selectedCertificate}
-            onClick={() => setIsExpanded((prev) => !prev)}
+            onClick={handleToggleClick}
           >
-            {isExpanded ? "접기" : "더보기"}{" "}
-            <span>{isExpanded ? "▲" : "▼"}</span>
+            {isExpanded ? "접기" : "더 보기"} <span>{isExpanded ? "↑" : "→"}</span>
           </S.CertificateMoreButton>
         )}
       </S.CertificateCardBox>

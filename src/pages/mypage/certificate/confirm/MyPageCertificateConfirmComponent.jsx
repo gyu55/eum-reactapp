@@ -344,7 +344,6 @@ const MyPageCertificateConfirmComponent = () => {
                 onChange={(e) => setReceiveType(e.target.value)}
               >
                 <option value="우편수령">우편수령</option>
-                <option value="센터수령">센터수령</option>
               </S.Select>
             </S.Field>
 
@@ -372,7 +371,8 @@ const MyPageCertificateConfirmComponent = () => {
             <S.Input
               value={detailAddress}
               onChange={(e) => setDetailAddress(e.target.value)}
-              placeholder="상세 주소를 입력해주세요."
+              placeholder="상세주소를 입력하세요. 없을 경우 '없음'이라고 작성해주세요."
+              $greenPlaceholder
             />
           </S.AddressField>
         </S.DeliveryCard>

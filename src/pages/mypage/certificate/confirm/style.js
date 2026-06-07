@@ -111,7 +111,7 @@ S.Input = styled.input`
   color: #111111;
 
   &::placeholder {
-    color: #666666;
+    color: ${({ $greenPlaceholder }) => ($greenPlaceholder ? "#4359FC" : "#666666")};
   }
 
   &:focus {

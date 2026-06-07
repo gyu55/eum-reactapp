@@ -47,25 +47,28 @@ const PaymentFailPage = () => {
   const [cancelMessage, setCancelMessage] = useState("");
 
   useEffect(() => {
-    const cancelCertIssue = async () => {
-      if (paymentType !== "CERT_ISSUE" || !referenceId) {
-        return;
-      }
+    if (!referenceId) return;
 
+    const rollback = async () => {
       try {
-        await fetch(`http://localhost:10000/api/cert-renew/${referenceId}`, {
-          method: "DELETE",
-          credentials: "include",
-        });
-
-        setCancelMessage("실물 신청 정보는 취소 처리되었습니다.");
+        if (paymentType === "TEST_APPLY") {
+          await fetch(`http://localhost:10000/api/test-applications/${referenceId}`, {
+            method: "DELETE",
+            credentials: "include",
+          });
+        } else if (paymentType === "CERT_ISSUE") {
+          await fetch(`http://localhost:10000/api/cert-renew/${referenceId}`, {
+            method: "DELETE",
+            credentials: "include",
+          });
+          setCancelMessage("실물 신청 정보는 취소 처리되었습니다.");
+        }
       } catch (error) {
         console.error(error);
-        setCancelMessage("실물 신청 취소 처리 중 오류가 발생했습니다.");
       }
     };
 
-    cancelCertIssue();
+    rollback();
   }, [paymentType, referenceId]);
 
   return (

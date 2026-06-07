@@ -15,7 +15,7 @@ const useTossPayment = () => {
     const { orderId } = readyData.data;
 
     const successUrl = `${window.location.origin}/payment/success?paymentType=${paymentType}&referenceId=${referenceId}`;
-    const failUrl    = `${window.location.origin}/payment/fail`;
+    const failUrl    = `${window.location.origin}/payment/fail?paymentType=${paymentType}&referenceId=${referenceId}`;
 
     console.log("[Toss 파라미터]", { amount, orderId, orderName, customerName, successUrl, failUrl });
 

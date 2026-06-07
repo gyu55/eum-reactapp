@@ -35,11 +35,13 @@ export const CertItem = styled.label`
   display: flex;
   align-items: center;
   gap: 14px;
-  border: 1.5px solid ${({ $selected }) => ($selected ? PRIMARY : "#e0e0e0")};
+  border: 1.5px solid ${({ $selected, $expired }) =>
+    $selected ? ($expired ? "#e74c3c" : PRIMARY) : ($expired ? "#f5c6c6" : "#e0e0e0")};
   border-radius: 10px;
   padding: 14px 18px;
   cursor: pointer;
-  background: ${({ $selected }) => ($selected ? "#eef0ff" : "#fff")};
+  background: ${({ $selected, $expired }) =>
+    $selected ? ($expired ? "#fff5f5" : "#eef0ff") : ($expired ? "#fafafa" : "#fff")};
   transition: border-color 0.15s, background 0.15s;
 `;
 
@@ -58,13 +60,25 @@ export const CertItemInfo = styled.div`
 export const CertItemName = styled.div`
   font-size: 14px;
   font-weight: 700;
-  color: ${({ $selected }) => ($selected ? PRIMARY : "#222")};
+  color: ${({ $selected, $expired }) =>
+    $expired ? "#999" : ($selected ? PRIMARY : "#222")};
 `;
 
 export const CertItemMeta = styled.div`
   font-size: 12px;
   color: #999;
   margin-top: 3px;
+`;
+
+export const CertStatusBadge = styled.span`
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 20px;
+  flex-shrink: 0;
+  color: ${({ $expired }) => ($expired ? "#e74c3c" : "#03c75a")};
+  background: ${({ $expired }) => ($expired ? "#fff0f0" : "#f0fff7")};
+  border: 1px solid ${({ $expired }) => ($expired ? "#f5c6c6" : "#b7efd4")};
 `;
 
 export const FeeText = styled.div`
@@ -217,6 +231,13 @@ export const SendBtn = styled.button`
   font-weight: 600;
   cursor: pointer;
   white-space: nowrap;
+
+  &:disabled {
+    background: #c0c0c0;
+    color: #fff;
+    border-color: #c0c0c0;
+    cursor: not-allowed;
+  }
 `;
 
 export const VerifyBtn = styled.button`

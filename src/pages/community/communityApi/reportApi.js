@@ -36,6 +36,26 @@ export const postPostReport = async ({
   return { success, message, data };
 };
 
+export const postChatRoomReport = async ({
+  chatRoomReportTitle,
+  chatRoomReportDetail,
+  chatRoomId,
+}) => {
+  const response = await fetch(`${ROOT_URL}/chat-room-reports`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+    body: JSON.stringify({
+      chatRoomReportTitle,
+      chatRoomReportDetail,
+      chatRoomId,
+    }),
+  });
+  if (!response.ok) throw new Error("채팅방 신고 요청에 실패했습니다.");
+  const { success, message, data } = await response.json();
+  return { success, message, data };
+};
+
 export const postCommentReport = async ({
   commentReportTitle,
   commentReportDetail,

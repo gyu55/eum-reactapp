@@ -5,6 +5,9 @@ import { deleteChatRoom } from "../../../communityApi/chatApi";
 import OutlineButton from "../../../common/OutlineButton";
 import ToggleSwitch from "../../../common/ToggleSwitch";
 import T from "../../../communityTextStyle";
+import ChatRoomReportPopup from "../../../report/ChatRoomReportPopup";
+import LoginRequiredPopup from "../../../common/LoginRequiredPopup";
+import useAuthStore from "../../../../../store/authStore";
 import {
   RightPanelScroll,
   PanelSection,
@@ -56,8 +59,19 @@ const PopupRoomInfoPanel = ({
   tags,
 }) => {
   const { leaveRoom, deleteRoom, openUpdateChatRoom } = useChatContext();
+  const { isAuthenticated } = useAuthStore();
   const [signToggle, setSignToggle] = useState(false);
   const [readToggle, setReadToggle] = useState(false);
+  const [reportPopupOpen, setReportPopupOpen] = useState(false);
+  const [loginPopupOpen, setLoginPopupOpen] = useState(false);
+
+  const handleReportClick = () => {
+    if (!isAuthenticated) {
+      setLoginPopupOpen(true);
+    } else {
+      setReportPopupOpen(true);
+    }
+  };
 
   const handleDeleteRoom = async () => {
     await deleteChatRoom(chatRoomId);
@@ -173,11 +187,24 @@ const PopupRoomInfoPanel = ({
               신고하기 버튼으로 신고 가능합니다.
             </T.H11Regular>
           </S.IntroText>
-          <OutlineButton borderColor={colors.danger} textColor={colors.danger}>
+          <OutlineButton
+            borderColor={colors.danger}
+            textColor={colors.danger}
+            onClick={handleReportClick}
+          >
             채팅방신고
           </OutlineButton>
         </S.PanelSection>
       )}
+      <ChatRoomReportPopup
+        isOpen={reportPopupOpen}
+        onClose={() => setReportPopupOpen(false)}
+        chatRoomId={chatRoomId}
+      />
+      <LoginRequiredPopup
+        isOpen={loginPopupOpen}
+        onClose={() => setLoginPopupOpen(false)}
+      />
     </S.RightPanelScroll>
   );
 };

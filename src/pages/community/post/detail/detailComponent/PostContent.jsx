@@ -15,7 +15,7 @@ import PostContentSkeleton from "./PostContentSkeleton";
 import modifyIcon from "../../../assets/icon/modify-grey.svg";
 import deleteIcon from "../../../assets/icon/trash-can-red.svg";
 import PostAlertPopup from "../../postComponents/PostAlertPopup";
-import PostReportPopup from "../../../common/PostReportPopup";
+import PostReportPopup from "../../../report/PostReportPopup";
 import LoginRequiredPopup from "../../../common/LoginRequiredPopup";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";

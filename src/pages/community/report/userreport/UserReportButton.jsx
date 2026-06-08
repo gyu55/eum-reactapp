@@ -3,7 +3,7 @@ import styled from "styled-components";
 import theme from "../../../../styles/theme";
 import useAuthStore from "../../../../store/authStore";
 import LoginRequiredPopup from "../../common/LoginRequiredPopup";
-import UserReportPopup from "../../common/UserReportPopup";
+import UserReportPopup from "../UserReportPopup";
 import { RADIUS } from "../../constants";
 
 const ReportButton = styled.button`

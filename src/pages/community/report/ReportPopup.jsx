@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import styled from "styled-components";
-import * as S from "./alertPopupStyle";
+import * as S from "../common/alertPopupStyle";
 import theme from "../../../styles/theme";
 import { RADIUS } from "../constants";
-import { postUserReport } from "../communityApi/userReportApi";
 
 const FieldWrapper = styled.div`
   display: flex;
@@ -54,23 +53,19 @@ const Textarea = styled.textarea`
   }
 `;
 
-const UserReportPopup = ({ isOpen, onClose, reportingUserId }) => {
-  const [title, setTitle] = useState("");
+const ReportPopup = ({ isOpen, onClose, title, onSubmit }) => {
+  const [reportTitle, setReportTitle] = useState("");
   const [detail, setDetail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   if (!isOpen) return null;
 
   const handleSubmit = async () => {
-    if (!title.trim() || !detail.trim()) return;
+    if (!reportTitle.trim() || !detail.trim()) return;
     setIsLoading(true);
     try {
-      await postUserReport({
-        userReportTitle: title.trim(),
-        userReportDetail: detail.trim(),
-        reportingUserId,
-      });
-      setTitle("");
+      await onSubmit({ title: reportTitle.trim(), detail: detail.trim() });
+      setReportTitle("");
       setDetail("");
       onClose();
     } catch (e) {
@@ -81,7 +76,7 @@ const UserReportPopup = ({ isOpen, onClose, reportingUserId }) => {
   };
 
   const handleClose = () => {
-    setTitle("");
+    setReportTitle("");
     setDetail("");
     onClose();
   };
@@ -89,12 +84,12 @@ const UserReportPopup = ({ isOpen, onClose, reportingUserId }) => {
   return ReactDOM.createPortal(
     <S.Overlay onClick={handleClose}>
       <S.Card onClick={(e) => e.stopPropagation()}>
-        <S.Title>유저 신고</S.Title>
+        <S.Title>{title}</S.Title>
         <FieldWrapper>
           <Label>신고 제목</Label>
           <Input
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            value={reportTitle}
+            onChange={(e) => setReportTitle(e.target.value)}
             placeholder="신고 제목을 입력하세요."
             maxLength={50}
           />
@@ -114,7 +109,7 @@ const UserReportPopup = ({ isOpen, onClose, reportingUserId }) => {
           </S.CancelButton>
           <S.ConfirmButton
             onClick={handleSubmit}
-            disabled={!title.trim() || !detail.trim() || isLoading}
+            disabled={!reportTitle.trim() || !detail.trim() || isLoading}
           >
             {isLoading ? "신고 중..." : "신고"}
           </S.ConfirmButton>
@@ -125,4 +120,4 @@ const UserReportPopup = ({ isOpen, onClose, reportingUserId }) => {
   );
 };
 
-export default UserReportPopup;
+export default ReportPopup;

@@ -68,8 +68,8 @@ const CourseListCard = ({ courseList = [] }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
 
-  // 백엔드 강좌가 없을 때만 자격증 페이지용 React 더미데이터를 보여줍니다.
-  const displayCourseList = courseList.length > 0 ? courseList : fallbackCourseVideos;
+ // 자격증 페이지 수강중인 강좌는 백엔드 학습 API가 아닌 리액트 더미데이터만 보여준다.
+  const displayCourseList = fallbackCourseVideos;
 
   const needToggleButton = displayCourseList.length > COLLAPSED_COUNT;
   const needPagination = isExpanded && displayCourseList.length > PAGE_SIZE;

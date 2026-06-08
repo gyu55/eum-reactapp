@@ -198,13 +198,17 @@ const MyPageLearningComponent = () => {
   const originStatusList = learningData.statusList || [];
   const originResultList = learningData.resultList || [];
 
-  const statusList = sortStatusListByRecent(
-    originStatusList.length > 0 ? originStatusList : fallbackStatusList
-  );
+  // 백엔드 학습 데이터가 있어도 리액트 더미데이터는 아래에 계속 보여준다.
+  const statusList = [
+    ...sortStatusListByRecent(originStatusList),
+    ...sortStatusListByRecent(fallbackStatusList),
+  ];
 
-  const resultList = sortResultListByRecent(
-    originResultList.length > 0 ? originResultList : fallbackResultList
-  );
+  // 백엔드 학습결과 데이터가 있어도 리액트 더미데이터는 아래에 계속 보여준다.
+  const resultList = [
+    ...sortResultListByRecent(originResultList),
+    ...sortResultListByRecent(fallbackResultList),
+  ];
 
   const needStatusToggleButton = statusList.length > COLLAPSED_COUNT;
   const needResultToggleButton = resultList.length > COLLAPSED_COUNT;

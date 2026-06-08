@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { colors } from "../../constants";
-import { PageBg, Popup, Body, RightPanel } from "../ChatStyle";
+import { Popup, Body, RightPanel } from "../ChatStyle";
 import PopupChatHeader from "./header/PopupChatHeader";
 import PopupParticipantList from "./listPanel/PopupParticipantList";
 import PopupChatCenter from "./centerBody/PopupChatCenter";
@@ -10,7 +10,6 @@ import { useChatContext } from "../../context/ChatContext";
 import { getChatRoomUsers, getChatRoomInfo } from "../../communityApi/chatApi";
 
 const S = {
-  PageBg,
   Popup,
   Body,
   RightPanel,
@@ -38,7 +37,7 @@ const TAGS = [
 
 // 메인 에서 채팅방 카드 클릭 시 뜨는 팝업 채팅창 (채팅방)
 // 가지고 오는 것: 해당 채팅방 아이디
-const PopupChatScreen = () => {
+const PopupChatScreen = ({ onDragMouseDown }) => {
   const [selectedUser, setSelectedUser] = useState(null);
   const [users, setUsers] = useState([]);
   const [chatRoomInfo, setChatRoomInfo] = useState(null);
@@ -68,10 +67,9 @@ const PopupChatScreen = () => {
   };
 
   return (
-    <S.PageBg>
-      <S.Popup>
-        {/* 팝업 채팅방 헤더: 체팅방 정보 구조분해할당 전달 */}
-        <PopupChatHeader {...chatRoomInfo} />
+    <S.Popup>
+      {/* 팝업 채팅방 헤더: 체팅방 정보 구조분해할당 전달 */}
+        <PopupChatHeader onDragMouseDown={onDragMouseDown} {...chatRoomInfo} />
         <S.Body>
           {/* 왼쪽 판넬 (참여 유저 목록) */}
           <PopupParticipantList
@@ -95,8 +93,7 @@ const PopupChatScreen = () => {
             onClose={() => setSelectedUser(null)}
           />
         )}
-      </S.Popup>
-    </S.PageBg>
+    </S.Popup>
   );
 };
 

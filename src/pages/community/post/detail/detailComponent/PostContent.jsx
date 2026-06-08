@@ -15,8 +15,11 @@ import PostContentSkeleton from "./PostContentSkeleton";
 import modifyIcon from "../../../assets/icon/modify-grey.svg";
 import deleteIcon from "../../../assets/icon/trash-can-red.svg";
 import PostAlertPopup from "../../postComponents/PostAlertPopup";
+import PostReportPopup from "../../../common/PostReportPopup";
+import LoginRequiredPopup from "../../../common/LoginRequiredPopup";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
+import useAuthStore from "../../../../../store/authStore";
 
 const { PALETTE } = theme;
 
@@ -24,10 +27,21 @@ const PostContent = ({ post, postId }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from ?? "/community";
+  const { isAuthenticated } = useAuthStore();
 
   const [liked, setLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
   const [deletePopupOpen, setDeletePopupOpen] = useState(false);
+  const [reportPopupOpen, setReportPopupOpen] = useState(false);
+  const [loginPopupOpen, setLoginPopupOpen] = useState(false);
+
+  const handleReportClick = () => {
+    if (!isAuthenticated) {
+      setLoginPopupOpen(true);
+    } else {
+      setReportPopupOpen(true);
+    }
+  };
 
   const contentEditor = useEditor({
     extensions: [StarterKit, Underline],
@@ -195,7 +209,7 @@ const PostContent = ({ post, postId }) => {
                 </S.IconButton>
               </>
             ) : (
-              <S.IconButton danger aria-label="게시글 신고">
+              <S.IconButton danger aria-label="게시글 신고" onClick={handleReportClick}>
                 <img
                   src={DEFAULT_IMAGES.reportIcon}
                   alt="신고"
@@ -216,6 +230,15 @@ const PostContent = ({ post, postId }) => {
         isOpen={deletePopupOpen}
         onClose={() => setDeletePopupOpen(false)}
         onConfirm={handleDeleteConfirm}
+      />
+      <PostReportPopup
+        isOpen={reportPopupOpen}
+        onClose={() => setReportPopupOpen(false)}
+        postId={postId}
+      />
+      <LoginRequiredPopup
+        isOpen={loginPopupOpen}
+        onClose={() => setLoginPopupOpen(false)}
       />
     </div>
   );

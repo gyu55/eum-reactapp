@@ -51,11 +51,12 @@ const PopupChatHeader = ({
   chatRoomProfile,
   chatRoomName,
   chatRoomUsers,
+  onDragMouseDown,
 }) => {
   const { leaveRoom, minimizeView, closeView } = useChatContext();
 
   return (
-    <S.Header>
+    <S.Header onMouseDown={onDragMouseDown} style={{ cursor: "grab", userSelect: "none" }}>
       <S.HeaderLeft>
         <S.ProfileArea>
           <ThumbnailBox

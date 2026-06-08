@@ -219,13 +219,6 @@ const StudyComponent = () => {
     navigate("/study/search", { state: { keyword } });
   };
 
-  // 로그인 필요한 링크 이동
-  const handleProtectedLink = (event, path) => {
-    event.preventDefault();
-
-    requireLogin(() => navigate(path));
-  };
-
   // 출석체크실행: 오늘 출석을 저장하고 최신 현황 팝업을 표시
   const handleAttendanceCheck = async () => {
     try {
@@ -407,9 +400,6 @@ const StudyComponent = () => {
           </S.VideoEmpty>
         )}
 
-        {/* <S.ActionLink to="/study/learn" onClick={(event) => handleProtectedLink(event, "/study/learn")}>
-          더 많은 영상 보기 →
-        </S.ActionLink> */}
       </S.VideoArea>
 
       {isAttendanceOpen && (

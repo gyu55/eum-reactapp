@@ -131,7 +131,6 @@ const LearnComponent = () => {
 
         <S.MainArea>
           <S.TopBar>
-            <S.StreakBadge>{"◆"} {data.streak}</S.StreakBadge>
             <S.GuideButton type="button" onClick={() => alert(SERVICE_READY_MESSAGE)}>
               {roadmap.chapter.guideLabel}
             </S.GuideButton>

@@ -1,23 +1,23 @@
-// 체험학습 스타일
+// 체험 학습 스타일
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 export const ExperienceWrap = styled.section`
   width: 100%;
   min-height: calc(100vh - 80px);
-  padding: 110px 0 150px;
+  padding: 56px 0 72px;
   background: #f7f7fb;
   font-family: Pretendard, sans-serif;
 `;
 
 export const ExperienceHero = styled.header`
   width: min(920px, calc(100% - 48px));
-  margin: 0 auto 72px;
+  margin: 0 auto 38px;
   text-align: center;
 
   span {
     display: inline-flex;
-    margin-bottom: 22px;
+    margin-bottom: 14px;
     padding: 8px 20px;
     border-radius: 999px;
     background: ${({ theme }) => theme.PALETTE.primary.main};
@@ -27,7 +27,7 @@ export const ExperienceHero = styled.header`
   }
 
   h1 {
-    margin: 0 0 24px;
+    margin: 0 0 14px;
     color: #1a1a1a;
     font-size: ${({ theme }) => theme.FONT_SIZE.h3};
     line-height: ${({ theme }) => theme.FONT_LINE.h3};
@@ -48,8 +48,8 @@ export const ExperienceGrid = styled.div`
   width: min(1180px, calc(100% - 48px));
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 28px;
-  margin: 0 auto 56px;
+  gap: 24px;
+  margin: 0 auto 34px;
 `;
 
 const toneMap = {
@@ -59,8 +59,8 @@ const toneMap = {
 };
 
 export const ExperienceCard = styled.button`
-  min-height: 420px;
-  padding: 42px 36px 36px;
+  min-height: 340px;
+  padding: 32px 32px 30px;
   border: 0;
   border-radius: 24px;
   background: ${({ theme }) => theme.PALETTE.white};
@@ -76,7 +76,7 @@ export const ExperienceCard = styled.button`
 
   .badge {
     display: inline-flex;
-    margin-bottom: 34px;
+    margin-bottom: 24px;
     padding: 7px 17px;
     border-radius: 999px;
     background: ${({ $tone }) => toneMap[$tone] || "#4359fc"};
@@ -86,10 +86,10 @@ export const ExperienceCard = styled.button`
   }
 
   img {
-    width: 116px;
-    height: 116px;
+    width: 100px;
+    height: 100px;
     display: block;
-    margin: 0 auto 36px;
+    margin: 0 auto 26px;
     padding: 18px;
     border-radius: 36px;
     background: #f7f7fb;
@@ -108,7 +108,7 @@ export const ExperienceCard = styled.button`
 
   p {
     min-height: 52px;
-    margin: 0 0 34px;
+    margin: 0 0 24px;
     color: #666;
     font-size: ${({ theme }) => theme.FONT_SIZE.h10};
     line-height: ${({ theme }) => theme.FONT_LINE.h10};
@@ -125,7 +125,7 @@ export const ExperienceCard = styled.button`
 export const ExperienceNotice = styled.aside`
   width: min(720px, calc(100% - 48px));
   margin: 0 auto;
-  padding: 28px 34px;
+  padding: 22px 30px;
   border-radius: 18px;
   background: ${({ theme }) => theme.PALETTE.white};
   text-align: center;
@@ -150,10 +150,10 @@ export const ExperienceQuizHeader = styled.header`
   width: 640px;
   max-width: 100%;
   display: grid;
-  grid-template-columns: 44px 1fr auto auto;
+  grid-template-columns: 44px 1fr;
   align-items: center;
   column-gap: 16px;
-  margin: 0 auto 22px;
+  margin: 0 auto 16px;
 
   button {
     color: #666;
@@ -166,25 +166,13 @@ export const ExperienceQuizHeader = styled.header`
     font-weight: ${({ theme }) => theme.FONT_WEIGHT.medium};
   }
 
-  strong {
-    color: #22c55e;
-    font-size: ${({ theme }) => theme.FONT_SIZE.h11};
-    font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
-  }
-
-  em {
-    color: ${({ theme }) => theme.PALETTE.primary.main};
-    font-size: ${({ theme }) => theme.FONT_SIZE.h11};
-    font-style: normal;
-    font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
-  }
 `;
 
 export const ExperienceQuizPage = styled.div`
   position: relative;
   width: 100%;
-  min-height: 980px;
-  padding: 42px 0 100px;
+  min-height: 820px;
+  padding: 14px 0 72px;
   opacity: ${({ $dimmed }) => ($dimmed ? 0.35 : 1)};
 `;
 
@@ -198,8 +186,24 @@ export const ExperienceQuizPanel = styled.article`
   border-bottom: 1px solid #e6e6e6;
 `;
 
+export const ExperienceProgressRow = styled.div`
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 16px;
+
+  strong {
+    min-width: 42px;
+    color: #22c55e;
+    font-size: ${({ theme }) => theme.FONT_SIZE.h11};
+    font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
+    text-align: right;
+    white-space: nowrap;
+  }
+`;
+
 export const QuestionInfo = styled.div`
-  margin-top: 54px;
+  margin-top: 38px;
 
   h2 {
     margin: 0;
@@ -211,22 +215,89 @@ export const QuestionInfo = styled.div`
 `;
 
 export const GestureBox = styled.div`
-  width: 360px;
-  height: 140px;
+  width: 420px;
+  min-height: 184px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 34px auto 18px;
+  padding: 12px 18px;
+  border: 1px dashed #129d1b;
+  border-radius: 12px;
+  background: #fff;
+  line-height: 1;
+  overflow: hidden;
+  box-sizing: border-box;
+
+`;
+
+export const GestureImageList = styled.div`
+  width: 100%;
+  height: 156px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 42px auto 40px;
-  border: 1px dashed #129d1b;
-  border-radius: 12px;
-  font-size: 88px;
+  gap: 12px;
+`;
+
+export const GestureIcon = styled.strong`
+  min-width: 92px;
+  height: 78px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: ${({ theme }) => theme.PALETTE.primary.main};
+  font-size: ${({ $textIcon }) => ($textIcon ? "38px" : "70px")};
+  font-weight: 900;
   line-height: 1;
+`;
+
+export const GestureImage = styled.img`
+  max-width: ${({ $multiple }) => ($multiple ? "48%" : "100%")};
+  height: 100%;
+  display: block;
+  object-fit: contain;
+  object-position: center;
+`;
+
+export const GestureDescription = styled.div`
+  width: 420px;
+  margin: 0 auto 28px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: #fff7ed;
+  box-sizing: border-box;
+
+  strong {
+    display: block;
+    margin-bottom: 8px;
+    color: #ff6b00;
+    font-size: ${({ theme }) => theme.FONT_SIZE.h10};
+    font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
+  }
+
+  p {
+    margin: 0;
+    color: #333;
+    font-size: ${({ theme }) => theme.FONT_SIZE.h10};
+    line-height: 1.55;
+  }
+`;
+
+export const ExperienceNoticeMessage = styled.p`
+  width: 360px;
+  margin: -14px auto 32px;
+  color: ${({ theme }) => theme.PALETTE.primary.main};
+  font-size: ${({ theme }) => theme.FONT_SIZE.h10};
+  font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
+  text-align: center;
 `;
 
 export const OptionList = styled.div`
   display: grid;
-  gap: 28px;
-  margin-bottom: 70px;
+  gap: 24px;
+  margin-bottom: 56px;
 `;
 
 export const TextOptionButton = styled.button`
@@ -415,41 +486,57 @@ export const MemberBenefits = styled.ul`
 
 export const EmailSignupLink = styled(Link)`
   width: 100%;
-  height: 34px;
+  height: 32px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid #e0e0e0;
-  border-radius: 10px;
+  border: 1px solid #e8ebf5;
+  border-radius: 999px;
+  background: #fff;
   color: ${({ theme }) => theme.PALETTE.primary.main};
   font-size: ${({ theme }) => theme.FONT_SIZE.h10};
   font-weight: ${({ theme }) => theme.FONT_WEIGHT.medium};
   text-decoration: none;
+  transition: border-color 0.18s ease, background 0.18s ease, color 0.18s ease;
+
+  &:hover {
+    border-color: #cfd6ff;
+    background: #f6f8ff;
+    color: #334bff;
+  }
 `;
 
 export const SocialDivider = styled.p`
   position: relative;
-  margin: 16px 0 10px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 16px 0 12px;
   color: #9ca3af;
   font-size: ${({ theme }) => theme.FONT_SIZE.h10};
 
   &::before,
   &::after {
     content: "";
-    position: absolute;
-    top: 50%;
-    width: 78px;
+    flex: 1;
     height: 1px;
     background: #e5e7eb;
   }
+`;
 
-  &::before {
-    left: 0;
-  }
+export const SocialTitle = styled.p`
+  margin: 0 0 14px;
+  color: #333;
+  font-size: ${({ theme }) => theme.FONT_SIZE.h10};
+  font-weight: ${({ theme }) => theme.FONT_WEIGHT.medium};
+`;
 
-  &::after {
-    right: 0;
-  }
+export const SocialCircleRow = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-bottom: 2px;
 `;
 
 const socialColors = {
@@ -467,18 +554,30 @@ const socialColors = {
   },
 };
 
-export const SocialButton = styled(Link)`
-  width: 100%;
-  height: 34px;
-  display: flex;
+
+export const SocialCircle = styled(Link)`
+  width: 48px;
+  height: 48px;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  margin-top: 9px;
   border: ${({ $provider }) => ($provider === "google" ? "1px solid #e0e0e0" : 0)};
-  border-radius: 10px;
+  border-radius: 50%;
   background: ${({ $provider }) => socialColors[$provider]?.bg || "#fff"};
   color: ${({ $provider }) => socialColors[$provider]?.color || "#000"};
-  font-size: ${({ theme }) => theme.FONT_SIZE.h10};
-  font-weight: ${({ theme }) => theme.FONT_WEIGHT.medium};
+  font-size: 18px;
+  font-weight: 900;
   text-decoration: none;
+  box-shadow: 0 8px 18px rgba(30, 40, 80, 0.08);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+
+  img {
+    width: 18px;
+    height: 18px;
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(30, 40, 80, 0.13);
+  }
 `;

@@ -5,7 +5,7 @@ const LearnQuestPanel = ({ quests = [], panelComponent: PanelComponent = S.Quest
 
   return (
     <PanelComponent>
-      <S.QuestTitle>{"\uc624\ub298\uc758 \ud018\uc2a4\ud2b8"}</S.QuestTitle>
+      <S.QuestTitle>{"오늘의 퀘스트"}</S.QuestTitle>
       {quests.map((quest) => {
         const progress = Math.min((quest.current / quest.total) * 100, 100);
 

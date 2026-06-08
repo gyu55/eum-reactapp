@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { fetchSignWords } from "../apis/SignWordApi";
 import { useSignWordSearch } from "../hooks/useSignWordSearch";
@@ -7,27 +7,29 @@ import SearchResultCard from "./parts/SearchResultCard";
 import SearchResultList from "./parts/SearchResultList";
 import * as S from "./style";
 
+// 검색 화면 문구: 화면에서 반복 사용되는 텍스트를 한 곳에서 관리
 const TEXT = {
-  all: "\uC804\uCCB4",
-  title: "\uD544\uC694\uD55C \uC218\uC5B4 \uD45C\uD604\uC744 \uBC14\uB85C \uCC3E\uC544\uBCF4\uC138\uC694",
-  placeholder: "\uC608: \uC548\uB155\uD558\uC138\uC694, \uBCD1\uC6D0, \uB3C4\uC640\uC8FC\uC138\uC694",
-  inputLabel: "\uC218\uC5B4 \uAC80\uC0C9\uC5B4",
-  submitLabel: "\uAC80\uC0C9",
-  categoryLabel: "\uC218\uC5B4 \uAC80\uC0C9 \uCE74\uD14C\uACE0\uB9AC",
-  serverError: "\uAC80\uC0C9 \uC11C\uBC84\uC5D0 \uC5F0\uACB0\uD558\uAE30 \uC5B4\uB824\uC6CC\uC694. \uC7A0\uC2DC \uD6C4 \uB2E4\uC2DC \uC2DC\uB3C4\uD574\uC8FC\uC138\uC694.",
-  detailTitle: "\uC218\uC5B4 \uC0C1\uC138",
-  resultTitle: "\uAC80\uC0C9 \uACB0\uACFC",
-  searching: "\uAC80\uC0C9 \uC911",
-  countUnit: "\uAC1C",
-  loadingTitle: "\uAC80\uC0C9 \uACB0\uACFC\uB97C \uBD88\uB7EC\uC624\uB294 \uC911\uC774\uC5D0\uC694.",
-  loadingDesc: "\uC7A0\uC2DC\uB9CC \uAE30\uB2E4\uB824\uC8FC\uC138\uC694.",
-  emptyTitle: "\uAC80\uC0C9 \uACB0\uACFC\uAC00 \uC5C6\uC5B4\uC694.",
-  emptyDesc: "\uB2E4\uB978 \uB2E8\uC5B4\uB098 \uCE74\uD14C\uACE0\uB9AC\uB85C \uB2E4\uC2DC \uAC80\uC0C9\uD574\uBCF4\uC138\uC694.",
+  all: "전체",
+  title: "필요한 수어 표현을 바로 찾아보세요",
+  placeholder: "예: 안녕하세요, 병원, 도와주세요",
+  inputLabel: "수어 검색어",
+  submitLabel: "검색",
+  categoryLabel: "수어 검색 카테고리",
+  serverError: "검색 서버에 연결하기 어려워요. 잠시 후 다시 시도해주세요.",
+  detailTitle: "수어 상세",
+  resultTitle: "검색 결과",
+  searching: "검색 중",
+  countUnit: "개",
+  loadingTitle: "검색 결과를 불러오는 중이에요.",
+  loadingDesc: "잠시만 기다려주세요.",
+  emptyTitle: "검색 결과가 없어요.",
+  emptyDesc: "다른 단어나 카테고리로 다시 검색해보세요.",
 };
 
 const StudySearchComponent = () => {
   const location = useLocation();
   const initialKeyword = location.state?.keyword || new URLSearchParams(location.search).get("keyword") || "";
+  const initialKeywordRef = useRef(initialKeyword);
   const categoryScrollRef = useRef(null);
   const categoryDragRef = useRef({
     active: false,
@@ -48,6 +50,7 @@ const StudySearchComponent = () => {
   } = useSignWordSearch(initialKeyword);
   const [selectedCategory, setSelectedCategory] = useState(TEXT.all);
 
+  // API 결과에 실제 존재하는 분류만 카테고리로 노출
   const categories = useMemo(
     () => [
       TEXT.all,
@@ -60,34 +63,38 @@ const StudySearchComponent = () => {
     [results]
   );
 
+  // 선택한 카테고리에 맞는 검색 결과만 화면에 표시
   const filteredResults = useMemo(() => {
     return results.filter((item) => selectedCategory === TEXT.all || item.category === selectedCategory);
   }, [results, selectedCategory]);
 
   const selectedResult = selectedIndex !== null ? filteredResults[selectedIndex] : null;
 
-  const searchSignWords = async (searchKeyword = keyword) => {
-    setLoading(true);
-    setError(null);
-    setSelectedIndex(null);
-    setSelectedCategory(TEXT.all);
+  // 검색어로 수어 OpenAPI 데이터를 조회하고 화면용 데이터로 변환
+  const searchSignWords = useCallback(
+    async (searchKeyword) => {
+      setLoading(true);
+      setError(null);
+      setSelectedIndex(null);
+      setSelectedCategory(TEXT.all);
 
-    try {
-      const data = await fetchSignWords(searchKeyword);
-      setResults(mapSignWords(data));
-    } catch {
-      setResults([]);
-      setError(TEXT.serverError);
-    } finally {
-      setLoading(false);
-    }
-  };
+      try {
+        const data = await fetchSignWords(searchKeyword);
+        setResults(mapSignWords(data));
+      } catch {
+        setResults([]);
+        setError(TEXT.serverError);
+      } finally {
+        setLoading(false);
+      }
+    },
+    [setError, setLoading, setResults, setSelectedIndex]
+  );
 
   useEffect(() => {
-    searchSignWords(initialKeyword);
-    // Run once on first entry so the initial keyword can prepare results.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    // 첫 진입 시 URL이나 이전 화면에서 전달된 검색어로 결과를 준비
+    searchSignWords(initialKeywordRef.current);
+  }, [searchSignWords]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -99,6 +106,7 @@ const StudySearchComponent = () => {
     setSelectedIndex(null);
   };
 
+  // 카테고리 목록을 마우스로 드래그해서 가로 이동
   const handleCategoryMouseDown = (event) => {
     const list = categoryScrollRef.current;
     if (!list) return;
@@ -135,12 +143,11 @@ const StudySearchComponent = () => {
     setSelectedIndex(index);
   };
 
-  const handlePrev = () => {
-    setSelectedIndex((prev) => Math.max((prev ?? 0) - 1, 0));
-  };
-
-  const handleNext = () => {
-    setSelectedIndex((prev) => Math.min((prev ?? 0) + 1, filteredResults.length - 1));
+  const handleNavigate = (direction) => {
+    setSelectedIndex((prev) => {
+      const nextIndex = (prev ?? 0) + direction;
+      return Math.min(Math.max(nextIndex, 0), filteredResults.length - 1);
+    });
   };
 
   return (
@@ -161,7 +168,7 @@ const StudySearchComponent = () => {
             aria-label={TEXT.inputLabel}
           />
           <S.SearchButton type="submit" aria-label={TEXT.submitLabel}>
-            <span aria-hidden="true">&gt;</span>
+            검색
           </S.SearchButton>
         </S.SearchForm>
       </S.SearchHero>
@@ -194,6 +201,7 @@ const StudySearchComponent = () => {
         </S.CategoryArrowButton>
       </S.CategoryShell>
 
+      {/* 검색 결과 목록과 선택한 수어 상세를 같은 영역에서 전환 */}
       <S.SearchContent>
         <S.ContentHead>
           <S.ContentTitle>{selectedResult ? TEXT.detailTitle : TEXT.resultTitle}</S.ContentTitle>
@@ -213,8 +221,8 @@ const StudySearchComponent = () => {
             currentIndex={selectedIndex}
             totalCount={filteredResults.length}
             onBack={() => setSelectedIndex(null)}
-            onPrev={handlePrev}
-            onNext={handleNext}
+            onPrev={() => handleNavigate(-1)}
+            onNext={() => handleNavigate(1)}
           />
         ) : filteredResults.length > 0 ? (
           <SearchResultList results={filteredResults} onSelect={handleSelect} />

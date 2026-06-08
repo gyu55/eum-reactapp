@@ -1,4 +1,4 @@
-// 체험 퀴즈 컴포넌트: 비회원 퀴즈 문제, 정답 피드백, 완료
+// 체험 퀴즈 컴포넌트: 비회원 퀴즈 문제, 정답 피드백, 완료 가입 유도
 import { useContext, useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import QuizFeedback from "../components/QuizFeedback";
@@ -15,13 +15,15 @@ const StudyExperienceQuizComponent = () => {
   const { state, actions } = useContext(StudyQuizContext);
   const [selectedOption, setSelectedOption] = useState(null);
   const [isComplete, setIsComplete] = useState(false);
+  const [noticeMessage, setNoticeMessage] = useState("");
 
   const quizData = experienceQuizMock[quiz];
   const currentIndex = Math.max(Number(id || 1) - 1, 0);
   const currentQuestion = quizData?.questions[currentIndex];
+  const visual = currentQuestion?.visual;
+  const visualImages = visual?.images || [];
 
-
-  // 현재 체험 퀴즈 데이터 -> context
+  // 현재 체험 퀴즈 데이터를 공통 퀴즈 context에 저장
   useEffect(() => {
     if (!quizData)
       return;
@@ -34,24 +36,26 @@ const StudyExperienceQuizComponent = () => {
     });
   }, [actions, quiz, quizData]);
 
-  // 주소의 문제 번호가 바뀔 때 선택 상태를 초기화
+  // 주소의 문제 번호가 바뀌면 선택 상태 초기화
   useEffect(() => {
     setSelectedOption(null);
     setIsComplete(false);
+    setNoticeMessage("");
   }, [id, quiz]);
 
-  // 현재까지 정답 수를 계산하는 값
+  // 현재까지 선택한 정답 수 계산
   const correctCount = useMemo(
     () => state.answers.filter((answer) => answer.isCorrect).length,
     [state.answers]
   );
 
-  // 보기를 선택했을 때 정답 여부를 저장
+  // 보기를 선택하면 정답 여부를 context에 기록
   const handleSelectOption = (option) => {
     if (selectedOption)
       return;
 
     setSelectedOption(option);
+    setNoticeMessage("");
     actions.selectAnswer({
       questionId: currentQuestion.id,
       selectedId: option.id,
@@ -59,7 +63,7 @@ const StudyExperienceQuizComponent = () => {
     });
   };
 
-  // 다음 문제 또는 결과 화면으로 이동
+  // 다음 문제 또는 완료 팝업으로 이동
   const handleNext = () => {
     const isLastQuestion = currentIndex >= quizData.questions.length - 1;
 
@@ -72,11 +76,10 @@ const StudyExperienceQuizComponent = () => {
     navigate(`/study/experience/${quiz}/questions/${currentIndex + 2}`);
   };
 
-  // 선택 없이 확인을 눌렀을 때 alert
+  // 선택 없이 확인을 누르면 안내 문구 표시
   const handleConfirm = () => {
     if (!selectedOption) {
-
-      alert("답을 먼저 선택해주세요.");
+      setNoticeMessage("답을 먼저 선택해주세요.");
       return;
     }
 
@@ -99,20 +102,47 @@ const StudyExperienceQuizComponent = () => {
             ←
           </button>
           <span>{currentQuestion.category || quizData.title}</span>
-          <strong>
-            {currentIndex + 1} / {quizData.questions.length}
-          </strong>
-          <em>⚡ 20</em>
         </S.ExperienceQuizHeader>
 
         <S.ExperienceQuizPanel>
-          <QuizProgress current={currentIndex + 1} total={quizData.questions.length} />
+          <S.ExperienceProgressRow>
+            <QuizProgress current={currentIndex + 1} total={quizData.questions.length} />
+            <strong>
+              {currentIndex + 1} / {quizData.questions.length}
+            </strong>
+          </S.ExperienceProgressRow>
 
           <S.QuestionInfo>
             <h2>{currentQuestion.question}</h2>
           </S.QuestionInfo>
 
-          <S.GestureBox>{currentQuestion.gesture || "👋"}</S.GestureBox>
+          <S.GestureBox>
+            {visualImages.length > 0 ? (
+              <S.GestureImageList>
+                {visualImages.map((image) => (
+                  <S.GestureImage
+                    key={image.src}
+                    src={image.src}
+                    alt={image.alt || `${visual?.label || "수어"} 이미지`}
+                    $multiple={visualImages.length > 1}
+                  />
+                ))}
+              </S.GestureImageList>
+            ) : (
+              <S.GestureIcon $textIcon={String(visual?.icon || "").length > 2}>
+                {visual?.icon || "👋"}
+              </S.GestureIcon>
+            )}
+          </S.GestureBox>
+
+          {visual?.description && (
+            <S.GestureDescription>
+              <strong>수형 설명</strong>
+              <p>{visual.description}</p>
+            </S.GestureDescription>
+          )}
+
+          {noticeMessage && <S.ExperienceNoticeMessage>{noticeMessage}</S.ExperienceNoticeMessage>}
 
           <S.OptionList>
             {currentQuestion.options.map((option) => (
@@ -166,7 +196,7 @@ const StudyExperienceQuizComponent = () => {
                 <span>정확도</span>
               </div>
               <div>
-                <strong>2분</strong>
+                <strong>약 2분</strong>
                 <span>소요시간</span>
               </div>
             </S.ResultStats>
@@ -196,10 +226,19 @@ const StudyExperienceQuizComponent = () => {
             </S.MemberBenefits>
 
             <S.EmailSignupLink to="/join">이메일로 가입하기</S.EmailSignupLink>
-            <S.SocialDivider>또는 소셜 계정으로 시작하기</S.SocialDivider>
-            <S.SocialButton to="/login" $provider="kakao">Kakao로 시작하기</S.SocialButton>
-            <S.SocialButton to="/login" $provider="naver">Naver로 시작하기</S.SocialButton>
-            <S.SocialButton to="/login" $provider="google">Google로 시작하기</S.SocialButton>
+            <S.SocialDivider>또는</S.SocialDivider>
+            <S.SocialTitle>소셜 계정으로 시작하기</S.SocialTitle>
+            <S.SocialCircleRow>
+              <S.SocialCircle to="/login" $provider="kakao" aria-label="카카오로 로그인">
+                K
+              </S.SocialCircle>
+              <S.SocialCircle to="/login" $provider="naver" aria-label="네이버로 로그인">
+                N
+              </S.SocialCircle>
+              <S.SocialCircle to="/login" $provider="google" aria-label="구글로 로그인">
+                <img src="https://www.google.com/favicon.ico" alt="G" />
+              </S.SocialCircle>
+            </S.SocialCircleRow>
           </S.AuthPromptModal>
         </S.AuthPromptOverlay>
       )}

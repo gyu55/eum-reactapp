@@ -49,14 +49,14 @@ export const Desc = styled.p`
 export const SearchForm = styled.form`
   position: relative;
   display: grid;
-  grid-template-columns: 1fr 46px;
+  grid-template-columns: 1fr 74px;
   align-items: center;
   width: min(860px, 100%);
   margin: 36px auto 0;
   border-bottom: 1.5px solid #7d8494;
 
   @media (max-width: 768px) {
-    grid-template-columns: 1fr 42px;
+    grid-template-columns: 1fr 64px;
   }
 `;
 
@@ -101,7 +101,7 @@ export const SearchButton = styled.button`
   border-radius: 0;
   background: transparent;
   color: #4359fc;
-  font-size: 30px;
+  font-size: 15px;
   font-weight: 800;
   cursor: pointer;
   transition:
@@ -110,7 +110,7 @@ export const SearchButton = styled.button`
 
   &:hover {
     color: #3545f5;
-    transform: translateX(4px);
+    transform: translateY(-1px);
   }
 
   &:focus-visible {

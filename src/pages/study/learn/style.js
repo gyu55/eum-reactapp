@@ -118,18 +118,6 @@ export const TopBar = styled.div`
   margin-bottom: 8px;
 `;
 
-export const StreakBadge = styled.span`
-  display: inline-flex;
-  align-items: center;
-  min-height: 32px;
-  padding: 0 12px;
-  border-radius: 999px;
-  background: #fff7ed;
-  color: #ff6b00;
-  font-size: 15px;
-  font-weight: 900;
-`;
-
 export const GuideButton = styled.button`
   display: none;
 `;

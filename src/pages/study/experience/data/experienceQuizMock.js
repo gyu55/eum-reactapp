@@ -1,35 +1,70 @@
-// 체험 퀴즈 임시데이터: 백엔드 연결 전 화면 확인용 문제 목록
+// 체험 퀴즈 임시데이터: 비회원 체험 화면에서 사용하는 문제 목록
 export const experienceQuizMock = {
   sign: {
-    title: "기본 인사 수어",
+    title: "기본 인사 표현",
     desc: "처음 만나는 사람에게 전하는 기본 인사 표현을 맞혀보세요.",
     questions: [
       {
         id: "sign-1",
         category: "기본 인사 표현",
-        gesture: "👋",
-        question: "손을 흔드는 수어의 뜻은?",
+        visual: {
+          images: [
+            {
+              src: "/assets/image/learn/experience/sign/hi1.jpg",
+              alt: "안녕하세요 수어 첫 번째 동작",
+            },
+            {
+              src: "/assets/image/learn/experience/sign/hi2.jpg",
+              alt: "안녕하세요 수어 두 번째 동작",
+            },
+          ],
+          description:
+            "손끝이 밖으로 향하게 펴서 모로 세운 오른손의 4지 옆면을 손바닥이 아래로 향하게 편 왼 손등에 두 번 댄다.",
+        },
+        question: "다음 수어 표현의 뜻은?",
         options: [
           { id: "a", label: "A", text: "미안해요", correct: false },
           { id: "b", label: "B", text: "잘가요", correct: false },
           { id: "c", label: "C", text: "안녕하세요", correct: true },
-          { id: "d", label: "D", text: "감사합니다.", correct: false },
+          { id: "d", label: "D", text: "감사합니다", correct: false },
         ],
-        explanation: "손을 흔드는 수어는 인사를 표현할 때 자주 사용해요.",
+        explanation: "'안녕하세요'는 만남의 시작에서 자주 쓰는 기본 인사 수어예요.",
       },
       {
         id: "sign-2",
+        category: "기본 인사 표현",
+        visual: {
+          images: [
+            {
+              src: "/assets/image/learn/experience/sign/thanks.jpg",
+              alt: "고맙습니다 수어 동작",
+            },
+          ],
+          description:
+            "오른 손바닥으로 주먹을 쥔 왼 팔을 쓸어내린 다음, 두 주먹을 쥐고 바닥이 아래로 향하게 하여 가슴 앞에서 아래로 내린다.",
+        },
         question: "상대에게 감사한 마음을 전할 때 쓰는 표현은?",
         options: [
           { id: "a", label: "A", text: "괜찮아요", correct: false },
           { id: "b", label: "B", text: "고맙습니다", correct: true },
           { id: "c", label: "C", text: "안녕히 가세요", correct: false },
-          { id: "d", label: "D", text: "도와주세요", correct: false },
+          { id: "d", label: "D", text: "앉아주세요", correct: false },
         ],
-        explanation: "감사의 마음은 '고맙습니다' 표현으로 전할 수 있어요.",
+        explanation: "감사의 마음은 '고맙습니다' 수어 표현으로 전할 수 있어요.",
       },
       {
         id: "sign-3",
+        category: "기본 인사 표현",
+        visual: {
+          images: [
+            {
+              src: "/assets/image/learn/experience/sign/sorry.jpg",
+              alt: "미안합니다 수어 동작",
+            },
+          ],
+          description:
+            "오른손의 1·5지 끝을 맞대어 동그라미를 만들어 이마에 댔다가 1·5지를 펴며, 손등이 위로 손끝이 오른쪽으로 향하게 편 왼 손등에 내려놓는다.",
+        },
         question: "실수했을 때 상대에게 전하는 말로 가장 알맞은 것은?",
         options: [
           { id: "a", label: "A", text: "축하합니다", correct: false },
@@ -43,21 +78,27 @@ export const experienceQuizMock = {
   },
   sos: {
     title: "응급 수신호",
-    desc: "도움이 필요한 상황에서 쓸 수 있는 기본 신호를 확인해요.",
+    desc: "위험하고 도움이 필요한 상황에서 사용할 수 있는 기본 신호를 확인해요.",
     questions: [
       {
         id: "sos-1",
-        question: "위급한 상황에서 주변 사람에게 가장 먼저 알려야 하는 말은?",
+        visual: {
+          icon: "🚨",
+        },
+        question: "응급 상황에서 주변 사람에게 가장 먼저 알려야 하는 말은?",
         options: [
           { id: "a", label: "A", text: "잠시만요", correct: false },
           { id: "b", label: "B", text: "도와주세요", correct: true },
           { id: "c", label: "C", text: "괜찮습니다", correct: false },
           { id: "d", label: "D", text: "다음에 봐요", correct: false },
         ],
-        explanation: "위급한 순간에는 주변에 도움 요청 의사를 빠르게 전달해야 해요.",
+        explanation: "응급 상황에서는 주변에 도움 요청 의사를 빠르게 전달해야 해요.",
       },
       {
         id: "sos-2",
+        visual: {
+          icon: "📍",
+        },
         question: "응급 상황을 설명할 때 가장 중요한 정보는?",
         options: [
           { id: "a", label: "A", text: "현재 위치", correct: true },
@@ -69,12 +110,15 @@ export const experienceQuizMock = {
       },
       {
         id: "sos-3",
+        visual: {
+          icon: "💥",
+        },
         question: "아픈 부위를 알릴 때 필요한 표현은?",
         options: [
-          { id: "a", label: "A", text: "기뻐요", correct: false },
+          { id: "a", label: "A", text: "기분이 좋아요", correct: false },
           { id: "b", label: "B", text: "배고파요", correct: false },
           { id: "c", label: "C", text: "여기가 아파요", correct: true },
-          { id: "d", label: "D", text: "재미있어요", correct: false },
+          { id: "d", label: "D", text: "물이 있어요", correct: false },
         ],
         explanation: "아픈 부위를 직접 가리키며 상태를 알리는 표현이 필요해요.",
       },
@@ -86,10 +130,14 @@ export const experienceQuizMock = {
     questions: [
       {
         id: "morse-1",
+        visual: {
+          icon: "·",
+          label: "짧은 신호",
+        },
         question: "모스부호에서 짧은 신호를 보통 무엇이라고 부를까요?",
         options: [
           { id: "a", label: "A", text: "점", correct: true },
-          { id: "b", label: "B", text: "원", correct: false },
+          { id: "b", label: "B", text: "선", correct: false },
           { id: "c", label: "C", text: "면", correct: false },
           { id: "d", label: "D", text: "칸", correct: false },
         ],
@@ -97,6 +145,10 @@ export const experienceQuizMock = {
       },
       {
         id: "morse-2",
+        visual: {
+          icon: "−",
+          label: "긴 신호",
+        },
         question: "모스부호에서 긴 신호를 보통 무엇이라고 부를까요?",
         options: [
           { id: "a", label: "A", text: "점", correct: false },
@@ -104,10 +156,14 @@ export const experienceQuizMock = {
           { id: "c", label: "C", text: "말", correct: false },
           { id: "d", label: "D", text: "글", correct: false },
         ],
-        explanation: "긴 신호는 선으로 표현하며, 점과 함께 문자를 만들어요.",
+        explanation: "긴 신호는 선으로 표현되며, 점과 함께 문자를 만들어요.",
       },
       {
         id: "morse-3",
+        visual: {
+          icon: "SOS",
+          label: "긴급 구조 신호",
+        },
         question: "긴급 구조 신호로 널리 알려진 모스부호는?",
         options: [
           { id: "a", label: "A", text: "ABC", correct: false },

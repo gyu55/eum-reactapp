@@ -10,7 +10,9 @@ const NotificationDropdownContainer = ({ onClose, onCountChange }) => {
   try {
     const res  = await fetch("http://localhost:10000/api/notifications", { credentials: "include" });
     const data = await res.json();
-    const unread = data.filter(n => n.notificationIsRead === 0);  // ← 안읽은 것만
+    console.log("알림 데이터:", data);           // ← 추가
+    const unread = data.filter(n => n.notificationIsRead === 0);
+    console.log("안읽은 알림:", unread);          // ← 추가
     setNotifications(unread);
     onCountChange?.(unread.length);
   } catch {}

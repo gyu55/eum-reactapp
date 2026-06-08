@@ -15,9 +15,12 @@ const NotificationDropdown = ({
   const [showReview, setShowReview] = useState(false);
 
   const handleItemClick = (n) => {
-    onReadOne(n.id);
-    if (n.notificationUrl) window.location.href = n.notificationUrl;
-  };
+  if (n.notificationType === "REVIEW") {
+    setShowReview(true);   // ← 리뷰 타입이면 작성 화면으로
+    return;
+  }
+  if (n.notificationUrl) window.location.href = n.notificationUrl;
+};
 
   return (
     <>

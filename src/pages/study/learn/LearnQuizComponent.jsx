@@ -314,8 +314,8 @@ const LearnQuizComponent = () => {
 
         return {
           question: item.title,
-          selectedText: selectedOption?.label || "\uC120\uD0DD\uD55C \uB2F5\uC774 \uC5C6\uC5B4\uC694",
-          correctText: correctOption?.label || item.targetWord || "\uC815\uB2F5 \uC815\uBCF4\uAC00 \uC5C6\uC5B4\uC694",
+          selectedText: selectedOption?.label || "선택한 답이 없어요",
+          correctText: correctOption?.label || item.targetWord || "정답 정보가 없어요",
           isCorrect: answer?.correct === true || answer?.isCorrect === true,
         };
       })
@@ -329,7 +329,7 @@ const LearnQuizComponent = () => {
       correctCount,
       accuracy,
       exp: correctCount * 20,
-      spentTime: "2\uBD84 20\uCD08",
+      spentTime: "2분 20초",
       wrongItem: randomWrongItem,
     };
   };

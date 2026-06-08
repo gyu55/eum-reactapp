@@ -1,38 +1,8 @@
 // 체험학습 목록 컴포넌트: 비회원 미리보기 학습 카드 목록
 import { useNavigate } from "react-router-dom";
+import { experienceItems } from "./data/experienceItems";
 import ExperienceCard from "./parts/ExperienceCard";
 import * as S from "./style";
-
-// 비회원이 바로 체험할 수 있는 학습 카드 목록
-const experienceItems = [
-  {
-    label: "수어",
-    title: "기본 인사 수어",
-    desc: "처음 만나는 상황에서 자주 쓰는 인사 표현을 배워요.",
-    count: "5문제 체험",
-    image: "/assets/image/learn/signLearn.png",
-    tone: "yellow",
-    quiz: "sign",
-  },
-  {
-    label: "응급",
-    title: "응급 수신호",
-    desc: "도움이 필요한 순간을 알리는 기본 신호를 확인해요.",
-    count: "5문제 체험",
-    image: "/assets/image/learn/emergency.png",
-    tone: "red",
-    quiz: "sos",
-  },
-  {
-    label: "모스",
-    title: "모스부호 입문",
-    desc: "점과 선으로 간단한 메시지를 읽는 방법을 체험해요.",
-    count: "5문제 체험",
-    image: "/assets/image/learn/mors.png",
-    tone: "purple",
-    quiz: "morse",
-  },
-];
 
 const StudyExperienceComponent = () => {
   const navigate = useNavigate();

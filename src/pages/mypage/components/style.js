@@ -644,9 +644,12 @@ S.MenuButton = styled.button`
 
 /* 카드 전체 */
 S.StudyStatusWrapper = styled(S.CardBox)`
-  width: 312px;
-  height: 181px;
-  padding: 18px 20px 22px;
+  height: 248px;
+  padding: 18px 18px 12px;
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
 `;
 
 /* 제목 */
@@ -669,15 +672,12 @@ S.StudyStatusDivider = styled.div`
 
 /* 리스트 */
 S.StudyStatusList = styled.div`
-  margin-top: 8px;
-
-  padding-left: 14px;
-  padding-right: 6px;
-  box-sizing: border-box;
+  height: 136px;
+  margin-top: 12px;
 
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 11px;
 `;
 
 /* 리스트 아이템 */
@@ -872,7 +872,7 @@ S.LevelNoticeBox = styled.div`
 
 /* 페이지네이션 영역 */
 S.PaginationArea = styled.div`
-  margin-top: 10px;
+  margin-top: auto;
 
   display: flex;
   justify-content: center;

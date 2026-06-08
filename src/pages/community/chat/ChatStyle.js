@@ -32,6 +32,8 @@ const Popup = styled.div`
   /* display: flex;
   flex-direction: column; */
   ${flexCenterColumn}
+  position: relative;
+  overflow: hidden;
 `;
 
 // 팝업 채팅방
@@ -82,7 +84,7 @@ const RoomInfo = styled.div`
   display: flex;
   flex-direction: column;
   gap: 4px;
-  width: 105px;
+  width: 100%;
 `;
 
 const RoomTitle = styled(T.H9Bold).attrs({ $color: colors.textWhite })``;
@@ -648,6 +650,64 @@ const ReportCardDesc = styled(T.H11Regular).attrs({
   $color: ORANGE_DARK,
 })``;
 
+// ─── UserInfoMiniPopup ─────────────────────────────────────────────────────────
+
+const MiniPopupOverlay = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+`;
+
+const MiniPopupCard = styled.div`
+  background: ${colors.bgCard};
+  border-radius: ${radius.card};
+  padding: 24px 20px 20px;
+  width: 260px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+`;
+
+const MiniPopupCloseBtn = styled.button`
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: ${colors.textSub};
+  font-size: 14px;
+  line-height: 1;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  &:hover {
+    background: ${colors.bgSection};
+  }
+`;
+
+const MiniPopupBtnGroup = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  & > * {
+    width: 100%;
+  }
+`;
+
 // ─── PopupChatRoomSelect ───────────────────────────────────────────────────────
 
 const POPUP_OVERLAY = "rgba(0, 0, 0, 0.45)";
@@ -1118,6 +1178,10 @@ export {
   ReportCard,
   ReportCardTitle,
   ReportCardDesc,
+  MiniPopupOverlay,
+  MiniPopupCard,
+  MiniPopupCloseBtn,
+  MiniPopupBtnGroup,
   SelectPageBg,
   SelectPopup,
   SelectHeader,

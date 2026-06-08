@@ -41,7 +41,7 @@ export default function LoginComponent() {
         else localStorage.removeItem("savedEmail");
         window.location.href = "/";
       } else {
-        setLoginMsg(data.message || "로그인에 실패했습니다.");
+        setLoginMsg("이메일 또는 비밀번호를 확인해주세요.");
       }
     } catch {
       setLoginMsg("서버 오류가 발생했습니다.");

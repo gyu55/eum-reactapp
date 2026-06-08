@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import * as S from "./style";
 import useVerificationTimer from "../../../hooks/useVerificationTimer";
@@ -103,6 +103,9 @@ export default function FindAccountComponent() {
   const [confirmPw, setConfirmPw] = useState("");
   const [pwMsg, setPwMsg] = useState("");
   const [pwLoading, setPwLoading] = useState(false);
+
+  useEffect(() => { if (emailCodeVerified) emailTimer.reset(); }, [emailCodeVerified]);
+  useEffect(() => { if (pwCodeVerified) pwTimer.reset(); }, [pwCodeVerified]);
 
   const handleFindEmail = async () => {
     if (!emailName || !emailCodeVerified) return;

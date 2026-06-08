@@ -165,7 +165,7 @@ export const Input = styled.input`
 export const InlineRow = styled.div`
   display: flex;
   gap: 8px;
-  align-items: flex-end;
+  align-items: stretch;
 `;
 
 export const SmallBtn = styled.button`
@@ -179,6 +179,11 @@ export const SmallBtn = styled.button`
   background: ${({ $green }) => ($green ? "#03C75A" : PRIMARY)};
   color: #fff;
   flex-shrink: 0;
+
+  &:disabled {
+    background: #c0c0c0;
+    cursor: not-allowed;
+  }
 `;
 
 export const AgreeAll = styled.label`

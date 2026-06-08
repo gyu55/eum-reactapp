@@ -1,17 +1,19 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import * as S from "./style";
 import useLoginCheck from "../../../../hooks/useLoginCheck";
 import LoginGuard from "../../../../components/common/LoginGuard";
 import useVerificationTimer from "../../../../hooks/useVerificationTimer";
 import useTossPayment from "../../../../hooks/useTossPayment";
 
-const DUMMY_CERTS = [
-  { id: 1, no: "CL-2025-00456", course: "수어통역 기초과정", issueDate: "2025.02.28", expiryDate: "2025.08.27" },
-  { id: 2, no: "CL-2024-00123", course: "수어통역 심화과정", issueDate: "2024.08.15", expiryDate: "2025.02.14" },
-  { id: 3, no: "CL-2024-00089", course: "수어통역 전문과정", issueDate: "2024.03.10", expiryDate: "2024.09.09" },
-];
-
 const FEE = 5000;
+
+const isExpired = (expireAt) => expireAt && new Date(expireAt) < new Date();
+
+const formatKorDate = (dateStr) => {
+  if (!dateStr) return "";
+  const d = new Date(dateStr);
+  return `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, "0")}.${String(d.getDate()).padStart(2, "0")}`;
+};
 
 const maskEmail = (email) => {
   if (!email) return "";
@@ -111,7 +113,7 @@ const ReissueModal = ({ user, cert, onClose }) => {
                 </S.CodeRow>
 
                 {codeSent && code.length === 6 && (
-                  <S.VerifyBtn type="button" onClick={() => setStep("payment")}>
+                  <S.VerifyBtn type="button" onClick={() => { codeTimer.reset(); setStep("payment"); }}>
                     (테스트용 인증완료)
                   </S.VerifyBtn>
                 )}
@@ -128,15 +130,15 @@ const ReissueModal = ({ user, cert, onClose }) => {
             <S.PaymentBox>
               <S.PaymentRow>
                 <span>과정명</span>
-                <span>{cert.course}</span>
+                <span>{cert.eduTitle}</span>
               </S.PaymentRow>
               <S.PaymentRow>
                 <span>수료번호</span>
-                <span>{cert.no}</span>
+                <span>No. {String(cert.id).padStart(6, "0")}</span>
               </S.PaymentRow>
               <S.PaymentRow>
                 <span>발급일</span>
-                <span>{cert.issueDate}</span>
+                <span>{formatKorDate(cert.eduCertCreateAt)}</span>
               </S.PaymentRow>
               <S.PaymentRow>
                 <span>재발급 수수료</span>
@@ -188,8 +190,17 @@ const CertificateReissueComponent = () => {
   const { isLoggedIn, user } = useLoginCheck();
   const [selectedId, setSelectedId] = useState("");
   const [showModal, setShowModal]   = useState(false);
+  const [certs, setCerts]           = useState([]);
 
-  const selectedCert = DUMMY_CERTS.find(c => String(c.id) === selectedId);
+  useEffect(() => {
+    if (!isLoggedIn) return;
+    fetch("http://localhost:10000/private/api/edu-certs/me", { credentials: "include" })
+      .then(res => res.json())
+      .then(data => { if (data.success) setCerts(data.data); })
+      .catch(() => {});
+  }, [isLoggedIn]);
+
+  const selectedCert = certs.find(c => String(c.id) === selectedId);
 
   if (isLoggedIn === null) return null;
   if (!isLoggedIn) return (
@@ -205,10 +216,11 @@ const CertificateReissueComponent = () => {
       <S.Subtitle>재발급 신청할 수료증을 선택하세요.</S.Subtitle>
 
       <S.CertList>
-        {DUMMY_CERTS.map(cert => {
+        {certs.map(cert => {
           const selected = String(cert.id) === selectedId;
+          const expired  = isExpired(cert.eduCertExpireAt);
           return (
-            <S.CertItem key={cert.id} $selected={selected}>
+            <S.CertItem key={cert.id} $selected={selected} $expired={expired}>
               <S.RadioInput
                 type="radio"
                 name="cert"
@@ -217,10 +229,11 @@ const CertificateReissueComponent = () => {
                 onChange={() => setSelectedId(String(cert.id))}
               />
               <S.CertItemInfo>
-                <S.CertItemName $selected={selected}>{cert.course}</S.CertItemName>
-                <S.CertItemMeta>{cert.no}</S.CertItemMeta>
-                <S.CertItemMeta>발급일 {cert.issueDate} · 만료일 {cert.expiryDate}</S.CertItemMeta>
+                <S.CertItemName $selected={selected} $expired={expired}>{cert.eduTitle}</S.CertItemName>
+                <S.CertItemMeta>No. {String(cert.id).padStart(6, "0")}</S.CertItemMeta>
+                <S.CertItemMeta>발급일 {formatKorDate(cert.eduCertCreateAt)} · 만료일 {formatKorDate(cert.eduCertExpireAt)}</S.CertItemMeta>
               </S.CertItemInfo>
+              <S.CertStatusBadge $expired={expired}>{expired ? "만료" : "유효"}</S.CertStatusBadge>
             </S.CertItem>
           );
         })}

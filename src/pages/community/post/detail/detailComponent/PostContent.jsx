@@ -5,7 +5,6 @@ import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
 import {
-  getPostById,
   deletePost,
   requestPostLike,
   cancelPostLike,
@@ -16,20 +15,33 @@ import PostContentSkeleton from "./PostContentSkeleton";
 import modifyIcon from "../../../assets/icon/modify-grey.svg";
 import deleteIcon from "../../../assets/icon/trash-can-red.svg";
 import PostAlertPopup from "../../postComponents/PostAlertPopup";
+import PostReportPopup from "../../../common/PostReportPopup";
+import LoginRequiredPopup from "../../../common/LoginRequiredPopup";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
+import useAuthStore from "../../../../../store/authStore";
 
 const { PALETTE } = theme;
 
-const PostContent = ({ postId }) => {
+const PostContent = ({ post, postId }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from ?? "/community";
+  const { isAuthenticated } = useAuthStore();
 
-  const [post, setPost] = useState(null);
   const [liked, setLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
   const [deletePopupOpen, setDeletePopupOpen] = useState(false);
+  const [reportPopupOpen, setReportPopupOpen] = useState(false);
+  const [loginPopupOpen, setLoginPopupOpen] = useState(false);
+
+  const handleReportClick = () => {
+    if (!isAuthenticated) {
+      setLoginPopupOpen(true);
+    } else {
+      setReportPopupOpen(true);
+    }
+  };
 
   const contentEditor = useEditor({
     extensions: [StarterKit, Underline],
@@ -44,6 +56,13 @@ const PostContent = ({ postId }) => {
     }
   }, [contentEditor, post?.postContent]);
 
+  useEffect(() => {
+    if (post) {
+      setLikeCount(post.likeCount ?? 0);
+      setLiked(post.isLiked ?? false);
+    }
+  }, [post]);
+
   const handleDeleteConfirm = async () => {
     try {
       await deletePost(postId);
@@ -53,23 +72,6 @@ const PostContent = ({ postId }) => {
       console.error("게시글 삭제 실패:", err);
     }
   };
-
-  useEffect(() => {
-    if (!postId) return;
-
-    console.log("postId:", postId);
-
-    getPostById(postId)
-      .then(({ data }) => {
-        console.log("게시글 데이터:", data);
-        setPost(data);
-        setLikeCount(data.likeCount ?? 0);
-        setLiked(data.isLiked ?? false);
-      })
-      .catch((err) => console.error("게시글 조회 실패:", err));
-  }, [postId]);
-
-  const authorLevel = post?.userLevel ?? "Lv.1";
 
   // 게시글 좋아요 버튼 누르는 함수
   const clickPostLike = async () => {
@@ -89,7 +91,6 @@ const PostContent = ({ postId }) => {
     }
   };
 
-  // 아직 post 데이터가 없을 때
   if (!post)
     return (
       <div>
@@ -97,18 +98,16 @@ const PostContent = ({ postId }) => {
       </div>
     );
 
-  // 게시글 데이터 분리 (post 데이터 생기고 난 뒤)
   const {
     id,
     postTitle,
-    // postContent — useEffect에서 post?.postContent로 직접 참조
+    postContent,
     postReadCount,
     postCreateAt,
     postTag,
     userNickname,
     userProfile,
-    // commentCount,
-    // isLiked,
+    userLevel = "Lv.1",
     isOwner,
   } = post;
 
@@ -118,7 +117,7 @@ const PostContent = ({ postId }) => {
         mode: "edit",
         postId: id,
         postTitle,
-        postContent: post.postContent,
+        postContent,
         postTag,
       },
     });
@@ -141,7 +140,7 @@ const PostContent = ({ postId }) => {
           <S.AuthorMeta>
             <S.AuthorName>{userNickname}</S.AuthorName>
             <S.AuthorSubRow>
-              <S.LevelBadge>{authorLevel}</S.LevelBadge>
+              <S.LevelBadge>{userLevel}</S.LevelBadge>
               <S.MetaText>
                 · {postCreateAt} · 조회 {postReadCount}
               </S.MetaText>
@@ -195,7 +194,10 @@ const PostContent = ({ postId }) => {
 
             {isOwner ? (
               <>
-                <S.IconButton aria-label="게시글 수정" onClick={handleEditClick}>
+                <S.IconButton
+                  aria-label="게시글 수정"
+                  onClick={handleEditClick}
+                >
                   <img src={modifyIcon} alt="수정" />
                 </S.IconButton>
                 <S.IconButton
@@ -207,7 +209,7 @@ const PostContent = ({ postId }) => {
                 </S.IconButton>
               </>
             ) : (
-              <S.IconButton danger aria-label="게시글 신고">
+              <S.IconButton danger aria-label="게시글 신고" onClick={handleReportClick}>
                 <img
                   src={DEFAULT_IMAGES.reportIcon}
                   alt="신고"
@@ -228,6 +230,15 @@ const PostContent = ({ postId }) => {
         isOpen={deletePopupOpen}
         onClose={() => setDeletePopupOpen(false)}
         onConfirm={handleDeleteConfirm}
+      />
+      <PostReportPopup
+        isOpen={reportPopupOpen}
+        onClose={() => setReportPopupOpen(false)}
+        postId={postId}
+      />
+      <LoginRequiredPopup
+        isOpen={loginPopupOpen}
+        onClose={() => setLoginPopupOpen(false)}
       />
     </div>
   );

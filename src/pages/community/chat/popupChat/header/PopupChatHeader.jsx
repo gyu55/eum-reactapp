@@ -51,11 +51,12 @@ const PopupChatHeader = ({
   chatRoomProfile,
   chatRoomName,
   chatRoomUsers,
+  onDragMouseDown,
 }) => {
   const { leaveRoom, minimizeView, closeView } = useChatContext();
 
   return (
-    <S.Header>
+    <S.Header onMouseDown={onDragMouseDown} style={{ cursor: "grab", userSelect: "none" }}>
       <S.HeaderLeft>
         <S.ProfileArea>
           <ThumbnailBox
@@ -70,7 +71,7 @@ const PopupChatHeader = ({
             <S.RoomSubText>{chatRoomUsers ?? 0}명 참여 중</S.RoomSubText>
           </S.RoomInfo>
         </S.ProfileArea>
-        <S.MessageStatus>
+        {/* <S.MessageStatus>
           <S.LiveBadge>
             <S.LiveIcon src={liveVectorUrl} alt="" />
             <S.LiveText>LIVE</S.LiveText>
@@ -79,7 +80,7 @@ const PopupChatHeader = ({
             <img src={chatIcon} alt="" />
             <S.TodayMsgText>오늘 00개 메시지</S.TodayMsgText>
           </S.TodayMsgRow>
-        </S.MessageStatus>
+        </S.MessageStatus> */}
       </S.HeaderLeft>
       <S.HeaderRight>
         <S.LeaveBtn onClick={leaveRoom}>채팅방 나가기</S.LeaveBtn>

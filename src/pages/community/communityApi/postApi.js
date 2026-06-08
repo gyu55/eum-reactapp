@@ -1,4 +1,5 @@
 const ROOT_URL = "http://localhost:10000/api";
+const PRIVATE_ROOT_URL = "http://localhost:10000/private";
 
 // 추후 Error 부분은 res.data 부분으로 대처
 
@@ -54,37 +55,44 @@ export const fetchUserLikedPosts = async ({
 
 // 특정 게시글 로드
 export const getPostById = async (id) => {
-  const res = await fetch(`${ROOT_URL}/posts/${id}`);
+  const res = await fetch(`${ROOT_URL}/posts/${id}`, {
+    credentials: "include",
+  });
   if (!res.ok) throw new Error("게시글 로딩 실패");
   return res.json();
 };
 
 // 게시글 삭제
 export const deletePost = async (postId) => {
-  const res = await fetch(`${ROOT_URL}/posts/${postId}`, {
+  const res = await fetch(`${PRIVATE_ROOT_URL}/posts/${postId}`, {
     method: "DELETE",
+    credentials: "include",
   });
   if (!res.ok) throw new Error("게시글 삭제 실패");
 };
 
 // 게시글 좋아요
 export const requestPostLike = async (postId) => {
-  const res = await fetch(`${ROOT_URL}/posts/like/${postId}`);
+  const res = await fetch(`${PRIVATE_ROOT_URL}/posts/like/${postId}`, {
+    credentials: "include",
+  });
   if (!res.ok) throw new Error("게시글 좋아요 실패");
 };
 
 // 게시글 좋아요 취소
 export const cancelPostLike = async (postId) => {
-  const res = await fetch(`${ROOT_URL}/posts/like/${postId}`, {
+  const res = await fetch(`${PRIVATE_ROOT_URL}/posts/like/${postId}`, {
     method: "DELETE",
+    credentials: "include",
   });
   if (!res.ok) throw new Error("게시글 좋아요 취소 실패");
 };
 
 // 게시글 작성
 export const createPost = async ({ postTitle, postContent, postTag }) => {
-  const res = await fetch(`${ROOT_URL}/posts`, {
+  const res = await fetch(`${PRIVATE_ROOT_URL}/posts`, {
     method: "POST",
+    credentials: "include",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ postTitle, postContent, postTag }),
   });
@@ -93,9 +101,13 @@ export const createPost = async ({ postTitle, postContent, postTag }) => {
 };
 
 // 게시글 수정
-export const updatePost = async (postId, { postTitle, postContent, postTag }) => {
-  const res = await fetch(`${ROOT_URL}/posts/${postId}`, {
+export const updatePost = async (
+  postId,
+  { postTitle, postContent, postTag },
+) => {
+  const res = await fetch(`${PRIVATE_ROOT_URL}/posts/${postId}`, {
     method: "PUT",
+    credentials: "include",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ postTitle, postContent, postTag }),
   });

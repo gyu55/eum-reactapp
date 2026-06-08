@@ -21,7 +21,7 @@ const ChatPanel = styled.div`
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
-const SideChat = () => {
+const SideChat = ({ onDragMouseDown }) => {
   const { screen, listFilter, chatRoomDTO, closeView, expandView, leaveRoom } =
     useChatContext();
 
@@ -37,6 +37,7 @@ const SideChat = () => {
         onMinimize={handleMinimize}
         onExpand={expandView}
         onClose={closeView}
+        onDragMouseDown={onDragMouseDown}
       />
 
       {screen === SCREEN.LIST && listFilter === LIST_FILTER.LIVE && (

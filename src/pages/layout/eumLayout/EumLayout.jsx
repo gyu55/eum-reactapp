@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Outlet, ScrollRestoration } from "react-router-dom";
 import * as S from "./style.js";
 import NotificationDropdown from "../notificationDropDown";
+import { ChatProvider } from "../../community/context/ChatContext";
+import GlobalChatFloat from "../../community/common/GlobalChatFloat";
 
 const navLinks = [
   { label: "커뮤니티", to: "/community" },
@@ -85,6 +87,7 @@ const EumLayout = ({
   const layoutProfileImageSrc = getProfileImageSrc(layoutUser?.userProfile);
 
   return (
+    <ChatProvider>
     <div>
       <S.Header>
         <S.LogoNav>
@@ -179,6 +182,8 @@ const EumLayout = ({
         <Outlet />
       </S.Main>
 
+      {layoutUser && <GlobalChatFloat />}
+
       <S.Footer>
         <S.FooterInner>
           <S.FooterContent>
@@ -204,6 +209,7 @@ const EumLayout = ({
         </S.FooterInner>
       </S.Footer>
     </div>
+    </ChatProvider>
   );
 };
 

@@ -14,7 +14,7 @@ import {
 } from "../../communityApi/chatApi";
 import * as S from "./createChatRoomModalStyle";
 
-const CreateChatRoomModal = ({ mode = "create" }) => {
+const CreateChatRoomModal = ({ mode = "create", onDragMouseDown }) => {
   const isUpdate = mode === "update";
 
   const {
@@ -103,9 +103,8 @@ const CreateChatRoomModal = ({ mode = "create" }) => {
   const handleClose = isUpdate ? closeUpdateRoomPopup : closeCreateRoomPopup;
 
   return (
-    <S.CreateChatPageBg>
-      <S.ChatRoomCreatePopup>
-        <S.TopBar>
+    <S.ChatRoomCreatePopup>
+        <S.TopBar onMouseDown={onDragMouseDown} style={{ cursor: "grab", userSelect: "none" }}>
           <S.TitlePill>
             <S.TitleIconWrap>
               <FontAwesomeIcon icon={faComments} />
@@ -278,8 +277,7 @@ const CreateChatRoomModal = ({ mode = "create" }) => {
             </S.SubmitBtn>
           </S.SubmitArea>
         </S.FormCard>
-      </S.ChatRoomCreatePopup>
-    </S.CreateChatPageBg>
+    </S.ChatRoomCreatePopup>
   );
 };
 

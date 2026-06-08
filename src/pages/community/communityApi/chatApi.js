@@ -3,7 +3,8 @@ const PRIVATE_ROOT_URL = "http://localhost:10000/private";
 
 // 채팅방 생성
 export const insertChatRoom = async (chatRoomRequestDTO) => {
-  const response = await fetch(`${ROOT_URL}/chat-rooms`, {
+  const response = await fetch(`${PRIVATE_ROOT_URL}/chat-rooms`, {
+    credentials: "include",
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(chatRoomRequestDTO),
@@ -38,7 +39,12 @@ export const getChatMessages = async (chatRoomId) => {
 
 // 채팅방 참여자들 불러오기
 export const getChatRoomUsers = async (chatRoomId) => {
-  const response = await fetch(`${ROOT_URL}/chat-rooms/${chatRoomId}/users`);
+  const response = await fetch(
+    `${PRIVATE_ROOT_URL}/chat-rooms/${chatRoomId}/users`,
+    {
+      credentials: "include",
+    },
+  );
   if (!response.ok)
     throw new Error("채팅 참여 유저를 불러오는 데 실패했습니다.");
   const { data } = await response.json();
@@ -57,7 +63,12 @@ export const getChatRoomInfo = async (chatRoomId) => {
 
 // 현재 참여중인 채팅방 목록 불러오기
 export const getJoinedChatRooms = async (page = 1) => {
-  const response = await fetch(`${ROOT_URL}/chat-rooms/joined?page=${page}`);
+  const response = await fetch(
+    `${PRIVATE_ROOT_URL}/chat-rooms/joined?page=${page}`,
+    {
+      credentials: "include",
+    },
+  );
   if (!response.ok)
     throw new Error("참여중인 채팅방 목록을 불러오는 데 실패했습니다.");
   const { data } = await response.json();
@@ -66,7 +77,8 @@ export const getJoinedChatRooms = async (page = 1) => {
 
 // 채팅방 정보 수정
 export const updateChatRoom = async ({ id, ...chatRoomRequestDTO }) => {
-  const response = await fetch(`${ROOT_URL}/chat-rooms/${id}`, {
+  const response = await fetch(`${PRIVATE_ROOT_URL}/chat-rooms/${id}`, {
+    credentials: "include",
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(chatRoomRequestDTO),
@@ -78,8 +90,22 @@ export const updateChatRoom = async ({ id, ...chatRoomRequestDTO }) => {
 
 // 채팅방 소프트 삭제
 export const deleteChatRoom = async (chatRoomId) => {
-  const response = await fetch(`${ROOT_URL}/chat-rooms/${chatRoomId}`, {
+  const response = await fetch(`${PRIVATE_ROOT_URL}/chat-rooms/${chatRoomId}`, {
+    credentials: "include",
     method: "DELETE",
   });
   if (!response.ok) throw new Error("채팅방 삭제에 실패했습니다");
+};
+
+// 채팅 이미지 업로드
+export const uploadChatImage = async (chatRoomId, file) => {
+  const formData = new FormData();
+  formData.append("file", file);
+  const response = await fetch(
+    `${PRIVATE_ROOT_URL}/chats/${chatRoomId}/upload`,
+    { method: "POST", credentials: "include", body: formData },
+  );
+  if (!response.ok) throw new Error("이미지 업로드에 실패했습니다");
+  const { data } = await response.json();
+  return data;
 };

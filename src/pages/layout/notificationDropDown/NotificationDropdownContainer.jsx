@@ -1,45 +1,58 @@
 import React, { useState, useEffect } from "react";
-import { DUMMY_NOTIFICATIONS } from "./constants";
 import NotificationDropdown from "./NotificationDropdown";
 
 const NotificationDropdownContainer = ({ onClose, onCountChange }) => {
-  const [activeTab, setActiveTab]       = useState("모두");
-  const [notifications, setNotifications] = useState(DUMMY_NOTIFICATIONS);
+  const [activeTab, setActiveTab]         = useState("모두");
+  const [notifications, setNotifications] = useState([]);
+
+  // ── 알림 목록 조회 ──────────────────────────────────
+  const fetchNotifications = async () => {
+  try {
+    const res  = await fetch("http://localhost:10000/api/notifications", { credentials: "include" });
+    const data = await res.json();
+    const unread = data.filter(n => n.notificationIsRead === 0);  // ← 안읽은 것만
+    setNotifications(unread);
+    onCountChange?.(unread.length);
+  } catch {}
+  };
 
   useEffect(() => {
-    onCountChange?.(notifications.length);
-  }, [notifications, onCountChange]);
+    fetchNotifications();
+  }, []);
 
-  // ── 백엔드 연동 시 아래 주석 해제 ────────────────────────────
-  // useEffect(() => {
-  //   const fetchNotifications = async () => {
-  //     try {
-  //       const res  = await fetch("http://localhost:10000/api/notifications", { credentials: "include" });
-  //       const data = await res.json();
-  //       setNotifications(data);
-  //     } catch {}
-  //   };
-  //   fetchNotifications();
-  // }, []);
-  // ─────────────────────────────────────────────────────────────
-
-  const handleReadAll = () => {
-    setNotifications([]);
-    // ── 백엔드 연동 시 아래 주석 해제 ──────────────────────────
-    // await fetch("http://localhost:10000/api/notifications/read-all", {
-    //   method: "PUT", credentials: "include",
-    // });
-    // ───────────────────────────────────────────────────────────
+  // ── 전체 읽음 처리 ──────────────────────────────────
+  const handleReadAll = async () => {
+  try {
+    await fetch("http://localhost:10000/api/notifications/read-all", {
+      method: "PATCH",
+      credentials: "include",
+    });
+    setNotifications([]);   // ← 목록 비우기
+    onCountChange?.(0);
+  } catch {}
   };
 
-  const handleReadOne = (id) => {
-    setNotifications((prev) => prev.filter((n) => n.id !== id));
-    // ── 백엔드 연동 시 아래 주석 해제 ──────────────────────────
-    // await fetch(`http://localhost:10000/api/notifications/${id}/read`, {
-    //   method: "PUT", credentials: "include",
-    // });
-    // ───────────────────────────────────────────────────────────
+  // ── 개별 읽음 처리 ──────────────────────────────────
+  const handleReadOne = async (id) => {
+    try {
+      await fetch(`http://localhost:10000/api/notifications/${id}/read`, {
+        method: "PATCH",
+        credentials: "include",
+      });
+      setNotifications((prev) =>
+        prev.filter((n) => n.id !== id)
+      );
+      onCountChange?.((prev) => Math.max(0, prev - 1));
+    } catch {}
   };
+
+  // ── 탭 필터링 ────────────────────────────────────────
+  const filtered = notifications.filter((n) => {
+    if (activeTab === "모두") return true;
+    if (activeTab === "교육") return ["LEARNING", "NOTICE"].includes(n.notificationType);
+    if (activeTab === "커뮤니티") return ["COMMUNITY_REPLY", "COMMUNITY_LIKE"].includes(n.notificationType);
+    return true;
+  });
 
   return (
     <NotificationDropdown

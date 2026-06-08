@@ -1,11 +1,12 @@
 import styled from "styled-components";
 import theme from "../../../../styles/theme";
+import UserReportButton from "../../report/userreport/UserReportButton";
 
 // 신고 안내 박스 전용 — theme에 없는 amber 계열 색상
 const NOTICE_BG = "#fff7ed";
 const NOTICE_TEXT_DARK = "#92400e";
 
-const UserReportBlock = ({ onReport, onBlock }) => {
+const UserReportBlock = ({ userId, onBlock }) => {
   return (
     <Card>
       <NoticeBox>
@@ -18,7 +19,7 @@ const UserReportBlock = ({ onReport, onBlock }) => {
           </NoticeBody>
         </NoticeContent>
       </NoticeBox>
-      <ReportButton onClick={onReport}>이 유저 신고하기</ReportButton>
+      <UserReportButton userId={userId} />
       <BlockButton onClick={onBlock}>이 유저 차단하기</BlockButton>
     </Card>
   );
@@ -81,22 +82,6 @@ const NoticeBody = styled.div`
   color: ${NOTICE_TEXT_DARK};
   line-height: normal;
   white-space: nowrap;
-`;
-
-const ReportButton = styled.button`
-  width: 100%;
-  padding: 8px 16px;
-  border-radius: 10px;
-  border: 2px solid ${theme.PALETTE.warning.main};
-  background: ${theme.PALETTE.white};
-  font-size: ${theme.FONT_SIZE.h11};
-  font-weight: ${theme.FONT_WEIGHT.bold};
-  color: ${theme.PALETTE.warning.main};
-  letter-spacing: -0.24px;
-  line-height: 20px;
-  text-align: center;
-  white-space: nowrap;
-  cursor: pointer;
 `;
 
 const BlockButton = styled.button`

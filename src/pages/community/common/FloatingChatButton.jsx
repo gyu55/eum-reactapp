@@ -6,6 +6,7 @@ import chatDefaultProfile from "../assets/chat/chat_default_profile.svg";
 import expandImg from "../assets/chat/expand.svg";
 import { h10Bold, h11Medium } from "../../../styles/common";
 import { useChatContext } from "../context/ChatContext";
+import useDraggable from "./useDraggable";
 
 const { PALETTE, GRADIENT, GRAYSCALE } = theme;
 const liveDotsImg =
@@ -18,10 +19,12 @@ const fadeIn = keyframes`
 
 const Wrapper = styled.div`
   position: fixed;
-  bottom: 32px;
-  right: 32px;
   z-index: 100;
-  transform-origin: bottom right;
+  transform-origin: top left;
+  cursor: grab;
+  &:active {
+    cursor: grabbing;
+  }
 `;
 
 const Button = styled.button`
@@ -32,7 +35,7 @@ const Button = styled.button`
   border-radius: ${RADIUS.button};
   background: ${GRADIENT.deepBlue};
   border: none;
-  cursor: pointer;
+  cursor: grab;
   overflow: hidden;
   box-shadow: ${SHADOW.float};
   animation: ${fadeIn} 0.3s ease;
@@ -108,6 +111,11 @@ const FloatingChatButton = () => {
   const { chatRoomDTO, reopenChat } = useChatContext();
   const { chatRoomName, chatRoomUsers } = chatRoomDTO ?? {};
 
+  const { pos, stateRef, onDragHandleMouseDown } = useDraggable(
+    Math.max(0, window.innerWidth - 292),
+    Math.max(0, window.innerHeight - 175),
+  );
+
   useEffect(() => {
     const handleResize = () => {
       setScale(initialDPR.current / window.devicePixelRatio);
@@ -116,11 +124,21 @@ const FloatingChatButton = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  const handleClick = () => {
+    if (stateRef.current.wasDragged) return;
+    reopenChat();
+  };
+
   return (
-    <Wrapper style={{ transform: `scale(${scale})` }}>
-      {/* 사이드 채팅 창 여는 버튼 개념 */}
-      <Button onClick={reopenChat} aria-label={`${chatRoomName} 열기`}>
-        {/* 기본 프로필 */}
+    <Wrapper
+      onMouseDown={onDragHandleMouseDown}
+      style={{
+        left: pos.x,
+        top: pos.y,
+        transform: `scale(${scale})`,
+      }}
+    >
+      <Button onClick={handleClick} aria-label={`${chatRoomName} 열기`}>
         <DefaultProfile src={chatDefaultProfile} alt="" />
         <TextArea>
           <RoomTitle>{chatRoomName}</RoomTitle>
@@ -130,8 +148,6 @@ const FloatingChatButton = () => {
             <CountLabel>{chatRoomUsers}</CountLabel>
           </MetaRow>
         </TextArea>
-
-        {/* 확대 아이콘 */}
         <ExpandIcon src={expandImg} alt="" />
       </Button>
     </Wrapper>

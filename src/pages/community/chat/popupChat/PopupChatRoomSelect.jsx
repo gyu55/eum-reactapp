@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  SelectPageBg,
   SelectPopup,
   SelectHeader,
   HeaderTitle,
@@ -18,7 +17,6 @@ import minusIcon from "../../assets/chat/minus_icon.svg";
 import closeIcon from "../../assets/chat/close_icon.svg";
 
 const S = {
-  SelectPageBg,
   SelectPopup,
   SelectHeader,
   HeaderTitle,
@@ -31,13 +29,12 @@ const S = {
 };
 
 // 채팅방 헤더 버튼
-const PopupChatRoomSelect = () => {
+const PopupChatRoomSelect = ({ onDragMouseDown }) => {
   const { minimizeView, closeView } = useChatContext();
 
   return (
-    <S.SelectPageBg>
-      <S.SelectPopup>
-        <S.Header>
+    <S.SelectPopup>
+      <S.Header onMouseDown={onDragMouseDown} style={{ cursor: "grab", userSelect: "none" }}>
           <S.HeaderTitle>채팅방 선택</S.HeaderTitle>
           <S.HeaderBtns>
             <S.MinimizeBtn onClick={minimizeView}>
@@ -53,8 +50,7 @@ const PopupChatRoomSelect = () => {
           <SelectRoomListPanel />
           <SelectOngoingPanel />
         </S.SelectBody>
-      </S.SelectPopup>
-    </S.SelectPageBg>
+    </S.SelectPopup>
   );
 };
 

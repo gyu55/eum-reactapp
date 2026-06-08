@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import styled from "styled-components";
 import {
   CenterPanel,
@@ -28,6 +28,7 @@ import chatImageUpload from "../../../assets/chat/chat_image_upload.svg";
 import chatShare from "../../../assets/chat/chat_share.svg";
 import chatSueo from "../../../assets/chat/chat_sueo.svg";
 import useChatRoom from "../../hooks/useChatRoom";
+import { uploadChatImage } from "../../../communityApi/chatApi";
 
 const S = {
   CenterPanel,
@@ -64,10 +65,19 @@ const TextInput = styled.input`
   color: inherit;
 `;
 
+const ChatImg = styled.img`
+  max-width: 188px;
+  max-height: 200px;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  display: block;
+`;
+
 const PopupChatCenter = ({ chatRoomId }) => {
   const [inputText, setInputText] = useState("");
   const messagesEndRef = useRef(null);
-  const { messages, sendMessage } = useChatRoom(chatRoomId);
+  const fileInputRef = useRef(null);
+  const { messages, sendMessage, sendImageMessage } = useChatRoom(chatRoomId);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -86,6 +96,23 @@ const PopupChatCenter = ({ chatRoomId }) => {
     }
   };
 
+  const handleImageClick = () => fileInputRef.current?.click();
+
+  const handleFileChange = useCallback(
+    async (e) => {
+      const file = e.target.files?.[0];
+      if (!file) return;
+      e.target.value = "";
+      try {
+        const imageUrl = await uploadChatImage(chatRoomId, file);
+        sendImageMessage(imageUrl);
+      } catch (err) {
+        console.error("이미지 전송 실패:", err);
+      }
+    },
+    [chatRoomId, sendImageMessage],
+  );
+
   return (
     <S.CenterPanel>
       {/* 메세지 나열 되는곳 */}
@@ -97,9 +124,16 @@ const PopupChatCenter = ({ chatRoomId }) => {
               <S.MsgContentCol>
                 <S.SenderName>{msg.username}</S.SenderName>
                 <S.MsgTimeRow>
-                  <S.OtherBubble>
-                    <S.OtherBubbleText>{msg.content}</S.OtherBubbleText>
-                  </S.OtherBubble>
+                  {msg.chatType === "IMAGE" ? (
+                    <ChatImg
+                      src={`http://localhost:10000${msg.content}`}
+                      alt="이미지"
+                    />
+                  ) : (
+                    <S.OtherBubble>
+                      <S.OtherBubbleText>{msg.content}</S.OtherBubbleText>
+                    </S.OtherBubble>
+                  )}
                   <S.MsgTime>{msg.time}</S.MsgTime>
                 </S.MsgTimeRow>
               </S.MsgContentCol>
@@ -107,9 +141,16 @@ const PopupChatCenter = ({ chatRoomId }) => {
           ) : (
             <S.MyMsgRow key={msg.id}>
               <S.MsgTime>{msg.time}</S.MsgTime>
-              <S.MyBubble>
-                <S.MyBubbleText>{msg.content}</S.MyBubbleText>
-              </S.MyBubble>
+              {msg.chatType === "IMAGE" ? (
+                <ChatImg
+                  src={`http://localhost:10000${msg.content}`}
+                  alt="이미지"
+                />
+              ) : (
+                <S.MyBubble>
+                  <S.MyBubbleText>{msg.content}</S.MyBubbleText>
+                </S.MyBubble>
+              )}
             </S.MyMsgRow>
           ),
         )}
@@ -118,10 +159,22 @@ const PopupChatCenter = ({ chatRoomId }) => {
 
       {/* 메세지 작성하는곳 */}
       <S.InputArea>
+        <input
+          type="file"
+          accept="image/*"
+          ref={fileInputRef}
+          style={{ display: "none" }}
+          onChange={handleFileChange}
+        />
         <S.AttachRow>
           <S.AttachIcons>
             <S.AttachIcon src={chatImozi} alt="이모지" />
-            <S.AttachIcon src={chatImageUpload} alt="이미지" />
+            <S.AttachIcon
+              src={chatImageUpload}
+              alt="이미지"
+              onClick={handleImageClick}
+              style={{ cursor: "pointer" }}
+            />
             <S.AttachIcon src={chatShare} alt="링크" />
           </S.AttachIcons>
           <S.AttachDivider />

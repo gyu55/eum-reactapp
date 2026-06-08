@@ -94,7 +94,7 @@ export const SmallBtn = styled.button`
   font-family: 'Pretendard', sans-serif;
   flex-shrink: 0;
 
-  &:disabled { opacity: 0.5; cursor: not-allowed; }
+  &:disabled { background: #c0c0c0; cursor: not-allowed; }
 `;
 
 export const PrimaryBtn = styled.button`

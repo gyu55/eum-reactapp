@@ -14,6 +14,11 @@ const Header = styled.div`
   justify-content: space-between;
   padding: 12px;
   flex-shrink: 0;
+  cursor: grab;
+  user-select: none;
+  &:active {
+    cursor: grabbing;
+  }
 `;
 
 const HeaderTitle = styled.div`
@@ -76,13 +81,14 @@ const SideChatHeader = ({
   onClose,
   screen,
   listFilter,
+  onDragMouseDown,
 }) => {
   const isRoom = screen === SCREEN.ROOM;
   const listTitle = LIST_TITLES[listFilter];
 
   return (
     <div>
-      <Header>
+      <Header onMouseDown={onDragMouseDown}>
         {isRoom ? (
           <HeaderTitle>
             <ChatDot />

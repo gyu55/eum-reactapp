@@ -20,7 +20,7 @@ const TextInput = styled.input`
   color: inherit;
 `;
 
-const PopupChatCenter = ({ chatRoomId }) => {
+const PopupChatCenter = ({ chatRoomId, onProfileClick }) => {
   const [inputText, setInputText] = useState("");
   const messagesEndRef = useRef(null);
   const fileInputRef = useRef(null);
@@ -65,7 +65,7 @@ const PopupChatCenter = ({ chatRoomId }) => {
       {/* 메세지 나열 되는곳 */}
       <S.MessagesArea>
         {messages.map(
-          ({ id, isMine, content, chatType, time, username, profileImage }) => (
+          ({ id, isMine, content, chatType, time, username, profileImage, userId, userExp }) => (
             <ChatMessage
               key={id}
               isMine={isMine}
@@ -74,6 +74,9 @@ const PopupChatCenter = ({ chatRoomId }) => {
               time={time}
               username={username}
               profileImage={profileImage}
+              userId={userId}
+              userExp={userExp}
+              onProfileClick={onProfileClick}
             />
           ),
         )}

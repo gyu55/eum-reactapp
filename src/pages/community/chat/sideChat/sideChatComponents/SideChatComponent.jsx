@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { colors, fonts, radius } from "../../../constants";
 import ChatMessage from "../../chatComponents/ChatMessage";
 import useChatRoom from "../../hooks/useChatRoom";
+import UserInfoMiniPopup from "../../popupChat/infoPanel/UserInfoMiniPopup";
 
 // ─── Body ────────────────────────────────────────────────────────────────────
 
@@ -82,6 +83,7 @@ const ViewAllText = styled.p`
 
 const SideChatComponent = ({ chatRoomId, onViewAll }) => {
   const [inputValue, setInputValue] = useState("");
+  const [selectedUser, setSelectedUser] = useState(null);
   const messageListRef = useRef(null);
   const { messages, sendMessage } = useChatRoom(chatRoomId);
 
@@ -102,10 +104,20 @@ const SideChatComponent = ({ chatRoomId, onViewAll }) => {
   };
 
   return (
-    <>
+    <div style={{ position: "relative" }}>
       <MessageList ref={messageListRef}>
         {messages.map(
-          ({ id, isMine, content, chatType, time, username, profileImage }) => (
+          ({
+            id,
+            isMine,
+            content,
+            chatType,
+            time,
+            username,
+            profileImage,
+            userId,
+            userExp,
+          }) => (
             <ChatMessage
               key={id}
               isMine={isMine}
@@ -114,6 +126,9 @@ const SideChatComponent = ({ chatRoomId, onViewAll }) => {
               time={time}
               username={username}
               profileImage={profileImage}
+              userId={userId}
+              userExp={userExp}
+              onProfileClick={setSelectedUser}
             />
           ),
         )}
@@ -134,7 +149,14 @@ const SideChatComponent = ({ chatRoomId, onViewAll }) => {
       <Footer>
         <ViewAllText onClick={onViewAll}>채팅방 전체 보기 ↗</ViewAllText>
       </Footer>
-    </>
+
+      {selectedUser && (
+        <UserInfoMiniPopup
+          {...selectedUser}
+          onClose={() => setSelectedUser(null)}
+        />
+      )}
+    </div>
   );
 };
 

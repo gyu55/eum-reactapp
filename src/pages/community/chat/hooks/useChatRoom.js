@@ -25,6 +25,8 @@ const toDisplayMessage = (msg, currentUserId) => ({
   time: formatTime(msg.chatCreateAt),
   username: msg.userNickname ?? "사용자",
   profileImage: msg.userProfile ?? null,
+  userId: msg.userId,
+  userExp: msg.userExp ?? 0,
 });
 
 const useChatRoom = (chatRoomId) => {

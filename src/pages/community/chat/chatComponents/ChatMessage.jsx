@@ -11,7 +11,15 @@ const ChatMessage = ({
   username = "ㅇㅇ",
   profileImage = null,
   chatType = "텍스트",
+  userId = null,
+  userExp = 0,
+  onProfileClick = null,
 }) => {
+  const handleProfileClick = () => {
+    if (onProfileClick && !isMine) {
+      onProfileClick({ id: userId, userProfile: profileImage, userNickname: username, userExp });
+    }
+  };
   const bubbleContent = chatType === "IMAGE" ? (
     <S.ChatImg src={`${IMAGE_BASE_URL}${message}`} alt="이미지" />
   ) : (
@@ -40,9 +48,14 @@ const ChatMessage = ({
           onError={(e) => {
             e.target.src = defaultProfile;
           }}
+          onClick={handleProfileClick}
+          style={{ cursor: onProfileClick ? "pointer" : "default" }}
         />
       ) : (
-        <S.ProfilePlaceholder />
+        <S.ProfilePlaceholder
+          onClick={handleProfileClick}
+          style={{ cursor: onProfileClick ? "pointer" : "default" }}
+        />
       )}
       <S.MessageArea>
         <S.Username>{username}</S.Username>

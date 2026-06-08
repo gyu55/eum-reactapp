@@ -69,30 +69,34 @@ const PopupChatScreen = ({ onDragMouseDown }) => {
   return (
     <S.Popup>
       {/* 팝업 채팅방 헤더: 체팅방 정보 구조분해할당 전달 */}
-        <PopupChatHeader onDragMouseDown={onDragMouseDown} {...chatRoomInfo} />
-        <S.Body>
-          {/* 왼쪽 판넬 (참여 유저 목록) */}
-          <PopupParticipantList
-            users={users}
-            selectedUserId={selectedUser?.id}
-            onUserClick={handleUserClick}
-          />
-          {/* 채팅 메세지 나열되는 곳 */}
-          <PopupChatCenter chatRoomId={chatRoomId} key={chatRoomId} />
+      <PopupChatHeader onDragMouseDown={onDragMouseDown} {...chatRoomInfo} />
+      <S.Body>
+        {/* 왼쪽 판넬 (참여 유저 목록) */}
+        <PopupParticipantList
+          users={users}
+          selectedUserId={selectedUser?.id}
+          onUserClick={handleUserClick}
+        />
+        {/* 채팅 메세지 나열되는 곳 */}
+        <PopupChatCenter
+          chatRoomId={chatRoomId}
+          key={chatRoomId}
+          onProfileClick={handleUserClick}
+        />
 
-          {/* 오른쪽 정보 판넬 - 항상 채팅방 정보 표시 */}
-          <S.RightPanel>
-            <PopupRoomInfoPanel tags={TAGS} {...chatRoomInfo} />
-          </S.RightPanel>
-        </S.Body>
+        {/* 오른쪽 정보 판넬 - 항상 채팅방 정보 표시 */}
+        <S.RightPanel>
+          <PopupRoomInfoPanel tags={TAGS} {...chatRoomInfo} />
+        </S.RightPanel>
+      </S.Body>
 
-        {/* 유저 클릭 시 중앙 오버레이 팝업 */}
-        {selectedUser && (
-          <UserInfoMiniPopup
-            {...selectedUser}
-            onClose={() => setSelectedUser(null)}
-          />
-        )}
+      {/* 유저 클릭 시 중앙 오버레이 팝업 */}
+      {selectedUser && (
+        <UserInfoMiniPopup
+          {...selectedUser}
+          onClose={() => setSelectedUser(null)}
+        />
+      )}
     </S.Popup>
   );
 };

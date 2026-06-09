@@ -4,6 +4,7 @@ import * as S from "./style.js";
 import NotificationDropdown from "../notificationDropDown";
 import { ChatProvider } from "../../community/context/ChatContext";
 import GlobalChatFloat from "../../community/common/GlobalChatFloat";
+import ChatbotButton from '../../chatbot/ChatbotButtonComponent.jsx'; 
 
 const navLinks = [
   { label: "커뮤니티", to: "/community" },
@@ -183,6 +184,7 @@ const EumLayout = ({
       </S.Main>
 
       {layoutUser && <GlobalChatFloat />}
+      <ChatbotButton />
 
       <S.Footer>
         <S.FooterInner>

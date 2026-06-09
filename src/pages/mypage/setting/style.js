@@ -30,7 +30,7 @@ S.SettingTitle = styled.h2`
 S.SettingDesc = styled.p`
   margin: 0;
 
-  font-size: 10px;
+  font-size: 13px;
   font-weight: ${FONT_WEIGHT.regular};
   color: #a6a6a6;
 `;
@@ -105,14 +105,14 @@ S.ItemIcon = styled.span`
 
 /* 새 메시지 자동 스크롤 아이콘 */
 S.ScrollArrowIcon = styled.span`
-  width: 11px;
+  width: 10px;
   height: 20px;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  font-size: 20px;
+  font-size: 17px;
   font-weight: 400;
   line-height: 1;
 

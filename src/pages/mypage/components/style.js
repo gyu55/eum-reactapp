@@ -31,7 +31,7 @@ S.SectionTitle = styled.h3`
 
 /* 테이블 제목 */
 S.TableHeaderText = styled.span`
-  font-size: ${FONT_SIZE.h11};
+  font-size: ${FONT_SIZE.h10};
   font-weight: ${FONT_WEIGHT.bold};
   color: ${GRAYSCALE[9]};
   text-align: ${({ $center }) => ($center ? "center" : "left")};
@@ -522,7 +522,7 @@ S.ExpFill = styled.div`
 S.ExpText = styled.span`
   width: 92px;
 
-  font-size: 8px;
+  font-size: 10px;
   font-weight: ${FONT_WEIGHT.regular};
   color: ${TEXT_COLOR.basic};
 `;
@@ -548,14 +548,14 @@ S.ProfileRow = styled.div`
 
 /* 개인정보 라벨 */
 S.ProfileLabel = styled.span`
-  font-size: ${FONT_SIZE.h11};
+  font-size: ${FONT_SIZE.h10};
   font-weight: ${FONT_WEIGHT.regular};
   color: ${GRAYSCALE[9]};
 `;
 
 /* 개인정보 값 */
 S.ProfileValue = styled.span`
-  font-size: ${FONT_SIZE.h11};
+  font-size: ${FONT_SIZE.h10};
   font-weight: ${FONT_WEIGHT.regular};
   color: ${TEXT_COLOR.basic};
 `;

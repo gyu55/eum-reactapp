@@ -90,7 +90,7 @@ S.LearningResultHeader = styled.div`
 
 /* 헤더 텍스트 */
 S.LearningHeaderText = styled.span`
-  font-size: 12px;
+  font-size: 14px;
   font-weight: ${FONT_WEIGHT.bold};
   color: #9ca3af;
 
@@ -141,7 +141,7 @@ S.LearningText = styled.span`
 
   /* 진행도, 시간, 정답률 */
   &:not(:first-child) {
-    font-size: 12px;
+    font-size: 13px;
     color: #9ca3af;
   }
 `;

@@ -57,7 +57,7 @@ S.CertificateDesc = styled.p`
   margin: 0 0 10px;
   padding-left: 3px;
 
-  font-size: 10px;
+  font-size: 12px;
   font-weight: ${FONT_WEIGHT.regular};
   color: #a6a6a6;
 `;
@@ -94,9 +94,9 @@ S.CertificateHeaderText = styled.span`
 
   width: 100%;
 
-  font-size: 12px;
-  font-weight: ${FONT_WEIGHT.regular};
-  color: #000000;
+  font-size: 13px;
+  font-weight: ${FONT_WEIGHT.bold};
+  color: #9CA3AF;
   text-align: center;
 
   &:first-child {
@@ -347,7 +347,7 @@ S.CourseDesc = styled.p`
   margin: 0 0 6px;
   padding-left: 3px;
 
-  font-size: 10px;
+  font-size: 12px;
   font-weight: ${FONT_WEIGHT.regular};
   color: #a6a6a6;
 `;

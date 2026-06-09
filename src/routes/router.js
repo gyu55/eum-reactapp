@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 import PaymentSuccessPage from "../pages/payment/PaymentSuccessPage";
 import PaymentFailPage from "../pages/payment/PaymentFailPage";
 
@@ -109,10 +109,12 @@ const router = createBrowserRouter([
             path: "receipt",
             element: <ReceiptContainer />,
             children: [
+              { index: true, element: <Navigate to="info/guide" replace /> },
               {
                 path: "info",
                 element: <ReceiptInfoContainer />,
                 children: [
+                  { index: true, element: <Navigate to="guide" replace /> },
                   {
                     path: "guide",
                     element: <ReceiptGuideContainer />
@@ -133,6 +135,7 @@ const router = createBrowserRouter([
             path: "results",
             element: <ResultsContainer />,
             children: [
+              { index: true, element: <Navigate to="check" replace /> },
               {
                 path: "check",
                 element: <CheckContainer />
@@ -147,6 +150,7 @@ const router = createBrowserRouter([
             path: "update",
             element: <UpdateContainer />,
             children: [
+              { index: true, element: <Navigate to="renew" replace /> },
               {
                 path: "check",
                 element: <UpdateCheckContainer />
@@ -161,6 +165,7 @@ const router = createBrowserRouter([
             path: "certificate",
             element: <CertificateContainer />,
             children: [
+              { index: true, element: <Navigate to="check" replace /> },
               {
                 path: "check",
                 element: <CertificateCheckContainer />

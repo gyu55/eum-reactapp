@@ -89,25 +89,27 @@ export default function ExamInfo() {
       .catch(() => {});
   }, []);
 
-  const examData = tests.map(t => {
-    const now = new Date();
-    const start = new Date(t.testReceiptStart);
-    const end = new Date(t.testReceiptEnd);
-    const examDate = new Date(t.testDate);
-    let status = "예정";
-    if (now > examDate) status = "완료";
-    else if (now >= start && now <= end) status = "접수중";
-    const dday = status === "접수중" ? Math.ceil((examDate - now) / (1000 * 60 * 60 * 24)) : null;
-    return {
-      id: t.id,
-      round: t.testTitle,
-      status,
-      period: `${formatDate(t.testReceiptStart)} – ${formatDate(t.testReceiptEnd)}`,
-      examDate: formatDate(t.testDate),
-      dday,
-      active: status === "접수중",
-    };
-  });
+  const examData = tests
+    .filter(t => new Date(t.testDate).getFullYear() === new Date().getFullYear())
+    .map(t => {
+      const now = new Date();
+      const start = new Date(t.testReceiptStart);
+      const end = new Date(t.testReceiptEnd);
+      const examDate = new Date(t.testDate);
+      let status = "예정";
+      if (now > examDate) status = "완료";
+      else if (now >= start && now <= end) status = "접수중";
+      const dday = status === "접수중" ? Math.ceil((examDate - now) / (1000 * 60 * 60 * 24)) : null;
+      return {
+        id: t.id,
+        round: t.testTitle,
+        status,
+        period: `${formatDate(t.testReceiptStart)} – ${formatDate(t.testReceiptEnd)}`,
+        examDate: formatDate(t.testDate),
+        dday,
+        active: status === "접수중",
+      };
+    });
 
   const handleApply = (testId) => {
     navigate("/exam/receipt/info/submit", { state: { testId: String(testId) } });

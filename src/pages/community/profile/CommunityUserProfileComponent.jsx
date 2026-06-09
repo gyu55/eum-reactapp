@@ -33,8 +33,13 @@ const CommunityUserProfileComponent = () => {
   // 유저 정보 로드
   useEffect(() => {
     const setUserData = async () => {
-      const { data } = await getCommunityUserInfo(userId);
-      setUserResponseDTO(data);
+      console.log("유저 정보를 불러옵니다");
+      try {
+        const { data } = await getCommunityUserInfo(userId);
+        setUserResponseDTO(data);
+      } catch (err) {
+        console.error("유저 프로필 로드 실패:", err);
+      }
     };
 
     setUserData();

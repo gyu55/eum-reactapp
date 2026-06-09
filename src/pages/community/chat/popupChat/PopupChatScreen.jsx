@@ -63,8 +63,10 @@ const PopupChatScreen = ({ onDragMouseDown }) => {
 
   // 유저 선택, 선택 해제 로직
   const handleUserClick = (user) => {
-    setSelectedUser((prev) => (prev?.id === user.id ? null : user));
+    setSelectedUser((prev) => (prev?.userId === user.userId ? null : user));
   };
+
+  console.log(users);
 
   return (
     <S.Popup>
@@ -74,7 +76,7 @@ const PopupChatScreen = ({ onDragMouseDown }) => {
         {/* 왼쪽 판넬 (참여 유저 목록) */}
         <PopupParticipantList
           users={users}
-          selectedUserId={selectedUser?.id}
+          selectedUserId={selectedUser?.userId}
           onUserClick={handleUserClick}
         />
         {/* 채팅 메세지 나열되는 곳 */}

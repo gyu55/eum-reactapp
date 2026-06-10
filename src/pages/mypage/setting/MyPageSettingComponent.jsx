@@ -183,7 +183,6 @@ const MyPageSettingComponent = () => {
       }
 
       alert("설정이 저장되었습니다.");
-      navigate("/mypage");
     } catch (error) {
       console.error(error);
       alert("설정 저장 중 오류가 발생했습니다.");

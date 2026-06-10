@@ -1,6 +1,9 @@
 import { useParams } from "react-router-dom";
 import * as S from "./communityProfileStyle";
-import { userFollow } from "../../communityApi/communityProfileApi";
+import {
+  cancelFollow,
+  userFollow,
+} from "../../communityApi/communityProfileApi";
 
 const DEFAULT_PROFILE =
   "https://gi.esmplus.com/cjfals1015/eum/userProfile/thumbnail/default1.png";
@@ -33,6 +36,13 @@ const CommunityProfile = ({
     }
   };
 
+  const handleCancelFollow = async () => {
+    try {
+      await cancelFollow(userId);
+      onFollowChange();
+    } catch (err) {}
+  };
+
   return (
     <S.ProfileBar>
       <S.AvatarImg
@@ -60,7 +70,7 @@ const CommunityProfile = ({
           <S.FollowButton onClick={handleFollowToggle}>+ 팔로우</S.FollowButton>
         )}
         {isMe === false && isFollow && (
-          <S.FollowButton onClick={console.log("팔로우 취소 버튼")}>
+          <S.FollowButton onClick={handleCancelFollow}>
             팔로우 취소
           </S.FollowButton>
         )}

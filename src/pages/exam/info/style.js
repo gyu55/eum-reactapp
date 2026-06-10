@@ -251,6 +251,7 @@ export const styles = {
   infoCardRow: {
     display: "flex",
     gap: 14,
+    flexWrap: "wrap",
   },
   infoCard: {
     flex: 1,
@@ -299,6 +300,7 @@ export const styles = {
   examCardRow: {
     display: "flex",
     gap: 14,
+    flexWrap: "wrap",
   },
 
   // StatusBadge
@@ -313,8 +315,8 @@ export const styles = {
 
   // ExamCard
   examCard: (isActive) => ({
-    flex: "1 1 0",
-    minWidth: 0,
+    flex: "1 1 160px",
+    minWidth: 160,
     border: isActive ? `2px solid ${PRIMARY}` : "1.5px solid #e8e8ec",
     borderRadius: 14,
     padding: "18px 20px 20px",

@@ -19,6 +19,7 @@ const CommunityUserProfileComponent = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [userResponseDTO, setUserResponseDTO] = useState();
+  const [refresh, setRefresh] = useState(0);
 
   useEffect(() => {
     const isRootProfile =
@@ -30,10 +31,9 @@ const CommunityUserProfileComponent = () => {
     }
   }, [userId, location.pathname, navigate]);
 
-  // 유저 정보 로드
+  // 유저 정보 로드 (refresh 변경 시 재실행)
   useEffect(() => {
     const setUserData = async () => {
-      console.log("유저 정보를 불러옵니다");
       try {
         const { data } = await getCommunityUserInfo(userId);
         setUserResponseDTO(data);
@@ -43,7 +43,7 @@ const CommunityUserProfileComponent = () => {
     };
 
     setUserData();
-  }, [userId]);
+  }, [userId, refresh]);
 
   return (
     <div>
@@ -52,7 +52,10 @@ const CommunityUserProfileComponent = () => {
         <S.ContentArea>
           {/* 메인 영역 */}
           <S.ColumnBlock>
-            <CommunityProfile {...userResponseDTO} />
+            <CommunityProfile
+              {...userResponseDTO}
+              onFollowChange={() => setRefresh((prev) => prev + 1)}
+            />
 
             {/* 상단 검색바 및 필터 (유저 활동 수량) */}
             <PostFilterBar {...userResponseDTO} />

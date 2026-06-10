@@ -1,4 +1,6 @@
+import { useParams } from "react-router-dom";
 import * as S from "./communityProfileStyle";
+import { userFollow } from "../../communityApi/communityProfileApi";
 
 const DEFAULT_PROFILE =
   "https://gi.esmplus.com/cjfals1015/eum/userProfile/thumbnail/default1.png";
@@ -12,7 +14,25 @@ const MOCK_USER = {
   avatarUrl: DEFAULT_PROFILE,
 };
 
-const CommunityProfile = ({ userNickname, userProfile, userIntro }) => {
+const CommunityProfile = ({
+  userNickname,
+  userProfile,
+  userIntro,
+  isMe,
+  isFollow,
+  onFollowChange,
+}) => {
+  const { userId } = useParams();
+
+  const handleFollowToggle = async () => {
+    try {
+      const { success } = await userFollow(userId);
+      if (success) onFollowChange();
+    } catch (err) {
+      console.error("팔로우 요청 실패:", err);
+    }
+  };
+
   return (
     <S.ProfileBar>
       <S.AvatarImg
@@ -34,7 +54,16 @@ const CommunityProfile = ({ userNickname, userProfile, userIntro }) => {
           <S.Bio>{userIntro}</S.Bio>
           <S.JoinInfo>{MOCK_USER.joinInfo}</S.JoinInfo>
         </S.TextBlock>
-        <S.FollowButton>+ 팔로우</S.FollowButton>
+
+        {/* 로그인 상태(isMe가 boolean) + 타인 프로필일 때만 팔로우 버튼 노출 */}
+        {isMe === false && !isFollow && (
+          <S.FollowButton onClick={handleFollowToggle}>+ 팔로우</S.FollowButton>
+        )}
+        {isMe === false && isFollow && (
+          <S.FollowButton onClick={console.log("팔로우 취소 버튼")}>
+            팔로우 취소
+          </S.FollowButton>
+        )}
       </S.UserInfoRow>
     </S.ProfileBar>
   );

@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import theme from "../../../../styles/theme";
 import { FONT_FAMILY, LAYOUT, RADIUS, SURFACE } from "../../constants";
+import { AuthorAvatar } from "../detail/postDetailStyle";
 
 const { PALETTE, GRAYSCALE, TEXT_COLOR, FONT_SIZE, FONT_WEIGHT } = theme;
 
@@ -12,6 +13,9 @@ export const Wrapper = styled.div`
   width: ${LAYOUT.sidebarWidth};
   flex-shrink: 0;
 `;
+
+// 유저 프로필
+export const AuthorAvatarStyle = styled(AuthorAvatar)``;
 
 /* ── Back Button ── */
 export const BackButton = styled.button`

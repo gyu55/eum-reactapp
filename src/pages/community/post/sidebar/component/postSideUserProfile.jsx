@@ -1,44 +1,11 @@
 import { useState, useEffect } from "react";
 import { DEFAULT_IMAGES } from "../../../constants";
-import { AuthorAvatar } from "../../detail/postDetailStyle";
-import {
-  AuthorCard,
-  SectionHeader,
-  SectionTitle,
-  Divider,
-  AuthorProfileBlock,
-  AuthorName,
-  LevelBadge,
-  StatsRow,
-  StatItem,
-  StatValue,
-  StatLabel,
-  OutlineButton,
-  DangerOutlineButton,
-  FilledButton,
-} from "../postSideBarStyle";
+import * as S from "../postSideBarStyle";
 import {
   getCommunityUserInfo,
   userFollow,
   cancelFollow,
 } from "../../../communityApi/communityProfileApi";
-
-const S = {
-  AuthorCard,
-  SectionHeader,
-  SectionTitle,
-  Divider,
-  AuthorProfileBlock,
-  AuthorName,
-  LevelBadge,
-  StatsRow,
-  StatItem,
-  StatValue,
-  StatLabel,
-  OutlineButton,
-  DangerOutlineButton,
-  FilledButton,
-};
 
 const PostSideUserProfile = ({ userId }) => {
   const [userInfo, setUserInfo] = useState(null);
@@ -64,12 +31,14 @@ const PostSideUserProfile = ({ userId }) => {
     setIsFollow(false);
   };
 
-  const { commentCount, isMe } = userInfo ?? {};
-
-  const authorName = userInfo?.userNickname ?? "-";
-  const authorAvatar = userInfo?.userProfile ?? DEFAULT_IMAGES.authorProfile;
-  const authorPosts = userInfo?.postCount ?? 0;
-  const authorLikes = userInfo?.getLikeCount ?? 0;
+  const {
+    userNickname,
+    userProfile,
+    postCount,
+    getLikeCount,
+    commentCount,
+    isMe,
+  } = userInfo ?? {};
 
   return (
     <S.AuthorCard>
@@ -79,22 +48,22 @@ const PostSideUserProfile = ({ userId }) => {
       </S.SectionHeader>
 
       <S.AuthorProfileBlock>
-        <AuthorAvatar
+        <S.AuthorAvatarStyle
           size="64px"
           border-radius="12px"
-          src={authorAvatar}
-          alt={authorName}
+          src={userProfile}
+          alt={userNickname}
           onError={(e) => {
             e.currentTarget.src = DEFAULT_IMAGES.authorProfile;
           }}
         />
-        <S.AuthorName>{authorName}</S.AuthorName>
+        <S.AuthorName>{userNickname}</S.AuthorName>
         <S.LevelBadge>Lv.1</S.LevelBadge>
       </S.AuthorProfileBlock>
 
       <S.StatsRow>
         <S.StatItem>
-          <S.StatValue>{authorPosts}</S.StatValue>
+          <S.StatValue>{postCount}</S.StatValue>
           <S.StatLabel>게시글</S.StatLabel>
         </S.StatItem>
         <S.StatItem>
@@ -102,7 +71,7 @@ const PostSideUserProfile = ({ userId }) => {
           <S.StatLabel>댓글</S.StatLabel>
         </S.StatItem>
         <S.StatItem>
-          <S.StatValue>{authorLikes}</S.StatValue>
+          <S.StatValue>{getLikeCount}</S.StatValue>
           <S.StatLabel>좋아요</S.StatLabel>
         </S.StatItem>
       </S.StatsRow>

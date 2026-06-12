@@ -173,6 +173,14 @@ export const OutlineButton = styled.button`
   }
 `;
 
+export const DangerOutlineButton = styled(OutlineButton)`
+  border: 2px solid ${PALETTE.red};
+  color: ${PALETTE.red};
+  &:hover {
+    background: #fdf0f0;
+  }
+`;
+
 export const FilledButton = styled.button`
   background: ${PALETTE.primary.main};
   border: none;

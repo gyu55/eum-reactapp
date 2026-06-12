@@ -14,9 +14,14 @@ import {
   StatValue,
   StatLabel,
   OutlineButton,
+  DangerOutlineButton,
   FilledButton,
 } from "../postSideBarStyle";
-import { getCommunityUserInfo } from "../../../communityApi/communityProfileApi";
+import {
+  getCommunityUserInfo,
+  userFollow,
+  cancelFollow,
+} from "../../../communityApi/communityProfileApi";
 
 const S = {
   AuthorCard,
@@ -31,22 +36,35 @@ const S = {
   StatValue,
   StatLabel,
   OutlineButton,
+  DangerOutlineButton,
   FilledButton,
 };
 
 const PostSideUserProfile = ({ userId }) => {
   const [userInfo, setUserInfo] = useState(null);
+  const [isFollow, setIsFollow] = useState(false);
 
   useEffect(() => {
     if (!userId) return;
     getCommunityUserInfo(userId)
-      .then(({ data }) => setUserInfo(data))
+      .then(({ data }) => {
+        setUserInfo(data);
+        setIsFollow(data.isFollow);
+      })
       .catch((err) => console.error("작성자 정보 로드 실패:", err));
   }, [userId]);
 
-  console.log(userInfo);
+  const handleFollow = async () => {
+    await userFollow(userId);
+    setIsFollow(true);
+  };
 
-  const { commentCount } = userInfo ?? {};
+  const handleCancelFollow = async () => {
+    await cancelFollow(userId);
+    setIsFollow(false);
+  };
+
+  const { commentCount, isMe } = userInfo ?? {};
 
   const authorName = userInfo?.userNickname ?? "-";
   const authorAvatar = userInfo?.userProfile ?? DEFAULT_IMAGES.authorProfile;
@@ -89,7 +107,14 @@ const PostSideUserProfile = ({ userId }) => {
         </S.StatItem>
       </S.StatsRow>
 
-      <S.OutlineButton>+ 팔로우</S.OutlineButton>
+      {!isMe &&
+        (isFollow ? (
+          <S.DangerOutlineButton onClick={handleCancelFollow}>
+            팔로우 취소
+          </S.DangerOutlineButton>
+        ) : (
+          <S.OutlineButton onClick={handleFollow}>+ 팔로우</S.OutlineButton>
+        ))}
       <S.FilledButton>해당 회원과 1:1 채팅 시작</S.FilledButton>
     </S.AuthorCard>
   );

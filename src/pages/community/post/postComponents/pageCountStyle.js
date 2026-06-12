@@ -33,3 +33,13 @@ export const HighlightButton = styled.div`
   ${h11Bold}
   color: ${theme.PALETTE.white};
 `;
+
+export const ArrowButton = styled.div`
+  ${buttonStyle}
+  border: 2px solid ${({ disabled }) =>
+    disabled ? theme.GRAYSCALE[6] : theme.GRAYSCALE[8]};
+  color: ${({ disabled }) => (disabled ? theme.GRAYSCALE[6] : "inherit")};
+  cursor: ${({ disabled }) => (disabled ? "default" : "pointer")};
+  pointer-events: ${({ disabled }) => (disabled ? "none" : "auto")};
+  ${h11Regular}
+`;

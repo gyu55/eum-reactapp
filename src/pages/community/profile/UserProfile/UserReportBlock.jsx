@@ -1,12 +1,24 @@
 import styled from "styled-components";
 import theme from "../../../../styles/theme";
 import UserReportButton from "../../report/userreport/UserReportButton";
+import { blockUser } from "../../communityApi/blockingApi";
+import useConfirm from "../../common/useConfirm";
 
 // 신고 안내 박스 전용 — theme에 없는 amber 계열 색상
 const NOTICE_BG = "#fff7ed";
 const NOTICE_TEXT_DARK = "#92400e";
 
 const UserReportBlock = ({ userId, onBlock }) => {
+  const { confirm, ConfirmPopupComponent } = useConfirm();
+
+  const handleBlockClick = async () => {
+    const confirmed = await confirm("이 유저를 차단하시겠습니까?");
+    if (confirmed) {
+      await blockUser(userId);
+      onBlock?.();
+    }
+  };
+
   return (
     <Card>
       <NoticeBox>
@@ -20,7 +32,8 @@ const UserReportBlock = ({ userId, onBlock }) => {
         </NoticeContent>
       </NoticeBox>
       <UserReportButton userId={userId} />
-      <BlockButton onClick={onBlock}>이 유저 차단하기</BlockButton>
+      <BlockButton onClick={handleBlockClick}>이 유저 차단하기</BlockButton>
+      {ConfirmPopupComponent}
     </Card>
   );
 };

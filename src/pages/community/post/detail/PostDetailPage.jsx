@@ -75,7 +75,7 @@ const PostDetailPage = () => {
         </S.ColumnBlock>
 
         {/* 우측 3개 사이드 바 영역 */}
-        <PostSidebar />
+        <PostSidebar userId={post?.userId} />
       </S.ContentArea>
     </S.Page>
   );

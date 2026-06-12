@@ -1,7 +1,7 @@
 // 학습 퀴즈 컴포넌트: 단어 조회, 문제 생성, 정답 확인, 복습 흐름 담당
 import { useContext, useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { fetchEduVideoById, fetchRandomWordsByLearnId, finishLearnWord } from "../apis/LearnApi";
+import { fetchEduVideoById, fetchRandomWordsByLearnId, finishLearnWord, completeEduStart } from "../apis/LearnApi";
 import { submitQuizAnswers } from "../apis/QuizApi";
 import { StudyQuizContext } from "../../../context/StudyQuizContext";
 import { useStudyUser } from "../hooks/useStudyUser";
@@ -101,10 +101,8 @@ const LearnQuizComponent = () => {
 
   // OpenAPI 단어만 사용: eduId로 들어온 학습 퀴즈에서는 기존 임시 단어를 섞지 않음
   const quizWords = useMemo(() => {
-    const openApiWords = sessionWords.filter((word) => word.signWordId);
-
-    return isBackendQuiz ? openApiWords : sessionWords;
-  }, [isBackendQuiz, sessionWords]);
+    return sessionWords;
+  }, [sessionWords]);
 
   const orderedQuizWords = useMemo(() => shuffleItems(quizWords, sessionSeed), [quizWords, sessionSeed]);
 
@@ -357,6 +355,11 @@ const LearnQuizComponent = () => {
         userId,
         answers,
       });
+      
+      if (routeEduId) {
+        await completeEduStart({ userId, eduId: routeEduId});
+      }
+
       const summary = createLearnResultSummary(true, result);
 
       setResult({
@@ -368,6 +371,10 @@ const LearnQuizComponent = () => {
       });
       setResultSummary(summary);
     } catch {
+      if (routeEduId) {
+        await completeEduStart({ userId, eduId: routeEduId });
+      }
+      
       const summary = createLearnResultSummary(false);
 
       setResult({
@@ -381,8 +388,24 @@ const LearnQuizComponent = () => {
   };
 
   // 다음 문제: 다음 문제로 이동하거나 마지막 문제에서 복습 화면으로 전환
-  const handleNext = () => {
+  const completeLearnSession = async () => {
+    if (isGuest || !userId || !routeEduId) {
+      return;
+    }
+
+    try {
+      await completeEduStart({ userId, eduId: routeEduId });
+    } catch {
+      // 완료 기록 실패가 화면 진행을 막지는 않음
+    }
+  };
+
+  const handleNext = async () => {
     if (isLastQuestion) {
+      if (status !== "solving") {
+        await completeLearnSession();
+      }
+
       setReviewIndex(0);
       setStatus("review");
 
@@ -400,7 +423,7 @@ const LearnQuizComponent = () => {
 
   // 복습 다음: 오답 복습을 순서대로 보여주고 마지막에 학습 종료
   const handleReviewNext = () => {
-    if (reviewIndex < reviewQuestions.length - 1) {
+    if (reviewQuestions.length > 0 && reviewIndex < reviewQuestions.length - 1) {
       setReviewIndex((prev) => prev + 1);
 
       return;

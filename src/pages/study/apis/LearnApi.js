@@ -8,7 +8,7 @@ const requestJson = async (url, options = {}, errorMessage = "요청에 실패�
   try {
     const response = await fetch(url, {
       ...options,
-      signal: controller.signal,
+      credentials: "include",
     });
 
     if (!response.ok) {
@@ -76,4 +76,32 @@ export const finishLearnWord = async ({ userId, eduWordMapId }) =>
       body: JSON.stringify({ userId, eduWordMapId }),
     },
     "단어 학습 완료 저장 실패"
+  );
+
+// 학습 완료 여부 조회
+export const getEduStartCompleted = ({ userId, eduId }) =>
+  requestJson(
+    `${BASE_URL}/private/api/edu-starts/users/${userId}/edus/${eduId}/completed`,
+    {},
+    "학습 세션 완료 여부 조회 실패"
+  );
+
+// 학습 랜덤 문제 세트 완료 처리
+export const completeEduStart = ({ userId, eduId }) =>
+  requestJson(
+    `${BASE_URL}/private/api/edu-starts/users/${userId}/edus/${eduId}/complete`,
+    {
+      method: "PATCH",
+    },
+    "학습 세션 완료 처리 실패"
+  );
+
+// 학습 로드맵 이벤트 보상 수령
+export const claimRoadmapReward = ({ userId, eduId }) =>
+  requestJson(
+    `${BASE_URL}/private/api/edu-starts/users/${userId}/edus/${eduId}/roadmap-reward`,
+    {
+      method: "POST",
+    },
+    "학습 로드맵 이벤트 보상 수령 실패"
   );

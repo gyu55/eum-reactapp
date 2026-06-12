@@ -492,7 +492,7 @@ export const WordGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   row-gap: 72px;
-  margin-bottom: 86px;
+  margin: 72px 0 86px;
 `;
 
 export const WordItem = styled.div`
@@ -502,6 +502,7 @@ export const WordItem = styled.div`
   gap: 18px;
   padding: 18px 10px;
   border-radius: 18px;
+  cursor: pointer;
   transition:
     transform 0.2s ease,
     background-color 0.2s ease;
@@ -526,6 +527,11 @@ export const WordItem = styled.div`
 
   &:hover span {
     transform: scale(1.12);
+  }
+
+  &:focus-visible {
+    outline: 3px solid rgba(67, 89, 252, 0.24);
+    outline-offset: 4px;
   }
 `;
 

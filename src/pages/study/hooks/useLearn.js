@@ -1,6 +1,6 @@
 // 학습 상태 훅 담당: 백엔드 학습 목록과 진행도를 화면 데이터로 변환
 import { useEffect, useState } from "react";
-import { fetchLearnCompletedWordCount, fetchLearnList, fetchLearnTotalWordCount } from "../apis/LearnApi";
+import { fetchLearnCompletedWordCount, fetchLearnList, fetchLearnTotalWordCount, getEduStartCompleted } from "../apis/LearnApi";
 import { learnHomeMock } from "../learn/data/learnMock";
 import { mergeLearnListToHome } from "../mappers/learnMapper";
 import { useStudyUser } from "./useStudyUser";
@@ -54,11 +54,15 @@ export const useLearn = () => {
             const completedCount = isGuest || !userId
               ? 0
               : await fetchLearnCompletedWordCount({ userId, learnId: learn.id });
+            const sessionCompleted = isGuest || !userId
+              ? false
+              : (await getEduStartCompleted({ userId, eduId: learn.id }));
 
             return {
               learnId: learn.id,
               totalCount,
               completedCount,
+              sessionCompleted,
             };
           })
         );

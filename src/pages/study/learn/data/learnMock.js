@@ -53,7 +53,7 @@ export const learnHomeMock = {
           desc: "+50 XP · 인사말 마스터 배지",
           status: "reward",
           badge: "🎁",
-          buttonText: "잠금",
+          buttonText: "🔒",
           to: null,
         },
         {
@@ -62,7 +62,7 @@ export const learnHomeMock = {
           desc: "이전 단계를 완료하면 열려요",
           status: "locked",
           badge: "🔒",
-          buttonText: "잠금",
+          buttonText: "🔒",
           to: null,
         },
       ],
@@ -94,7 +94,7 @@ export const learnHomeMock = {
           desc: "작업이 끝났음을 짧게 알려요",
           status: "locked",
           badge: "🔒",
-          buttonText: "잠금",
+          buttonText: "🔒",
           to: null,
         },
         {
@@ -103,7 +103,7 @@ export const learnHomeMock = {
           desc: "화장실, 병원, 출구를 안내해요",
           status: "locked",
           badge: "🔒",
-          buttonText: "잠금",
+          buttonText: "🔒",
           to: null,
         },
         {
@@ -112,7 +112,7 @@ export const learnHomeMock = {
           desc: "+30 XP · 수신호 스타터 배지",
           status: "reward",
           badge: "🎁",
-          buttonText: "잠금",
+          buttonText: "🔒",
           to: null,
         },
         {
@@ -121,7 +121,7 @@ export const learnHomeMock = {
           desc: "이전 단계를 완료하면 열려요",
           status: "locked",
           badge: "🔒",
-          buttonText: "잠금",
+          buttonText: "🔒",
           to: null,
         },
       ],

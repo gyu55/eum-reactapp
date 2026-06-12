@@ -5,7 +5,7 @@ const LearnRoadmapItem = ({ lesson, index, selected, onSelect, onStart }) => {
   const isLocked = lesson.status === "locked";
   const isReward = lesson.status === "reward";
   const canStart = !isLocked;
-  const startLabel = isLocked ? "잠금" : isReward ? "보상 확인" : "시작 +10 XP";
+  const startLabel = isLocked ? "🔒" : isReward ? "보상 확인" : "시작 +10 XP";
 
   // 단계 선택: 바로 이동하지 않고 시작 말풍선만 표시
   const handleSelect = () => {

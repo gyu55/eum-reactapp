@@ -23,3 +23,20 @@ export const fetchSignWords = async (keyword, pageNo = 1, numOfRows = 10) => {
     clearTimeout(timeoutId);
   }
 };
+
+// 주간 추천 수어 단어 조회
+export const fetchWeeklySignWordRecommendations = async () => {
+  const response = await fetch(`${BASE_URL}/api/sign-words/weekly-recommendations`);
+
+  if (!response.ok) {
+    throw new Error("주간 추천 수어 단어 조회 실패");
+  }
+
+  const result = await response.json();
+
+  if (!result.success) {
+    throw new Error(result.message);
+  }
+
+  return result.data;
+};

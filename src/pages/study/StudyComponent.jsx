@@ -4,6 +4,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import StudyAttendancePopup from "./attendance/StudyAttendancePopup";
 import { attendanceMock } from "./attendance/data/attendanceMock";
 import { checkAttendance, fetchAttendanceSummary } from "./apis/AttendanceApi";
+import { fetchWeeklySignWordRecommendations } from "./apis/SignWordApi";
 import { useStudyUser } from "./hooks/useStudyUser";
 import { mapAttendanceSummary } from "./mappers/attendanceMapper";
 import * as S from "./style";
@@ -81,8 +82,8 @@ const videoTabs = [
   { label: "모스부호", image: "/assets/image/learn/mors.png" },
 ];
 
-// 검색 섹션에 보여줄 추천 단어 목록
-const wordItems = [
+// 추천 단어 API 실패 시 보여줄 기본 단어 목록
+const fallbackWordItems = [
   { icon: "😊", text: "기쁨" },
   { icon: "🎪", text: "놀이" },
   { icon: "❤️", text: "사랑" },
@@ -178,6 +179,7 @@ const StudyComponent = () => {
   const [isAttendanceOpen, setIsAttendanceOpen] = useState(false);
   const [attendanceSummary, setAttendanceSummary] = useState(null);
   const [keyword, setKeyword] = useState("");
+  const [weeklyWordItems, setWeeklyWordItems] = useState(fallbackWordItems);
   const [activeVideoTab, setActiveVideoTab] = useState("수어");
 
 
@@ -189,6 +191,29 @@ const StudyComponent = () => {
         ?.scrollIntoView();
     }
   }, [location.state]);
+
+  useEffect(() => {
+    const loadWeeklyRecommendations = async () => {
+      try {
+        const recommendations = await fetchWeeklySignWordRecommendations();
+
+        if (!Array.isArray(recommendations) || recommendations.length === 0) {
+          return;
+        }
+
+        setWeeklyWordItems(
+          recommendations.map((word) => ({
+            icon: word.signWordEmoji || "🤟",
+            text: word.signWordTitle,
+          }))
+        );
+      } catch {
+        setWeeklyWordItems(fallbackWordItems);
+      }
+    };
+
+    loadWeeklyRecommendations();
+  }, []);
 
   // 로그인 해야하는 서비스들 alert
   const requireLogin = (callback) => {
@@ -217,6 +242,11 @@ const StudyComponent = () => {
     event.preventDefault();
 
     navigate("/study/search", { state: { keyword } });
+  };
+
+  // 추천 단어 클릭 -> 해당 단어 검색 페이지
+  const handleRecommendedWordClick = (word) => {
+    navigate("/study/search", { state: { keyword: word.text } });
   };
 
   // 출석체크실행: 오늘 출석을 저장하고 최신 현황 팝업을 표시
@@ -339,15 +369,19 @@ const StudyComponent = () => {
           <button type="submit">검색</button>
         </S.SearchForm>
 
-        <div className="categories">
-          {["전체", "일상", "가족", "음식", "날씨", "감정", "숫자", "색깔", "동물"].map((item) => (
-            <span key={item}>{item}</span>
-          ))}
-        </div>
-
         <S.WordGrid>
-          {wordItems.map((word) => (
-            <S.WordItem key={word.text}>
+          {weeklyWordItems.map((word) => (
+            <S.WordItem
+              key={word.text}
+              role="button"
+              tabIndex={0}
+              onClick={() => handleRecommendedWordClick(word)}
+              onKeyDown={(event) => {
+                if (event.key === "Enter" || event.key === " ") {
+                  handleRecommendedWordClick(word);
+                }
+              }}
+            >
               <span>{word.icon}</span>
               <strong>{word.text}</strong>
             </S.WordItem>

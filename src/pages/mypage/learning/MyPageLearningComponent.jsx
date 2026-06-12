@@ -14,7 +14,7 @@ import S from "./style";
 const COLLAPSED_COUNT = 4;
 const PAGE_SIZE = 8;
 
-// 백엔드 학습현황이 비어 있을 때만 보여줄 React 더미데이터입니다.
+// 백엔드 학습현황이 비어 있을 때 확인용으로 보여주는 React 더미데이터입니다.
 const fallbackStatusList = [
   {
     eduId: "dummy-braille-a-f",
@@ -30,7 +30,7 @@ const fallbackStatusList = [
   },
 ];
 
-// 백엔드 학습결과 데이터와 함께 보여줄 React 더미데이터입니다.
+// 백엔드 학습결과 데이터와 함께 확인용으로 보여주는 React 더미데이터입니다.
 const fallbackResultList = [
   {
     quizAttemptId: "dummy-braille-read",
@@ -61,6 +61,12 @@ const fallbackResultList = [
   },
 ];
 
+const chapterQuestionPathMap = {
+  1: "/study/chapter/sign-history/questions/1",
+  2: "/study/chapter/sos/questions/1",
+  3: "/study/chapter/morse/questions/1",
+};
+
 const formatPercent = (value) => `${value || 0}%`;
 
 const formatScore = (correctCount, totalCount) => `${correctCount || 0}/${totalCount || 0}`;
@@ -77,10 +83,10 @@ const formatTime = (seconds) => {
   const second = value % 60;
 
   if (hour > 0) {
-    return `${hour}시간${minute > 0 ? `${minute}분` : ""}`;
+    return `${hour}시간${minute > 0 ? ` ${minute}분` : ""}`;
   }
 
-  return `${minute}분${second > 0 ? `${second}초` : ""}`;
+  return `${minute}분${second > 0 ? ` ${second}초` : ""}`;
 };
 
 const formatRecentTime = (date) => {
@@ -103,7 +109,6 @@ const formatRecentTime = (date) => {
   return String(date).includes("T") ? String(date).split("T")[0] : String(date).split(" ")[0];
 };
 
-// 최신 학습한 항목이 위로 오도록 정렬합니다.
 const formatDate = (date) => {
   if (!date) {
     return "-";
@@ -121,7 +126,6 @@ const sortStatusListByRecent = (list) => {
   });
 };
 
-// 최근 완료한 결과가 위로 오도록 정렬합니다.
 const sortResultListByRecent = (list) => {
   return [...list].sort((a, b) => {
     const aDate = a.completedAt || a.quizAttemptCreateAt || a.createdAt || 0;
@@ -155,7 +159,7 @@ const MyPageLearningComponent = () => {
   const [statusPage, setStatusPage] = useState(1);
   const [resultPage, setResultPage] = useState(1);
 
-  // 마이페이지 공통 데이터와 학습 페이지 데이터를 조회합니다.
+  // 마이페이지 공통 데이터와 학습 페이지 데이터를 함께 조회합니다.
   useEffect(() => {
     const getLearningPage = async () => {
       try {
@@ -201,13 +205,11 @@ const MyPageLearningComponent = () => {
   const originStatusList = learningData.statusList || [];
   const originResultList = learningData.resultList || [];
 
-  // 백엔드 학습 데이터가 있어도 리액트 더미데이터는 아래에 계속 보여준다.
   const statusList = [
     ...sortStatusListByRecent(originStatusList),
     ...sortStatusListByRecent(fallbackStatusList),
   ];
 
-  // 백엔드 학습결과 데이터가 있어도 리액트 더미데이터는 아래에 계속 보여준다.
   const resultList = [
     ...sortResultListByRecent(originResultList),
     ...sortResultListByRecent(fallbackResultList),
@@ -224,16 +226,16 @@ const MyPageLearningComponent = () => {
   const visibleStatusList = getVisibleList(statusList, isStatusExpanded, statusPage);
   const visibleResultList = getVisibleList(resultList, isResultExpanded, resultPage);
 
-  const chapterQuestionPathMap = {
-  1: "/study/chapter/sign-history/questions/1",
-  2: "/study/chapter/sos/questions/1",
-  3: "/study/chapter/morse/questions/1",
-  };
-
-  // 학습 제목 클릭 시 이어 학습 페이지로 이동합니다.
+  // 학습현황 제목 클릭 시 이어서 학습할 수 있는 화면으로 이동합니다.
   const handleMoveLearning = (learning) => {
     if (learning.learningType === "QUIZ") {
       navigate(chapterQuestionPathMap[learning.eduId] || "/study/chapter");
+
+      return;
+    }
+
+    if (typeof learning.eduId === "string") {
+      navigate("/study/learn");
 
       return;
     }
@@ -246,13 +248,11 @@ const MyPageLearningComponent = () => {
     });
   };
 
-  // 학습현황 더보기 / 접기
   const handleStatusToggleClick = () => {
     setIsStatusExpanded((prev) => !prev);
     setStatusPage(1);
   };
 
-  // 학습결과 더보기 / 접기
   const handleResultToggleClick = () => {
     setIsResultExpanded((prev) => !prev);
     setResultPage(1);
@@ -261,14 +261,12 @@ const MyPageLearningComponent = () => {
   return (
     <>
       <S.LearningLayout>
-        {/* 왼쪽 영역 */}
         <S.LearningLeftArea>
           <ProfileCard
             profile={myPageData.profile}
             onLevelClick={() => setIsLevelModalOpen(true)}
           />
 
-          {/* 학습현황 */}
           <S.LearningSection>
             <S.LearningTitle>학습현황</S.LearningTitle>
 
@@ -281,7 +279,7 @@ const MyPageLearningComponent = () => {
               </S.LearningHeader>
 
               {visibleStatusList.map((learning) => (
-                <S.LearningRow key={learning.eduId}>
+                <S.LearningRow key={`${learning.learningType || "FALLBACK"}-${learning.eduId}-${learning.recentStudyAt}`}>
                   <S.LearningTitleButton
                     type="button"
                     onClick={() => handleMoveLearning(learning)}
@@ -326,7 +324,6 @@ const MyPageLearningComponent = () => {
             </S.LearningCardBox>
           </S.LearningSection>
 
-          {/* 학습결과 */}
           <S.LearningSection>
             <S.LearningTitle>학습결과</S.LearningTitle>
 
@@ -340,7 +337,7 @@ const MyPageLearningComponent = () => {
               </S.LearningResultHeader>
 
               {visibleResultList.map((result) => (
-                <S.LearningResultRow key={result.quizAttemptId}>
+                <S.LearningResultRow key={`${result.resultType || "FALLBACK"}-${result.quizAttemptId}-${result.quizAttemptCreateAt || result.completedAt}`}>
                   <S.LearningText>{result.quizTitle}</S.LearningText>
                   <S.LearningText>{formatDate(result.completedAt || result.quizAttemptCreateAt || result.createdAt)}</S.LearningText>
                   <S.LearningText>{formatScore(result.correctCount, result.totalCount)}</S.LearningText>
@@ -381,11 +378,9 @@ const MyPageLearningComponent = () => {
           </S.LearningSection>
         </S.LearningLeftArea>
 
-        {/* 오른쪽 영역 */}
         <S.LearningRightArea>
           <StudySummaryCard summary={learningData.summary} />
 
-          {/* 기존 마이페이지 메인 학습 현황 데이터 표시 */}
           <StudyStatusCard studyStatusList={myPageData.studyStatusList || []} />
 
           <AttendanceCard attendance={myPageData.attendance} />

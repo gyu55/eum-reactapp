@@ -35,6 +35,9 @@ export const LearnLayout = styled.div`
   margin: 0 auto;
 
   > aside {
+    position: sticky;
+    top: 96px;
+    align-self: start;
     width: 330px;
     padding: 22px;
   }
@@ -46,6 +49,10 @@ export const LearnLayout = styled.div`
 
   @media (max-width: 1100px) {
     grid-template-columns: 150px minmax(0, 1fr);
+
+    > aside {
+      display: none;
+    }
   }
 
   @media (max-width: 760px) {
@@ -54,12 +61,16 @@ export const LearnLayout = styled.div`
 `;
 
 export const SideMenu = styled.nav`
+  position: sticky;
+  top: 96px;
+  align-self: start;
   display: grid;
   gap: 12px;
   padding: 8px 0;
   border-right: 1px solid #f0f2f7;
 
   @media (max-width: 760px) {
+    position: static;
     grid-template-columns: repeat(5, minmax(0, 1fr));
     border-right: 0;
     border-bottom: 1px solid #ebedf5;
@@ -394,7 +405,7 @@ export const StepBadge = styled.span`
   background: ${({ $status }) => ($status === "done" || $status === "active" || $status === "reward" ? "#4359fc" : "#e5e5e5")};
   color: ${({ $status }) => ($status === "done" || $status === "active" || $status === "reward" ? "#fff" : "#afafaf")};
   font-size: 34px;
-  font-weight: 900;
+  font-weight: 800;
   line-height: 1;
   box-shadow: ${({ $status }) =>
     $status === "done" || $status === "active" || $status === "reward"
@@ -459,7 +470,7 @@ export const LessonPopoverTitle = styled.strong`
   display: block;
   color: inherit;
   font-size: 14px;
-  font-weight: 900;
+  font-weight: 800;
   line-height: 1.35;
 `;
 
@@ -469,7 +480,7 @@ export const LessonPopoverDesc = styled.p`
   margin: 0;
   color: inherit;
   font-size: 11px;
-  font-weight: 800;
+  font-weight: 600;
   line-height: 1.4;
   opacity: 0.92;
 `;
@@ -485,7 +496,7 @@ export const LessonStartButton = styled.button`
   background: ${({ disabled }) => (disabled ? "#fff" : "#fff")};
   color: ${({ disabled }) => (disabled ? "#aaa" : "#4359fc")};
   font-size: 12px;
-  font-weight: 900;
+  font-weight: 700;
   cursor: ${({ disabled }) => (disabled ? "default" : "pointer")};
   box-shadow: 0 3px 0 rgba(0, 0, 0, 0.12);
 `;
@@ -682,14 +693,16 @@ export const QuestCount = styled.p`
 
 export const ProgressArea = styled.div`
   display: grid;
-  grid-template-columns: 170px minmax(360px, 1fr) 52px 112px;
+  grid-template-columns: 168px minmax(0, 1fr) 46px;
   align-items: center;
-  gap: 24px;
-  width: min(1268px, 100%);
-  margin: 46px auto 0;
+  gap: 22px;
+  width: 100%;
+  margin: 34px 0 0;
 
   @media (max-width: 900px) {
     grid-template-columns: 1fr;
+    width: 100%;
+    gap: 14px;
   }
 `;
 
@@ -702,7 +715,7 @@ export const ProgressTitle = styled.strong`
   display: block;
   color: #2c2c2a;
   font-size: 14px;
-  font-weight: 900;
+  font-weight: 800;
 `;
 
 export const ProgressDesc = styled.p`
@@ -731,45 +744,7 @@ export const Percent = styled.strong`
   align-self: center;
   color: #4359fc;
   font-size: 14px;
-  font-weight: 900;
-`;
-
-export const ExpBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-  width: 104px;
-  min-height: 74px;
-  padding: 10px 12px;
-  border-radius: 8px;
-  background: #f2f4ff;
-
-  span {
-    color: #888;
-    font-size: 12px;
-    font-weight: 800;
-  }
-
-  strong {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
-    white-space: nowrap;
-    color: #4359fc;
-    font-size: 25px;
-    line-height: 1;
-    font-weight: 900;
-  }
-`;
-
-export const ExpIcon = styled.span`
-  color: #ff8a00 !important;
-  font-size: 22px !important;
-  line-height: 1 !important;
-  font-weight: 900 !important;
+  font-weight: 800;
 `;
 
 export const AlphaWrap = styled.section`
@@ -1742,5 +1717,229 @@ export const LearnResultActions = styled.div`
 
   button:hover {
     color: #4359fc;
+  }
+`;
+
+export const RewardModalBackdrop = styled.div`
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  overflow: hidden;
+  background: rgba(15, 23, 42, 0.42);
+`;
+
+export const RewardModalCard = styled.div`
+  position: relative;
+  z-index: 2;
+  width: min(360px, 100%);
+  display: grid;
+  justify-items: center;
+  gap: 14px;
+  padding: 34px 28px 26px;
+  border-radius: 24px;
+  background: #fff;
+  text-align: center;
+  font-family: Pretendard, sans-serif;
+  box-shadow: 0 26px 70px rgba(15, 23, 42, 0.22);
+`;
+
+export const RewardFireworks = styled.div`
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+
+  span {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    opacity: 0;
+    background: radial-gradient(circle, #fff 0 28%, #facc15 30% 54%, transparent 56%);
+    box-shadow: 0 0 0 0 transparent;
+    animation: reward-firework 0.9s cubic-bezier(0.16, 0.84, 0.35, 1) forwards;
+  }
+
+  span:nth-child(1) {
+    left: 30%;
+    top: 28%;
+    box-shadow:
+      0 -105px 0 1px #facc15,
+      50px -88px 0 0 #ff4d6d,
+      88px -50px 0 1px #60a5fa,
+      105px 0 0 0 #22c55e,
+      88px 50px 0 1px #fb923c,
+      50px 88px 0 0 #a78bfa,
+      0 105px 0 1px #f472b6,
+      -50px 88px 0 0 #38bdf8,
+      -88px 50px 0 1px #fde047,
+      -105px 0 0 0 #34d399,
+      -88px -50px 0 1px #c084fc,
+      -50px -88px 0 0 #fb7185,
+      0 -58px 0 0 #fff,
+      58px 0 0 0 #fff,
+      0 58px 0 0 #fff,
+      -58px 0 0 0 #fff,
+      42px 42px 0 0 #fff,
+      -42px 42px 0 0 #fff,
+      42px -42px 0 0 #fff,
+      -42px -42px 0 0 #fff;
+  }
+
+  span:nth-child(2) {
+    left: 70%;
+    top: 30%;
+    animation-delay: 0.35s;
+    box-shadow:
+      0 -118px 0 1px #60a5fa,
+      56px -98px 0 0 #facc15,
+      98px -56px 0 1px #ff4d6d,
+      118px 0 0 0 #22c55e,
+      98px 56px 0 1px #a78bfa,
+      56px 98px 0 0 #fb923c,
+      0 118px 0 1px #38bdf8,
+      -56px 98px 0 0 #f472b6,
+      -98px 56px 0 1px #fde047,
+      -118px 0 0 0 #34d399,
+      -98px -56px 0 1px #c084fc,
+      -56px -98px 0 0 #fb7185,
+      0 -64px 0 0 #fff,
+      64px 0 0 0 #fff,
+      0 64px 0 0 #fff,
+      -64px 0 0 0 #fff,
+      46px 46px 0 0 #fff,
+      -46px 46px 0 0 #fff,
+      46px -46px 0 0 #fff,
+      -46px -46px 0 0 #fff;
+  }
+
+  span:nth-child(3) {
+    left: 50%;
+    top: 70%;
+    animation-delay: 0.7s;
+    box-shadow:
+      0 -112px 0 1px #22c55e,
+      54px -94px 0 0 #ff4d6d,
+      94px -54px 0 1px #facc15,
+      112px 0 0 0 #60a5fa,
+      94px 54px 0 1px #f472b6,
+      54px 94px 0 0 #fb923c,
+      0 112px 0 1px #a78bfa,
+      -54px 94px 0 0 #38bdf8,
+      -94px 54px 0 1px #fde047,
+      -112px 0 0 0 #34d399,
+      -94px -54px 0 1px #c084fc,
+      -54px -94px 0 0 #fb7185,
+      0 -60px 0 0 #fff,
+      60px 0 0 0 #fff,
+      0 60px 0 0 #fff,
+      -60px 0 0 0 #fff,
+      44px 44px 0 0 #fff,
+      -44px 44px 0 0 #fff,
+      44px -44px 0 0 #fff,
+      -44px -44px 0 0 #fff;
+  }
+
+  @keyframes reward-firework {
+    0% {
+      opacity: 0;
+      transform: scale(0.04);
+      filter: blur(0);
+    }
+
+    10% {
+      opacity: 1;
+      transform: scale(0.16);
+      filter: drop-shadow(0 0 14px rgba(255, 255, 255, 0.9));
+    }
+
+    42% {
+      opacity: 1;
+      transform: scale(1);
+      filter: drop-shadow(0 0 18px rgba(250, 204, 21, 0.45));
+    }
+
+    100% {
+      opacity: 0;
+      transform: scale(1.25);
+      filter: blur(1.2px);
+    }
+  }
+`;
+
+export const RewardModalIcon = styled.div`
+  width: 70px;
+  height: 70px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: ${({ $type }) => ($type === "locked" ? "#f3f4f6" : "#eef1ff")};
+  color: ${({ $type }) => ($type === "locked" ? "#8b8b8b" : "#4359fc")};
+  font-size: ${({ $type }) => ($type === "received" ? "34px" : "32px")};
+  font-weight: 700;
+`;
+
+export const RewardModalTitle = styled.h3`
+  margin: 4px 0 0;
+  color: #1f2937;
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 1.35;
+`;
+
+export const RewardModalDesc = styled.p`
+  margin: 0;
+  color: #777;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.55;
+`;
+
+export const RewardModalValue = styled.div`
+  width: 100%;
+  display: grid;
+  gap: 6px;
+  padding: 16px;
+  border-radius: 16px;
+  background: #f5f7ff;
+
+  span {
+    color: #7780a1;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  strong {
+    color: #4359fc;
+    font-size: 27px;
+    font-weight: 800;
+  }
+`;
+
+export const RewardModalButton = styled.button`
+  width: 100%;
+  height: 46px;
+  margin-top: 4px;
+  border: 0;
+  border-radius: 14px;
+  background: #4359fc;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 8px 18px rgba(67, 89, 252, 0.22);
+
+  &:hover {
+    background: #3348ee;
+  }
+
+  &:disabled {
+    background: #9aa5ff;
+    cursor: default;
+    box-shadow: none;
   }
 `;

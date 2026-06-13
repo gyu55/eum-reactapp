@@ -1,5 +1,6 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import formatRelativeTime from "../../functions/formatRelativeTime";
+import stripHtml from "../../functions/stripHtml";
 import * as S from "./postListCardStyle";
 import heartIcon from "../../assets/icon/heart.svg";
 import commentIcon from "../../assets/icon/comment.svg";
@@ -16,11 +17,6 @@ const defaultProfiles = [
   defaultProfile3,
   defaultProfile4,
 ];
-
-const stripHtml = (html) => {
-  if (!html) return "";
-  return html.replace(/<[^>]*>/g, "");
-};
 
 const PostListCard = ({
   id = 0,

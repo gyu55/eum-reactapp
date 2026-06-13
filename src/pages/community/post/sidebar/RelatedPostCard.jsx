@@ -1,9 +1,8 @@
 import styled from "styled-components";
 import theme from "../../../../styles/theme";
-import { FONT_FAMILY, RADIUS, SURFACE } from "../../constants";
+import { FONT_FAMILY, SURFACE } from "../../constants";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCommentDots, faHeart } from "@fortawesome/free-solid-svg-icons";
-import { h11Bold } from "../../../../styles/common";
 import { Thumbnail } from "../postComponents/postListCardStyle";
 import postDefaultProfile from "../../assets/post_default_profile.png";
 
@@ -24,25 +23,6 @@ const Wrapper = styled.div`
 
   &:hover {
     opacity: 0.8;
-  }
-`;
-
-const IconBox = styled.div`
-  background: ${SURFACE.section};
-  border-radius: ${RADIUS.input};
-  padding: 7px;
-  flex-shrink: 0;
-  width: 28px;
-  height: 28px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-
-  img {
-    width: 28px;
-    height: 28px;
-    object-fit: cover;
   }
 `;
 

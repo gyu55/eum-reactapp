@@ -1,87 +1,11 @@
-import styled from "styled-components";
-import theme from "../../../../../styles/theme";
-import { FONT_FAMILY, SURFACE } from "../../../constants";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCommentDots, faHeart } from "@fortawesome/free-solid-svg-icons";
 import { Thumbnail } from "../../postComponents/postListCardStyle";
 import postDefaultProfile from "../../../assets/post_default_profile.png";
-
-const { GRAYSCALE, TEXT_COLOR, FONT_SIZE, FONT_WEIGHT } = theme;
+import * as S from "./relatedPostCardStyle";
 
 const defaultPostIcon =
   "https://www.figma.com/api/mcp/asset/020e0f66-1d95-461e-9604-907bd4d5c27d";
-
-const Wrapper = styled.div`
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  padding: 10px 0;
-  border-top: 1px solid ${GRAYSCALE[8]};
-  background: ${SURFACE.card};
-  width: 100%;
-  cursor: pointer;
-
-  &:hover {
-    opacity: 0.8;
-  }
-`;
-
-const TextArea = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  flex: 1;
-  min-width: 0;
-`;
-
-const PostTitle = styled.p`
-  font-family: ${FONT_FAMILY};
-  font-weight: ${FONT_WEIGHT.bold};
-  font-size: ${FONT_SIZE.h11};
-  color: ${TEXT_COLOR.basic};
-  letter-spacing: -0.24px;
-  line-height: 20px;
-  margin: 0;
-  word-break: keep-all;
-`;
-
-const PostDesc = styled.p`
-  font-family: ${FONT_FAMILY};
-  font-weight: ${FONT_WEIGHT.regular};
-  font-size: ${FONT_SIZE.h11};
-  color: ${TEXT_COLOR.basic};
-  letter-spacing: -0.24px;
-  line-height: 20px;
-  margin: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-`;
-
-const StatsRow = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 12px;
-`;
-
-const StatItem = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 4px;
-
-  svg {
-    font-size: ${FONT_SIZE.h11};
-    color: ${GRAYSCALE[9]};
-  }
-
-  span {
-    font-family: ${FONT_FAMILY};
-    font-weight: ${FONT_WEIGHT.regular};
-    font-size: ${FONT_SIZE.h11};
-    color: ${TEXT_COLOR.basic};
-    white-space: nowrap;
-  }
-`;
 
 const RelatedPostCard = ({
   icon = defaultPostIcon,
@@ -92,28 +16,28 @@ const RelatedPostCard = ({
   onClick,
 }) => {
   return (
-    <Wrapper onClick={onClick}>
+    <S.Wrapper onClick={onClick}>
       {/* <IconBox>
         <img src={icon} alt="" />
       </IconBox> */}
       <Thumbnail $size="42px" $radius="8px">
         <img src={postDefaultProfile} alt="" />
       </Thumbnail>
-      <TextArea>
-        <PostTitle>{title}</PostTitle>
-        <PostDesc>{description}</PostDesc>
-        <StatsRow>
-          <StatItem>
+      <S.TextArea>
+        <S.PostTitle>{title}</S.PostTitle>
+        <S.PostDesc>{description}</S.PostDesc>
+        <S.StatsRow>
+          <S.StatItem>
             <FontAwesomeIcon icon={faHeart} />
             <span>{likes}</span>
-          </StatItem>
-          <StatItem>
+          </S.StatItem>
+          <S.StatItem>
             <FontAwesomeIcon icon={faCommentDots} />
             <span>{comments}</span>
-          </StatItem>
-        </StatsRow>
-      </TextArea>
-    </Wrapper>
+          </S.StatItem>
+        </S.StatsRow>
+      </S.TextArea>
+    </S.Wrapper>
   );
 };
 

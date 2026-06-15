@@ -14,12 +14,12 @@ function getXY(frame, idx) {
 
 function keypointsToBoneRotations(frames) {
   return frames.map((frame) => {
-    const rShoulder  = getXY(frame, 2)
-    const rElbow     = getXY(frame, 3)
-    const rWrist     = getXY(frame, 4)
-    const lShoulder  = getXY(frame, 5)
-    const lElbow     = getXY(frame, 6)
-    const lWrist     = getXY(frame, 7)
+    const rShoulder = getXY(frame, 2)
+    const rElbow    = getXY(frame, 3)
+    const rWrist    = getXY(frame, 4)
+    const lShoulder = getXY(frame, 5)
+    const lElbow    = getXY(frame, 6)
+    const lWrist    = getXY(frame, 7)
 
     const rValid     = rShoulder.x !== 0 && rElbow.x !== 0
     const lValid     = lShoulder.x !== 0 && lElbow.x !== 0
@@ -28,42 +28,52 @@ function keypointsToBoneRotations(frames) {
 
     const clamp = (v, min, max) => Math.max(min, Math.min(max, v))
 
+    // norm을 좌표 스케일(700~900)에 맞춰 크게 → clamp 한계에 안 박힘
+    const norm = 350
+
+    // ── 위팔 (어깨 → 팔꿈치) ──
     const rDy = rValid ? (rElbow.y - rShoulder.y) : 0
     const rDx = rValid ? (rElbow.x - rShoulder.x) : 0
     const lDy = lValid ? (lElbow.y - lShoulder.y) : 0
     const lDx = lValid ? (lElbow.x - lShoulder.x) : 0
 
-    const norm = 200
-    const rArmX = rValid ? clamp(-rDy / norm, -1.2, 1.2) : 0
-    const lArmX = lValid ? clamp(-lDy / norm, -1.2, 1.2) : 0
-    const rArmZ = rValid ? clamp(rDx / norm, -1.5, 0) : 0
-    const lArmZ = lValid ? clamp(-lDx / norm, 0, 1.5) : 0
+    const rArmX = rValid ? clamp(-rDy / norm, -1.4, 1.4) : 0
+    const lArmX = lValid ? clamp(-lDy / norm, -1.4, 1.4) : 0
+    const rArmZ = rValid ? clamp(rDx / norm, -1.8, 0.3) : 0
+    const lArmZ = lValid ? clamp(-lDx / norm, -0.3, 1.8) : 0
 
+    // ── 아래팔 (팔꿈치 → 손목) : 단어 구분의 핵심 ──
     const rForeDy = rForeValid ? (rWrist.y - rElbow.y) : 0
     const rForeDx = rForeValid ? (rWrist.x - rElbow.x) : 0
     const lForeDy = lForeValid ? (lWrist.y - lElbow.y) : 0
     const lForeDx = lForeValid ? (lWrist.x - lElbow.x) : 0
 
-    const rForeX = rForeValid ? clamp(-rForeDy / norm, -1.2, 1.2) : 0
-    const lForeX = lForeValid ? clamp(-lForeDy / norm, -1.2, 1.2) : 0
-    const rForeZ = rForeValid ? clamp(rForeDx / norm, -1.2, 1.2) : 0
-    const lForeZ = lForeValid ? clamp(-lForeDx / norm, -1.2, 1.2) : 0
+    // 아래팔은 norm을 더 작게(=민감하게) → 손목 움직임이 크게 반영됨
+    const foreNorm = 200
+    const rForeX = rForeValid ? clamp(-rForeDy / foreNorm, -1.8, 1.8) : 0
+    const lForeX = lForeValid ? clamp(-lForeDy / foreNorm, -1.8, 1.8) : 0
+    const rForeZ = rForeValid ? clamp(rForeDx / foreNorm, -1.8, 1.8) : 0
+    const lForeZ = lForeValid ? clamp(-lForeDx / foreNorm, -1.8, 1.8) : 0
+
+    // Y축(비틀기)도 손목 가로 위치로 살짝 넣어 입체감 ↑
+    const rForeY = rForeValid ? clamp(rForeDx / 400, -0.8, 0.8) : 0
+    const lForeY = lForeValid ? clamp(-lForeDx / 400, -0.8, 0.8) : 0
 
     return {
-      RightArm:     { x: rArmX,  y: 0, z: rArmZ  },
-      LeftArm:      { x: lArmX,  y: 0, z: lArmZ  },
-      RightForeArm: { x: rForeX, y: 0, z: rForeZ },
-      LeftForeArm:  { x: lForeX, y: 0, z: lForeZ },
+      RightArm:     { x: rArmX,  y: 0,       z: rArmZ  },
+      LeftArm:      { x: lArmX,  y: 0,       z: lArmZ  },
+      RightForeArm: { x: rForeX, y: rForeY,  z: rForeZ },
+      LeftForeArm:  { x: lForeX, y: lForeY,  z: lForeZ },
     }
   })
 }
 
 // T포즈 = POSE_BONES 회전 전부 0
 const T_POSE = {
-  LeftArm:      { x: 0, y: 0, z: 0 },
-  RightArm:     { x: 0, y: 0, z: 0 },
-  LeftForeArm:  { x: 0, y: 0, z: 0 },
-  RightForeArm: { x: 0, y: 0, z: 0 },
+  LeftArm:      { x: 1, y: 0, z: 0 },   // 0.7 → 0.95 더 내림
+  RightArm:     { x: 1, y: 0, z: 0 },
+  LeftForeArm:  { x: 0.1,  y: 0, z: 0 },   // 아래팔은 거의 폄
+  RightForeArm: { x: 0.1,  y: 0, z: 0 },
 }
 
 function applyRotationImmediate(bones, rotations) {
@@ -113,6 +123,15 @@ const AvatarInner = forwardRef(function AvatarInner({ keypointsFrames, onPlayEnd
   }, [fbx])
 
   function startPlay(frames) {
+    const wrists = frames.map(f => getXY(f, 4))
+    const xs = wrists.map(w => w.x)
+    const ys = wrists.map(w => w.y)
+    console.log('프레임수:', frames.length)
+    console.log('손목 X 범위:', Math.min(...xs).toFixed(0), '~', Math.max(...xs).toFixed(0))
+    console.log('손목 Y 범위:', Math.min(...ys).toFixed(0), '~', Math.max(...ys).toFixed(0))
+    console.log('첫프레임 손목:', getXY(frames[0], 4))
+    console.log('끝프레임 손목:', getXY(frames[frames.length-1], 4))
+
     const boneFrames = keypointsToBoneRotations(frames)
     const s = stateRef.current
     s.boneFrames = boneFrames

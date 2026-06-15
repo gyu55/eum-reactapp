@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useRef } from "react";
 import * as S from "./chatMessageStyle";
 import defaultProfile from "../../assets/chat/chat_default_profile.svg";
 import SignAvatar from "../../../../components/SignAvatar";
@@ -8,7 +8,10 @@ const IMAGE_BASE_URL = "http://localhost:10000";
 // 수어 단어로 keypoints를 fetch해서 아바타 재생
 const SignAvatarByWord = React.memo(({ word }) => {
   const [keypoints, setKeypoints] = useState(null)
+  const [visible, setVisible] = useState(false)   // 👈 화면에 보이는지
+  const wrapRef = useRef(null)                      // 👈 감지용 ref
 
+  // keypoints fetch (기존 그대로)
   useEffect(() => {
     console.log('수어 단어 fetch:', word)
     let cancelled = false
@@ -24,11 +27,26 @@ const SignAvatarByWord = React.memo(({ word }) => {
     return () => { cancelled = true }
   }, [word])
 
-  if (!keypoints) {
-    // 로딩 중엔 빈 공간 (아바타 크기만큼)
-    return <div style={{ width: 200, height: 400 }} />
-  }
-  return <SignAvatar autoPlay keypoints={keypoints} />
+  // 👇 화면에 보이는지 감지
+  useEffect(() => {
+    const el = wrapRef.current
+    if (!el) return
+    const observer = new IntersectionObserver(
+      ([entry]) => setVisible(entry.isIntersecting),
+      { threshold: 0.1 }   // 10% 보이면 visible
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
+
+  return (
+    <div ref={wrapRef} style={{ width: 200, height: 400 }}>
+      {keypoints && visible
+        ? <SignAvatar autoPlay keypoints={keypoints} />
+        : null /* 안 보이거나 로딩 중엔 Canvas 없음 → 빈 공간 유지 */
+      }
+    </div>
+  )
 }, (prev, next) => prev.word === next.word)
 
 const ChatMessage = ({

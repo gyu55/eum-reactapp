@@ -50,14 +50,14 @@ const UserInfoMiniPopup = ({
           >
             + 팔로우
           </OutlineButton>
-          <OutlineButton
+          {/* <OutlineButton
             bgColor={colors.primary}
             borderColor={colors.primary}
             textColor={colors.textWhite}
             padding="8px 16px"
           >
             1:1 채팅 시작
-          </OutlineButton>
+          </OutlineButton> */}
           <OutlineButton
             borderColor={colors.live}
             textColor={colors.live}

@@ -883,7 +883,7 @@ S.LevelNoticeBox = styled.div`
 
 /* 페이지네이션 영역 */
 S.PaginationArea = styled.div`
-  margin-top: auto;
+  margin-top: 10px;
 
   display: flex;
   justify-content: center;

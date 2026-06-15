@@ -45,12 +45,20 @@ const MyPageEditComponent = () => {
 
     getUserInfo();
   }, []);
-  const socialProvider = String(userInfo?.socialMemberProvider || "").toLowerCase();
 
-  const isSocialUser =
+  const socialProvider = String(userInfo?.socialMemberProvider || "local").toLowerCase();
+
+  const isSocialFlag =
+    userInfo?.socialUser === true ||
+    userInfo?.socialUser === 1 ||
+    userInfo?.socialUser === "1";
+
+  const isSocialProvider =
     socialProvider === "google" ||
     socialProvider === "kakao" ||
     socialProvider === "naver";
+
+  const isSocialUser = isSocialFlag && isSocialProvider;
 
   const handleWithdrawClick = () => {
     navigate("/mypage/withdraw");

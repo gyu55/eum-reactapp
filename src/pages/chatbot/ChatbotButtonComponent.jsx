@@ -16,8 +16,8 @@ const ChatbotButton = () => {
       >
         <S.IconCircle>
           <img
-            src="/assets/image/chatbot/chatbot.svg"
-            style={{ width: "20px", height: "25px" }}
+            src="/assets/image/chatbot/chatbot_waving.gif"
+            style={{ width: "30px", height: "35px" }}
           />
         </S.IconCircle>
         <S.BtnLabel $hovered={isHovered}>이음 도우미</S.BtnLabel>

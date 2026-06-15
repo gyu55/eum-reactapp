@@ -18,8 +18,7 @@ const formatTime = (dateStr) => {
 
 const toDisplayMessage = (msg, currentUserId) => ({
   id: msg.id ?? makeWsMsgId(msg),
-  isMine:
-    msg.chatIsMe ?? (currentUserId != null && msg.userId === currentUserId),
+  isMine: msg.chatIsMe ?? (currentUserId != null && msg.userId === currentUserId),
   content: msg.chatContent,
   chatType: msg.chatType ?? "텍스트",
   time: formatTime(msg.chatCreateAt),
@@ -41,8 +40,6 @@ const useChatRoom = (chatRoomId) => {
     let ws;
     let cancelled = false;
 
-    // 최초 채팅방 입장 시 방에 있는 모든 메세지 불러오기
-    // 웹 소켓 활성화
     const init = async () => {
       try {
         const data = await getChatMessages(chatRoomId);
@@ -60,7 +57,6 @@ const useChatRoom = (chatRoomId) => {
       ws = new WebSocket(`${WS_BASE}/${chatRoomId}`);
       wsRef.current = ws;
 
-      // 연결된 웹소켓을 통해서 무언가를 받았을 때
       ws.onmessage = (event) => {
         try {
           const msg = JSON.parse(event.data);
@@ -86,17 +82,22 @@ const useChatRoom = (chatRoomId) => {
   }, [chatRoomId, currentUserId]);
 
   const sendMessage = useCallback(
-    (content) => {
-      const text = content.trim();
-      if (!text || !chatRoomId) return;
-      const ws = wsRef.current;
-      if (!ws || ws.readyState !== WebSocket.OPEN) {
-        console.warn("WebSocket이 아직 연결되지 않았습니다.");
-        return;
+    (content, retryCount = 0) => {
+    const text = content.trim();
+    if (!text || !chatRoomId) return;
+    const ws = wsRef.current;
+
+    if (!ws || ws.readyState !== WebSocket.OPEN) {
+      if (retryCount < 20) {
+        setTimeout(() => sendMessage(content, retryCount + 1), 500);
+      } else {
+        console.warn("WebSocket 연결 실패로 메시지 전송 불가");
       }
-      ws.send(JSON.stringify({ chatContent: text, chatType: "텍스트" }));
-    },
-    [chatRoomId],
+      return;
+    }
+
+    ws.send(JSON.stringify({ chatContent: text, chatType: "텍스트" }));
+    }, [chatRoomId],
   );
 
   const sendImageMessage = useCallback(
@@ -111,7 +112,19 @@ const useChatRoom = (chatRoomId) => {
     [],
   );
 
-  return { messages, sendMessage, sendImageMessage };
-};
+  const sendSignMessage = useCallback(
+    (word) => {
+      const ws = wsRef.current;
+      if (!ws || ws.readyState !== WebSocket.OPEN) return;
+      ws.send(JSON.stringify({
+        chatContent: word,      // 단어 저장 (리로드 후 keypoints 재요청용)
+        chatType: "수어",
+      }));
+    },
+    [],
+  );
+
+  return { messages, sendMessage, sendImageMessage, sendSignMessage };
+}
 
 export default useChatRoom;

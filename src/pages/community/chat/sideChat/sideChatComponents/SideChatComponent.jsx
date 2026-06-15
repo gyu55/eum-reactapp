@@ -60,6 +60,17 @@ const SendBtn = styled.button`
   justify-content: center;
 `;
 
+const SignBtn = styled.button`
+  background: ${colors.bgCard};
+  border: 1px solid ${colors.border};
+  border-radius: ${radius.input};
+  padding: 8px 10px;
+  font-size: 16px;
+  cursor: pointer;
+  flex-shrink: 0;
+  &:disabled { opacity: 0.5; cursor: not-allowed; }
+`;
+
 const Footer = styled.div`
   background: ${colors.primaryLight};
   padding: 11px 10px;
@@ -83,6 +94,7 @@ const ViewAllText = styled.p`
 
 const SideChatComponent = ({ chatRoomId, onViewAll }) => {
   const [inputValue, setInputValue] = useState("");
+  const [signLoading, setSignLoading] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
   const messageListRef = useRef(null);
   const { messages, sendMessage } = useChatRoom(chatRoomId);
@@ -101,6 +113,29 @@ const SideChatComponent = ({ chatRoomId, onViewAll }) => {
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter") handleSend();
+  };
+
+  const handleSignSend = async () => {
+    if (!inputValue.trim()) return;
+    console.log("chatRoomId 확인:", chatRoomId);
+    const original = inputValue.trim();
+    setInputValue("");
+    setSignLoading(true);
+    try {
+      const res = await fetch(`/private/chats/${chatRoomId}/sign-translate`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ text: original }),
+      });
+      const data = await res.json();
+      // 번역 결과를 WebSocket으로 전송
+      sendMessage(`${original}\n\n🤟 수어 표현\n${data.data.reply}`);
+    } catch {
+      sendMessage(original);
+    } finally {
+      setSignLoading(false);
+    }
   };
 
   return (
@@ -141,6 +176,7 @@ const SideChatComponent = ({ chatRoomId, onViewAll }) => {
           onChange={(e) => setInputValue(e.target.value)}
           onKeyDown={handleKeyDown}
         />
+        
         <SendBtn onClick={handleSend} aria-label="전송">
           ➤
         </SendBtn>

@@ -59,7 +59,7 @@
         {/* 문의 제목 */}
         <div>
           <S.Label>문의 제목 <S.Required>*</S.Required></S.Label>
-          <S.Input
+          <S.Textarea
             type="text"
             placeholder="문의 제목을 입력해주세요."
             value={title}

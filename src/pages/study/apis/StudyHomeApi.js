@@ -12,3 +12,16 @@ export const fetchStudyHome = async () => {
 
   return result.data;
 };
+
+
+export const fetchRandomFairyTaleVideo = async () => {
+  const response = await fetch(`${BASE_URL}/api/edu-videos/fairy-tales/random`);
+  if (!response.ok)
+    throw new Error("수어동화 영상 조회 실패");
+
+  const result = await response.json();
+  if (!result.success)
+    throw new Error(result.message);
+
+  return result.data;
+};

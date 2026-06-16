@@ -14,11 +14,58 @@ import S from "./style";
 const COLLAPSED_COUNT = 4;
 const PAGE_SIZE = 8;
 
-const chapterQuestionPathMap = {
-  1: "/study/chapter/sign-history/questions/1",
-  2: "/study/chapter/sos/questions/1",
-  3: "/study/chapter/morse/questions/1",
+const quizStudyPathMap = {
+  1: "/study/chapter/sign-history",
+  2: "/study/chapter/sos",
+  3: "/study/chapter/morse",
 };
+
+// 백엔드 학습현황이 비어 있을 때 확인용으로 보여주는 mock 데이터입니다.
+const fallbackStatusList = [
+  {
+    eduId: "dummy-braille-a-f",
+    eduTitle: "점자 A~F",
+    progress: 30,
+    recentStudyAt: "2026-06-06T10:00:00",
+  },
+  {
+    eduId: "dummy-morse-basic",
+    eduTitle: "모스부호 기초",
+    progress: 90,
+    recentStudyAt: "2026-06-04T10:00:00",
+  },
+];
+
+// 백엔드 학습결과 데이터가 없을 때 확인용으로 보여주는 mock 데이터입니다.
+const fallbackResultList = [
+  {
+    quizAttemptId: "dummy-braille-read",
+    quizTitle: "점자 읽기",
+    correctCount: 8,
+    totalCount: 10,
+    spentTime: 105,
+    accuracy: 80,
+    completedAt: "2026-06-06T11:00:00",
+  },
+  {
+    quizAttemptId: "dummy-life-morse",
+    quizTitle: "실생활 모스부호",
+    correctCount: 1,
+    totalCount: 10,
+    spentTime: 300,
+    accuracy: 10,
+    completedAt: "2026-06-04T11:00:00",
+  },
+  {
+    quizAttemptId: "dummy-life-sign",
+    quizTitle: "실생활 수어",
+    correctCount: 10,
+    totalCount: 10,
+    spentTime: 260,
+    accuracy: 100,
+    completedAt: "2026-05-31T10:00:00",
+  },
+];
 
 const formatPercent = (value) => `${value || 0}%`;
 
@@ -158,7 +205,7 @@ const MyPageLearningComponent = () => {
   const originStatusList = learningData.statusList || [];
   const originResultList = learningData.resultList || [];
 
-  // React 더미를 붙이지 않고, 백엔드에서 내려온 회원별 학습 데이터만 사용합니다.
+  // 화면에는 백엔드에서 내려준 회원별 학습 데이터만 사용합니다.
   const statusList = sortStatusListByRecent(originStatusList);
   const resultList = sortResultListByRecent(originResultList);
 
@@ -176,11 +223,23 @@ const MyPageLearningComponent = () => {
   // 학습현황 제목 클릭 시 이어서 학습할 수 있는 화면으로 이동합니다.
   const handleMoveLearning = (learning) => {
     if (learning.learningType === "QUIZ") {
-      navigate(chapterQuestionPathMap[learning.eduId] || "/study/chapter");
+      const questionNumber = Math.min(Number(learning.completedCount || 0) + 1, 5);
+      const basePath = learning.studyPath || quizStudyPathMap[Number(learning.eduId)];
+
+      navigate(basePath ? `${basePath}/questions/${questionNumber}` : "/study/chapter");
+
       return;
     }
 
-    navigate(`/study/learn/quiz/greeting/questions/1?eduId=${learning.eduId}`, {
+    if (typeof learning.eduId === "string") {
+      navigate("/study/learn");
+
+      return;
+    }
+
+    const questionNumber = Math.min(Number(learning.completedCount || 0) + 1, 5);
+
+    navigate(`/study/learn/quiz/greeting/questions/${questionNumber}?eduId=${learning.eduId}`, {
       state: {
         eduId: learning.eduId,
         lessonTitle: learning.eduTitle,
@@ -214,7 +273,7 @@ const MyPageLearningComponent = () => {
               <S.LearningHeader>
                 <S.LearningHeaderText>제목</S.LearningHeaderText>
                 <S.LearningHeaderText>학습일</S.LearningHeaderText>
-                <S.LearningHeaderText>진행률</S.LearningHeaderText>
+                <S.LearningHeaderText>진행도</S.LearningHeaderText>
                 <S.LearningHeaderText>최근 학습 시간</S.LearningHeaderText>
               </S.LearningHeader>
 
@@ -257,8 +316,8 @@ const MyPageLearningComponent = () => {
                   type="button"
                   onClick={handleStatusToggleClick}
                 >
-                  {isStatusExpanded ? "접기" : "더보기"}{" "}
-                  <span>{isStatusExpanded ? "↑" : "↓"}</span>
+                  {isStatusExpanded ? "접기" : "더 보기"}{" "}
+                  <span>{isStatusExpanded ? "↑" : "→"}</span>
                 </S.LearningMoreButton>
               )}
             </S.LearningCardBox>
@@ -271,9 +330,9 @@ const MyPageLearningComponent = () => {
               <S.LearningResultHeader>
                 <S.LearningHeaderText>제목</S.LearningHeaderText>
                 <S.LearningHeaderText>완료일</S.LearningHeaderText>
-                <S.LearningHeaderText>완료 단어</S.LearningHeaderText>
+                <S.LearningHeaderText>정답 수</S.LearningHeaderText>
                 <S.LearningHeaderText>학습 시간</S.LearningHeaderText>
-                <S.LearningHeaderText>완료율</S.LearningHeaderText>
+                <S.LearningHeaderText>정답률</S.LearningHeaderText>
               </S.LearningResultHeader>
 
               {visibleResultList.map((result) => (
@@ -287,7 +346,7 @@ const MyPageLearningComponent = () => {
               ))}
 
               {resultList.length === 0 && (
-                <S.EmptyText>완료한 학습 결과가 없습니다.</S.EmptyText>
+                <S.EmptyText>완료된 학습 결과가 없습니다.</S.EmptyText>
               )}
 
               {needResultPagination && (
@@ -310,8 +369,8 @@ const MyPageLearningComponent = () => {
                   type="button"
                   onClick={handleResultToggleClick}
                 >
-                  {isResultExpanded ? "접기" : "더보기"}{" "}
-                  <span>{isResultExpanded ? "↑" : "↓"}</span>
+                  {isResultExpanded ? "접기" : "더 보기"}{" "}
+                  <span>{isResultExpanded ? "↑" : "→"}</span>
                 </S.LearningMoreButton>
               )}
             </S.LearningCardBox>

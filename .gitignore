@@ -309,3 +309,6 @@ sketch
 # .pnp.*
 
 # End of https://www.toptal.com/developers/gitignore/api/intellij,visualstudiocode,yarn,node,react
+
+# 로컬 수어동화 영상 파일은 용량이 커서 Git에 올리지 않음
+public/assets/video/

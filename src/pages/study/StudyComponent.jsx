@@ -4,6 +4,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import StudyAttendancePopup from "./attendance/StudyAttendancePopup";
 import { attendanceMock } from "./attendance/data/attendanceMock";
 import { checkAttendance, fetchAttendanceSummary } from "./apis/AttendanceApi";
+import { fetchRandomFairyTaleVideo } from "./apis/StudyHomeApi";
 import { fetchWeeklySignWordRecommendations } from "./apis/SignWordApi";
 import { useStudyUser } from "./hooks/useStudyUser";
 import { mapAttendanceSummary } from "./mappers/attendanceMapper";
@@ -78,7 +79,7 @@ const featureCards = [
 // 영상 카테고리 탭 목록
 const videoTabs = [
   { label: "수어", image: "/assets/image/learn/signLearn.png" },
-  { label: "수신호", image: "/assets/image/learn/emergency.png" },
+  { label: "수어동화", icon: "📚" },
   { label: "모스부호", image: "/assets/image/learn/mors.png" },
 ];
 
@@ -100,6 +101,9 @@ const fallbackWordItems = [
 
 // 유튜브썸네일생성: 유튜브 영상 ID로 카드 썸네일 주소 만드는
 const getYoutubeThumbnail = (videoId) => `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
+
+// 수어동화썸네일생성: story01.mp4 같은 영상 경로에 맞는 PNG 썸네일을 사용
+const getFairyTaleThumbnail = (videoUrl) => videoUrl?.replace(/\.mp4$/i, ".png");
 
 // 날짜문자열변환: 출석 현황 API 요청에 사용할 YYYY-MM-DD 형식을 만듦
 const formatDate = (date) => {
@@ -147,7 +151,7 @@ const videoCardsByTab = {
       thumbnail: getYoutubeThumbnail("hRzXnPTW8jY"),
     },
   ],
-  수신호: [],
+  수어동화: [],
   모스부호: [
     {
       category: "교신",
@@ -181,6 +185,8 @@ const StudyComponent = () => {
   const [keyword, setKeyword] = useState("");
   const [weeklyWordItems, setWeeklyWordItems] = useState(fallbackWordItems);
   const [activeVideoTab, setActiveVideoTab] = useState("수어");
+  const [fairyTaleVideos, setFairyTaleVideos] = useState([]);
+  const [fairyTaleLoading, setFairyTaleLoading] = useState(false);
 
 
   const location = useLocation();
@@ -214,6 +220,45 @@ const StudyComponent = () => {
 
     loadWeeklyRecommendations();
   }, []);
+
+  useEffect(() => {
+    const loadFairyTaleVideo = async () => {
+      setFairyTaleLoading(true);
+
+      try {
+        const videos = await Promise.all(
+          Array.from({ length: 6 }, () => fetchRandomFairyTaleVideo())
+        );
+        const uniqueVideos = Array.from(
+          new Map(
+            videos
+              .filter(Boolean)
+              .map((video) => [video.id || video.eduVideoUrl || video.eduVideoTitle, video])
+          ).values()
+        ).slice(0, 3);
+
+        setFairyTaleVideos(
+          uniqueVideos.map((video) => ({
+            category: "수어동화",
+            title: video.eduVideoTitle,
+            views: video.eduVideoDetail || "동화 영상",
+            videoUrl: video.eduVideoUrl,
+            thumbnail: video.eduVideoThumbnailUrl || getFairyTaleThumbnail(video.eduVideoUrl),
+          }))
+        );
+      } catch {
+        setFairyTaleVideos([]);
+      } finally {
+        setFairyTaleLoading(false);
+      }
+    };
+
+    loadFairyTaleVideo();
+  }, []);
+
+  const activeVideoCards = activeVideoTab === "수어동화"
+    ? fairyTaleVideos
+    : videoCardsByTab[activeVideoTab] || [];
 
   // 로그인 해야하는 서비스들 alert
   const requireLogin = (callback) => {
@@ -395,33 +440,41 @@ const StudyComponent = () => {
         <h2>
           바로 배우는 <span>추천 학습</span> 영상
         </h2>
-        <p className="desc">수어, 수신호, 모스부호 영상을 골라 짧게 학습해보세요.</p>
+        <p className="desc">수어, 수어동화, 모스부호 영상을 골라 짧게 학습해보세요.</p>
 
         <S.VideoTabs>
           {videoTabs.map((tab) => (
             <button
               type="button"
               key={tab.label}
-              $active={activeVideoTab === tab.label}
+              className={activeVideoTab === tab.label ? "is-active" : ""}
               onClick={() => setActiveVideoTab(tab.label)}
             >
-              <img src={tab.image} alt="" />
+              {tab.image ? (
+                <img src={tab.image} alt="" />
+              ) : (
+                <span className="tabIcon" aria-hidden="true">{tab.icon}</span>
+              )}
               {tab.label}
             </button>
           ))}
         </S.VideoTabs>
 
-        {videoCardsByTab[activeVideoTab].length > 0 ? (
+        {activeVideoCards.length > 0 ? (
           <S.VideoGrid>
-            {videoCardsByTab[activeVideoTab].map((video) => (
-              <S.VideoCard key={video.title} href={video.youtubeUrl} target="_blank" rel="noreferrer">
+            {activeVideoCards.map((video) => (
+              <S.VideoCard key={video.title} href={video.youtubeUrl || video.videoUrl} target="_blank" rel="noreferrer">
                 <div>
                   <span>{video.category}</span>
                   <strong>{video.title}</strong>
                   <p>{video.views}에서 보기</p>
                 </div>
                 <figure>
-                  <img src={video.thumbnail} alt={`${video.title} 썸네일`} />
+                  {video.thumbnail ? (
+                    <img src={video.thumbnail} alt={`${video.title} 썸네일`} />
+                  ) : (
+                    <video src={video.videoUrl} muted preload="metadata" playsInline aria-label={`${video.title} 미리보기`} />
+                  )}
                   <span className="play">▶</span>
                 </figure>
               </S.VideoCard>
@@ -429,8 +482,8 @@ const StudyComponent = () => {
           </S.VideoGrid>
         ) : (
           <S.VideoEmpty>
-            <strong>{activeVideoTab} 영상이 아직 없어요.</strong>
-            <span>영상이 준비되면 이곳에서 바로 확인할 수 있어요.</span>
+            <strong>{fairyTaleLoading ? "수어동화 영상을 불러오는 중이에요." : `${activeVideoTab} 영상이 아직 없어요.`}</strong>
+            <span>{fairyTaleLoading ? "잠시만 기다려주세요." : "영상이 준비되면 이곳에서 바로 확인할 수 있어요."}</span>
           </S.VideoEmpty>
         )}
 

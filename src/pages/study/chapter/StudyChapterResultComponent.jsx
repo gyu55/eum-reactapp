@@ -1,4 +1,4 @@
-// 오!퀴즈 결과 컴포넌트: 정확도, 틀린 문제, 뱃지 획득 표시를 담당
+﻿// 오!퀴즈 결과 컴포넌트: 정확도, 틀린 문제, 뱃지 획득 표시를 담당
 import { useContext, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { StudyQuizContext } from "../../../context/StudyQuizContext";
@@ -6,6 +6,19 @@ import { chapterQuizMeta } from "./data/chapterQuizMeta";
 import FireworkCanvas from "./parts/FireworkCanvas";
 import * as S from "./style";
 
+
+const formatResultTime = (seconds) => {
+  const value = Number(seconds || 0);
+
+  if (value <= 0) return "-";
+
+  const minute = Math.floor(value / 60);
+  const second = value % 60;
+
+  if (minute <= 0) return `${second}초`;
+
+  return `${minute}분${second > 0 ? ` ${second}초` : ""}`;
+};
 const StudyChapterResultComponent = () => {
   const { quiz } = useParams();
   const { state } = useContext(StudyQuizContext);
@@ -43,6 +56,7 @@ const StudyChapterResultComponent = () => {
     const rewardExp = state.result?.submitted && correctCount >= Math.ceil(totalCount / 2)
       ? resultMeta.rewardExp || chapter?.exp || 0
       : 0;
+    const spentTime = submittedResult?.quizAttemptTime ?? 0;
 
     return {
       totalCount,
@@ -50,6 +64,7 @@ const StudyChapterResultComponent = () => {
       accuracy,
       wrongItems,
       rewardExp,
+      spentTime,
     };
   }, [answerSnapshot, chapter?.exp, chapter?.questionCount, questionSnapshot, resultMeta.rewardExp, state.result?.submitted, submittedResult]);
   const shouldShowRewardModal = isBadgeOpen && result.rewardExp > 0;
@@ -100,7 +115,7 @@ const StudyChapterResultComponent = () => {
           <div>
             <span>⏱️</span>
             <small>시간</small>
-            <strong>{resultMeta.spentTime || "-"}</strong>
+            <strong>{formatResultTime(result.spentTime)}</strong>
           </div>
         </S.ResultStatGrid>
 

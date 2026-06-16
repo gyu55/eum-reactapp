@@ -580,10 +580,10 @@ export const VideoTabs = styled.div`
     align-items: center;
     gap: 9px;
     padding: 0 18px;
-    border: 1px solid ${({ theme, $active }) => ($active ? theme.PALETTE.primary.main : theme.GRAYSCALE[3])};
+    border: 1px solid ${({ theme }) => theme.GRAYSCALE[3]};
     border-radius: 10px;
-    background: ${({ $active }) => ($active ? "rgba(67, 89, 252, 0.08)" : "transparent")};
-    color: ${({ theme, $active }) => ($active ? theme.PALETTE.primary.main : "#1a1a1a")};
+    background: transparent;
+    color: #1a1a1a;
     font-size: ${({ theme }) => theme.FONT_SIZE.h10};
     font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
     transition:
@@ -591,6 +591,12 @@ export const VideoTabs = styled.div`
       color 0.2s ease,
       transform 0.2s ease,
       box-shadow 0.2s ease;
+  }
+
+  button.is-active {
+    color: ${({ theme }) => theme.PALETTE.primary.main};
+    border-color: ${({ theme }) => theme.PALETTE.primary.main};
+    background: rgba(67, 89, 252, 0.08);
   }
 
   button:hover,
@@ -610,6 +616,13 @@ export const VideoTabs = styled.div`
     width: 20px;
     height: 20px;
     object-fit: contain;
+  }
+
+  .tabIcon {
+    margin: 0;
+    color: inherit;
+    font-size: 18px;
+    line-height: 1;
   }
 `;
 
@@ -691,7 +704,8 @@ export const VideoCard = styled.a`
     font-size: ${({ theme }) => theme.FONT_SIZE.h10};
   }
 
-  figure img {
+  figure img,
+  figure video {
     width: 100%;
     height: 100%;
     display: block;
@@ -723,7 +737,9 @@ export const VideoCard = styled.a`
   }
 
   &:hover figure img,
-  &:focus-visible figure img {
+  &:hover figure video,
+  &:focus-visible figure img,
+  &:focus-visible figure video {
     transform: scale(1.06);
   }
 

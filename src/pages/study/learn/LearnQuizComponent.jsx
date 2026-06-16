@@ -1,7 +1,7 @@
-// 학습 퀴즈 컴포넌트: 단어 조회, 문제 생성, 정답 확인, 복습 흐름 담당
-import { useContext, useEffect, useMemo, useState } from "react";
+// ?숈뒿 ?댁쫰 而댄룷?뚰듃: ?⑥뼱 議고쉶, 臾몄젣 ?앹꽦, ?뺣떟 ?뺤씤, 蹂듭뒿 ?먮쫫 ?대떦
+import { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { fetchEduVideoById, fetchRandomWordsByLearnId, finishLearnWord, completeEduStart } from "../apis/LearnApi";
+import { fetchEduVideoById, fetchRandomWordsByLearnId, finishLearnWord, completeEduStart, startLearn, recordLearnProgress } from "../apis/LearnApi";
 import { submitQuizAnswers } from "../apis/QuizApi";
 import { StudyQuizContext } from "../../../context/StudyQuizContext";
 import { useStudyUser } from "../hooks/useStudyUser";
@@ -14,7 +14,7 @@ import * as S from "./style";
 
 const optionIcons = ["수어", "표현", "단어", "연습", "복습"];
 
-// 고정 순서 생성: 한 번 시작한 학습 세션에서는 같은 순서를 유지
+// 怨좎젙 ?쒖꽌 ?앹꽦: ??踰??쒖옉???숈뒿 ?몄뀡?먯꽌??媛숈? ?쒖꽌瑜??좎?
 const getOrderValue = (value) => {
   const hash = String(value).split("").reduce((sum, character) => ((sum * 31) + character.charCodeAt(0)) >>> 0, 0);
   const mixedHash = Math.imul(hash ^ (hash >>> 16), 0x45d9f3b);
@@ -30,17 +30,17 @@ const shuffleItems = (items, seed) =>
     return leftOrder - rightOrder;
   });
 
-// 단어 보기 생성: 백엔드 단어를 퀴즈 보기 카드 형식으로 변환
+// ?⑥뼱 蹂닿린 ?앹꽦: 諛깆뿏???⑥뼱瑜??댁쫰 蹂닿린 移대뱶 ?뺤떇?쇰줈 蹂??
 const createWordOption = (word, index, correct = false, videoMode = false) => ({
   id: `${correct ? "correct" : "word"}-${word.id}`,
   label: word.wordsTitle,
-  desc: word.wordsDetail || "같은 학습에 포함된 수어 표현이에요.",
+  desc: word.wordsDetail || "같이 학습할 수어 표현이에요.",
   icon: videoMode ? word.wordsTitle : optionIcons[index % optionIcons.length],
   hideText: videoMode,
   correct,
 });
 
-// 오답 보기 생성: 같은 학습 단어를 우선 사용하고 부족하면 임시 보기로 채움
+// ?ㅻ떟 蹂닿린 ?앹꽦: 媛숈? ?숈뒿 ?⑥뼱瑜??곗꽑 ?ъ슜?섍퀬 遺議깊븯硫??꾩떆 蹂닿린濡?梨꾩?
 const createWrongOptions = ({ word, words, baseQuiz, correctLabel, videoMode = false }) => {
   const wordOptions = words
     .filter((item) => item.id !== word.id && item.wordsTitle && item.wordsTitle !== correctLabel)
@@ -65,7 +65,7 @@ const createWrongOptions = ({ word, words, baseQuiz, correctLabel, videoMode = f
   return [...wordOptions, ...fallbackOptions];
 };
 
-// 보기 순서 생성: 정답과 오답 위치를 세션마다 섞어서 배치
+// 蹂닿린 ?쒖꽌 ?앹꽦: ?뺣떟怨??ㅻ떟 ?꾩튂瑜??몄뀡留덈떎 ?욎뼱??諛곗튂
 const createQuestionOptions = ({ word, words, baseQuiz, correctLabel, videoMode = false, seed }) => {
   const wrongOptions = createWrongOptions({ word, words, baseQuiz, correctLabel, videoMode });
   const correctOption = createWordOption(word, wrongOptions.length, true, videoMode);
@@ -91,15 +91,26 @@ const LearnQuizComponent = () => {
   const isBackendQuiz = Boolean(routeEduId);
 
   const lessonTitle = location.state?.lessonTitle;
-  const [sessionWords, setSessionWords] = useState([]); // 백엔드에서 받은 단어 목록
+  const [sessionWords, setSessionWords] = useState([]); // 諛깆뿏?쒖뿉??諛쏆? ?⑥뼱 紐⑸줉
   const [sessionVideos, setSessionVideos] = useState({});
   const [sessionLoading, setSessionLoading] = useState(false);
   const [sessionError, setSessionError] = useState(null);
   const [sessionSeed, setSessionSeed] = useState(Math.random);
   const [resultSummary, setResultSummary] = useState(null);
+  const sessionStartedAtRef = useRef(Date.now());
+  const sessionCompletedRef = useRef(false);
   const baseQuiz = useMemo(() => getLearnQuiz(type), [type]);
 
-  // OpenAPI 단어만 사용: eduId로 들어온 학습 퀴즈에서는 기존 임시 단어를 섞지 않음
+  const getElapsedSeconds = () => Math.max(1, Math.round((Date.now() - sessionStartedAtRef.current) / 1000));
+
+  const formatSeconds = (seconds) => {
+    const minutes = Math.floor(seconds / 60);
+    const restSeconds = seconds % 60;
+
+    return minutes > 0 ? `${minutes}분 ${restSeconds}초` : `${restSeconds}초`;
+  };
+
+  // OpenAPI ?⑥뼱留??ъ슜: eduId濡??ㅼ뼱???숈뒿 ?댁쫰?먯꽌??湲곗〈 ?꾩떆 ?⑥뼱瑜??욎? ?딆쓬
   const quizWords = useMemo(() => {
     return sessionWords;
   }, [sessionWords]);
@@ -138,7 +149,7 @@ const LearnQuizComponent = () => {
         return {
           ...fallback,
           id: word.id,
-          title: video ? "이 수어는 어떤 뜻일까요?" : `다음 중 어느 수어가 "${correctLabel}"인가요?`,
+          title: video ? "이 수어는 어떤 뜻일까요?" : `다음 중 어느 수어가 "${correctLabel}"일까요?`,
           targetWord: correctLabel,
           hint: word.wordsDetail || fallback.hint,
           word,
@@ -165,7 +176,7 @@ const LearnQuizComponent = () => {
   const [reviewIndex, setReviewIndex] = useState(0);
   const [savedEduWordMapIds, setSavedEduWordMapIds] = useState([]);
 
-  // 세션 자료 조회: 학습 시작 시 단어와 영상을 불러와 문제 세션 구성
+  // ?몄뀡 ?먮즺 議고쉶: ?숈뒿 ?쒖옉 ???⑥뼱? ?곸긽??遺덈윭? 臾몄젣 ?몄뀡 援ъ꽦
   useEffect(() => {
     if (!routeEduId) return;
 
@@ -176,6 +187,16 @@ const LearnQuizComponent = () => {
       setSessionError(null);
 
       try {
+        if (!isGuest && userId && routeEduId) {
+          try {
+            await startLearn(routeEduId);
+            sessionStartedAtRef.current = Date.now();
+            sessionCompletedRef.current = false;
+          } catch {
+            // ?쒖옉 湲곕줉 ?ㅽ뙣媛 臾몄젣 ????먮쫫??留됱????딆쓬
+          }
+        }
+
         const words = await fetchRandomWordsByLearnId(routeEduId, 5);
         if (ignore) return;
 
@@ -215,9 +236,9 @@ const LearnQuizComponent = () => {
     return () => {
       ignore = true;
     };
-  }, [routeEduId]);
+  }, [isGuest, routeEduId, userId]);
 
-  // 퀴즈 초기화: URL이나 문제 목록이 바뀌면 컨텍스트 문제 목록 갱신
+  // ?댁쫰 珥덇린?? URL?대굹 臾몄젣 紐⑸줉??諛붾뚮㈃ 而⑦뀓?ㅽ듃 臾몄젣 紐⑸줉 媛깆떊
   useEffect(() => {
     setQuiz({
       mode: "learn",
@@ -227,7 +248,7 @@ const LearnQuizComponent = () => {
     });
   }, [quiz, setQuiz, type]);
 
-  // 문제 변경 초기화: 다음 문제로 이동할 때 선택 상태 초기화
+  // 臾몄젣 蹂寃?珥덇린?? ?ㅼ쓬 臾몄젣濡??대룞?????좏깮 ?곹깭 珥덇린??
   useEffect(() => {
     setSelectedOptionId(null);
     setStatus("solving");
@@ -235,7 +256,7 @@ const LearnQuizComponent = () => {
 
   useEffect(() => {
     setSavedEduWordMapIds([]);
-  }, [routeEduId]);
+  }, [isGuest, routeEduId, userId]);
 
   const selectedOption = question?.options.find((option) => option.id === selectedOptionId) || null;
   const progress = Math.round(((currentIndex + 1) / totalQuestions) * 100);
@@ -255,14 +276,14 @@ const LearnQuizComponent = () => {
   }, [question, quiz.questions, state.answers]);
   const reviewQuestion = reviewQuestions[reviewIndex] || reviewQuestions[0];
 
-  // 답안 선택: 사용자가 고른 보기 저장
+  // ?듭븞 ?좏깮: ?ъ슜?먭? 怨좊Ⅸ 蹂닿린 ???
   const handleSelect = (optionId) => {
     if (status !== "solving") return;
 
     setSelectedOptionId(optionId);
   };
 
-  // 단어 완료 저장: 문제를 맞힌 단어만 학습 진행도로 기록
+  // ?⑥뼱 ?꾨즺 ??? 臾몄젣瑜?留욏엺 ?⑥뼱留??숈뒿 吏꾪뻾?꾨줈 湲곕줉
   const saveCurrentWord = async () => {
     const eduWordMapId = question?.word?.eduWordMapId;
 
@@ -274,13 +295,13 @@ const LearnQuizComponent = () => {
       await finishLearnWord({ userId, eduWordMapId });
       setSavedEduWordMapIds((prev) => [...prev, eduWordMapId]);
     } catch {
-      // 단어 저장 실패가 문제 풀이 흐름을 막지 않도록 처리
+      // ?⑥뼱 ????ㅽ뙣媛 臾몄젣 ????먮쫫??留됱? ?딅룄濡?泥섎━
     }
   };
 
-  // 정답 확인: 선택한 보기의 정답 여부 확인 및 컨텍스트 기록
+  // ?뺣떟 ?뺤씤: ?좏깮??蹂닿린???뺣떟 ?щ? ?뺤씤 諛?而⑦뀓?ㅽ듃 湲곕줉
   const handleCheck = async () => {
-    if (!selectedOption) return;
+    if (status !== "solving" || !selectedOption) return;
 
     const isCorrect = Boolean(selectedOption.correct);
 
@@ -292,12 +313,24 @@ const LearnQuizComponent = () => {
 
     setStatus(isCorrect ? "correct" : "incorrect");
 
+    if (!isGuest && userId && routeEduId) {
+      try {
+        await recordLearnProgress({
+          userId,
+          eduId: routeEduId,
+          isCorrect: isCorrect ? 1 : 0,
+        });
+      } catch {
+        // ?숈뒿 ?몄뀡 吏꾪뻾 湲곕줉 ?ㅽ뙣媛 臾몄젣 ????먮쫫??留됱????딆쓬
+      }
+    }
+
     if (isCorrect) {
       await saveCurrentWord();
     }
   };
 
-  // 학습 완료: 결과 저장을 시도하고 결과 팝업 표시
+  // ?숈뒿 ?꾨즺: 寃곌낵 ??μ쓣 ?쒕룄?섍퀬 寃곌낵 ?앹뾽 ?쒖떆
   const createLearnResultSummary = (submitted = false, data = null) => {
     const answers = state.answers || [];
     const totalCount = quiz.questions.length || answers.length || totalQuestions;
@@ -326,7 +359,7 @@ const LearnQuizComponent = () => {
       correctCount,
       accuracy,
       exp: correctCount * 20,
-      spentTime: "2분 20초",
+      spentTime: formatSeconds(getElapsedSeconds()),
       wrongItem: randomWrongItem,
     };
   };
@@ -357,7 +390,7 @@ const LearnQuizComponent = () => {
       });
       
       if (routeEduId) {
-        await completeEduStart({ userId, eduId: routeEduId});
+        await completeLearnSession();
       }
 
       const summary = createLearnResultSummary(true, result);
@@ -372,7 +405,7 @@ const LearnQuizComponent = () => {
       setResultSummary(summary);
     } catch {
       if (routeEduId) {
-        await completeEduStart({ userId, eduId: routeEduId });
+        await completeLearnSession();
       }
       
       const summary = createLearnResultSummary(false);
@@ -387,16 +420,17 @@ const LearnQuizComponent = () => {
     }
   };
 
-  // 다음 문제: 다음 문제로 이동하거나 마지막 문제에서 복습 화면으로 전환
+  // ?ㅼ쓬 臾몄젣: ?ㅼ쓬 臾몄젣濡??대룞?섍굅??留덉?留?臾몄젣?먯꽌 蹂듭뒿 ?붾㈃?쇰줈 ?꾪솚
   const completeLearnSession = async () => {
-    if (isGuest || !userId || !routeEduId) {
+    if (isGuest || !userId || !routeEduId || sessionCompletedRef.current) {
       return;
     }
 
     try {
-      await completeEduStart({ userId, eduId: routeEduId });
+      await completeEduStart({ userId, eduId: routeEduId, eduStartTime: getElapsedSeconds() });
+      sessionCompletedRef.current = true;
     } catch {
-      // 완료 기록 실패가 화면 진행을 막지는 않음
+      // ?꾨즺 湲곕줉 ?ㅽ뙣媛 ?붾㈃ 吏꾪뻾??留됱????딆쓬
     }
   };
 
@@ -416,12 +450,12 @@ const LearnQuizComponent = () => {
     navigate(`/study/learn/quiz/${type}/questions/${currentIndex + 2}${nextQuery}`);
   };
 
-  // 닫기: 학습 메인 화면으로 이동
+  // ?リ린: ?숈뒿 硫붿씤 ?붾㈃?쇰줈 ?대룞
   const handleClose = () => {
     navigate("/study/learn");
   };
 
-  // 복습 다음: 오답 복습을 순서대로 보여주고 마지막에 학습 종료
+  // 蹂듭뒿 ?ㅼ쓬: ?ㅻ떟 蹂듭뒿???쒖꽌?濡?蹂댁뿬二쇨퀬 留덉?留됱뿉 ?숈뒿 醫낅즺
   const handleReviewNext = () => {
     if (reviewQuestions.length > 0 && reviewIndex < reviewQuestions.length - 1) {
       setReviewIndex((prev) => prev + 1);
@@ -463,7 +497,7 @@ const LearnQuizComponent = () => {
             <strong>+{resultSummary.exp}</strong>
           </div>
           <div>
-            <span>⏱</span>
+            <span>⏱️</span>
             <small>시간</small>
             <strong>{resultSummary.spentTime}</strong>
           </div>
@@ -618,3 +652,4 @@ const LearnQuizComponent = () => {
 };
 
 export default LearnQuizComponent;
+

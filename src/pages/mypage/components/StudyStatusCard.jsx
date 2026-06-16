@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import S from "./style";
 
 const PAGE_SIZE = 3;
+const MAX_PAGE_BUTTON_COUNT = 5;
 
 /*
   학습 단계별 진행률을 마이페이지 메인 API 데이터와 연동해서 보여줍니다.
@@ -12,6 +13,18 @@ const StudyStatusCard = ({ studyStatusList = [] }) => {
 
   const pageCount = Math.ceil(studyStatusList.length / PAGE_SIZE);
   const needPagination = studyStatusList.length > PAGE_SIZE;
+
+useEffect(() => {
+  if (pageCount === 0) {
+    setCurrentPage(1);
+    
+    return;
+  }
+
+  if (currentPage > pageCount) {
+    setCurrentPage(pageCount);
+  }
+}, [currentPage, pageCount]);
 
   const startIndex = (currentPage - 1) * PAGE_SIZE;
   const visibleStudyStatusList = studyStatusList.slice(
@@ -49,7 +62,7 @@ const StudyStatusCard = ({ studyStatusList = [] }) => {
 
       {needPagination && (
         <S.PaginationArea>
-          {Array.from({ length: pageCount }, (_, index) => index + 1).map((page) => (
+          {Array.from({ length: Math.min(pageCount, MAX_PAGE_BUTTON_COUNT) }, (_, index) => index + 1).map((page) => (
             <S.PageButton
               key={page}
               type="button"

@@ -28,7 +28,7 @@ const StudySummaryCard = ({ summary }) => {
     },
     {
       icon: "📝",
-      label: "완료 단어",
+      label: "총 정답 수",
       value: summary?.totalQuestionCount || 0,
     },
     {

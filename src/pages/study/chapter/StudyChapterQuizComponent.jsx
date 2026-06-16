@@ -4,7 +4,7 @@ import QuizFeedback from "../components/QuizFeedback";
 import QuizOptionCard from "../components/QuizOptionCard";
 import QuizProgress from "../components/QuizProgress";
 import QuizShell from "../components/QuizShell";
-import { fetchQuizQuestions, startQuiz, submitQuizAnswers } from "../apis/QuizApi";
+import { fetchQuizQuestions, startQuiz, submitQuizAnswers, updateQuizProgress } from "../apis/QuizApi";
 import { StudyQuizContext } from "../../../context/StudyQuizContext";
 import { canSubmitQuizAnswers, mapQuizAnswersForSubmit } from "../mappers/quizMapper";
 import { useStudyUser } from "../hooks/useStudyUser";
@@ -36,6 +36,8 @@ const StudyChapterQuizComponent = () => {
   const [questionLoading, setQuestionLoading] = useState(false);
   const [questionError, setQuestionError] = useState(null);
   const startedQuizRef = useRef(null);
+  const quizStartedAtRef = useRef(Date.now());
+  const progressedQuestionIdsRef = useRef(new Set());
   const chapter = chapterQuizMeta.find((item) => item.id === quiz);
   const backendQuizId = chapter?.backendQuizId;
   const currentIndex = Math.max(Number(id || 1) - 1, 0);
@@ -79,6 +81,7 @@ const StudyChapterQuizComponent = () => {
 
   useEffect(() => {
     if (!isQuestionMode || isGuest || !userId || !backendQuizId) return;
+    if (Number(id || 1) !== 1) return;
 
     const startKey = `${userId}-${backendQuizId}`;
     if (startedQuizRef.current === startKey) return;
@@ -87,7 +90,7 @@ const StudyChapterQuizComponent = () => {
     startQuiz({ quizId: backendQuizId, userId }).catch(() => {
       startedQuizRef.current = null;
     });
-  }, [backendQuizId, isGuest, isQuestionMode, userId]);
+  }, [backendQuizId, id, isGuest, isQuestionMode, userId]);
 
   useEffect(() => {
     if (!chapter || questions.length === 0) return;
@@ -102,6 +105,10 @@ const StudyChapterQuizComponent = () => {
 
   useEffect(() => {
     setSelectedOption(null);
+
+    if (Number(id || 1) === 1) {
+      quizStartedAtRef.current = Date.now();
+    }
   }, [id, quiz]);
 
   const isLastQuestion = useMemo(
@@ -113,11 +120,12 @@ const StudyChapterQuizComponent = () => {
     if (questionLoading) return;
 
     if (questionError || questions.length === 0) {
-      alert("퀴즈 문제를 불러온 뒤 다시 시도해주세요.");
+      alert("퀴즈 문제를 불러오는 중입니다. 다시 시도해주세요.");
 
       return;
     }
 
+    quizStartedAtRef.current = Date.now();
     navigate(`/study/chapter/${quiz}/questions/1`);
   };
 
@@ -133,10 +141,28 @@ const StudyChapterQuizComponent = () => {
     });
   };
 
+  const recordCurrentQuestionProgress = async () => {
+    if (isGuest || !userId || !backendQuizId || !currentQuestion) return;
+    if (progressedQuestionIdsRef.current.has(currentQuestion.id)) return;
+
+    progressedQuestionIdsRef.current.add(currentQuestion.id);
+
+    try {
+      await updateQuizProgress({
+        quizId: backendQuizId,
+        userId,
+        totalCount: questions.length,
+        isCorrect: selectedOption?.correct ? 1 : 0,
+      });
+    } catch {
+      progressedQuestionIdsRef.current.delete(currentQuestion.id);
+    }
+  };
+
   const submitChapterQuiz = async () => {
     if (!chapter || !backendQuizId) return;
 
-    if (isGuest || !userId || !canSubmitQuizAnswers(backendQuizId, state.answers, questions.length)) {
+    if (isGuest || !userId || state.answers.length === 0 || !canSubmitQuizAnswers(backendQuizId, state.answers, state.answers.length)) {
       actions.setResult({
         quizId: backendQuizId,
         completed: true,
@@ -151,12 +177,17 @@ const StudyChapterQuizComponent = () => {
     }
 
     const answers = mapQuizAnswersForSubmit(state.answers);
+    const quizAttemptTime = Math.max(
+      1,
+      Math.round((Date.now() - quizStartedAtRef.current) / 1000)
+    );
 
     try {
       const result = await submitQuizAnswers({
         quizId: backendQuizId,
         userId,
         answers,
+        quizAttemptTime,
       });
 
       actions.setResult({
@@ -181,6 +212,8 @@ const StudyChapterQuizComponent = () => {
   };
 
   const handleNextQuestion = async () => {
+    await recordCurrentQuestionProgress();
+
     if (isLastQuestion) {
       await submitChapterQuiz();
       navigate(`/study/chapter/${quiz}/result`);
@@ -217,7 +250,7 @@ const StudyChapterQuizComponent = () => {
     return (
       <QuizShell>
         <S.ChapterQuestionCard>
-          <h1>{questionLoading ? "퀴즈 문제를 불러오는 중입니다." : questionError || "문제를 찾을 수 없습니다."}</h1>
+          <h1>{questionLoading ? "문제 불러오는 중" : questionError || "문제를 찾을 수 없습니다."}</h1>
           <button type="button" onClick={() => navigate("/study/chapter")}>
             퀴즈 안내로 돌아가기
           </button>

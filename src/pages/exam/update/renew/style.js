@@ -20,7 +20,7 @@ export const Wrapper = styled.div`
 `;
 
 export const SectionTitle = styled.h2`
-  font-size: 17px;
+  font-size: 19px;
   font-weight: 700;
   color: #111;
   margin: 0 0 14px;
@@ -28,7 +28,7 @@ export const SectionTitle = styled.h2`
 `;
 
 export const Subtitle = styled.p`
-  font-size: 13px;
+  font-size: 15px;
   color: #888;
   margin-bottom: 24px;
 `;
@@ -56,7 +56,7 @@ export const RadioInput = styled.input`
 `;
 
 export const RadioText = styled.span`
-  font-size: 13px;
+  font-size: 15px;
   color: ${({ $active }) => ($active ? PRIMARY : "#666")};
   font-weight: ${({ $active }) => ($active ? 600 : 400)};
 `;
@@ -68,7 +68,7 @@ export const Grid = styled.div`
 `;
 
 export const Label = styled.label`
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 600;
   color: #555;
   margin-bottom: 6px;
@@ -86,7 +86,7 @@ export const Input = styled.input`
   border: 1.5px solid ${({ $shake }) => ($shake ? WARNING : "#e0e0e0")};
   border-radius: 8px;
   padding: 10px 14px;
-  font-size: 13px;
+  font-size: 15px;
   color: #333;
   outline: none;
   box-sizing: border-box;
@@ -94,26 +94,26 @@ export const Input = styled.input`
 `;
 
 export const FieldError = styled.p`
-  font-size: 12px;
+  font-size: 14px;
   color: ${WARNING};
   margin: 5px 0 0;
 `;
 
 export const FeeText = styled.div`
-  font-size: 13px;
+  font-size: 15px;
   color: ${PRIMARY};
   font-weight: 600;
 `;
 
 export const FeeNote = styled.div`
-  font-size: 12px;
+  font-size: 14px;
   color: #999;
   font-weight: 400;
   margin-top: 4px;
 `;
 
 export const ReceiveNote = styled.p`
-  font-size: 12px;
+  font-size: 14px;
   color: #888;
   margin: 6px 0 0;
 `;
@@ -121,7 +121,7 @@ export const ReceiveNote = styled.p`
 export const MsgBox = styled.div`
   padding: 10px 14px;
   border-radius: 8px;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 600;
   background: ${({ $success }) => ($success ? "#eaffea" : "#fff0f0")};
   color: ${({ $success }) => ($success ? "#1a7f1a" : "#c0392b")};
@@ -133,7 +133,7 @@ export const Select = styled.select`
   border: 1.5px solid #e0e0e0;
   border-radius: 8px;
   padding: 10px 14px;
-  font-size: 13px;
+  font-size: 15px;
   color: #333;
   outline: none;
   background: #fff;
@@ -149,7 +149,7 @@ export const ReadonlyInput = styled.input`
   border: 1.5px solid #e8e8e8;
   border-radius: 8px;
   padding: 10px 14px;
-  font-size: 13px;
+  font-size: 15px;
   color: #555;
   background: #f7f7f7;
   outline: none;
@@ -176,13 +176,13 @@ export const LoginPromptIcon = styled.div`
 `;
 
 export const LoginPromptText = styled.div`
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 700;
   color: #222;
 `;
 
 export const LoginPromptSub = styled.div`
-  font-size: 13px;
+  font-size: 15px;
   color: #999;
   margin-bottom: 8px;
 `;
@@ -193,7 +193,7 @@ export const LoginPromptBtn = styled.button`
   border: none;
   border-radius: 8px;
   padding: 12px 32px;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 700;
   cursor: pointer;
   margin-top: 4px;
@@ -212,7 +212,7 @@ export const SmallBtn = styled.button`
   border: none;
   border-radius: 8px;
   padding: 10px 14px;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 700;
   cursor: pointer;
   white-space: nowrap;
@@ -224,7 +224,7 @@ export const SmallBtn = styled.button`
 `;
 
 export const FieldHint = styled.p`
-  font-size: 12px;
+  font-size: 14px;
   color: ${({ $ok }) => ($ok ? "#27ae60" : WARNING)};
   margin: 5px 0 0;
 `;
@@ -235,7 +235,7 @@ export const SubmitBtn = styled.button`
   border: none;
   border-radius: 8px;
   padding: 13px 0;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 700;
   cursor: pointer;
 

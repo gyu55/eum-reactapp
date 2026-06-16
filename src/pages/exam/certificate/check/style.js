@@ -10,7 +10,7 @@ export const Wrapper = styled.div`
 `;
 
 export const SectionTitle = styled.h2`
-  font-size: 17px;
+  font-size: 19px;
   font-weight: 700;
   color: #111;
   margin: 0 0 14px;
@@ -18,13 +18,13 @@ export const SectionTitle = styled.h2`
 `;
 
 export const Subtitle = styled.p`
-  font-size: 12px;
+  font-size: 14px;
   color: #aaa;
   margin-bottom: 24px;
 `;
 
 export const EmptyMsg = styled.div`
-  font-size: 13px;
+  font-size: 15px;
   color: #aaa;
   text-align: center;
   padding: 40px 0;
@@ -41,7 +41,7 @@ export const TheadRow = styled.tr`
 
 export const Th = styled.th`
   padding: 11px 14px;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 700;
   color: ${PRIMARY};
   border: 1px solid #e8eaf0;
@@ -55,18 +55,18 @@ export const Td = styled.td`
 `;
 
 export const NumberTd = styled(Td)`
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 700;
   color: #333;
 `;
 
 export const TextTd = styled(Td)`
-  font-size: 13px;
+  font-size: 15px;
   color: #555;
 `;
 
 export const StatusBadge = styled.span`
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 700;
   color: ${({ $status }) => ($status === "유효" ? "#129d1b" : "#e74c3c")};
   background: ${({ $status }) => ($status === "유효" ? "#e8faf2" : "#fff0f0")};
@@ -80,7 +80,7 @@ export const PrintBtn = styled.button`
   border: 1.5px solid ${PRIMARY};
   border-radius: 8px;
   padding: 5px 12px;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 700;
   cursor: pointer;
   &:hover { background: #eef0ff; }
@@ -113,7 +113,7 @@ export const ModalCloseBtn = styled.button`
   right: 14px;
   background: none;
   border: none;
-  font-size: 18px;
+  font-size: 20px;
   color: #666;
   cursor: pointer;
   line-height: 1;
@@ -154,7 +154,7 @@ export const CertHeader = styled.div`
 export const CertBody = styled.div``;
 
 export const CertNo = styled.div`
-  font-size: 11px;
+  font-size: 13px;
   color: #888;
   text-align: right;
   margin-bottom: 20px;
@@ -169,21 +169,21 @@ export const CertFieldRow = styled.div`
 `;
 
 export const CertFieldLabel = styled.div`
-  font-size: 13px;
+  font-size: 15px;
   color: #555;
   min-width: 80px;
   flex-shrink: 0;
 `;
 
 export const CertFieldValue = styled.div`
-  font-size: 15px;
+  font-size: 17px;
   font-weight: 700;
   color: #111;
   flex: 1;
 `;
 
 export const CertTextBlock = styled.div`
-  font-size: 14px;
+  font-size: 16px;
   color: #222;
   line-height: 2.2;
   text-align: center;
@@ -198,14 +198,14 @@ export const CertFooter = styled.div`
 `;
 
 export const CertDate = styled.div`
-  font-size: 13px;
+  font-size: 15px;
   color: #444;
   text-align: center;
   flex: 1;
 `;
 
 export const CertOrg = styled.div`
-  font-size: 15px;
+  font-size: 17px;
   font-weight: 700;
   color: #111;
   margin-top: 4px;
@@ -222,7 +222,7 @@ export const PrintBtnLarge = styled.button`
   border: none;
   border-radius: 8px;
   padding: 11px 36px;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 700;
   cursor: pointer;
 `;

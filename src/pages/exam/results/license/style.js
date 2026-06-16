@@ -10,11 +10,17 @@ export const Wrapper = styled.div`
 `;
 
 export const SectionTitle = styled.h2`
-  font-size: 17px;
+  font-size: 19px;
   font-weight: 700;
   color: #111;
-  margin: 0 0 14px;
+  margin: 0 0 6px;
   letter-spacing: -0.3px;
+`;
+
+export const Subtitle = styled.p`
+  font-size: 14px;
+  color: #aaa;
+  margin-bottom: 24px;
 `;
 
 export const SearchRow = styled.div`
@@ -28,7 +34,7 @@ export const SearchInput = styled.input`
   border: 1.5px solid #e0e0e0;
   border-radius: 8px;
   padding: 10px 14px;
-  font-size: 13px;
+  font-size: 15px;
   color: #333;
   outline: none;
 `;
@@ -39,7 +45,7 @@ export const SearchBtn = styled.button`
   border: none;
   border-radius: 8px;
   padding: 10px 20px;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 700;
   cursor: pointer;
 `;
@@ -79,7 +85,7 @@ export const CertHeader = styled.div`
 export const CertBody = styled.div``;
 
 export const CertNo = styled.div`
-  font-size: 11px;
+  font-size: 13px;
   color: #888;
   text-align: right;
   margin-bottom: 20px;
@@ -94,23 +100,23 @@ export const CertFieldRow = styled.div`
 `;
 
 export const CertFieldLabel = styled.div`
-  font-size: 13px;
+  font-size: 15px;
   color: #555;
   min-width: 80px;
   flex-shrink: 0;
 `;
 
 export const CertFieldValue = styled.div`
-  font-size: 15px;
+  font-size: 17px;
   font-weight: 700;
   color: #111;
   flex: 1;
 `;
 
 export const CertTextBlock = styled.div`
-  font-size: 14px;
+  font-size: 16px;
   color: #222;
-  line-height: 2;
+  line-height: 2.2;
   text-align: center;
   padding: 28px 0 24px;
 `;
@@ -123,53 +129,16 @@ export const CertFooter = styled.div`
 `;
 
 export const CertDate = styled.div`
-  font-size: 13px;
+  font-size: 15px;
   color: #444;
   text-align: center;
   flex: 1;
 `;
 
 export const CertOrg = styled.div`
-  font-size: 15px;
+  font-size: 17px;
   font-weight: 700;
   color: #111;
-  text-align: right;
-`;
-
-export const CertSeal = styled.div`
-  width: 82px;
-  height: 82px;
-  border: 2.5px solid #c0392b;
-  border-radius: 50%;
-  box-shadow: inset 0 0 0 5px #fff, inset 0 0 0 7.5px #c0392b;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  color: #c0392b;
-  font-size: 10.5px;
-  font-weight: 800;
-  text-align: center;
-  line-height: 1.6;
-  letter-spacing: 0.12em;
-  opacity: 0.82;
-  flex-shrink: 0;
-`;
-
-export const PrintBtnWrap = styled.div`
-  text-align: center;
-  margin-top: 20px;
-`;
-
-export const PrintBtn = styled.button`
-  background: ${PRIMARY};
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  padding: 12px 32px;
-  font-size: 14px;
-  font-weight: 700;
-  cursor: pointer;
 `;
 
 export const SelectRow = styled.div`
@@ -184,7 +153,7 @@ export const CertSelect = styled.select`
   border: 1.5px solid #e0e0e0;
   border-radius: 8px;
   padding: 10px 14px;
-  font-size: 13px;
+  font-size: 15px;
   color: #333;
   outline: none;
   background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") no-repeat right 14px center;
@@ -193,8 +162,24 @@ export const CertSelect = styled.select`
 `;
 
 export const EmptyMsg = styled.div`
-  font-size: 13px;
+  font-size: 15px;
   color: #aaa;
   text-align: center;
   padding: 32px 0;
+`;
+
+export const PrintBtnWrap = styled.div`
+  text-align: center;
+  margin-top: 20px;
+`;
+
+export const PrintBtn = styled.button`
+  background: ${PRIMARY};
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 40px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
 `;

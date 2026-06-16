@@ -8,6 +8,7 @@ import ExamContainer from "../pages/exam/ExamContainer";
 import LicenseNoticeContainer from "../pages/exam/info/notice/LicenseNoticeContainer";
 import ExamInfoContainer from "../pages/exam/info/ExamInfoContainer";
 import LicenseIntroContainer from "../pages/exam/info/intro/LicenseIntroContainer";
+import ExamScheduleContainer from "../pages/exam/info/schedule/ExamScheduleContainer";
 import ReceiptContainer from "../pages/exam/receipt/ReceiptContainer";
 import ReceiptConfirmContainer from "../pages/exam/receipt/confirm/ReceiptConfirmContainer";
 import ReceiptInfoContainer from "../pages/exam/receipt/info/ReceiptInfoContainer";
@@ -95,6 +96,11 @@ const router = createBrowserRouter([
             path: "info",
             element: <ExamInfoContainer />,
             children: [
+              { index: true, element: <Navigate to="intro" replace /> },
+              {
+                path: "schedule",
+                element: <ExamScheduleContainer />
+              },
               {
                 path: "intro",
                 element: <LicenseIntroContainer />

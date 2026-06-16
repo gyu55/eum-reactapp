@@ -38,7 +38,7 @@ export const Input = styled.input`
   padding: 14px 18px;
   border: 1.5px solid #e0e0e0;
   border-radius: 10px;
-  font-size: 14px;
+  font-size: 16px;
   color: #111;
   outline: none;
   box-sizing: border-box;
@@ -70,7 +70,7 @@ export const AutoLoginCheckbox = styled.input`
 `;
 
 export const AutoLoginLabel = styled.label`
-  font-size: 13px;
+  font-size: 15px;
   color: #666;
   cursor: pointer;
   user-select: none;
@@ -78,7 +78,7 @@ export const AutoLoginLabel = styled.label`
 
 export const ErrorMsg = styled.div`
   width: 100%;
-  font-size: 12px;
+  font-size: 14px;
   color: #e74c3c;
   text-align: center;
   margin-bottom: 8px;
@@ -91,7 +91,7 @@ export const LoginBtn = styled.button`
   color: #fff;
   border: none;
   border-radius: 10px;
-  font-size: 15px;
+  font-size: 17px;
   font-weight: 700;
   cursor: pointer;
   margin-bottom: 16px;
@@ -106,7 +106,7 @@ export const LoginBtn = styled.button`
 export const SubLinks = styled.div`
   display: flex;
   gap: 24px;
-  font-size: 13px;
+  font-size: 15px;
   color: #888;
   margin-bottom: 24px;
 
@@ -122,7 +122,7 @@ export const SubLinks = styled.div`
 export const Divider = styled.div`
   width: 100%;
   text-align: center;
-  font-size: 12px;
+  font-size: 14px;
   color: #bbb;
   position: relative;
   margin-bottom: 20px;
@@ -148,7 +148,7 @@ export const SocialSection = styled.div`
 `;
 
 export const SocialTitle = styled.div`
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 600;
   color: #555;
 `;
@@ -165,7 +165,7 @@ export const SocialCircle = styled.button`
   border: ${({ $outline }) => ($outline ? "1.5px solid #e0e0e0" : "none")};
   background: ${({ $bg }) => $bg || "#fff"};
   color: ${({ $color }) => $color || "#111"};
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 800;
   cursor: pointer;
   display: flex;

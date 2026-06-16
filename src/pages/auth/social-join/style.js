@@ -53,7 +53,7 @@ export const ProviderBadge = styled.div`
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 600;
   color: ${PRIMARY};
   background: #eef0ff;
@@ -64,7 +64,7 @@ export const ProviderBadge = styled.div`
 `;
 
 export const SectionTitle = styled.div`
-  font-size: 17px;
+  font-size: 19px;
   font-weight: 700;
   color: #111;
   margin-bottom: 20px;
@@ -84,14 +84,14 @@ export const SectionBlock = styled.div`
 `;
 
 export const BlockTitle = styled.div`
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 700;
   color: ${PRIMARY};
   margin-bottom: 12px;
 `;
 
 export const Label = styled.label`
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 600;
   color: #555;
   margin-bottom: 4px;
@@ -103,7 +103,7 @@ export const Input = styled.input`
   padding: 10px 14px;
   border: 1.5px solid #e0e0e0;
   border-radius: 8px;
-  font-size: 14px;
+  font-size: 16px;
   color: #111;
   outline: none;
   box-sizing: border-box;
@@ -132,7 +132,7 @@ export const InlineRow = styled.div`
 export const SmallBtn = styled.button`
   padding: 10px 14px;
   border-radius: 8px;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 700;
   cursor: pointer;
   white-space: nowrap;
@@ -147,7 +147,7 @@ export const SmallBtn = styled.button`
 `;
 
 export const StatusMsg = styled.div`
-  font-size: 12px;
+  font-size: 14px;
   color: ${({ $success }) => ($success ? "#03C75A" : "#e74c3c")};
   margin-top: 6px;
 `;
@@ -159,7 +159,7 @@ export const SubmitBtn = styled.button`
   color: #fff;
   border: none;
   border-radius: 10px;
-  font-size: 15px;
+  font-size: 17px;
   font-weight: 700;
   cursor: pointer;
   margin-top: 8px;
@@ -172,7 +172,7 @@ export const SubmitBtn = styled.button`
 `;
 
 export const ErrorMsg = styled.div`
-  font-size: 13px;
+  font-size: 15px;
   color: #e74c3c;
   text-align: center;
   margin-bottom: 12px;
@@ -199,7 +199,7 @@ export const CheckCircle = styled.div`
 `;
 
 export const DoneTitle = styled.div`
-  font-size: 22px;
+  font-size: 24px;
   font-weight: 700;
   color: #111;
   margin-bottom: 8px;
@@ -208,7 +208,7 @@ export const DoneTitle = styled.div`
 `;
 
 export const DoneSub = styled.div`
-  font-size: 14px;
+  font-size: 16px;
   color: #888;
   margin-bottom: 36px;
   opacity: 0;

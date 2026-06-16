@@ -24,7 +24,7 @@ export const styles = {
     display: "flex",
     gap: 6,
     alignItems: "center",
-    fontSize: 12,
+    fontSize: 14,
     marginBottom: 24,
   },
   breadcrumbItem:   { display: "flex", gap: 6, alignItems: "center" },
@@ -61,7 +61,7 @@ export const HeroCard = styled.div`
 
 export const HeroBadge = styled.div`
   display: inline-block;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 700;
   color: ${({ $color }) => $color || PRIMARY};
   background: ${({ $bg }) => $bg || "#eef0ff"};
@@ -72,7 +72,7 @@ export const HeroBadge = styled.div`
 `;
 
 export const HeroTitle = styled.h1`
-  font-size: 24px;
+  font-size: 26px;
   font-weight: 700;
   color: ${TEXT_BLACK};
   margin: 0 0 8px;
@@ -80,7 +80,7 @@ export const HeroTitle = styled.h1`
 `;
 
 export const HeroSub = styled.p`
-  font-size: 12px;
+  font-size: 14px;
   color: ${GRAY};
   margin: 0;
 `;
@@ -105,14 +105,14 @@ export const NoticeBanner = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 500;
   color: ${({ $color }) => $color || DARK_BLUE};
 `;
 
 // ── Info Cards ────────────────────────────────────────────
 export const SectionTitle = styled.h2`
-  font-size: 17px;
+  font-size: 19px;
   font-weight: 700;
   color: #111;
   margin: 0 0 14px;
@@ -156,19 +156,19 @@ export const InfoCardIcon = styled.div`
 `;
 
 export const InfoCardTitle = styled.div`
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 700;
   color: ${({ $active }) => ($active ? PRIMARY : TEXT_BLACK)};
 `;
 
 export const InfoCardSub = styled.div`
-  font-size: 11px;
+  font-size: 13px;
   color: ${GRAY};
   margin-top: 2px;
 `;
 
 export const InfoCardArrow = styled.span`
-  font-size: 18px;
+  font-size: 20px;
   color: ${({ $active }) => ($active ? PRIMARY : "#ccc")};
 `;
 
@@ -200,7 +200,7 @@ export const SlidingBar = styled.div`
 `;
 
 export const SidebarCategory = styled.div`
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 700;
   color: #aaa;
   padding: 12px 20px 6px;
@@ -215,7 +215,7 @@ export const SidebarItem = styled.button`
   border: none;
   border-left: 3px solid transparent;
   padding: 9px 20px;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: ${({ $active }) => ($active ? 700 : 400)};
   color: ${({ $active }) => ($active ? PRIMARY : TEXT_BLACK)};
   cursor: pointer;

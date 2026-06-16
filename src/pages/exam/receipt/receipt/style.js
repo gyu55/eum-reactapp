@@ -1,22 +1,16 @@
 import styled, { keyframes } from "styled-components";
 
-const scaleIn = keyframes`
-  0%   { transform: scale(0); opacity: 0; }
-  70%  { transform: scale(1.15); opacity: 1; }
-  100% { transform: scale(1); opacity: 1; }
-`;
+const PRIMARY = "#4359fc";
 
-const drawCheck = keyframes`
-  from { stroke-dashoffset: 40; }
-  to   { stroke-dashoffset: 0; }
+const scaleIn = keyframes`
+  from { transform: scale(0.5); opacity: 0; }
+  to   { transform: scale(1);   opacity: 1; }
 `;
 
 const slideUp = keyframes`
-  from { transform: translateY(24px); opacity: 0; }
-  to   { transform: translateY(0); opacity: 1; }
+  from { transform: translateY(16px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
 `;
-
-const PRIMARY = "#4359fc";
 
 export const Wrapper = styled.div`
   background: #fff;
@@ -26,15 +20,15 @@ export const Wrapper = styled.div`
 `;
 
 export const SectionTitle = styled.h2`
-  font-size: 17px;
+  font-size: 19px;
   font-weight: 700;
   color: #111;
-  margin: 0 0 14px;
+  margin: 0 0 6px;
   letter-spacing: -0.3px;
 `;
 
 export const Subtitle = styled.p`
-  font-size: 13px;
+  font-size: 15px;
   color: #888;
   margin-bottom: 24px;
 `;
@@ -45,14 +39,8 @@ export const FormWrap = styled.div`
   gap: 18px;
 `;
 
-export const Grid = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-`;
-
 export const Label = styled.label`
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 600;
   color: #555;
   margin-bottom: 6px;
@@ -65,124 +53,26 @@ export const Label = styled.label`
   }
 `;
 
-export const Input = styled.input`
-  width: 100%;
-  border: 1.5px solid ${({ readOnly }) => (readOnly ? "#e8e8e8" : "#e0e0e0")};
-  border-radius: 8px;
-  padding: 10px 14px;
-  font-size: 13px;
-  color: ${({ readOnly }) => (readOnly ? "#888" : "#333")};
-  background: ${({ readOnly }) => (readOnly ? "#f5f5f7" : "#fff")};
-  outline: none;
-  box-sizing: border-box;
-  cursor: ${({ readOnly }) => (readOnly ? "default" : "text")};
-`;
-
 export const Select = styled.select`
   width: 100%;
   border: 1.5px solid #e0e0e0;
   border-radius: 8px;
-  padding: 10px 40px 10px 14px;
-  font-size: 13px;
+  padding: 10px 14px;
+  font-size: 15px;
   color: #333;
   outline: none;
-  box-sizing: border-box;
+  background: #fff;
+  cursor: pointer;
   appearance: none;
-  background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") no-repeat right 14px center;
-  cursor: pointer;
-`;
-
-export const GradeBtnRow = styled.div`
-  display: flex;
-  gap: 8px;
-`;
-
-export const GradeBtn = styled.button`
-  flex: 1;
-  padding: 10px 0;
-  border: ${({ $active }) => ($active ? `2px solid ${PRIMARY}` : "1.5px solid #e0e0e0")};
-  border-radius: 8px;
-  background: ${({ $active }) => ($active ? "#eef0ff" : "#fff")};
-  color: ${({ $active }) => ($active ? PRIMARY : "#666")};
-  font-weight: 700;
-  font-size: 13px;
-  cursor: pointer;
-`;
-
-export const FilePreviewRow = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background: #f0f2ff;
-  border: 1.5px solid #c5caff;
-  border-radius: 8px;
-  padding: 10px 14px;
-  font-size: 13px;
-  color: #333;
-`;
-
-export const FilePreviewName = styled.span`
-  flex: 1;
-  font-weight: 600;
-  color: ${PRIMARY};
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-`;
-
-export const FileRemoveBtn = styled.button`
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: #aaa;
-  padding: 2px 4px;
-  font-size: 16px;
-  line-height: 1;
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
-
-  &:hover {
-    color: #e74c3c;
-    background: #fff0f0;
-  }
-`;
-
-export const FileDropZone = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  border: 2px dashed #c5caff;
-  border-radius: 10px;
-  padding: 28px 20px;
-  background: #f8f9ff;
-  cursor: pointer;
-  transition: background 0.15s, border-color 0.15s;
-
-  &:hover {
-    background: #eef0ff;
-    border-color: ${PRIMARY};
-  }
-`;
-
-
-export const FileDropText = styled.div`
-  font-size: 14px;
-  font-weight: 700;
-  color: ${PRIMARY};
-`;
-
-export const FileDropSub = styled.div`
-  font-size: 12px;
-  color: #aaa;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
 `;
 
 export const InfoBox = styled.div`
   background: #f5f7ff;
-  border: 1px solid #dde3ff;
-  border-radius: 8px;
+  border: 1px solid #dde1ff;
+  border-radius: 10px;
   padding: 14px 18px;
   display: flex;
   flex-direction: column;
@@ -192,14 +82,81 @@ export const InfoBox = styled.div`
 export const InfoRow = styled.div`
   display: flex;
   gap: 12px;
-  font-size: 13px;
+  font-size: 15px;
   color: #333;
 `;
 
 export const InfoLabel = styled.span`
-  font-weight: 600;
   color: #888;
-  min-width: 60px;
+  min-width: 72px;
+  flex-shrink: 0;
+`;
+
+export const Grid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+`;
+
+export const Input = styled.input`
+  width: 100%;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 15px;
+  color: #333;
+  outline: none;
+  box-sizing: border-box;
+  background: ${({ readOnly }) => (readOnly ? "#f7f7f7" : "#fff")};
+  cursor: ${({ readOnly }) => (readOnly ? "default" : "text")};
+`;
+
+export const FilePreviewRow = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+`;
+
+export const FilePreviewName = styled.span`
+  font-size: 14px;
+  color: #555;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+`;
+
+export const FileRemoveBtn = styled.button`
+  background: none;
+  border: none;
+  color: #aaa;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 2px 4px;
+  flex-shrink: 0;
+  &:hover { color: #e74c3c; }
+`;
+
+export const FileDropZone = styled.div`
+  border: 2px dashed #d0d3f5;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.2s;
+  &:hover { border-color: ${PRIMARY}; }
+`;
+
+export const FileDropText = styled.div`
+  font-size: 16px;
+  font-weight: 600;
+  color: ${PRIMARY};
+  margin-bottom: 4px;
+`;
+
+export const FileDropSub = styled.div`
+  font-size: 14px;
+  color: #aaa;
 `;
 
 export const SubmitBtn = styled.button`
@@ -208,86 +165,87 @@ export const SubmitBtn = styled.button`
   border: none;
   border-radius: 8px;
   padding: 13px 0;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 700;
   cursor: pointer;
-  margin-top: 8px;
-`;
 
-export const DoneWrap = styled.div`
-  text-align: center;
-  padding: 20px 0 8px;
-`;
-
-export const CheckCircle = styled.div`
-  width: 80px;
-  height: 80px;
-  margin: 0 auto 24px;
-  animation: ${scaleIn} 0.55s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-
-  svg { width: 100%; height: 100%; }
-
-  path {
-    stroke-dasharray: 40;
-    stroke-dashoffset: 40;
-    animation: ${drawCheck} 0.4s ease 0.45s forwards;
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
   }
 `;
 
-export const DoneTitle = styled.div`
-  font-size: 20px;
+/* ── 완료 화면 ── */
+export const DoneWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 32px 0 24px;
+  gap: 16px;
+  animation: ${slideUp} 0.4s ease;
+`;
+
+export const CheckCircle = styled.div`
+  width: 72px;
+  height: 72px;
+  animation: ${scaleIn} 0.35s ease;
+
+  svg {
+    width: 100%;
+    height: 100%;
+  }
+`;
+
+export const DoneTitle = styled.h2`
+  font-size: 22px;
   font-weight: 700;
   color: #111;
-  margin-bottom: 20px;
-  opacity: 0;
-  animation: ${slideUp} 0.5s ease 0.35s forwards;
+  margin: 0;
+  letter-spacing: -0.3px;
 `;
 
 export const DoneInfoBox = styled.div`
   background: #f5f7ff;
-  border: 1px solid #dde3ff;
-  border-radius: 10px;
-  padding: 16px 20px;
-  margin-bottom: 24px;
-  text-align: left;
+  border: 1px solid #dde1ff;
+  border-radius: 12px;
+  padding: 16px 24px;
+  width: 100%;
+  max-width: 360px;
   display: flex;
   flex-direction: column;
   gap: 8px;
-  opacity: 0;
-  animation: ${slideUp} 0.5s ease 0.5s forwards;
 `;
 
 export const DoneInfoRow = styled.div`
   display: flex;
-  font-size: 13px;
-  color: #333;
   gap: 12px;
+  font-size: 15px;
+  color: #333;
 `;
 
 export const DoneInfoLabel = styled.span`
-  font-weight: 600;
   color: #888;
-  min-width: 64px;
+  min-width: 72px;
+  flex-shrink: 0;
 `;
 
 export const ConfirmBtn = styled.button`
-  width: 100%;
   background: ${PRIMARY};
   color: #fff;
   border: none;
   border-radius: 8px;
-  padding: 13px 0;
-  font-size: 14px;
+  padding: 12px 32px;
+  font-size: 16px;
   font-weight: 700;
   cursor: pointer;
-  opacity: 0;
-  animation: ${slideUp} 0.5s ease 0.6s forwards;
+  margin-top: 4px;
 `;
 
+/* ── 결제 취소 모달 ── */
 export const ModalOverlay = styled.div`
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.45);
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -298,38 +256,39 @@ export const ModalBox = styled.div`
   background: #fff;
   border-radius: 16px;
   padding: 36px 32px 28px;
-  width: 340px;
   text-align: center;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  width: 340px;
+  max-width: 90vw;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.18);
+  animation: ${scaleIn} 0.25s ease;
 `;
 
 export const ModalIcon = styled.div`
-  font-size: 40px;
-  margin-bottom: 16px;
+  font-size: 42px;
+  margin-bottom: 12px;
 `;
 
-export const ModalTitle = styled.div`
-  font-size: 16px;
+export const ModalTitle = styled.h3`
+  font-size: 18px;
   font-weight: 700;
   color: #111;
-  margin-bottom: 10px;
+  margin: 0 0 10px;
 `;
 
-export const ModalDesc = styled.div`
-  font-size: 13px;
-  color: #888;
-  line-height: 1.7;
-  margin-bottom: 24px;
+export const ModalDesc = styled.p`
+  font-size: 15px;
+  color: #666;
+  line-height: 1.6;
+  margin: 0 0 20px;
 `;
 
 export const ModalConfirmBtn = styled.button`
-  width: 100%;
   background: ${PRIMARY};
   color: #fff;
   border: none;
   border-radius: 8px;
-  padding: 12px 0;
-  font-size: 14px;
+  padding: 11px 32px;
+  font-size: 16px;
   font-weight: 700;
   cursor: pointer;
 `;

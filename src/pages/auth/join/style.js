@@ -43,7 +43,7 @@ export const Logo = styled.img`
 `;
 
 export const HeroTitle = styled.h1`
-  font-size: 26px;
+  font-size: 28px;
   font-weight: 700;
   color: #111;
   margin: 0 0 20px;
@@ -70,7 +70,7 @@ export const StepCircle = styled.div`
   border-radius: 50%;
   background: ${({ $active }) => ($active ? PRIMARY : "#e0e0e0")};
   color: ${({ $active }) => ($active ? "#fff" : "#aaa")};
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 700;
   display: flex;
   align-items: center;
@@ -78,7 +78,7 @@ export const StepCircle = styled.div`
 `;
 
 export const StepName = styled.div`
-  font-size: 11px;
+  font-size: 13px;
   font-weight: ${({ $active }) => ($active ? 700 : 400)};
   color: ${({ $active }) => ($active ? PRIMARY : "#aaa")};
 `;
@@ -104,7 +104,7 @@ export const FormCard = styled.div`
 `;
 
 export const SectionTitle = styled.div`
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 700;
   color: ${PRIMARY};
   margin-bottom: 12px;
@@ -129,7 +129,7 @@ export const Grid = styled.div`
 `;
 
 export const Label = styled.label`
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 600;
   color: #555;
   margin-bottom: 4px;
@@ -147,7 +147,7 @@ export const Input = styled.input`
   padding: 10px 14px;
   border: 1.5px solid #e0e0e0;
   border-radius: 8px;
-  font-size: 14px;
+  font-size: 16px;
   color: #111;
   outline: none;
   box-sizing: border-box;
@@ -171,7 +171,7 @@ export const InlineRow = styled.div`
 export const SmallBtn = styled.button`
   padding: 10px 14px;
   border-radius: 8px;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 700;
   cursor: pointer;
   white-space: nowrap;
@@ -190,7 +190,7 @@ export const AgreeAll = styled.label`
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 700;
   color: #111;
   cursor: pointer;
@@ -201,7 +201,7 @@ export const AgreeItem = styled.label`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 12px;
+  font-size: 14px;
   color: #555;
   cursor: pointer;
   margin-bottom: 6px;
@@ -214,7 +214,7 @@ export const AgreeLeft = styled.div`
 `;
 
 export const ViewLink = styled.span`
-  font-size: 11px;
+  font-size: 13px;
   color: #aaa;
   text-decoration: underline;
   cursor: pointer;
@@ -227,7 +227,7 @@ export const SubmitBtn = styled.button`
   color: #fff;
   border: none;
   border-radius: 10px;
-  font-size: 15px;
+  font-size: 17px;
   font-weight: 700;
   cursor: pointer;
   margin-top: 24px;
@@ -240,7 +240,7 @@ export const AnimatedField = styled.div`
 export const SkipLink = styled.button`
   background: none;
   border: none;
-  font-size: 12px;
+  font-size: 14px;
   color: #aaa;
   cursor: pointer;
   padding: 4px 0;
@@ -249,7 +249,7 @@ export const SkipLink = styled.button`
 `;
 
 export const FieldHint = styled.div`
-  font-size: 11px;
+  font-size: 13px;
   margin-top: 4px;
   color: ${({ $ok }) => ($ok ? "#03C75A" : "#e74c3c")};
 `;
@@ -275,7 +275,7 @@ export const CheckCircle = styled.div`
 `;
 
 export const DoneTitle = styled.div`
-  font-size: 22px;
+  font-size: 24px;
   font-weight: 700;
   color: #111;
   margin-bottom: 8px;
@@ -284,7 +284,7 @@ export const DoneTitle = styled.div`
 `;
 
 export const DoneSub = styled.div`
-  font-size: 14px;
+  font-size: 16px;
   color: #888;
   margin-bottom: 36px;
   opacity: 0;

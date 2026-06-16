@@ -10,7 +10,7 @@ export const Wrapper = styled.div`
 `;
 
 export const SectionTitle = styled.h2`
-  font-size: 17px;
+  font-size: 19px;
   font-weight: 700;
   color: #111;
   margin: 0 0 6px;
@@ -18,7 +18,7 @@ export const SectionTitle = styled.h2`
 `;
 
 export const Subtitle = styled.p`
-  font-size: 12px;
+  font-size: 14px;
   color: #aaa;
   margin-bottom: 24px;
 `;
@@ -58,20 +58,20 @@ export const CertItemInfo = styled.div`
 `;
 
 export const CertItemName = styled.div`
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 700;
   color: ${({ $selected, $expired }) =>
     $expired ? "#999" : ($selected ? PRIMARY : "#222")};
 `;
 
 export const CertItemMeta = styled.div`
-  font-size: 12px;
+  font-size: 14px;
   color: #999;
   margin-top: 3px;
 `;
 
 export const CertStatusBadge = styled.span`
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 700;
   padding: 2px 8px;
   border-radius: 20px;
@@ -82,7 +82,7 @@ export const CertStatusBadge = styled.span`
 `;
 
 export const FeeText = styled.div`
-  font-size: 12px;
+  font-size: 14px;
   color: #888;
   margin-bottom: 20px;
 
@@ -99,7 +99,7 @@ export const ConfirmBtn = styled.button`
   border: none;
   border-radius: 8px;
   padding: 13px 0;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 700;
   cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
   transition: background 0.15s;
@@ -133,7 +133,7 @@ export const ModalHeader = styled.div`
 `;
 
 export const ModalTitle = styled.div`
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 700;
   color: #111;
 `;
@@ -149,7 +149,7 @@ export const ModalClose = styled.button`
 `;
 
 export const ModalSub = styled.div`
-  font-size: 12px;
+  font-size: 14px;
   color: #aaa;
   margin-bottom: 20px;
 `;
@@ -161,7 +161,7 @@ export const Divider = styled.div`
 `;
 
 export const VerifyTitle = styled.div`
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 700;
   color: #222;
   margin-bottom: 14px;
@@ -190,13 +190,13 @@ export const MethodIcon = styled.div`
 `;
 
 export const MethodLabel = styled.div`
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 700;
   color: ${({ $selected }) => ($selected ? PRIMARY : "#444")};
 `;
 
 export const MethodValue = styled.div`
-  font-size: 11px;
+  font-size: 13px;
   color: #999;
   margin-top: 3px;
 `;
@@ -212,7 +212,7 @@ export const CodeInput = styled.input`
   border: 1.5px solid #e0e0e0;
   border-radius: 8px;
   padding: 10px 14px;
-  font-size: 13px;
+  font-size: 15px;
   color: #333;
   outline: none;
 
@@ -227,7 +227,7 @@ export const SendBtn = styled.button`
   border: 1.5px solid #e0e0e0;
   border-radius: 8px;
   padding: 10px 16px;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 600;
   cursor: pointer;
   white-space: nowrap;
@@ -247,7 +247,7 @@ export const VerifyBtn = styled.button`
   border: none;
   border-radius: 8px;
   padding: 12px 0;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 700;
   cursor: pointer;
 `;
@@ -264,7 +264,7 @@ export const PaymentRow = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 13px;
+  font-size: 15px;
   color: #555;
 
   & + & {
@@ -275,7 +275,7 @@ export const PaymentRow = styled.div`
 `;
 
 export const PaymentTotal = styled.div`
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 700;
   color: ${PRIMARY};
 `;
@@ -287,7 +287,7 @@ export const PayBtn = styled.button`
   border: none;
   border-radius: 8px;
   padding: 13px 0;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 700;
   cursor: pointer;
 `;
@@ -304,14 +304,14 @@ export const DoneIcon = styled.div`
 `;
 
 export const DoneTitle = styled.div`
-  font-size: 17px;
+  font-size: 19px;
   font-weight: 700;
   color: #111;
   margin-bottom: 8px;
 `;
 
 export const DoneExpiry = styled.div`
-  font-size: 13px;
+  font-size: 15px;
   color: #555;
   margin-bottom: 24px;
 
@@ -328,7 +328,7 @@ export const DoneBtn = styled.button`
   border: none;
   border-radius: 8px;
   padding: 13px 0;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 700;
   cursor: pointer;
 `;

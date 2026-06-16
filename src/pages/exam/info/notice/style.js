@@ -8,7 +8,7 @@ export const Wrapper = styled.div`
 `;
 
 export const SectionTitle = styled.h2`
-  font-size: 17px;
+  font-size: 19px;
   font-weight: 700;
   color: #111;
   margin: 0 0 14px;
@@ -16,7 +16,7 @@ export const SectionTitle = styled.h2`
 `;
 
 export const PurposeText = styled.p`
-  font-size: 13px;
+  font-size: 15px;
   color: #555;
   line-height: 1.9;
   margin-bottom: 28px;
@@ -35,14 +35,14 @@ export const OverviewCard = styled.div`
 `;
 
 export const OverviewLabel = styled.div`
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 700;
   color: #888;
   margin-bottom: 6px;
 `;
 
 export const OverviewValue = styled.div`
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 600;
   color: #222;
 `;

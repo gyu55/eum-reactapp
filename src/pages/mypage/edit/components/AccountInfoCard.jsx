@@ -305,7 +305,7 @@ const AccountInfoCard = ({ userInfo, setUserInfo, isSocialUser }) => {
                 ? "이메일은 변경할 수 없습니다 · 소셜 로그인 계정"
                 : isEmailVerified
                 ? "이메일 인증이 완료되었습니다"
-                : "일반 회원은 이메일을 변경할 수 있습니다"}
+                : "보안을 위해 일반 회원의 이메일 주소는 한 달에 한 번만 변경 가능합니다."}
             </S.FieldDesc>
           </S.Field>
 

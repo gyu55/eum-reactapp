@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { PRIMARY, RED, GRAY, TEXT_BLACK } from "../style";
+import theme from "../../../styles/theme";
 
 export const Wrap = styled.div`
   background: #fff;
@@ -20,7 +21,7 @@ export const Label = styled.label`
 `;
 
 export const Required = styled.span`
-  color: ${RED};
+  color: ${theme.PALETTE.primary.main};
   margin-left: 3px;
 `;
 
@@ -47,8 +48,9 @@ export const Input = styled.input`
   padding: 12px 16px;
   border-radius: 10px;
   border: 1.5px solid #e0e0ea;
-  font-size: 14px;
-  color: #333;
+  font-size: 16px;
+  font-weight: ${theme.FONT_WEIGHT.regular};
+  color: #999;
   outline: none;
   box-sizing: border-box;
   font-family: inherit;
@@ -64,7 +66,7 @@ export const Input = styled.input`
 
   &[readOnly] {
     background-color: #f5f5f5;
-    cursor: not-allowed;
+    pointer-events: none
   }
 `;
 

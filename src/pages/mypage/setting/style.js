@@ -38,7 +38,7 @@ S.SettingDesc = styled.p`
 /* 설정 카드 */
 S.SettingCard = styled.div`
   width: 1132px;
-  min-height: 1067px;
+  min-height: 1013px;
 
   padding: 32px;
   box-sizing: border-box;

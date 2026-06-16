@@ -46,15 +46,18 @@ export const LinkBtn = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
   background-color: ${theme.PALETTE.white};
 `;
 
 export const LinkIcon = styled.span`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: ${theme.FONT_SIZE.h9};
   font-weight: ${theme.FONT_WEIGHT.regular};
   line-height: ${theme.FONT_LINE.h9};
   color: ${noticeGray};
+
 `;
 
 export const CardTitle = styled.span`
@@ -97,4 +100,9 @@ export const NoticeGrid = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 16px;
+`;
+
+export const StyledArrow = styled.img`
+  width: 16px;
+  height: 16px;
 `;

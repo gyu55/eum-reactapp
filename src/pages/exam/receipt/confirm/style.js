@@ -10,38 +10,11 @@ export const Wrapper = styled.div`
 `;
 
 export const SectionTitle = styled.h2`
-  font-size: 17px;
+  font-size: 19px;
   font-weight: 700;
   color: #111;
-  margin: 0 0 14px;
+  margin: 0 0 16px;
   letter-spacing: -0.3px;
-`;
-
-export const SearchRow = styled.div`
-  display: flex;
-  gap: 10px;
-  margin-bottom: 24px;
-`;
-
-export const SearchInput = styled.input`
-  flex: ${({ $flex }) => $flex ?? 1};
-  border: 1.5px solid #e0e0e0;
-  border-radius: 8px;
-  padding: 10px 14px;
-  font-size: 13px;
-  color: #333;
-  outline: none;
-`;
-
-export const SearchBtn = styled.button`
-  background: ${PRIMARY};
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  padding: 10px 20px;
-  font-size: 13px;
-  font-weight: 700;
-  cursor: pointer;
 `;
 
 export const StyledTable = styled.table`
@@ -55,7 +28,7 @@ export const TheadRow = styled.tr`
 
 export const Th = styled.th`
   padding: 11px 14px;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 700;
   color: ${PRIMARY};
   border: 1px solid #e8eaf0;
@@ -64,17 +37,23 @@ export const Th = styled.th`
 
 export const Td = styled.td`
   padding: 12px 14px;
-  font-size: 13px;
+  font-size: 15px;
   border: 1px solid #eee;
   text-align: center;
   color: ${({ $dark }) => ($dark ? "#333" : "#555")};
 `;
 
 export const StatusBadge = styled.span`
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 700;
-  color: #27ae60;
-  background: #e8faf2;
+  color: ${({ $status }) =>
+    $status === "취소" || $status === "cancelled" ? "#e74c3c" :
+    $status === "완료" ? "#888" :
+    "#27ae60"};
+  background: ${({ $status }) =>
+    $status === "취소" || $status === "cancelled" ? "#fff0f0" :
+    $status === "완료" ? "#f0f0f0" :
+    "#e8faf2"};
   border-radius: 20px;
   padding: 4px 12px;
 `;
@@ -85,13 +64,13 @@ export const CancelBtn = styled.button`
   border: 1.5px solid #e74c3c;
   border-radius: 8px;
   padding: 5px 12px;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 700;
   cursor: pointer;
 `;
 
 export const Note = styled.div`
-  font-size: 12px;
+  font-size: 14px;
   color: #888;
   margin-top: 12px;
 `;

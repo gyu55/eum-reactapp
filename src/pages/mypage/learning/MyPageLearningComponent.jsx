@@ -20,7 +20,7 @@ const quizStudyPathMap = {
   3: "/study/chapter/morse",
 };
 
-// 백엔드 학습현황이 비어 있을 때 확인용으로 보여주는 React 더미데이터입니다.
+// 백엔드 학습현황이 비어 있을 때 확인용으로 보여주는 mock 데이터입니다.
 const fallbackStatusList = [
   {
     eduId: "dummy-braille-a-f",
@@ -36,7 +36,7 @@ const fallbackStatusList = [
   },
 ];
 
-// 백엔드 학습결과 데이터와 함께 확인용으로 보여주는 React 더미데이터입니다.
+// 백엔드 학습결과 데이터가 없을 때 확인용으로 보여주는 mock 데이터입니다.
 const fallbackResultList = [
   {
     quizAttemptId: "dummy-braille-read",
@@ -205,15 +205,9 @@ const MyPageLearningComponent = () => {
   const originStatusList = learningData.statusList || [];
   const originResultList = learningData.resultList || [];
 
-  const statusList = [
-    ...sortStatusListByRecent(originStatusList),
-    ...sortStatusListByRecent(fallbackStatusList),
-  ];
-
-  const resultList = [
-    ...sortResultListByRecent(originResultList),
-    ...sortResultListByRecent(fallbackResultList),
-  ];
+  // 화면에는 백엔드에서 내려준 회원별 학습 데이터만 사용합니다.
+  const statusList = sortStatusListByRecent(originStatusList);
+  const resultList = sortResultListByRecent(originResultList);
 
   const needStatusToggleButton = statusList.length > COLLAPSED_COUNT;
   const needResultToggleButton = resultList.length > COLLAPSED_COUNT;
@@ -284,7 +278,7 @@ const MyPageLearningComponent = () => {
               </S.LearningHeader>
 
               {visibleStatusList.map((learning) => (
-                <S.LearningRow key={`${learning.learningType || "FALLBACK"}-${learning.eduId}-${learning.recentStudyAt}`}>
+                <S.LearningRow key={`${learning.learningType || "LEARN"}-${learning.eduId}-${learning.recentStudyAt}`}>
                   <S.LearningTitleButton
                     type="button"
                     onClick={() => handleMoveLearning(learning)}
@@ -342,7 +336,7 @@ const MyPageLearningComponent = () => {
               </S.LearningResultHeader>
 
               {visibleResultList.map((result) => (
-                <S.LearningResultRow key={`${result.resultType || "FALLBACK"}-${result.quizAttemptId}-${result.quizAttemptCreateAt || result.completedAt}`}>
+                <S.LearningResultRow key={`${result.resultType || "RESULT"}-${result.quizAttemptId}-${result.quizAttemptCreateAt || result.completedAt}`}>
                   <S.LearningText>{result.quizTitle}</S.LearningText>
                   <S.LearningText>{formatDate(result.completedAt || result.quizAttemptCreateAt || result.createdAt)}</S.LearningText>
                   <S.LearningText>{formatScore(result.correctCount, result.totalCount)}</S.LearningText>
@@ -352,7 +346,7 @@ const MyPageLearningComponent = () => {
               ))}
 
               {resultList.length === 0 && (
-                <S.EmptyText>완료한 학습 결과가 없습니다.</S.EmptyText>
+                <S.EmptyText>완료된 학습 결과가 없습니다.</S.EmptyText>
               )}
 
               {needResultPagination && (

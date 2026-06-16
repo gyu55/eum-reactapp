@@ -4,9 +4,18 @@ import { useNavigate } from "react-router-dom";
 import S from "../style";
 
 const statusList = [
-  "미신청 : 아직 실물 자격증을 신청하지 않은 상태",
-  "신청 대기 : 신청이 접수되어 처리 중인 상태",
-  "신청 완료 : 실물 자격증 발급이 완료된 상태",
+  {
+    name: "미신청",
+    description: "아직 실물 자격증을 신청하지 않은 상태",
+  },
+  {
+    name: "신청 대기",
+    description: "신청이 접수되어 처리 중인 상태",
+  },
+  {
+    name: "신청 완료",
+    description: "실물 자격증 발급이 완료된 상태",
+  },
 ];
 
 const CertificateGuideStatusCard = () => {
@@ -25,8 +34,13 @@ const CertificateGuideStatusCard = () => {
 
       <S.GuideStatusCardBox>
         {statusList.map((status) => (
-          <S.GuideStatusText key={status}>
-            · {status}
+          <S.GuideStatusText key={status.name}>
+            <S.GuideStatusIcon aria-hidden="true" />
+            <S.GuideStatusName>{status.name}</S.GuideStatusName>
+            <S.GuideStatusColon>:</S.GuideStatusColon>
+            <S.GuideStatusDescription>
+              {status.description}
+            </S.GuideStatusDescription>
           </S.GuideStatusText>
         ))}
       </S.GuideStatusCardBox>

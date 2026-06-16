@@ -5,7 +5,9 @@ import LoginGuard from "../../../../components/common/LoginGuard";
 
 const TYPE_MAP = { renew: "갱신", reissue: "재발급" };
 const RECEIVE_MAP = { online: "온라인", delivery: "배송" };
-const STATUS_LABEL = { processing: "처리중", cancelled: "취소됨" };
+const STATUS_LABEL = { processing: "처리 중", completed: "처리 완료", cancelled: "취소됨", rejected: "반려" };
+
+const mapLabel = (map, val) => (val ? map[val.toLowerCase()] : null) ?? val ?? "-";
 
 const formatDate = (dateStr) => {
   if (!dateStr) return "-";
@@ -75,13 +77,13 @@ const UpdateCheckComponent = () => {
               applications.map((row) => (
                 <tr key={row.id}>
                   <S.NumberTd>{row.certNo || "-"}</S.NumberTd>
-                  <S.Td>{TYPE_MAP[row.certRenewType] || row.certRenewType}</S.Td>
+                  <S.Td>{mapLabel(TYPE_MAP, row.certRenewType)}</S.Td>
                   <S.Td>{formatDate(row.certRenewCreateAt)}</S.Td>
                   <S.Td>{row.certName || "-"}</S.Td>
-                  <S.Td>{RECEIVE_MAP[row.certReceiveType] || row.certReceiveType || "-"}</S.Td>
+                  <S.Td>{mapLabel(RECEIVE_MAP, row.certReceiveType)}</S.Td>
                   <S.Td>
-                    <S.StatusBadge $status={row.certRenewStatus}>
-                      {STATUS_LABEL[row.certRenewStatus] || row.certRenewStatus}
+                    <S.StatusBadge $status={row.certRenewStatus?.toLowerCase()}>
+                      {mapLabel(STATUS_LABEL, row.certRenewStatus)}
                     </S.StatusBadge>
                   </S.Td>
                   <S.Td>

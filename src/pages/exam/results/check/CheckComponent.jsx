@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import * as S from "./style";
 
 const rounds = ["2025년 1회 정기시험", "2025년 2회 정기시험"];
@@ -13,6 +14,7 @@ export const DUMMY_RESULTS = [
 
 // 비로그인: 수험번호 조회 뷰
 const GuestView = () => {
+  const navigate = useNavigate();
   const [round, setRound] = useState(rounds[0]);
   const [examNumber, setExamNumber] = useState("");
   const [result, setResult] = useState(null);
@@ -66,7 +68,11 @@ const GuestView = () => {
             ))}
           </S.ScoreRow>
           <S.PassCriteria>합격 기준: {PASS_SCORE}점 이상</S.PassCriteria>
-          <S.PassNote>※ 합격증은 합격증 메뉴에서 출력 가능합니다.</S.PassNote>
+          {result.passed && (
+            <S.PassGoBtn onClick={() => navigate("/exam/results/license")}>
+              합격증 출력하러 가기 →
+            </S.PassGoBtn>
+          )}
         </S.ResultBox>
       )}
     </>
@@ -75,6 +81,7 @@ const GuestView = () => {
 
 // 결과 팝업 모달
 const ResultModal = ({ r, onClose }) => {
+  const navigate = useNavigate();
   const passed = r.testResultPoint >= PASS_SCORE;
   return (
     <S.ModalOverlay onClick={onClose}>
@@ -102,7 +109,9 @@ const ResultModal = ({ r, onClose }) => {
           </S.ModalScoreBox>
 
           {passed && (
-            <S.ModalNote>※ 합격증은 합격증 메뉴에서 출력 가능합니다.</S.ModalNote>
+            <S.GoLicenseBtn onClick={() => { onClose(); navigate("/exam/results/license", { state: { testApplyId: String(r.testApplyId) } }); }}>
+              합격증 출력하러 가기 →
+            </S.GoLicenseBtn>
           )}
         </S.ModalBody>
       </S.ModalBox>

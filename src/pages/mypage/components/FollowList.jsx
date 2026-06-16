@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import S from "./style";
 import MyPageStyle from "../style";
 
-const COLLAPSED_COUNT = 16;
+const COLLAPSED_COUNT = 15;
 const PAGE_SIZE = 32;
 
 const isDefaultProfile = (profileImage) => {
@@ -17,6 +17,11 @@ const getProfileImageSrc = (profileImage) => {
   }
 
   if (profileImage.startsWith("http")) {
+    return profileImage;
+  }
+
+  // React public 폴더 이미지 경로는 그대로 사용
+  if (profileImage.startsWith("/assets/")) {
     return profileImage;
   }
 
@@ -151,13 +156,6 @@ const FollowList = ({ followingList = [], followerList = [] }) => {
           </S.MoreButton>
         )}
       </S.FollowWrapper>
-
-      {/* 카드 바깥 오른쪽 하단 회원탈퇴 버튼 */}
-      <S.FollowWithdrawArea>
-        <MyPageStyle.WithdrawButton type="button" onClick={handleWithdrawClick}>
-          회원 탈퇴
-        </MyPageStyle.WithdrawButton>
-      </S.FollowWithdrawArea>
     </S.Section>
   );
 };

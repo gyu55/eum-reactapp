@@ -10,38 +10,11 @@ export const Wrapper = styled.div`
 `;
 
 export const SectionTitle = styled.h2`
-  font-size: 17px;
+  font-size: 19px;
   font-weight: 700;
   color: #111;
-  margin: 0 0 14px;
+  margin: 0 0 16px;
   letter-spacing: -0.3px;
-`;
-
-export const SearchRow = styled.div`
-  display: flex;
-  gap: 10px;
-  margin-bottom: 24px;
-`;
-
-export const SearchInput = styled.input`
-  flex: ${({ $flex }) => $flex ?? 1};
-  border: 1.5px solid #e0e0e0;
-  border-radius: 8px;
-  padding: 10px 14px;
-  font-size: 13px;
-  color: #333;
-  outline: none;
-`;
-
-export const SearchBtn = styled.button`
-  background: ${PRIMARY};
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  padding: 10px 20px;
-  font-size: 13px;
-  font-weight: 700;
-  cursor: pointer;
 `;
 
 export const StyledTable = styled.table`
@@ -55,7 +28,7 @@ export const TheadRow = styled.tr`
 
 export const Th = styled.th`
   padding: 11px 14px;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 700;
   color: ${PRIMARY};
   border: 1px solid #e8eaf0;
@@ -64,54 +37,41 @@ export const Th = styled.th`
 
 export const Td = styled.td`
   padding: 12px 14px;
-  font-size: 13px;
-  color: #555;
+  font-size: 15px;
   border: 1px solid #eee;
   text-align: center;
+  color: #555;
 `;
 
 export const NumberTd = styled(Td)`
+  font-size: 14px;
   font-weight: 700;
-  color: #111;
+  color: #333;
 `;
 
-
-export const DetailCell = styled.td`
-  padding: 10px 14px;
-  border-bottom: 1px solid #eee;
-  background: #fafafa;
-`;
-
-export const DetailText = styled.div`
-  font-size: 12px;
-  color: ${PRIMARY};
-`;
-
-export const DetailNote = styled.div`
-  font-size: 11px;
-  color: #999;
-  margin-top: 4px;
-`;
+const STATUS_COLOR = {
+  processing: { color: "#4359fc", bg: "#eef0ff" },
+  completed:  { color: "#27ae60", bg: "#eafaf1" },
+  cancelled:  { color: "#e74c3c", bg: "#fff0f0" },
+  rejected:   { color: "#e67e22", bg: "#fff7ee" },
+};
 
 export const StatusBadge = styled.span`
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 700;
+  color: ${({ $status }) => (STATUS_COLOR[$status]?.color ?? "#888")};
+  background: ${({ $status }) => (STATUS_COLOR[$status]?.bg ?? "#f5f5f5")};
   border-radius: 20px;
   padding: 4px 12px;
-  color: ${({ $status }) => $status === "cancelled" ? "#888" : "#e67e22"};
-  background: ${({ $status }) => $status === "cancelled" ? "#f5f5f5" : "#fff8f0"};
 `;
 
 export const CancelBtn = styled.button`
   background: #fff;
   color: #e74c3c;
   border: 1.5px solid #e74c3c;
-  border-radius: 6px;
-  padding: 5px 14px;
-  font-size: 12px;
+  border-radius: 8px;
+  padding: 5px 12px;
+  font-size: 14px;
   font-weight: 700;
   cursor: pointer;
-  &:hover {
-    background: #fdf0ef;
-  }
 `;

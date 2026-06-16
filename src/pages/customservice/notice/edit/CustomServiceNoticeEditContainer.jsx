@@ -50,12 +50,6 @@ const CustomServiceNoticeEditContainer = () => {
 
   return (
     <>
-      <PageHeroCard
-        badge="고객지원"
-        title="공지사항"
-        sub="이음 서비스의 새로운 소식과 업데이트를 확인하세요."
-        iconSrc="/assets/image/customService/noticeIcon.svg"
-      />
       <CustomServiceNoticeWriteComponent
         onSubmit={handleSubmit}
         onCancel={handleCancel}

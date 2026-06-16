@@ -24,8 +24,8 @@ const ReceiptConfirmContainer = () => {
       } else {
         alert(data.message || "취소에 실패했습니다.");
       }
-    } catch {
-      alert("서버 오류가 발생했습니다.");
+    } catch (e) {
+      alert(e?.message || "서버 오류가 발생했습니다.");
     } finally {
       setCancelingId(null);
     }
@@ -88,24 +88,31 @@ const ReceiptConfirmContainer = () => {
               </S.TheadRow>
             </thead>
             <tbody>
-              {applies.map((row, i) => (
-                <tr key={i}>
-                  <S.Td $dark>{row.testTitle}</S.Td>
-                  <S.Td>{new Date(row.testDate).toLocaleDateString("ko-KR")}</S.Td>
-                  <S.Td>{new Date(row.testApplyAt).toLocaleDateString("ko-KR")}</S.Td>
-                  <S.Td>
-                    <S.StatusBadge>접수완료</S.StatusBadge>
-                  </S.Td>
-                  <S.Td>
-                    <S.CancelBtn
-                      onClick={() => handleCancel(row.id)}
-                      disabled={cancelingId === row.id}
-                    >
-                      {cancelingId === row.id ? "취소 중..." : "접수취소"}
-                    </S.CancelBtn>
-                  </S.Td>
-                </tr>
-              ))}
+              {applies.map((row, i) => {
+                const examDone = new Date(row.testDate) < new Date();
+                return (
+                  <tr key={i}>
+                    <S.Td $dark>{row.testTitle}</S.Td>
+                    <S.Td>{new Date(row.testDate).toLocaleDateString("ko-KR")}</S.Td>
+                    <S.Td>{new Date(row.testApplyAt).toLocaleDateString("ko-KR")}</S.Td>
+                    <S.Td>
+                      <S.StatusBadge $status={examDone ? "완료" : undefined}>
+                        {examDone ? "시험완료" : "접수완료"}
+                      </S.StatusBadge>
+                    </S.Td>
+                    <S.Td>
+                      {!examDone && (
+                        <S.CancelBtn
+                          onClick={() => handleCancel(row.id)}
+                          disabled={cancelingId === row.id}
+                        >
+                          {cancelingId === row.id ? "취소 중..." : "접수취소"}
+                        </S.CancelBtn>
+                      )}
+                    </S.Td>
+                  </tr>
+                );
+              })}
             </tbody>
           </S.StyledTable>
           <S.Note>※ 취소 신청 후 환불은 3~5 영업일 이내 처리됩니다.</S.Note>

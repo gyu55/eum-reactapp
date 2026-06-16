@@ -10,7 +10,7 @@ export const Wrapper = styled.div`
 `;
 
 export const SectionTitle = styled.h2`
-  font-size: 17px;
+  font-size: 19px;
   font-weight: 700;
   color: #111;
   margin: 0 0 6px;
@@ -18,7 +18,7 @@ export const SectionTitle = styled.h2`
 `;
 
 export const Subtitle = styled.p`
-  font-size: 13px;
+  font-size: 15px;
   color: #888;
   margin: 0 0 20px;
 `;
@@ -45,20 +45,20 @@ export const StepCircle = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 700;
   color: #fff;
   flex-shrink: 0;
 `;
 
 export const StepTitle = styled.div`
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 700;
   color: #111;
 `;
 
 export const StepDesc = styled.div`
-  font-size: 12px;
+  font-size: 14px;
   color: #666;
   margin-top: 2px;
 `;
@@ -76,12 +76,12 @@ export const WarningBox = styled.div`
   border-radius: 8px;
   padding: 10px 14px;
   margin-top: 12px;
-  font-size: 12px;
+  font-size: 14px;
   color: #e67e22;
 `;
 
 export const Note = styled.div`
-  font-size: 11px;
+  font-size: 13px;
   color: #999;
   margin-top: 6px;
   padding-left: 4px;

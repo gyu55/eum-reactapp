@@ -91,29 +91,27 @@ const EumLayout = ({
     <ChatProvider>
     <div>
       <S.Header>
-        <S.LogoNav>
-          <S.LogoBtn>
-            <S.StyledLink to="/">
-              <S.LogoImg src="/assets/image/layout/logo.svg" alt="logo" />
-            </S.StyledLink>
-          </S.LogoBtn>
+        <S.LogoBtn>
+          <S.StyledLink to="/">
+            <S.LogoImg src="/assets/image/layout/logo.svg" alt="logo" />
+          </S.StyledLink>
+        </S.LogoBtn>
 
-          <S.MainNav>
-            {navLinks.map((link) => (
-              <S.NavLinkBtn key={link.label}>
-                <S.StyledLink
-                  to={link.to}
-                  onMouseEnter={() => setHoveredNav(link.label)}
-                  onMouseLeave={() => setHoveredNav(null)}
-                >
-                  <S.ContentNav $hovered={hoveredNav === link.label}>
-                    {link.label}
-                  </S.ContentNav>
-                </S.StyledLink>
-              </S.NavLinkBtn>
-            ))}
-          </S.MainNav>
-        </S.LogoNav>
+        <S.MainNav>
+          {navLinks.map((link) => (
+            <S.NavLinkBtn key={link.label}>
+              <S.StyledLink
+                to={link.to}
+                onMouseEnter={() => setHoveredNav(link.label)}
+                onMouseLeave={() => setHoveredNav(null)}
+              >
+                <S.ContentNav $hovered={hoveredNav === link.label}>
+                  {link.label}
+                </S.ContentNav>
+              </S.StyledLink>
+            </S.NavLinkBtn>
+          ))}
+        </S.MainNav>
 
         <S.RightNav>
           {layoutUser ? (
@@ -123,7 +121,7 @@ const EumLayout = ({
                   <S.BellIcon
                     src={
                       notifCount > 0
-                        ? "/assets/image/layout/bellIconActive.svg"
+                        ? "/assets/image/layout/bellIconshake.gif"
                         : "/assets/image/layout/bellIcon.svg"
                     }
                   />

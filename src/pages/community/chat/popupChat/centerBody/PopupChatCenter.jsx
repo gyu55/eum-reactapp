@@ -24,7 +24,7 @@ const PopupChatCenter = ({ chatRoomId, onProfileClick }) => {
   const [inputText, setInputText] = useState("");
   const messagesEndRef = useRef(null);
   const fileInputRef = useRef(null);
-  const { messages, sendMessage, sendImageMessage } = useChatRoom(chatRoomId);
+  const { messages, sendMessage, sendImageMessage, sendSignMessage } = useChatRoom(chatRoomId);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -43,6 +43,28 @@ const PopupChatCenter = ({ chatRoomId, onProfileClick }) => {
     }
   };
 
+  const handleSignSend = async () => {
+    if (!inputText.trim()) return
+    const original = inputText.trim()
+    setInputText("")
+
+    try {
+      const res = await fetch(`/api/sign/translate?text=${encodeURIComponent(original)}`)
+      const json = await res.json()
+
+      if (!json.success || json.data?.error) {
+        // 번역 실패 시 일반 메시지로
+        sendMessage(original)
+      } else {
+        // 수어 메시지로 단어 전송 (keypoints는 ChatMessage에서 다시 fetch)
+        sendSignMessage(original)
+      }
+    } catch (err) {
+      console.error("예측 실패:", err)
+      sendMessage(original)
+    }
+  }
+
   const handleImageClick = () => fileInputRef.current?.click();
 
   const handleFileChange = useCallback(
@@ -60,9 +82,12 @@ const PopupChatCenter = ({ chatRoomId, onProfileClick }) => {
     [chatRoomId, sendImageMessage],
   );
 
+  const handleProfileClick = useCallback((userInfo) => {
+    if (onProfileClick) onProfileClick(userInfo)
+  }, [onProfileClick])
+
   return (
     <S.CenterPanel>
-      {/* 메세지 나열 되는곳 */}
       <S.MessagesArea>
         {messages.map(
           ({ id, isMine, content, chatType, time, username, profileImage, userId, userExp }) => (
@@ -76,14 +101,13 @@ const PopupChatCenter = ({ chatRoomId, onProfileClick }) => {
               profileImage={profileImage}
               userId={userId}
               userExp={userExp}
-              onProfileClick={onProfileClick}
+              onProfileClick={handleProfileClick}
             />
           ),
         )}
         <div ref={messagesEndRef} />
       </S.MessagesArea>
 
-      {/* 메세지 작성하는곳 */}
       <S.InputArea>
         <input
           type="file"
@@ -104,7 +128,12 @@ const PopupChatCenter = ({ chatRoomId, onProfileClick }) => {
             <S.AttachIcon src={chatShare} alt="링크" />
           </S.AttachIcons>
           <S.AttachDivider />
-          <S.AttachIcon src={chatSueo} alt="수어" />
+          <S.AttachIcon
+            src={chatSueo}
+            alt="수어"
+            onClick={handleSignSend}
+            style={{ cursor: "pointer" }}
+          />
         </S.AttachRow>
         <S.InputRow>
           <S.TextInputBox>

@@ -69,6 +69,7 @@ export const MessageText = styled.p`
   margin: 0;
   line-height: 1.5;
   word-break: break-word;
+  white-space: pre-wrap;
 `;
 
 export const TimeText = styled.p`

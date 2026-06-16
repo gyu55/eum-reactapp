@@ -10,7 +10,7 @@ export const Wrapper = styled.div`
 `;
 
 export const SectionTitle = styled.h2`
-  font-size: 17px;
+  font-size: 19px;
   font-weight: 700;
   color: #111;
   margin: 0 0 14px;
@@ -28,7 +28,7 @@ export const TheadRow = styled.tr`
 
 export const Th = styled.th`
   padding: 12px 16px;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 700;
   color: ${PRIMARY};
   border: 1px solid #e8eaf0;
@@ -41,7 +41,7 @@ export const TbodyRow = styled.tr`
 
 export const GradeTd = styled.td`
   padding: 14px 16px;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 700;
   color: ${PRIMARY};
   border: 1px solid #eee;
@@ -50,7 +50,7 @@ export const GradeTd = styled.td`
 
 export const Td = styled.td`
   padding: 14px 16px;
-  font-size: 13px;
+  font-size: 15px;
   color: #444;
   border: 1px solid #eee;
 `;

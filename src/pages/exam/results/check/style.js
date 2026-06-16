@@ -10,7 +10,7 @@ export const Wrapper = styled.div`
 `;
 
 export const SectionTitle = styled.h2`
-  font-size: 17px;
+  font-size: 19px;
   font-weight: 700;
   color: #111;
   margin: 0 0 14px;
@@ -28,7 +28,7 @@ export const SearchInput = styled.input`
   border: 1.5px solid #e0e0e0;
   border-radius: 8px;
   padding: 10px 14px;
-  font-size: 13px;
+  font-size: 15px;
   color: #333;
   outline: none;
 `;
@@ -38,10 +38,12 @@ export const SearchSelect = styled.select`
   border: 1.5px solid #e0e0e0;
   border-radius: 8px;
   padding: 10px 14px;
-  font-size: 13px;
+  font-size: 15px;
   color: #333;
   outline: none;
-  background: #fff;
+  background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") no-repeat right 14px center;
+  appearance: none;
+  cursor: pointer;
 `;
 
 export const SearchBtn = styled.button`
@@ -50,7 +52,7 @@ export const SearchBtn = styled.button`
   border: none;
   border-radius: 8px;
   padding: 10px 20px;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 700;
   cursor: pointer;
 `;
@@ -63,14 +65,14 @@ export const ResultBox = styled.div`
 `;
 
 export const ResultTitle = styled.div`
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 700;
   color: ${({ $passed }) => ($passed ? "#27ae60" : "#e74c3c")};
   margin-bottom: 12px;
 `;
 
 export const ResultInfo = styled.div`
-  font-size: 13px;
+  font-size: 15px;
   color: #444;
   margin-bottom: 4px;
 `;
@@ -86,25 +88,25 @@ export const ScoreItem = styled.div`
 `;
 
 export const ScoreLabel = styled.div`
-  font-size: 12px;
+  font-size: 14px;
   color: #888;
 `;
 
 export const ScoreValue = styled.div`
-  font-size: 22px;
+  font-size: 24px;
   font-weight: 700;
   color: ${PRIMARY};
   margin-top: 4px;
 `;
 
 export const PassCriteria = styled.div`
-  font-size: 12px;
+  font-size: 14px;
   color: #888;
   margin-top: 14px;
 `;
 
 export const PassNote = styled.div`
-  font-size: 12px;
+  font-size: 14px;
   color: #555;
   margin-top: 8px;
 `;
@@ -132,13 +134,13 @@ export const MyResultHeader = styled.div`
 `;
 
 export const MyResultTitle = styled.div`
-  font-size: 15px;
+  font-size: 17px;
   font-weight: 700;
   color: #111;
 `;
 
 export const MyResultBadge = styled.span`
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 700;
   padding: 3px 10px;
   border-radius: 20px;
@@ -148,13 +150,13 @@ export const MyResultBadge = styled.span`
 `;
 
 export const MyResultDate = styled.div`
-  font-size: 12px;
+  font-size: 14px;
   color: #888;
   margin-bottom: 12px;
 `;
 
 export const EmptyMsg = styled.div`
-  font-size: 13px;
+  font-size: 15px;
   color: #aaa;
   text-align: center;
   padding: 32px 0;
@@ -171,7 +173,7 @@ export const RoundThead = styled.tr`
 
 export const RoundTh = styled.th`
   padding: 11px 14px;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 700;
   color: ${PRIMARY};
   border: 1px solid #e8eaf0;
@@ -180,7 +182,7 @@ export const RoundTh = styled.th`
 
 export const RoundTd = styled.td`
   padding: 13px 14px;
-  font-size: 13px;
+  font-size: 15px;
   color: #555;
   border: 1px solid #eee;
   text-align: center;
@@ -198,7 +200,7 @@ export const ViewBtn = styled.button`
   border: none;
   border-radius: 6px;
   padding: 6px 16px;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 700;
   cursor: pointer;
 `;
@@ -238,7 +240,7 @@ export const ModalClose = styled.button`
   border-radius: 50%;
   width: 28px;
   height: 28px;
-  font-size: 14px;
+  font-size: 16px;
   color: #fff;
   cursor: pointer;
   display: flex;
@@ -253,14 +255,14 @@ export const ModalIcon = styled.div`
 `;
 
 export const ModalStatus = styled.div`
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 800;
   color: #fff;
   letter-spacing: -0.3px;
 `;
 
 export const ModalSubtitle = styled.div`
-  font-size: 13px;
+  font-size: 15px;
   color: rgba(255,255,255,0.85);
   margin-top: 6px;
 `;
@@ -279,14 +281,14 @@ export const ModalInfoRow = styled.div`
 `;
 
 export const ModalInfoLabel = styled.span`
-  font-size: 12px;
+  font-size: 14px;
   color: #aaa;
   font-weight: 600;
   min-width: 52px;
 `;
 
 export const ModalInfoValue = styled.span`
-  font-size: 13px;
+  font-size: 15px;
   color: #333;
   font-weight: 600;
 `;
@@ -300,24 +302,55 @@ export const ModalScoreBox = styled.div`
 `;
 
 export const ModalScoreNum = styled.div`
-  font-size: 40px;
+  font-size: 42px;
   font-weight: 800;
   color: ${({ $passed }) => $passed ? "#27ae60" : "#e74c3c"};
   letter-spacing: -1px;
 `;
 
 export const ModalScoreSub = styled.div`
-  font-size: 12px;
+  font-size: 14px;
   color: #999;
   margin-top: 4px;
 `;
 
 export const ModalNote = styled.div`
-  font-size: 12px;
+  font-size: 14px;
   color: #888;
   background: #fffbf0;
   border: 1px solid #ffe9a0;
   border-radius: 8px;
   padding: 10px 14px;
   margin-top: 14px;
+`;
+
+export const GoLicenseBtn = styled.button`
+  display: block;
+  width: 100%;
+  margin-top: 12px;
+  padding: 13px 0;
+  background: #4359fc;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  &:hover { background: #3448e0; }
+`;
+
+export const PassGoBtn = styled.button`
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 14px;
+  padding: 10px 20px;
+  background: #4359fc;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  &:hover { background: #3448e0; }
 `;

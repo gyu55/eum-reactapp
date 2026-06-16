@@ -15,7 +15,7 @@ export const HeroCard = styled.div`
 
 export const HeroBadge = styled.span`
   display: inline-block;
-  font-size: 11px;
+  font-size: 14px;
   font-weight: 700;
   color: ${PRIMARY};
   background: #eef0ff;
@@ -26,7 +26,7 @@ export const HeroBadge = styled.span`
 `;
 
 export const HeroTitle = styled.h1`
-  font-size: 24px;
+  font-size: 28px;
   font-weight: 700;
   color: ${TEXT_BLACK};
   margin: 0 0 8px;
@@ -34,7 +34,7 @@ export const HeroTitle = styled.h1`
 `;
 
 export const HeroSub = styled.p`
-  font-size: 12px;
+  font-size: 14px;
   color: ${GRAY};
   margin: 0;
 `;

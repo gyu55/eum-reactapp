@@ -30,18 +30,16 @@ const WordCardComponent = ({ card }) => {
     >
       <S.Emoji>{card.emoji}</S.Emoji>
       <S.CardTitle $hovered={hovered}>{formatTitle(card.title)}</S.CardTitle>
-      <S.CardSub $hovered={hovered}>{card.sub}</S.CardSub>
 
       {!hovered && card.tag && (
         <S.TagBadge>{card.tag}</S.TagBadge>
       )}
 
-      {hovered && card.desc && (
+      {hovered && (
         <>
-          <S.CardDesc>{card.desc}</S.CardDesc>
-          <S.VideoBtn>
-            ▶ 영상으로 보기
-          </S.VideoBtn>
+          {card.desc && <S.CardDesc>{card.desc}</S.CardDesc>}
+          {card.tag && <S.TagBadge $hovered={hovered}>{card.tag}</S.TagBadge>}
+          <S.VideoBtn>▶ 영상으로 보기</S.VideoBtn>
         </>
       )}
     </S.CardWrap>

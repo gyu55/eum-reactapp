@@ -36,6 +36,7 @@ export const StepItem = styled.div`
   align-items: center;
   gap: 8px;
   cursor: pointer;
+  position: relative;  /* ← 추가 */
 `;
 
 export const StepCircle = styled.div`
@@ -391,3 +392,38 @@ export const ItemNum = styled.span`
   min-width: 20px;
 `;
 
+export const StepTooltip = styled.div`
+  position: absolute;
+  bottom: calc(100% + 12px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  padding: 10px 14px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 12px;
+  color: #555;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  z-index: 10;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-top-color: #fff;
+  }
+
+  ${StepItem}:hover & {
+    opacity: 1;
+  }
+`;

@@ -50,8 +50,8 @@ function keypointsToBoneRotations(frames) {
 
     // 아래팔은 norm을 더 작게(=민감하게) → 손목 움직임이 크게 반영됨
     const foreNorm = 200
-    const rForeX = rForeValid ? clamp(-rForeDy / foreNorm, -1.8, 1.8) : 0
-    const lForeX = lForeValid ? clamp(-lForeDy / foreNorm, -1.8, 1.8) : 0
+    const rForeX = rForeValid ? clamp(rForeDy / foreNorm, -1.8, 1.8) : 0   // -rForeDy → rForeDy
+    const lForeX = lForeValid ? clamp(lForeDy / foreNorm, -1.8, 1.8) : 0
     const rForeZ = rForeValid ? clamp(rForeDx / foreNorm, -1.8, 1.8) : 0
     const lForeZ = lForeValid ? clamp(-lForeDx / foreNorm, -1.8, 1.8) : 0
 

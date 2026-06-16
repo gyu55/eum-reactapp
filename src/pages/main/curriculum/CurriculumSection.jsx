@@ -1,39 +1,32 @@
-import React, { useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import * as S from "./style.js";
 import CurriculumInfoBox from "./CurriculumInfoBox";
 import { CURRICULUM } from "./constants";
 
 const CurriculumSection = () => {
-  const navigate                    = useNavigate();
-  const [activeStep, setActiveStep] = useState(-1);
-  const [showModal, setShowModal]   = useState(false);
-
-  const handleStepClick = (idx) => {
-    setActiveStep(prev => prev === idx ? -1 : idx);
-  };
+  const navigate = useNavigate();
 
   return (
     <S.Section>
-      {showModal && <CurriculumInfoBox onClose={() => setShowModal(false)} />}
-
       <S.SectionTitle>💎 커리큘럼</S.SectionTitle>
-      <S.InfoSub>
-          <S.ClickIcon src="/assets/image/main/clickIcon.svg" alt="clickIcon" />
-          단계를 눌러서 자세한 커리큘럼을 확인하세요
-      </S.InfoSub>
 
       <S.StepRow>
         {CURRICULUM.map((c, i) => (
           <React.Fragment key={c.step}>
-            <S.StepItem onClick={() => handleStepClick(i)}>
-              <S.StepCircle $active={activeStep >= 0 && activeStep >= i}>{c.step}</S.StepCircle>
-              <S.StepLabel $active={activeStep >= 0 && activeStep >= i}>{c.label}</S.StepLabel>
+            <S.StepItem>
+              <S.StepTooltip>
+                {c.items.map((item, j) => (
+                  <span key={j}>· {item}</span>
+                ))}
+              </S.StepTooltip>
+              <S.StepCircle>{c.step}</S.StepCircle>
+              <S.StepLabel>{c.label}</S.StepLabel>
               <S.StepCount>{c.count}</S.StepCount>
             </S.StepItem>
             {i < CURRICULUM.length - 1 && (
               <S.StepLineWrap>
-                <S.StepLineFill $fill={activeStep > i} />
+                <S.StepLineFill />
               </S.StepLineWrap>
             )}
           </React.Fragment>
@@ -41,10 +34,7 @@ const CurriculumSection = () => {
       </S.StepRow>
 
       <CurriculumInfoBox
-        curriculum={CURRICULUM}
-        activeStep={activeStep}
-        onStart={() => { navigate("/study/experience"); window.scrollTo(0, 0); }}
-        onShowModal={() => setShowModal(true)}
+        onStart={() => { navigate("/study/experience");}}
       />
     </S.Section>
   );

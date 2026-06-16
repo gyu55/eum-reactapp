@@ -20,7 +20,7 @@ export const Breadcrumb = styled.div`
   display: flex;
   gap: 6px;
   align-items: center;
-  font-size: 12px;
+  font-size: 16px;
   margin-bottom: 24px;
 `;
 
@@ -80,7 +80,7 @@ export const SlidingBar = styled.div`
 `;
 
 export const SidebarCategory = styled.div`
-  font-size: ${theme.FONT_SIZE.h11};
+  font-size: ${theme.FONT_SIZE.h10};
   font-weight: 700;
   color: #aaa;
   padding: 12px 20px 6px;
@@ -96,7 +96,7 @@ export const SidebarNavLink = styled.div`
     border: none;
     border-left: 3px solid transparent;
     padding: 9px 20px;
-    font-size: ${theme.FONT_SIZE.h10};
+    font-size: ${theme.FONT_SIZE.h9};
     font-weight: ${({ $active }) => ($active ? 700 : 400)};
     color: ${({ $active }) => ($active ? PRIMARY : TEXT_BLACK)};
     cursor: pointer;

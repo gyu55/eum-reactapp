@@ -60,12 +60,13 @@ export const CardSub = styled.span`
 
 export const TagBadge = styled.span`
   display: inline-flex;
-  background-color: ${dailyBorderGray};
+  background-color: ${({ $hovered }) => $hovered ? 'rgba(255,255,255,0.3)' : dailyBorderGray};
+  border: ${({ $hovered }) => $hovered ? '1px solid #ffffff' : 'none'};
   border-radius: 20px;
   padding: 2px 10px;
   font-size: ${theme.FONT_SIZE.h11};
   font-weight: ${theme.FONT_WEIGHT.medium};
-  color: ${theme.PALETTE.primary.main};
+  color: ${({ $hovered }) => $hovered ? '#ffffff' : theme.PALETTE.primary.main};
   width: fit-content;
 `;
 

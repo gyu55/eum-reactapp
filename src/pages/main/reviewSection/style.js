@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import theme from "../../../styles/theme";
 
 export const ReviewCard = styled.div`
   width: 380px;
@@ -136,20 +137,46 @@ export const PageInner = styled.div`
 
 export const PageHeader = styled.div`
   display: flex;
+  justify-content: space-between;  /* 양 끝 배치 */
   align-items: center;
-  gap: 16px;
-  margin-bottom: 48px;
+  margin-bottom: 24px;
 `;
 
-export const BackButton = styled.button`
-  background: none;
-  border: none;
-  font-size: 20px;
+export const BackButton = styled.div`
+  padding: 8px 20px;
+  border-radius: 999px;
+  background-color: #7b5ea7;
+  border: 2px solid #7b5ea7;
+  color: #fff;
+  font-weight: 700;
+  font-size: ${theme.FONT_SIZE.h9};
+  display: flex;
+  justify-content: center;
+  align-items: center;
   cursor: pointer;
-  color: #555;
+  overflow: hidden;
+  transition: background-color 0.3s ease;
 
   &:hover {
-    color: #000;
+    background-color: #fff;
+    color: #7b5ea7;
+  }
+
+  &::after {
+    content: '→';
+    font-size: 16px;
+    max-width: 0;
+    font-weight: 700;
+    overflow: hidden;
+    white-space: nowrap;
+    transition: max-width 0.5s ease;
+    color: transparent;
+    margin-left: 5px;
+  }
+
+  &:hover::after {
+    max-width: 30px;
+    color: #7b5ea7;
   }
 `;
 
@@ -213,8 +240,11 @@ export const ArrowBtn = styled.button`
 `;
 
 export const MoreButton = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin-top: 32px;
-  padding: 12px 32px;
+  padding: 12px 24px;
   border-radius: 24px;
   border: 1.5px solid #7b5ea7;
   background: #fff;
@@ -222,10 +252,68 @@ export const MoreButton = styled.button`
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: background-color 0.3s ease, color 0.3s ease, padding 0.3s ease;
 
   &:hover {
     background: #7b5ea7;
     color: #fff;
+  }
+
+  &::after {
+    content: '→';
+    font-size: 14px;
+    max-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    display: inline-block;
+    margin-bottom: 2px;
+    transition: max-width 0.5s ease;
+    color: transparent;
+    margin-left: 5px;
+  }
+
+  &:hover::after {
+    max-width: 30px;
+    color: #fff;
+  }
+`;
+
+export const TopButton = styled.button`
+  display: block;
+  margin: 40px auto 0;
+  padding: 12px 24px;
+  border-radius: 999px;
+  background-color: #7b5ea7;
+  border: 2px solid #7b5ea7;
+  color: #fff;
+  font-weight: 700;
+  font-size: ${theme.FONT_SIZE.h9};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  overflow: hidden;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #fff;
+    color: #7b5ea7;
+  }
+
+  &::after {
+    content: '↑';
+    font-size: 16px;
+    max-width: 0;
+    font-weight: 700;
+    overflow: hidden;
+    white-space: nowrap;
+    transition: max-width 0.5s ease;
+    color: transparent;
+    margin-left: 5px;
+  }
+
+  &:hover::after {
+    max-width: 30px;
+    color: #7b5ea7;
   }
 `;

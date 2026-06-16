@@ -19,7 +19,7 @@ export const Tr = styled.tr`
 export const TdCenter = styled.td`
   padding: 13px 12px;
   text-align: center;
-  font-size: 13px;
+  font-size: clamp(10px, 1vw, 14px);
   color: #aaa;
   font-weight: 500;
 `;
@@ -28,7 +28,7 @@ export const CategoryBadge = styled.span`
   display: inline-block;
   padding: 3px 10px;
   border-radius: 20px;
-  font-size: 12px;
+  font-size: clamp(10px, 1vw, 14px);
   font-weight: 700;
   color: ${({ $category }) => CATEGORY_STYLE[$category]?.color ?? "#555"};
   background: ${({ $category }) => CATEGORY_STYLE[$category]?.background ?? "#f2f3f8"};
@@ -36,7 +36,7 @@ export const CategoryBadge = styled.span`
 
 export const TdTitle = styled.td`
   padding: 13px 12px;
-  font-size: 14px;
+  font-size: clamp(12px, 1.2vw, 16px);
   color: #1a1a2e;
   font-weight: ${({ $pinned }) => ($pinned ? 600 : 400)};
 `;
@@ -44,7 +44,7 @@ export const TdTitle = styled.td`
 export const TdDate = styled.td`
   padding: 13px 12px;
   text-align: center;
-  font-size: 13px;
+  font-size: clamp(12px, 1.2vw, 16px);
   color: #aaa;
 `;
 
@@ -64,7 +64,7 @@ export const PageArrowBtn = styled.button`
   border: 1.5px solid #e0e0ea;
   background: #fff;
   color: #888;
-  font-size: 13px;
+  font-size: clamp(10px, 1vw, 14px);
   cursor: pointer;
   transition: all 0.15s;
 `;
@@ -74,7 +74,7 @@ export const PageNumBtn = styled.button`
   height: 32px;
   border-radius: 8px;
   border: none;
-  font-size: 13px;
+  font-size: clamp(10px, 1vw, 14px);
   cursor: pointer;
   transition: all 0.15s;
   background: ${({ $active }) => ($active ? PRIMARY : "#fff")};
@@ -122,7 +122,7 @@ export const WriteBtn = styled.button`
   background: ${PRIMARY};
   color: #fff;
   font-weight: 600;
-  font-size: 13px;
+  font-size: clamp(12px, 1vw, 14px);
   cursor: pointer;
   transition: all 0.15s;
 `;
@@ -141,7 +141,7 @@ export const ThRow = styled.tr`
 export const Th = styled.th`
   padding: 10px 12px;
   text-align: ${({ $left }) => ($left ? "left" : "center")};
-  font-size: 13px;
+  font-size: clamp(12px, 1vw, 14px);
   color: #888;
   font-weight: 600;
 `;
@@ -151,6 +151,6 @@ export const StatusMessage = styled.div`
   justify-content: center;
   align-items: center;
   height: 200px;
-  font-size: 14px;
+  font-size: clamp(12px, 1vw, 14px);
   color: ${({ $error }) => ($error ? "#f55" : "#aaa")};
 `;

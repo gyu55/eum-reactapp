@@ -12,15 +12,29 @@ const CustomServiceTabMenu = () => {
   const itemRefs                              = useRef([]);
 
   useEffect(() => {
-    const activeIndex = menuLinks.findIndex((item) =>
-      location.pathname.startsWith(item.path)
-    );
+  const activeIndex = menuLinks.findIndex((item) =>
+    location.pathname.startsWith(item.path)
+  );
+
+  const updateIndicator = () => {
     if (activeIndex !== -1 && itemRefs.current[activeIndex]) {
       const el = itemRefs.current[activeIndex];
       setIndicatorTop(el.offsetTop);
       setIndicatorHeight(el.offsetHeight);
     }
-  }, [location.pathname]);
+  };
+
+  // 즉시 실행
+  updateIndicator();
+
+  // 크기 변경 감지 (폰트 로딩 후에도 재계산)
+  const observer = new ResizeObserver(updateIndicator);
+  itemRefs.current.forEach((el) => {
+    if (el) observer.observe(el);
+  });
+
+  return () => observer.disconnect();
+}, [location.pathname]);
 
   return (
     <S.TabMenuWrap>

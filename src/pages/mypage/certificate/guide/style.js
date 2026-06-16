@@ -9,13 +9,13 @@ const S = {};
 
 /* 전체 영역 */
 S.GuideWrapper = styled.div`
-  margin-top: 16px;
+  margin-top: 30px;
   padding-left: 5px;
 `;
 
 /* 상단 제목 영역 */
 S.GuideHeader = styled.div`
-  margin-top: 16px;
+  margin-top: 0;
   margin-bottom: 5px;
 `;
 
@@ -32,7 +32,7 @@ S.GuideTitle = styled.h2`
 S.GuideDesc = styled.p`
   margin: 0 0 10px;
 
-  font-size: 10px;
+  font-size: 13px;
   font-weight: ${FONT_WEIGHT.regular};
   color: #a6a6a6;
 `;
@@ -44,7 +44,7 @@ S.GuideStepCardBox = styled.div`
   width: 1040px;
   height: 168px;
 
-  margin-top: 5px;
+  margin-top: 15px;
   padding: 18px 0 18px 22px;
   box-sizing: border-box;
 
@@ -56,7 +56,7 @@ S.GuideStepCardBox = styled.div`
 S.GuideStepTitle = styled.h3`
   margin: 0 0 20px;
 
-  font-size: 14px;
+  font-size: 15px;
   font-weight: ${FONT_WEIGHT.bold};
   line-height: 1;
 
@@ -74,7 +74,7 @@ S.GuideStepList = styled.div`
 S.GuideStepItem = styled.p`
   margin: 0;
 
-  font-size: 12px;
+  font-size: 13px;
   font-weight: ${FONT_WEIGHT.regular};
   line-height: 1;
 
@@ -90,7 +90,7 @@ S.GuideExampleSection = styled.section`
 
 /* 예시 제목 */
 S.GuideExampleTitle = styled.h3`
-  margin: 0 0 5px;
+  margin: 0 0 10px;
   padding-left: 5px;
 
   font-size: 16px;
@@ -102,13 +102,12 @@ S.GuideExampleTitle = styled.h3`
 
 /* 예시 설명 */
 S.GuideExampleDesc = styled.p`
-  margin: 0 0 10px;
+  margin: 0 0 13px;
   padding-left: 5px;
 
-  font-size: 10px;
+  font-size: 13px;
   font-weight: ${FONT_WEIGHT.regular};
   line-height: 1;
-
   color: #a6a6a6;
 `;
 
@@ -122,6 +121,10 @@ S.GuideExampleCardBox = styled.div`
 
   border-radius: 14px;
   background: ${PALETTE.white};
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 /* 내부 예시 박스 */
@@ -136,6 +139,7 @@ S.GuideExampleInnerBox = styled.div`
 
   border-radius: 14px;
   background: #f8f9fc;
+  margin: 0 auto;
 `;
 
 /* 내부 제목 */
@@ -344,6 +348,8 @@ S.GuideExampleNotice = styled.p`
 
 /* 상태 안내 섹션 */
 S.GuideStatusSection = styled.section`
+  position: relative;
+  width: 1040px;
   margin-top: 25px;
 `;
 
@@ -361,7 +367,7 @@ S.GuideStatusCardBox = styled.div`
   width: 1040px;
   height: 156px;
 
-  padding: 24px 0 39px 32px;
+  padding: 29px 0 39px 32px;
   box-sizing: border-box;
 
   border-radius: 14px;
@@ -383,25 +389,93 @@ S.GuideStatusText = styled.p`
 
 /* 돌아가기 버튼 */
 S.GuideBackButton = styled.button`
-  width: 206px;
-  height: 48px;
+  width: auto;
+  min-width: 136px;
+  height: 40px;
 
   margin-top: 26px;
-  margin-left: 834px;
+  margin-left: 865px;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  border: 1.4px solid #4359fc;
+  padding: 0 16px;
+
+  border: 1px solid #dde1ef;
   border-radius: 8px;
-  background: transparent;
+  background: #fff;
+
+  font-size: 14px;
+  font-weight: 300;
+  color: #000000;
+
+  cursor: pointer;
+
+  &:hover {
+    border-color: #4d5cff;
+    color: #4d5cff;
+  }
+`;
+
+/* 상태 안내 문구 */
+S.GuideStatusText = styled.p`
+  margin: 0;
+
+  display: grid;
+  grid-template-columns: 6px 50px 8px minmax(0, 1fr);
+  align-items: center;
+  column-gap: 4px;
 
   font-size: 12px;
   font-weight: ${FONT_WEIGHT.regular};
   color: #000000;
 
-  cursor: pointer;
+  white-space: nowrap;
+
+  & + & {
+    margin-top: 23px;
+  }
+`;
+
+/* 상태 안내 아이콘 */
+S.GuideStatusIcon = styled.span`
+  width: 3px;
+  height: 3px;
+
+  border-radius: 50%;
+  background: #000000;
+`;
+
+/* 상태명 */
+S.GuideStatusName = styled.span`
+  display: inline-block;
+
+  font-size: 13px;
+  font-weight: ${FONT_WEIGHT.regular};
+  color: #000000;
+  white-space: nowrap;
+`;
+
+/* 콜론 */
+S.GuideStatusColon = styled.span`
+  display: inline-block;
+
+  font-size: 12px;
+  font-weight: ${FONT_WEIGHT.regular};
+  color: #000000;
+  text-align: center;
+`;
+
+/* 상태 설명 */
+S.GuideStatusDescription = styled.span`
+  display: inline-block;
+  min-width: 0;
+
+  font-size: 13px;
+  font-weight: ${FONT_WEIGHT.regular};
+  color: #000000;
+  white-space: nowrap;
 `;
 
 export default S;

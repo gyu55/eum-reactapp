@@ -80,7 +80,7 @@ S.PostTitleText = styled.span`
 /* 숫자 텍스트 */
 S.NumberText = styled.span`
   font-size: ${FONT_SIZE.h11};
-  font-weight: ${FONT_WEIGHT.bold};
+  font-weight: ${FONT_WEIGHT.regular};
   color: ${GRAYSCALE[9]};
   text-align: center;
 
@@ -905,6 +905,35 @@ S.PageButton = styled.button`
   color: ${({ $active }) => ($active ? "#ffffff" : "#555555")};
 
   cursor: pointer;
+`;
+
+/* 날짜 텍스트 */
+S.DateText = styled.span`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+
+  font-size: ${FONT_SIZE.h11};
+  font-weight: ${FONT_WEIGHT.regular};
+  color: ${GRAYSCALE[9]};
+  text-align: center;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+`;
+
+/* 날짜 숫자 */
+S.DatePart = styled.span`
+  display: inline-block;
+  width: 2ch;
+  text-align: center;
+`;
+
+/* 날짜 점 */
+S.DateDot = styled.span`
+  display: inline-block;
+  width: auto;
+  text-align: center;
 `;
 
 export default S;

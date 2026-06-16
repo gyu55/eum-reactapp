@@ -202,7 +202,7 @@ S.CertificateDetailBox = styled.div`
   width: 724px;
   height: 188px;
 
-  margin: 11px auto 0;
+  margin: 47px auto 0;
 
   /* 내부 여백 */
   padding: 13px 14px 16px 22px;

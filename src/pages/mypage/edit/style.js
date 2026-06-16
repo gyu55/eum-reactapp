@@ -192,7 +192,7 @@ S.Label = styled.label`
 S.Required = styled.span`
   font-size: 13px;
   font-weight: ${FONT_WEIGHT.bold};
-  color: #ef4444;
+  color: #4359FC;
 `;
 
 /* 입력 박스 */

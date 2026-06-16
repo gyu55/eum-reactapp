@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import S from "../style";
@@ -40,7 +40,7 @@ const handleProfileImageError = (e) => {
 };
 
 const ProfileCard = ({
-  userInfo,
+  userInfo = {},
   setUserInfo,
   previewImage,
   setPreviewImage,
@@ -52,17 +52,28 @@ const ProfileCard = ({
   const [uploadFile, setUploadFile] = useState(null);
   const [isProfileDeleted, setIsProfileDeleted] = useState(false);
 
-  const [userNickname, setUserNickname] = useState(userInfo.userNickname || "");
-  const [userIntro, setUserIntro] = useState(userInfo.userIntro || "");
-  const [userJob, setUserJob] = useState(userInfo.userJob || "직장인");
+  const [userName, setUserName] = useState(userInfo?.userName || "");
+  const [userNickname, setUserNickname] = useState(userInfo?.userNickname || "");
+  const [userIntro, setUserIntro] = useState(userInfo?.userIntro || "");
+  const [userJob, setUserJob] = useState(userInfo?.userJob || "직장인");
   const [customJob, setCustomJob] = useState("");
-  const [userAddress, setUserAddress] = useState(userInfo.userAddress || "수도권");
+  const [userAddress, setUserAddress] = useState(userInfo?.userAddress || "수도권");
   const [customAddress, setCustomAddress] = useState("");
   const [isNicknameChecked, setIsNicknameChecked] = useState(false);
+
+  // 회원 정보 조회가 끝난 뒤 입력값을 화면에 반영합니다.
+  useEffect(() => {
+    setUserName(userInfo?.userName || "");
+    setUserNickname(userInfo?.userNickname || "");
+    setUserIntro(userInfo?.userIntro || "");
+    setUserJob(userInfo?.userJob || "직장인");
+    setUserAddress(userInfo?.userAddress || "수도권");
+  }, [userInfo]);
 
   const syncPreview = (next = {}) => {
     const nextInfo = {
       ...userInfo,
+      userName,
       userNickname,
       userIntro,
       userJob: userJob === "직접입력" ? customJob : userJob,
@@ -180,12 +191,12 @@ const ProfileCard = ({
     const finalJob = userJob === "직접입력" ? customJob : userJob;
     const finalAddress = userAddress === "직접입력" ? customAddress : userAddress;
 
-    if (!userNickname.trim() || !finalJob.trim() || !finalAddress.trim()) {
+    if (!userName.trim() || !userNickname.trim() || !finalJob.trim() || !finalAddress.trim()) {
       alert("필수 항목을 입력해 주세요.");
       return;
     }
 
-    if (userNickname !== userInfo.userNickname && !isNicknameChecked) {
+    if (userNickname !== userInfo?.userNickname && !isNicknameChecked) {
       alert("닉네임 중복 확인을 해주세요.");
       return;
     }
@@ -198,6 +209,7 @@ const ProfileCard = ({
         },
         credentials: "include",
         body: JSON.stringify({
+          userName,
           userNickname,
           userIntro,
           userJob: finalJob,
@@ -251,7 +263,7 @@ const ProfileCard = ({
       setPreviewInfo(latestUserInfo);
       setPreviewImage("");
 
-      // 저장 성공 후에만 이음 레이아웃 헤더 반영
+      // 저장 성공 후 레이아웃 헤더 반영
       updateHeaderProfile(latestUserInfo.userNickname, latestUserInfo.userProfile);
 
       alert("프로필 정보가 저장되었습니다.");
@@ -266,7 +278,7 @@ const ProfileCard = ({
     navigate("/mypage", { replace: true });
   };
 
-  const imageSrc = previewImage || getProfileImageSrc(userInfo.userProfile);
+  const imageSrc = previewImage || getProfileImageSrc(userInfo?.userProfile);
 
   return (
     <>
@@ -293,7 +305,7 @@ const ProfileCard = ({
             <S.UploadDesc>
               JPG, PNG, GIF 형식 · 최대 5MB
               <br />
-              권장 크기: 400×400px 이상
+              권장 크기: 400x400px 이상
             </S.UploadDesc>
 
             <S.ImageButtonArea>
@@ -324,7 +336,14 @@ const ProfileCard = ({
                 <S.Required>*</S.Required>
               </S.Label>
 
-              <S.ReadOnlyField>{userInfo.userName}</S.ReadOnlyField>
+              <S.Input
+                value={userName}
+                onChange={(e) => {
+                  setUserName(e.target.value);
+                  syncPreview({ userName: e.target.value });
+                }}
+                placeholder="이름을 입력해 주세요"
+              />
             </S.Field>
 
             <S.NicknameField>
@@ -391,7 +410,7 @@ const ProfileCard = ({
                     }}
                   >
                     <option value="직장인">직장인</option>
-                    <option value="사업자">사업자</option>
+                    <option value="사업가">사업가</option>
                     <option value="자영업자">자영업자</option>
                     <option value="학생">학생</option>
                     <option value="프리랜서">프리랜서</option>

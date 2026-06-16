@@ -18,15 +18,23 @@ const getBadgeStyle = (postTag) => {
 };
 
 const formatDate = (date) => {
-  if (!date) return "-";
+  if (!date) {
+    return { month: "-", dot: "", day: "" };
+  }
 
   const value = String(date);
   const dateText = value.includes("T") ? value.split("T")[0] : value.split(" ")[0];
   const parts = dateText.split("-");
 
-  if (parts.length < 3) return "-";
+  if (parts.length < 3) {
+    return { month: "-", dot: "", day: "" };
+  }
 
-  return `${parts[1]}.${parts[2]}`;
+  return {
+    month: parts[1],
+    dot: ".",
+    day: parts[2],
+  };
 };
 
 const MypostList = ({ myPostList = [] }) => {
@@ -77,6 +85,7 @@ const MypostList = ({ myPostList = [] }) => {
 
         {visiblePosts.map((post) => {
           const badge = getBadgeStyle(post.postTag);
+          const dateParts = formatDate(post.postCreateAt);
 
           return (
             <S.MyPostRow key={post.id}>
@@ -95,7 +104,12 @@ const MypostList = ({ myPostList = [] }) => {
 
               <S.NumberText>{post.likeCount ?? 0}</S.NumberText>
               <S.NumberText>{post.postReadCount ?? 0}</S.NumberText>
-              <S.NumberText>{formatDate(post.postCreateAt)}</S.NumberText>
+
+              <S.DateText>
+                <S.DatePart>{dateParts.month}</S.DatePart>
+                <S.DateDot>{dateParts.dot}</S.DateDot>
+                <S.DatePart>{dateParts.day}</S.DatePart>
+              </S.DateText>
             </S.MyPostRow>
           );
         })}

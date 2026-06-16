@@ -156,13 +156,6 @@ const FollowList = ({ followingList = [], followerList = [] }) => {
           </S.MoreButton>
         )}
       </S.FollowWrapper>
-
-      {/* 카드 바깥 오른쪽 하단 회원탈퇴 버튼 */}
-      <S.FollowWithdrawArea>
-        <MyPageStyle.WithdrawButton type="button" onClick={handleWithdrawClick}>
-          회원 탈퇴
-        </MyPageStyle.WithdrawButton>
-      </S.FollowWithdrawArea>
     </S.Section>
   );
 };

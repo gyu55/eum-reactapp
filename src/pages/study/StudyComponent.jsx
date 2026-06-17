@@ -372,7 +372,7 @@ const StudyComponent = () => {
               <span className="icon arrow" />
             </span>
             <span className="buttonText">
-              {isGuest ? "지금 체험하기 👻" : "지금 시작하기 👻"}
+              {isGuest ? "지금 체험하기" : "지금 시작하기"}
             </span>
           </S.HeroExperienceLink>
         </S.BannerContent>

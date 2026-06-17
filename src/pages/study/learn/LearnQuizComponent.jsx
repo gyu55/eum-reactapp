@@ -14,7 +14,7 @@ import * as S from "./style";
 
 const optionIcons = ["수어", "표현", "단어", "연습", "복습"];
 
-// 고정 순서 생성: 같은 세션에서는 같은 문제 순서를 유지합니다.
+// 고정 순서 생성: 같은 세션에서는 같은 문제 순서를 유지
 const getOrderValue = (value) => {
   const hash = String(value).split("").reduce((sum, character) => ((sum * 31) + character.charCodeAt(0)) >>> 0, 0);
   const mixedHash = Math.imul(hash ^ (hash >>> 16), 0x45d9f3b);
@@ -30,7 +30,7 @@ const shuffleItems = (items, seed) =>
     return leftOrder - rightOrder;
   });
 
-// 단어 보기 생성: 백엔드 단어를 퀴즈 보기 카드 형식으로 변환합니다.
+// 단어 보기 생성: 백엔드 단어를 퀴즈 보기 카드 형식으로 변환
 const createWordOption = (word, index, correct = false, videoMode = false) => ({
   id: `${correct ? "correct" : "word"}-${word.id}`,
   label: word.wordsTitle,
@@ -40,7 +40,7 @@ const createWordOption = (word, index, correct = false, videoMode = false) => ({
   correct,
 });
 
-// 오답 보기 생성: 같은 학습 단어를 우선 사용하고 부족하면 임시 보기로 채웁니다.
+// 오답 보기 생성: 같은 학습 단어를 우선 사용, 부족하면 임시 보기로 채운다
 const createWrongOptions = ({ word, words, baseQuiz, correctLabel, videoMode = false }) => {
   const wordOptions = words
     .filter((item) => item.id !== word.id && item.wordsTitle && item.wordsTitle !== correctLabel)
@@ -65,7 +65,7 @@ const createWrongOptions = ({ word, words, baseQuiz, correctLabel, videoMode = f
   return [...wordOptions, ...fallbackOptions];
 };
 
-// 보기 순서 생성: 정답과 오답 위치를 세션마다 섞어서 배치합니다.
+// 보기 순서 생성: 정답과 오답 위치를 세션마다 섞어서 배치
 const createQuestionOptions = ({ word, words, baseQuiz, correctLabel, videoMode = false, seed }) => {
   const wrongOptions = createWrongOptions({ word, words, baseQuiz, correctLabel, videoMode });
   const correctOption = createWordOption(word, wrongOptions.length, true, videoMode);
@@ -177,7 +177,7 @@ const LearnQuizComponent = () => {
   const [reviewIndex, setReviewIndex] = useState(0);
   const [savedEduWordMapIds, setSavedEduWordMapIds] = useState([]);
 
-  // 세션 자료 조회: 학습 시작 후 단어와 영상을 불러와 문제 세션을 구성합니다.
+  // 세션 자료 조회: 학습 시작 후 단어와 영상을 불러와 문제 세션 구성
   useEffect(() => {
     if (!routeEduId) return;
 
@@ -195,7 +195,7 @@ const LearnQuizComponent = () => {
             sessionCompletedRef.current = false;
             completedSessionResultRef.current = null;
           } catch {
-            // 시작 기록 실패가 문제 풀이 흐름을 막지 않도록 처리합니다.
+            // 시작 기록 실패가 문제 풀이 흐름을 막지 않도록 처리
           }
         }
 
@@ -240,7 +240,7 @@ const LearnQuizComponent = () => {
     };
   }, [isGuest, routeEduId, userId]);
 
-  // 퀴즈 초기화: URL이나 문제 목록이 바뀌면 컨텍스트 문제 목록을 갱신합니다.
+  // 퀴즈 초기화: URL이나 문제 목록이 바뀌면 컨텍스트 문제 목록 갱신
   useEffect(() => {
     setQuiz({
       mode: "learn",
@@ -250,7 +250,7 @@ const LearnQuizComponent = () => {
     });
   }, [quiz, setQuiz, type]);
 
-  // 문제 변경 초기화: 다음 문제로 이동하면 선택 상태를 초기화합니다.
+  // 문제 변경 초기화: 다음 문제로 이동하면 선택 상태 초기화
   useEffect(() => {
     setSelectedOptionId(null);
     setStatus("solving");
@@ -278,14 +278,14 @@ const LearnQuizComponent = () => {
   }, [question, quiz.questions, state.answers]);
   const reviewQuestion = reviewQuestions[reviewIndex] || reviewQuestions[0];
 
-  // 답안 선택: 사용자가 고른 보기를 저장합니다.
+  // 답안 선택: 사용자가 고른 보기 저장
   const handleSelect = (optionId) => {
     if (status !== "solving") return;
 
     setSelectedOptionId(optionId);
   };
 
-  // 단어 완료 저장: 문제를 맞힌 단어만 학습 진행으로 기록합니다.
+  // 단어 완료 저장: 문제를 맞힌 단어만 학습 진행으로 기록
   const saveCurrentWord = async () => {
     const eduWordMapId = question?.word?.eduWordMapId;
 
@@ -297,7 +297,7 @@ const LearnQuizComponent = () => {
       await finishLearnWord({ userId, eduWordMapId });
       setSavedEduWordMapIds((prev) => [...prev, eduWordMapId]);
     } catch {
-      // 단어 저장 실패가 문제 풀이 흐름을 막지 않도록 처리합니다.
+      // 단어 저장 실패가 문제 풀이 흐름을 막지 않도록 처리합
     }
   };
 
@@ -323,7 +323,7 @@ const LearnQuizComponent = () => {
           isCorrect: isCorrect ? 1 : 0,
         });
       } catch {
-        // 학습 세션 진행 기록 실패가 문제 풀이 흐름을 막지 않도록 처리합니다.
+        // 학습 세션 진행 기록 실패가 문제 풀이 흐름을 막지 않도록 처리
       }
     }
 
@@ -332,7 +332,7 @@ const LearnQuizComponent = () => {
     }
   };
 
-  // 학습 완료: 결과 저장을 시도하고 결과 팝업을 표시합니다.
+  // 학습 완료: 결과 저장을 시도하고 결과 팝업 표시
   const createLearnResultSummary = (submitted = false, data = null, completedSession = null) => {
     const completedResult = completedSession || completedSessionResultRef.current;
     const answers = state.answers || [];

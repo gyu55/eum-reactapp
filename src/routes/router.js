@@ -38,6 +38,7 @@ import CertificateCheckContainer from "../pages/exam/certificate/check/Certifica
 import CertificatePrintContainer from "../pages/exam/certificate/print/CertificatePrintContainer";
 import CertificateReissueContainer from "../pages/exam/certificate/reissue/CertificateReissueContainer";
 import MyPageLearningContainer from "../pages/mypage/learning/MyPageLearningContainer";
+import MyPageLearningAnalysisContainer from "../pages/mypage/learning/analysis/MyPageLearningAnalysisContainer";
 import MyPageSettingContainer from "../pages/mypage/setting/MyPageSettingContainer";
 import MyPageCertificateConfirmContainer from "../pages/mypage/certificate/confirm/MyPageCertificateConfirmContainer";
 import MyPageCertificateContainer from "../pages/mypage/certificate/MyPageCertificateContainer";
@@ -289,6 +290,10 @@ const router = createBrowserRouter([
           {
             path: "learning",
             element: <MyPageLearningContainer />
+          },
+          {
+            path: "learning/analysis",
+            element: <MyPageLearningAnalysisContainer />
           },
           {
             path: "certificate",

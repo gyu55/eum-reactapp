@@ -97,13 +97,13 @@ export const completeEduStart = ({ userId, eduId, eduStartTime = 0 }) =>
   );
 
 // 학습 세션 문제 풀이 결과 반영
-export const recordLearnProgress = ({ userId, eduId, isCorrect }) =>
+export const recordLearnProgress = ({ userId, eduId, questionNumber, isCorrect }) =>
   requestJson(
     `${BASE_URL}/private/api/edu-starts/users/${userId}/edus/${eduId}/progress`,
     {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ isCorrect }),
+      body: JSON.stringify({ questionNumber, isCorrect }),
     },
     "학습 세션 진행 기록 반영에 실패했습니다."
   );

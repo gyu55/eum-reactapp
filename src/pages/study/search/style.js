@@ -549,8 +549,8 @@ export const DetailDesc = styled.p`
   border-radius: 8px;
   background: #f7f8ff;
   color: #666;
-  font-size: 12px;
-  line-height: 20px;
+  font-size: 16px;
+  line-height: 25px;
 `;
 
 export const ExampleBox = styled.div`
@@ -563,7 +563,7 @@ export const ExampleBox = styled.div`
   border-radius: 8px;
   background: #f7f8ff;
   color: #555b68;
-  font-size: 12px;
+  font-size: 14px;
   line-height: 20px;
 
   p {
@@ -576,6 +576,7 @@ export const ExampleBox = styled.div`
 `;
 
 export const ExampleLabel = styled.strong`
+  margin-bottom: 5px;
   display: block;
   color: #222;
   font-size: 14px;
@@ -625,7 +626,7 @@ export const StepTitle = styled.h3`
   gap: 10px;
   margin: 0 0 10px;
   color: #1a1a1a;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 800;
 
   span {

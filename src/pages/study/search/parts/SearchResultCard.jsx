@@ -49,7 +49,7 @@ const SearchResultCard = ({ result, currentIndex, totalCount, onBack, onPrev, on
           </S.StepTitle>
           <S.MeaningBox>
             <S.DetailTitle>{result.word}</S.DetailTitle>
-            <S.DetailCategoryText>{result.category}</S.DetailCategoryText>
+            {/* <S.DetailCategoryText>{result.category}</S.DetailCategoryText> */}
           </S.MeaningBox>
 
           <S.StepTitle>

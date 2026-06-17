@@ -88,14 +88,14 @@ export const QuizOptionButton = styled.button`
     border-radius: 50%;
     background: ${({ theme }) => theme.GRAYSCALE[1]};
     color: #1a1a1a;
-    font-size: ${({ theme }) => theme.FONT_SIZE.h10};
+    font-size: ${({ theme }) => theme.FONT_SIZE.h9};
     font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
     transition: background 0.2s ease, color 0.2s ease;
   }
 
   span {
     flex: 1;
-    font-size: ${({ theme }) => theme.FONT_SIZE.h10};
+    font-size: ${({ theme }) => theme.FONT_SIZE.h9};
     line-height: ${({ theme }) => theme.FONT_LINE.h10};
   }
 
@@ -169,7 +169,7 @@ export const QuizFeedbackText = styled.div`
   p {
     margin: 0;
     color: #4a4a4a;
-    font-size: ${({ theme }) => theme.FONT_SIZE.h10};
+    font-size: 15px;
     line-height: ${({ theme }) => theme.FONT_LINE.h10};
   }
 
@@ -181,7 +181,7 @@ export const QuizFeedbackText = styled.div`
     display: block;
     margin-bottom: 6px;
     color: #f14141;
-    font-size: ${({ theme }) => theme.FONT_SIZE.h11};
+    font-size: 15px;
     font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
   }
 

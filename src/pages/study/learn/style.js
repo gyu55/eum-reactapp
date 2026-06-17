@@ -179,13 +179,13 @@ export const StatusText = styled.p`
 
 export const RoadmapStage = styled.div`
   position: relative;
-  min-height: 720px;
-  padding: 26px 0 30px;
-  overflow: hidden;
+  min-height: 820px;
+  padding: 26px 0 130px;
+  overflow: visible;
 
   @media (max-width: 760px) {
-    min-height: 660px;
-    padding: 30px 18px 20px;
+    min-height: 760px;
+    padding: 30px 18px 120px;
   }
 `;
 
@@ -411,6 +411,13 @@ export const StepBadge = styled.span`
     $status === "done" || $status === "active" || $status === "reward"
       ? "0 8px 0 #3045de, 0 8px 0 rgba(0, 0, 0, 0.16)"
       : "0 8px 0 #cfcfcf, 0 8px 0 rgba(0, 0, 0, 0.14)"};
+
+  img {
+    width: 62px;
+    height: 62px;
+    object-fit: cover;
+    border-radius: 50%;
+  }
 `;
 
 export const LessonBubble = styled.div`
@@ -1351,19 +1358,19 @@ export const LearnQuizFeedbackText = styled.div`
     display: block;
     margin-bottom: 6px;
     color: #f14141;
-    font-size: 13px;
+    font-size: 15px;
     font-weight: 900;
   }
 
   .description {
     margin-bottom: 0;
     color: #777f8e;
-    font-size: 14px;
+    font-size: 15px;
   }
 
   span {
     color: #1f2430;
-    font-size: 13px;
+    font-size: 15px;
     font-weight: 900;
   }
 `;
@@ -1609,7 +1616,7 @@ export const LearnResultAccuracy = styled.strong`
 export const LearnResultSubText = styled.p`
   margin: 0 0 38px;
   color: #555;
-  font-size: 15px;
+  font-size: 16px;
 `;
 
 export const LearnResultStatGrid = styled.div`
@@ -1631,7 +1638,7 @@ export const LearnResultStatGrid = styled.div`
 
   small {
     color: #999;
-    font-size: 12px;
+    font-size: 14px;
   }
 
   strong {
@@ -1654,7 +1661,7 @@ export const LearnResultWrongBox = styled.article`
     display: block;
     margin-bottom: 12px;
     color: #ef4444;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 900;
   }
 
@@ -1668,16 +1675,17 @@ export const LearnResultWrongBox = styled.article`
 
 export const LearnResultWrongItem = styled.div`
   p {
-    margin: 0 0 8px;
+    margin: 0 0 15px;
     color: #555;
-    font-size: 13px;
+    font-size: 15px;
     line-height: 18px;
   }
 
   span,
   em {
     display: block;
-    font-size: 12px;
+    margin: 0 0 5px;
+    font-size: 15px;
     line-height: 18px;
     font-style: normal;
   }
@@ -1943,3 +1951,4 @@ export const RewardModalButton = styled.button`
     box-shadow: none;
   }
 `;
+

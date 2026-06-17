@@ -342,7 +342,7 @@ export const ChapterQuestionInfo = styled.div`
     border-radius: 999px;
     background: #f0f5ff;
     color: ${({ theme }) => theme.PALETTE.primary.main};
-    font-size: ${({ theme }) => theme.FONT_SIZE.h12};
+    font-size: ${({ theme }) => theme.FONT_SIZE.h11};
     font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
   }
 
@@ -368,7 +368,7 @@ export const ChapterBottomBar = styled.div`
 
   button {
     color: ${({ theme }) => theme.PALETTE.primary.main};
-    font-size: ${({ theme }) => theme.FONT_SIZE.h10};
+    font-size: ${({ theme }) => theme.FONT_SIZE.h9};
     font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
 
     &:first-child {

@@ -58,17 +58,27 @@ const LearnComponent = () => {
       return [];
     }
 
+    const rewardBadgeImage = rewardClaimed ? "/assets/image/learn/giftbox.png" : null;
+    const applyRewardBadge = (lesson) =>
+      lesson.status === "reward" && rewardBadgeImage
+        ? {
+            ...lesson,
+            badge: "",
+            badgeImage: rewardBadgeImage,
+          }
+        : lesson;
+
     const baseLessons = roadmap.lessons.slice(0, 5);
 
     return Array.from({ length: 5 }, (_, index) => {
       const lesson = baseLessons[index];
 
       if (lesson) {
-        return lesson;
+        return applyRewardBadge(lesson);
       }
 
       if (index === 3) {
-        return {
+        return applyRewardBadge({
           id: "reward-step",
           title: "보상 이벤트",
           desc: "앞 단계를 완료하면 보상을 받을 수 있어요.",
@@ -76,7 +86,7 @@ const LearnComponent = () => {
           badge: "🎁",
           buttonText: "🔒",
           to: null,
-        };
+        });
       }
 
       return {
@@ -89,7 +99,7 @@ const LearnComponent = () => {
         to: null,
       };
     });
-  }, [roadmap.lessons, shouldShowRoadmap]);
+  }, [roadmap.lessons, rewardClaimed, shouldShowRoadmap]);
 
   const currentMenus = useMemo(
     () =>

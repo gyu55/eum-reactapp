@@ -199,7 +199,7 @@ export const CategoryBtn = styled.button`
   text-align: left;
 `;
 
-export const CategoryIcon = styled.div`
+export const CategoryIcon = styled.img`
   width: 36px;
   height: 36px;
   border-radius: 8px;

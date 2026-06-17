@@ -50,6 +50,26 @@ const FloatingProfiles = () => {
     return () => clearInterval(interval);
   }, []);
 
+  useEffect(() => {
+  const handler = (e) => {
+    const { profileImg, nickname } = e.detail;
+    setProfiles((prev) => {
+      if (prev.length >= 6) return prev;
+      return [...prev, {
+        id:       Date.now() + Math.random(),
+        src:      profileImg || TEMP_PROFILES[0],
+        x:        getRandomX(),
+        y:        Math.random() * 50,
+        size:     40,
+        duration: Math.random() * 1 + 3,
+      }];
+    });
+  };
+
+  window.addEventListener("chatFloat", handler);
+  return () => window.removeEventListener("chatFloat", handler);
+}, []);
+
   const removeProfile = useCallback((id) => {
     setProfiles((prev) => prev.filter((p) => p.id !== id));
   }, []);

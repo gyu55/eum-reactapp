@@ -131,6 +131,8 @@ const AvatarInner = forwardRef(function AvatarInner({ keypointsFrames, onPlayEnd
     console.log('손목 Y 범위:', Math.min(...ys).toFixed(0), '~', Math.max(...ys).toFixed(0))
     console.log('첫프레임 손목:', getXY(frames[0], 4))
     console.log('끝프레임 손목:', getXY(frames[frames.length-1], 4))
+    console.log('frame[0] 전체:', frames[0])
+    console.log('frame[0] 길이:', frames[0].length)
 
     const boneFrames = keypointsToBoneRotations(frames)
     const s = stateRef.current
@@ -138,7 +140,7 @@ const AvatarInner = forwardRef(function AvatarInner({ keypointsFrames, onPlayEnd
     s.frameIdx = 0
     s.playing = true
     s.target = boneFrames[0]
-    s.speed = 0.2
+    s.speed = 0.15
     s.fps = 10
     s.lastFrameTime = performance.now()
   }
@@ -150,7 +152,7 @@ const AvatarInner = forwardRef(function AvatarInner({ keypointsFrames, onPlayEnd
     applyRotationImmediate(bonesRef.current, T_POSE)
     stateRef.current.target = T_POSE
     stateRef.current.playing = false
-    const timer = setTimeout(() => startPlay(keypointsFrames), 1500)
+    const timer = setTimeout(() => startPlay(keypointsFrames), 300)
     return () => clearTimeout(timer)
   }, [keypointsFrames])
 

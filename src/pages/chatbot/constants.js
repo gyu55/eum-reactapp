@@ -1,7 +1,7 @@
 export const CATEGORIES = [
-  { id: "account", label: "계정 / 로그인",  desc: "로그인 문제, 비밀번호 변경 등", emoji: "👤" },
-  { id: "report",  label: "신고 / 불편신고", desc: "부적절한 콘텐츠, 사용자 신고",  emoji: "🚨" },
-  { id: "etc",     label: "기타 문의",      desc: "기타 궁금한 사항",             emoji: "💬" },
+  { id: "account", label: "계정 / 로그인",  desc: "로그인 문제, 비밀번호 변경 등", icon: "/assets/image/chatbot/userIDPW.svg" },
+  { id: "report",  label: "신고 / 불편 신고", desc: "부적절한 콘텐츠, 사용자 신고",  icon: "/assets/image/chatbot/siren.svg" },
+  { id: "etc",     label: "기타 문의",      desc: "기타 궁금한 사항", icon: "/assets/image/chatbot/etc.svg" },
 ];
 
 export const QUICK_REPLIES = {

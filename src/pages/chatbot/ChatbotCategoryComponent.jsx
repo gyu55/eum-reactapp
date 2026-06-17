@@ -16,7 +16,7 @@ const ChatbotCategory = ({ onSelectCategory }) => {
         <S.CategoryList style={{ marginTop: "10px" }}>
           {CATEGORIES.map((cat) => (
             <S.CategoryBtn key={cat.id} onClick={() => onSelectCategory(cat)}>
-              <S.CategoryIcon>{cat.emoji}</S.CategoryIcon>
+              <S.CategoryIcon src={cat.icon}></S.CategoryIcon>
               <div>
                 <S.CategoryLabel>{cat.label}</S.CategoryLabel>
                 <S.CategoryDesc>{cat.desc}</S.CategoryDesc>

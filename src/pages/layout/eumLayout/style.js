@@ -11,7 +11,7 @@ export const Header = styled.header`
   width: 100%;
   display: flex;
   align-items: center;
-  padding: 0 190px;
+  padding: 0 10.5vw;
   height: 80px;
   border-bottom: 1px solid ${theme.GRAYSCALE[8]};
   background-color: ${theme.GRAYSCALE[10]};
@@ -28,9 +28,9 @@ export const LogoNav = styled.nav`
 export const MainNav = styled.nav`
   position: absolute;          /* ← 추가 */
   left: 50%;                   /* ← 추가 */
-  transform: translateX(-162%); /* ← 추가 */
+  transform: translateX(-50%); /* ← 추가 */
   display: flex;
-  gap: 37px;                   /* 기존 유지 */
+  gap: 4vw;                   /* 기존 유지 */
 `;
 
 export const ContentNav = styled.span`

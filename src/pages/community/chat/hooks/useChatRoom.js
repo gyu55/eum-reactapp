@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { getChatMessages } from "../../communityApi/chatApi";
 import useAuthStore from "../../../../store/authStore";
+import { chatFloatBus } from './useChatFloatStore';
 
 const WS_BASE = "ws://localhost:10000/ws/chat";
 
@@ -64,6 +65,9 @@ const useChatRoom = (chatRoomId) => {
             ...prev,
             toDisplayMessage(msg, currentUserId),
           ]);
+          if (msg.chatType !== 'ENTER' && msg.chatType !== 'LEAVE' && msg.userProfile) {
+            chatFloatBus.dispatch(msg.userProfile, msg.userNickname);
+          }
         } catch (e) {
           console.error("WS 메시지 파싱 실패:", e);
         }

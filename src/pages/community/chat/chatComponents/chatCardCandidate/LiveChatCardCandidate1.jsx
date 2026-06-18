@@ -137,18 +137,18 @@ const ProgressFill = styled.div`
 
 const JoinButton = styled.button`
   width: 100%;
-  background: ${theme.PALETTE.primary.main};
-  color: ${theme.PALETTE.white};
+  background: ${({ disabled }) => disabled ? theme.GRAYSCALE[3] : theme.PALETTE.primary.main};
+  color: ${({ disabled }) => disabled ? theme.GRAYSCALE[6] : theme.PALETTE.white};
   font-weight: ${theme.FONT_WEIGHT.bold};
   font-size: ${theme.FONT_SIZE.h10};
   border: none;
   border-radius: 10px;
   padding: 10px;
-  cursor: pointer;
+  cursor: ${({ disabled }) => disabled ? "not-allowed" : "pointer"};
   transition: background 0.15s;
 
   &:hover {
-    background: ${theme.PALETTE.primary.dark};
+    background: ${({ disabled }) => disabled ? theme.GRAYSCALE[3] : theme.PALETTE.primary.dark};
   }
 `;
 
@@ -174,8 +174,10 @@ const LiveChatCardCandidate1 = ({
 
   const limit = chatRoomLimit || 100;
   const percent = Math.min(100, Math.round((chatRoomUsers / limit) * 100)) || 0;
+  const isFull = chatRoomUsers >= limit;
 
   const handleJoin = () => {
+    if (isFull) return;
     if (!isAuthenticated) {
       setShowLoginPopup(true);
     } else {
@@ -217,7 +219,9 @@ const LiveChatCardCandidate1 = ({
           <ProgressFill $percent={percent} />
         </ProgressBar>
       </ProgressArea>
-      <JoinButton onClick={handleJoin}>참여하기</JoinButton>
+      <JoinButton onClick={handleJoin} disabled={isFull}>
+        {isFull ? "정원 마감" : "참여하기"}
+      </JoinButton>
     </Card>
   );
 };

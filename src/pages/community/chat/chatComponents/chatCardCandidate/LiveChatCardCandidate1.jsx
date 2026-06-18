@@ -10,6 +10,7 @@ import T from "../../../communityTextStyle";
 import { BORDER_STYLE } from "../../../constants";
 import useAuthStore from "../../../../../store/authStore";
 import LoginRequiredPopup from "../../../common/LoginRequiredPopup";
+import defaultProfileImg from "../../../assets/chat/chat_default_profile.svg";
 
 // 후보 1: 아바타 + 진행도 바형
 // - 좌상단 그라데이션 원형 아바타로 채팅방 식별성 강화
@@ -37,17 +38,11 @@ const TopRow = styled.div`
   width: 100%;
 `;
 
-const Avatar = styled.div`
+const Avatar = styled.img`
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  background: ${theme.GRADIENT.lightBlue};
-  color: ${theme.PALETTE.white};
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: ${theme.FONT_WEIGHT.bold};
-  font-size: ${theme.FONT_SIZE.h7};
+  object-fit: cover;
   flex-shrink: 0;
 `;
 
@@ -164,6 +159,7 @@ const formatDate = (iso) => {
 };
 
 const LiveChatCardCandidate1 = ({
+  chatRoomProfile,
   chatRoomName = "채팅방",
   chatRoomType = "그룹",
   chatRoomCreateAt = "",
@@ -177,7 +173,6 @@ const LiveChatCardCandidate1 = ({
 
   const limit = chatRoomLimit || 100;
   const percent = Math.min(100, Math.round((chatRoomUsers / limit) * 100)) || 0;
-  const firstChar = chatRoomName?.trim()?.charAt(0) || "?";
 
   const handleJoin = () => {
     if (!isAuthenticated) {
@@ -194,7 +189,13 @@ const LiveChatCardCandidate1 = ({
         onClose={() => setShowLoginPopup(false)}
       />
       <TopRow>
-        <Avatar>{firstChar}</Avatar>
+        <Avatar
+          src={chatRoomProfile || defaultProfileImg}
+          alt="채팅방"
+          onError={(e) => {
+            e.target.src = defaultProfileImg;
+          }}
+        />
         <TitleColumn>
           <MetaRow>
             <TypePill>{chatRoomType}</TypePill>

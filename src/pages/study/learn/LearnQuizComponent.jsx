@@ -320,6 +320,7 @@ const LearnQuizComponent = () => {
         await recordLearnProgress({
           userId,
           eduId: routeEduId,
+          questionNumber: currentIndex + 1,
           isCorrect: isCorrect ? 1 : 0,
         });
       } catch {

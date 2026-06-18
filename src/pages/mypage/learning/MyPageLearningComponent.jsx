@@ -8,6 +8,8 @@ import QuickMenuCard from "../components/QuickMenuCard";
 import LevelGuideModal from "../components/LevelGuideModal";
 
 import StudySummaryCard from "./components/StudySummaryCard";
+import AiLearningAnalysisCard from "./components/AiLearningAnalysisCard";
+import CourseListCard from "./components/CourseListCard";
 
 import S from "./style";
 
@@ -375,12 +377,16 @@ const MyPageLearningComponent = () => {
               )}
             </S.LearningCardBox>
           </S.LearningSection>
+
+          <CourseListCard />
         </S.LearningLeftArea>
 
         <S.LearningRightArea>
           <StudySummaryCard summary={learningData.summary} />
 
           <StudyStatusCard studyStatusList={myPageData.studyStatusList || []} />
+
+          <AiLearningAnalysisCard />
 
           <AttendanceCard attendance={myPageData.attendance} />
 

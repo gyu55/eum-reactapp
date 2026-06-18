@@ -6,7 +6,7 @@ import QuickMenuCard from "../components/QuickMenuCard";
 import LevelGuideModal from "../components/LevelGuideModal";
 
 import CertificateListCard from "./components/CertificateListCard";
-import CourseListCard from "./components/CourseListCard";
+import MyEduCertificateCard from "./components/MyEduCertificateCard";
 import CertificateGuideCard from "./components/CertificateGuideCard";
 import CertificateAvailableCard from "./components/CertificateAvailableCard";
 
@@ -15,13 +15,14 @@ import S from "./style";
 const MyPageCertificateComponent = () => {
   const [myPageData, setMyPageData] = useState(null);
   const [certificateData, setCertificateData] = useState(null);
+  const [eduCertList, setEduCertList] = useState([]);
   const [isLevelModalOpen, setIsLevelModalOpen] = useState(false);
 
-  // 마이페이지 공통 정보와 자격증 페이지 정보를 함께 조회
+  // 마이페이지 공통 정보, 자격증 정보, 수료증 정보를 함께 조회
   useEffect(() => {
     const getCertificatePage = async () => {
       try {
-        const [myPageResponse, certificateResponse] = await Promise.all([
+        const [myPageResponse, certificateResponse, eduCertResponse] = await Promise.all([
           fetch("http://localhost:10000/private/api/mypage", {
             method: "GET",
             credentials: "include",
@@ -30,10 +31,15 @@ const MyPageCertificateComponent = () => {
             method: "GET",
             credentials: "include",
           }),
+          fetch("http://localhost:10000/private/api/edu-certs/me", {
+            method: "GET",
+            credentials: "include",
+          }),
         ]);
 
         const myPageResult = await myPageResponse.json();
         const certificateResult = await certificateResponse.json();
+        const eduCertResult = await eduCertResponse.json();
 
         if (!myPageResult.success) {
           alert(myPageResult.message);
@@ -45,8 +51,14 @@ const MyPageCertificateComponent = () => {
           return;
         }
 
+        if (!eduCertResult.success) {
+          alert(eduCertResult.message);
+          return;
+        }
+
         setMyPageData(myPageResult.data);
         setCertificateData(certificateResult.data);
+        setEduCertList(eduCertResult.data || []);
       } catch (error) {
         console.error(error);
         alert("자격증 정보를 불러오지 못했습니다.");
@@ -63,7 +75,6 @@ const MyPageCertificateComponent = () => {
   return (
     <>
       <S.CertificateLayout>
-        {/* 왼쪽 영역 */}
         <S.CertificateLeftArea>
           <ProfileCard
             profile={myPageData.profile}
@@ -74,10 +85,12 @@ const MyPageCertificateComponent = () => {
             certificateList={certificateData.certificateList || []}
           />
 
-          <CourseListCard courseList={certificateData.courseList || []} />
+          <MyEduCertificateCard
+            eduCertList={eduCertList}
+            profile={myPageData.profile}
+          />
         </S.CertificateLeftArea>
 
-        {/* 오른쪽 영역 */}
         <S.CertificateRightArea>
           <ActivityCard activity={myPageData.activity} />
 

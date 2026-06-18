@@ -5,51 +5,51 @@ import S from "../style";
 const COLLAPSED_COUNT = 4;
 const PAGE_SIZE = 8;
 
-// 자격증 페이지에서만 보여줄 수강중인 강좌 React 더미데이터
+// 학습 페이지에서 보여줄 수강중인 강좌 더미데이터
 const fallbackCourseVideos = [
   {
-    eduId: "course-number",
-    category: "숫자",
-    title: "1부터 1000까지 배워보기 수화 지숫자",
-    eduDetail: "초급 과정",
-    studyStartAt: "2025.12.31",
-    studyEndAt: "2026.12.30",
-    progressPercent: 62,
-    youtubeUrl: "https://www.youtube.com/watch?v=1JyJwc_Hd8U",
-    thumbnail: "https://img.youtube.com/vi/1JyJwc_Hd8U/hqdefault.jpg",
-  },
-  {
-    eduId: "course-finger",
+    eduId: "course-sign-basic",
     category: "수어",
-    title: "지문자로 한글이름 써보기 내 이름을 수화로",
-    eduDetail: "실습 과정",
-    studyStartAt: "2025.12.31",
-    studyEndAt: "2026.12.30",
-    progressPercent: 46,
+    title: "수어 기초",
+    eduDetail: "기초 과정",
+    studyStartAt: "2026.06.05",
+    studyEndAt: "2027.06.05",
+    progressPercent: 20,
     youtubeUrl: "https://www.youtube.com/watch?v=1IDTB4KQ-Fk",
     thumbnail: "https://img.youtube.com/vi/1IDTB4KQ-Fk/hqdefault.jpg",
   },
   {
-    eduId: "course-alphabet",
-    category: "알파벳",
-    title: "미국 수어 알파벳 ABC 배우기",
-    eduDetail: "실습 과정",
-    studyStartAt: "2025.12.31",
-    studyEndAt: "2026.12.30",
-    progressPercent: 32,
-    youtubeUrl: "https://www.youtube.com/watch?v=hRzXnPTW8jY",
-    thumbnail: "https://img.youtube.com/vi/hRzXnPTW8jY/hqdefault.jpg",
+    eduId: "course-sign-middle",
+    category: "수어",
+    title: "수어 중급",
+    eduDetail: "중급 과정",
+    studyStartAt: "2026.06.05",
+    studyEndAt: "2027.06.05",
+    progressPercent: 40,
+    youtubeUrl: "https://www.youtube.com/watch?v=1JyJwc_Hd8U",
+    thumbnail: "https://img.youtube.com/vi/1JyJwc_Hd8U/hqdefault.jpg",
   },
   {
-    eduId: "course-cw",
-    category: "교신",
-    title: "한국 CW 교신에 자주 나오는 단어",
-    eduDetail: "이해 과정",
-    studyStartAt: "2025.12.31",
-    studyEndAt: "2026.12.30",
-    progressPercent: 78,
+    eduId: "course-morse-basic",
+    category: "수신호",
+    title: "모스부호 기초",
+    eduDetail: "기초 과정",
+    studyStartAt: "2026.06.05",
+    studyEndAt: "2027.06.05",
+    progressPercent: 30,
     youtubeUrl: "https://www.youtube.com/watch?v=fHPC_1MjqD0",
     thumbnail: "https://img.youtube.com/vi/fHPC_1MjqD0/hqdefault.jpg",
+  },
+  {
+    eduId: "course-braille-basic",
+    category: "수신호",
+    title: "점자 A~F",
+    eduDetail: "기초 과정",
+    studyStartAt: "2026.06.05",
+    studyEndAt: "2027.06.05",
+    progressPercent: 10,
+    youtubeUrl: "https://www.youtube.com/watch?v=hRzXnPTW8jY",
+    thumbnail: "https://img.youtube.com/vi/hRzXnPTW8jY/hqdefault.jpg",
   },
 ];
 
@@ -68,8 +68,8 @@ const CourseListCard = ({ courseList = [] }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
 
- // 자격증 페이지 수강중인 강좌는 백엔드 학습 API가 아닌 리액트 더미데이터만 보여준다.
-  const displayCourseList = fallbackCourseVideos;
+  // 지금은 백엔드 학습 API가 아닌 리액트 더미데이터만 보여준다.
+  const displayCourseList = courseList.length > 0 ? courseList : fallbackCourseVideos;
 
   const needToggleButton = displayCourseList.length > COLLAPSED_COUNT;
   const needPagination = isExpanded && displayCourseList.length > PAGE_SIZE;
@@ -120,7 +120,6 @@ const CourseListCard = ({ courseList = [] }) => {
 
             return (
               <S.CourseItem key={course.eduId || fallbackVideo.eduId}>
-                {/* 오늘의 단어 영상처럼 이미지 클릭 시 유튜브로 이동 */}
                 <S.CourseVideoLink
                   href={youtubeUrl}
                   target="_blank"

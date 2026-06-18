@@ -9,6 +9,20 @@ export const ChatRoomCreatePopup = styled.div`
   flex-direction: column;
   gap: 24px;
   width: 800px;
+  max-height: calc(100vh - 90px);
+  overflow-y: auto;
+  border-radius: 20px;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: ${theme.GRAYSCALE[8]};
+    border-radius: 3px;
+  }
 `;
 
 // ─── 배경 ───────────────────────────────────────────────────────────────────
@@ -59,7 +73,7 @@ export const TitleMain = styled.p`
 export const TitleSub = styled.p`
   font-family: "Pretendard", sans-serif;
   font-weight: ${theme.FONT_WEIGHT.regular};
-  font-size: ${theme.FONT_SIZE.h11};
+  font-size: ${theme.FONT_SIZE.h10};
   color: ${theme.PALETTE.white};
   margin: 0;
   line-height: 20px;
@@ -84,7 +98,7 @@ export const CloseBtn = styled.button`
 export const FormCard = styled.div`
   background: ${theme.PALETTE.white};
   border-radius: 20px;
-  padding: 20px 60px 60px;
+  padding: 20px 60px 32px;
   display: flex;
   flex-direction: column;
 `;
@@ -92,7 +106,7 @@ export const FormCard = styled.div`
 export const SectionLabel = styled.p`
   font-family: "Pretendard", sans-serif;
   font-weight: ${theme.FONT_WEIGHT.bold};
-  font-size: ${theme.FONT_SIZE.h12};
+  font-size: ${theme.FONT_SIZE.h9};
   color: ${theme.PALETTE.primary.main};
   margin: 0 0 8px;
   letter-spacing: -0.2px;
@@ -101,14 +115,14 @@ export const SectionLabel = styled.p`
 export const FormInputsArea = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 16px;
   width: 100%;
 `;
 
 export const FormBottomArea = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 16px;
   width: 100%;
 `;
 
@@ -129,7 +143,7 @@ export const FieldTitleRow = styled.div`
 export const FieldLabel = styled.span`
   font-family: "Pretendard", sans-serif;
   font-weight: ${theme.FONT_WEIGHT.bold};
-  font-size: ${theme.FONT_SIZE.h11};
+  font-size: ${theme.FONT_SIZE.h10};
   color: ${theme.TEXT_COLOR.basic};
   line-height: 20px;
   letter-spacing: -0.24px;
@@ -138,14 +152,14 @@ export const FieldLabel = styled.span`
 export const RequiredMark = styled.span`
   font-family: "Pretendard", sans-serif;
   font-weight: ${theme.FONT_WEIGHT.bold};
-  font-size: ${theme.FONT_SIZE.h11};
+  font-size: ${theme.FONT_SIZE.h10};
   color: ${theme.PALETTE.primary.main};
 `;
 
 export const OptionalLabel = styled.span`
   font-family: "Pretendard", sans-serif;
   font-weight: ${theme.FONT_WEIGHT.regular};
-  font-size: ${theme.FONT_SIZE.h12};
+  font-size: ${theme.FONT_SIZE.h11};
   color: ${theme.GRAYSCALE[9]};
   letter-spacing: -0.2px;
   margin-left: 4px;
@@ -234,7 +248,7 @@ export const TagBadge = styled.div`
   padding: 2px 10px;
   font-family: "Pretendard", sans-serif;
   font-weight: ${theme.FONT_WEIGHT.medium};
-  font-size: ${theme.FONT_SIZE.h11};
+  font-size: ${theme.FONT_SIZE.h10};
 `;
 
 export const TagRemoveBtn = styled.button`
@@ -364,7 +378,7 @@ export const UploadArea = styled.div`
   align-items: center;
   justify-content: center;
   gap: 6px;
-  height: 165px;
+  height: 120px;
   width: 100%;
   background: ${theme.GRAYSCALE[10]};
   border: 2px dashed ${theme.GRAYSCALE[8]};
@@ -391,7 +405,7 @@ export const UploadMainText = styled.p`
 export const UploadSubText = styled.p`
   font-family: "Pretendard", sans-serif;
   font-weight: ${theme.FONT_WEIGHT.regular};
-  font-size: ${theme.FONT_SIZE.h11};
+  font-size: ${theme.FONT_SIZE.h10};
   color: ${theme.GRAYSCALE[9]};
   margin: 0;
   text-align: center;
@@ -412,7 +426,7 @@ export const UploadBtn = styled.button`
   padding: 8px 30px;
   font-family: "Pretendard", sans-serif;
   font-weight: ${theme.FONT_WEIGHT.bold};
-  font-size: ${theme.FONT_SIZE.h11};
+  font-size: ${theme.FONT_SIZE.h10};
   color: ${theme.GRAYSCALE[9]};
   cursor: pointer;
   white-space: nowrap;
@@ -435,7 +449,7 @@ export const ThumbnailPreview = styled.img`
 export const ErrorText = styled.p`
   font-family: "Pretendard", sans-serif;
   font-weight: ${theme.FONT_WEIGHT.regular};
-  font-size: ${theme.FONT_SIZE.h12};
+  font-size: ${theme.FONT_SIZE.h11};
   color: #e53e3e;
   margin: 2px 0 0;
   letter-spacing: -0.2px;
@@ -448,7 +462,7 @@ export const SubmitArea = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  margin-top: 32px;
+  margin-top: 20px;
 `;
 
 export const SubmitBtn = styled.button`

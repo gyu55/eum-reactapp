@@ -40,7 +40,7 @@ export const MessageArea = styled.div`
 export const Username = styled.p`
   font-family: ${fonts.family};
   font-weight: ${fonts.weight.bold};
-  font-size: ${fonts.size.xs};
+  font-size: ${fonts.size.sm};
   color: ${colors.textSub};
   margin: 0;
   line-height: 1;
@@ -64,7 +64,7 @@ export const Bubble = styled.div`
 export const MessageText = styled.p`
   font-family: ${fonts.family};
   font-weight: ${fonts.weight.regular};
-  font-size: ${fonts.size.sm};
+  font-size: ${fonts.size.md};
   color: ${({ $isMine }) => ($isMine ? colors.textWhite : colors.textMain)};
   margin: 0;
   line-height: 1.5;
@@ -75,7 +75,7 @@ export const MessageText = styled.p`
 export const TimeText = styled.p`
   font-family: ${fonts.family};
   font-weight: ${fonts.weight.regular};
-  font-size: ${fonts.size.xs};
+  font-size: ${fonts.size.sm};
   color: ${colors.textSub};
   margin: 0;
   white-space: nowrap;

@@ -36,7 +36,7 @@ const TextInput = styled.input`
   border-radius: ${radius.input};
   padding: 8px 10px;
   font-family: ${fonts.family};
-  font-size: ${fonts.size.sm};
+  font-size: ${fonts.size.md};
   color: ${colors.textMain};
   outline: none;
   min-width: 0;
@@ -52,7 +52,7 @@ const SendBtn = styled.button`
   border-radius: ${radius.input};
   padding: 8px 10px;
   color: ${colors.textWhite};
-  font-size: ${fonts.size.sm};
+  font-size: ${fonts.size.md};
   cursor: pointer;
   flex-shrink: 0;
   display: flex;
@@ -68,7 +68,10 @@ const SignBtn = styled.button`
   font-size: 16px;
   cursor: pointer;
   flex-shrink: 0;
-  &:disabled { opacity: 0.5; cursor: not-allowed; }
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
 `;
 
 const Footer = styled.div`
@@ -176,7 +179,7 @@ const SideChatComponent = ({ chatRoomId, onViewAll }) => {
           onChange={(e) => setInputValue(e.target.value)}
           onKeyDown={handleKeyDown}
         />
-        
+
         <SendBtn onClick={handleSend} aria-label="전송">
           ➤
         </SendBtn>

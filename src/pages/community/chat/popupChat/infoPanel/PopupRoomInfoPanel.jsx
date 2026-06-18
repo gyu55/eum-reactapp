@@ -6,6 +6,7 @@ import OutlineButton from "../../../common/OutlineButton";
 import ToggleSwitch from "../../../common/ToggleSwitch";
 import T from "../../../communityTextStyle";
 import ChatRoomReportPopup from "../../../report/ChatRoomReportPopup";
+import ConfirmPopup from "../../../common/ConfirmPopup";
 import LoginRequiredPopup from "../../../common/LoginRequiredPopup";
 import useAuthStore from "../../../../../store/authStore";
 import {
@@ -64,6 +65,7 @@ const PopupRoomInfoPanel = ({
   const [readToggle, setReadToggle] = useState(false);
   const [reportPopupOpen, setReportPopupOpen] = useState(false);
   const [loginPopupOpen, setLoginPopupOpen] = useState(false);
+  const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
 
   const handleReportClick = () => {
     if (!isAuthenticated) {
@@ -168,7 +170,7 @@ const PopupRoomInfoPanel = ({
           <OutlineButton
             borderColor={colors.danger}
             textColor={colors.danger}
-            onClick={handleDeleteRoom}
+            onClick={() => setDeleteConfirmOpen(true)}
           >
             채팅방 삭제
           </OutlineButton>
@@ -204,6 +206,12 @@ const PopupRoomInfoPanel = ({
       <LoginRequiredPopup
         isOpen={loginPopupOpen}
         onClose={() => setLoginPopupOpen(false)}
+      />
+      <ConfirmPopup
+        isOpen={deleteConfirmOpen}
+        message="채팅방을 삭제하시겠습니까?"
+        onConfirm={() => { handleDeleteRoom(); setDeleteConfirmOpen(false); }}
+        onClose={() => setDeleteConfirmOpen(false)}
       />
     </S.RightPanelScroll>
   );

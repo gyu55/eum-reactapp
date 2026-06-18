@@ -113,7 +113,7 @@ const PopupRoomInfoPanel = ({
         </S.PanelSection>
       )}
 
-      <S.PanelSection $gap="9px">
+      {/* <S.PanelSection $gap="9px">
         <S.SectionLabel>태그</S.SectionLabel>
         <S.TagGrid>
           {tags.map((tag, i) => (
@@ -122,7 +122,7 @@ const PopupRoomInfoPanel = ({
             </S.Tag>
           ))}
         </S.TagGrid>
-      </S.PanelSection>
+      </S.PanelSection> */}
 
       <S.PanelSection $gap="8px">
         <S.SectionLabel>접근성 도구</S.SectionLabel>
@@ -210,7 +210,10 @@ const PopupRoomInfoPanel = ({
       <ConfirmPopup
         isOpen={deleteConfirmOpen}
         message="채팅방을 삭제하시겠습니까?"
-        onConfirm={() => { handleDeleteRoom(); setDeleteConfirmOpen(false); }}
+        onConfirm={() => {
+          handleDeleteRoom();
+          setDeleteConfirmOpen(false);
+        }}
         onClose={() => setDeleteConfirmOpen(false)}
       />
     </S.RightPanelScroll>

@@ -464,6 +464,7 @@ const RightPanelScroll = styled.div`
   overflow-y: auto;
   display: flex;
   flex-direction: column;
+  background: ${colors.bgCard};
 
   &::-webkit-scrollbar {
     width: 3px;

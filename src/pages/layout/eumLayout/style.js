@@ -218,8 +218,8 @@ export const BellBtn = styled.button`
 `;
 
 export const BellIcon = styled.img`
-  width: 44px;
-  height: 44px;
+  width: 40px;
+  height: 40px;
   display: flex;
   align-items: center;
 `;

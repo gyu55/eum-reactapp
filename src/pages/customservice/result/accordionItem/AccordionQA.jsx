@@ -14,7 +14,7 @@ const AccordionQA = ({ result }) => {
         result.inquireFileUrl.split(",").map((url, i) => (
           <S.FileItem key={i}>
             <S.FileInfo>
-              <S.FileThumb src={url.trim()} alt={`첨부 이미지 ${i + 1}`} />
+              <S.FileThumb src={`http://localhost:10000${url.trim()}`} alt={`첨부 이미지 ${i + 1}`} />
             </S.FileInfo>
           </S.FileItem>
         ))

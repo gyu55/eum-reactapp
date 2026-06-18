@@ -15,6 +15,7 @@ const AccordionItem = ({ result, isAdmin, onAnswer, onEdit, onDelete }) => {
       <AccordionHeader
         result={result}
         isOpen={isOpen}
+        isAdmin={isAdmin}
         onToggle={() => setIsOpen((prev) => !prev)}
       />
       <S.AccordionBody $height={isOpen ? 1 : 0}>

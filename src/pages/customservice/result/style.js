@@ -292,3 +292,10 @@ export const FileRemoveBtn = styled.button`
     color: ${theme.PALETTE.red};
   }
 `;
+
+export const AccordionUserInfo = styled.div`
+  display: flex;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: #888;
+`;

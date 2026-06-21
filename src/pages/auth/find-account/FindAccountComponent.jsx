@@ -112,7 +112,7 @@ export default function FindAccountComponent() {
     setEmailLoading(true);
     setEmailMsg("");
     try {
-      const res = await fetch(`http://localhost:10000/api/users/email?userName=${encodeURIComponent(emailName)}`, {
+      const res = await fetch(`http://localhost:10000/api/users/email?userName=${encodeURIComponent(emailName)}&userPhoneNum=${emailPhone.replace(/\D/g, "")}`, {
         method: "GET",
         credentials: "include",
       });

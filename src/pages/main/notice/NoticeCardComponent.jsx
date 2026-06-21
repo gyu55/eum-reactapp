@@ -8,7 +8,7 @@ const NoticeCard = ({ id, tag, title, date }) => {
   const navigate = useNavigate();
 
   return (
-    <S.CardWrap onClick={() => navigate(`/customService/notice/${id}`)}>
+    <S.CardWrap onClick={() => navigate(`/customservice/notice/${id}`)}>
       <S.CardTop>
         <S.TagBadge $color={TAG_COLORS[tag] ?? theme.PALETTE.primary.main}>
           <S.TagLabel>{tag}</S.TagLabel>

@@ -409,6 +409,14 @@ const router = createBrowserRouter([
           }
         ]
       },
+      {
+        path: "payment/success",
+        element: <PaymentSuccessPage />
+      },
+      {
+        path: "payment/fail",
+        element: <PaymentFailPage />
+      },
     ]
   },
   {
@@ -426,14 +434,6 @@ const router = createBrowserRouter([
   {
     path: "/find-account",
     element: <FindAccountContainer />
-  },
-  {
-    path: "/payment/success",
-    element: <PaymentSuccessPage />
-  },
-  {
-    path: "/payment/fail",
-    element: <PaymentFailPage />
   },
 ])
 

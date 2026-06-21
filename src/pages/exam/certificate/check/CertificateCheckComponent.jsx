@@ -184,7 +184,17 @@ const CertificateCheckComponent = () => {
                   </S.StatusBadge>
                 </S.Td>
                 <S.Td>
-                  <S.PrintBtn onClick={() => setSelected(cert)}>원본 보기</S.PrintBtn>
+                  <S.PrintBtnTooltipWrap>
+                    <S.PrintBtn
+                      disabled={isExpired(cert.eduCertExpireAt)}
+                      onClick={() => setSelected(cert)}
+                    >
+                      원본 보기
+                    </S.PrintBtn>
+                    {isExpired(cert.eduCertExpireAt) && (
+                      <S.Tooltip>만료된 수료증은 출력할 수 없습니다</S.Tooltip>
+                    )}
+                  </S.PrintBtnTooltipWrap>
                 </S.Td>
               </tr>
             ))}

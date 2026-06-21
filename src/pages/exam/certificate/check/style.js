@@ -83,7 +83,50 @@ export const PrintBtn = styled.button`
   font-size: 14px;
   font-weight: 700;
   cursor: pointer;
-  &:hover { background: #eef0ff; }
+  &:hover:not(:disabled) { background: #eef0ff; }
+  &:disabled {
+    color: #bbb;
+    border-color: #ddd;
+    background: #f9f9f9;
+    cursor: not-allowed;
+  }
+`;
+
+export const PrintBtnTooltipWrap = styled.div`
+  position: relative;
+  display: inline-block;
+`;
+
+export const Tooltip = styled.span`
+  visibility: hidden;
+  opacity: 0;
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.78);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 400;
+  padding: 5px 10px;
+  border-radius: 6px;
+  white-space: nowrap;
+  pointer-events: none;
+  transition: opacity 0.15s;
+  z-index: 10;
+  &::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-top-color: rgba(0, 0, 0, 0.78);
+  }
+  ${PrintBtnTooltipWrap}:hover & {
+    visibility: visible;
+    opacity: 1;
+  }
 `;
 
 /* ── 모달 ── */
